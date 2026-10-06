@@ -243,16 +243,16 @@ export const InterviewsView: React.FC = () => {
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 12.5, color: '#64748b' }}>
-                    <Video size={13} style={{ color: '#94a3b8' }} />
-                    <span style={{ fontFamily: 'monospace', fontSize: 11.5, color: '#334155' }}>
+                    <Video size={13} style={{ color: '#2563eb', flexShrink: 0 }} />
+                    <span style={{ fontFamily: 'monospace', fontSize: 11.5, color: '#334155', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {item.locationOrLink}
                     </span>
                   </div>
                 </div>
 
                 {item.notes && (
-                  <p style={{ fontSize: 12.5, color: '#64748b', lineHeight: 1.5, margin: 0 }}>
-                    <strong style={{ color: '#334155' }}>Focus:</strong> {item.notes}
+                  <p style={{ fontSize: 12.5, color: '#52525b', lineHeight: 1.5, margin: 0, wordBreak: 'break-word' }}>
+                    <strong style={{ color: '#18181b' }}>Focus:</strong> {item.notes}
                   </p>
                 )}
               </div>
@@ -263,37 +263,93 @@ export const InterviewsView: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  paddingTop: 10,
-                  borderTop: '1px solid var(--color-divider)',
+                  paddingTop: 12,
+                  borderTop: '1px solid #f4f4f5',
+                  gap: 8,
                 }}
               >
-                <Button
-                  variant="ghost"
-                  size="sm"
+                <button
+                  type="button"
                   onClick={() => navigate('candidate-detail', { candidateId: item.candidateId })}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    height: 30,
+                    padding: '0 12px',
+                    borderRadius: 6,
+                    fontSize: 12,
+                    fontWeight: 500,
+                    background: '#ffffff',
+                    border: '1px solid #e4e4e7',
+                    color: '#18181b',
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap',
+                    transition: 'all 0.15s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#f4f4f5';
+                    e.currentTarget.style.borderColor = '#d4d4d8';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = '#ffffff';
+                    e.currentTarget.style.borderColor = '#e4e4e7';
+                  }}
                 >
                   Profile
-                </Button>
+                </button>
 
-                <div style={{ display: 'flex', gap: 6 }}>
+                <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
                   {item.status === 'Scheduled' && (
                     <>
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        icon={<XCircle size={12} />}
+                      <button
+                        type="button"
                         onClick={() => cancelInterview(item.id)}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 5,
+                          height: 30,
+                          padding: '0 10px',
+                          borderRadius: 6,
+                          fontSize: 12,
+                          fontWeight: 500,
+                          background: '#ffffff',
+                          border: '1px solid #e4e4e7',
+                          color: '#dc2626',
+                          cursor: 'pointer',
+                          whiteSpace: 'nowrap',
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = '#fef2f2')}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
                       >
-                        Cancel
-                      </Button>
-                      <Button
-                        variant="success"
-                        size="sm"
-                        icon={<CheckCircle2 size={12} />}
+                        <XCircle size={12} />
+                        <span>Cancel</span>
+                      </button>
+
+                      <button
+                        type="button"
                         onClick={() => completeInterview(item.id)}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 5,
+                          height: 30,
+                          padding: '0 10px',
+                          borderRadius: 6,
+                          fontSize: 12,
+                          fontWeight: 500,
+                          background: '#dcfce7',
+                          border: '1px solid #86efac',
+                          color: '#15803d',
+                          cursor: 'pointer',
+                          whiteSpace: 'nowrap',
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = '#bbf7d0')}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = '#dcfce7')}
                       >
-                        Complete
-                      </Button>
+                        <CheckCircle2 size={12} />
+                        <span>Complete</span>
+                      </button>
                     </>
                   )}
                 </div>

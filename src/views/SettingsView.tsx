@@ -394,7 +394,7 @@ export const SettingsView: React.FC = () => {
                     { value: '120', label: '120 Minutes' },
                   ]}
                   size="md"
-                  menuWidth="100%"
+                  menuWidth={240}
                 />
               </div>
 
@@ -410,7 +410,7 @@ export const SettingsView: React.FC = () => {
                     { value: '365', label: '365 Days' },
                   ]}
                   size="md"
-                  menuWidth="100%"
+                  menuWidth={240}
                 />
               </div>
             </div>
@@ -435,7 +435,7 @@ export const SettingsView: React.FC = () => {
                   { value: '36', label: '36 Months' },
                 ]}
                 size="md"
-                menuWidth="100%"
+                menuWidth={260}
               />
               <span style={{ fontSize: 12, color: '#71717a', marginTop: 2 }}>
                 Configure according to organizational data retention guidelines. Legal review required.

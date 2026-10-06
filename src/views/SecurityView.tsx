@@ -24,6 +24,19 @@ export const SecurityView: React.FC = () => {
     return matchesSearch && matchesResult;
   });
 
+  const formatTimestamp = (raw: string) => {
+    if (!raw) return { main: 'Recent Event', sub: '' };
+    try {
+      const d = new Date(raw.replace(' ', 'T'));
+      if (isNaN(d.getTime())) return { main: raw, sub: '' };
+      const timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const dateStr = d.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+      return { main: `${dateStr} • ${timeStr}`, sub: 'Verified System Log' };
+    } catch {
+      return { main: raw, sub: '' };
+    }
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       {/* 1. Header */}
@@ -291,8 +304,13 @@ export const SecurityView: React.FC = () => {
                   onMouseEnter={(e) => (e.currentTarget.style.background = '#fafafa')}
                   onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                 >
-                  <td style={{ padding: '0 18px', fontSize: 12.5, fontFamily: 'monospace', color: '#52525b' }}>
-                    {aud.timestamp}
+                  <td style={{ padding: '0 18px' }}>
+                    <div style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>
+                      {formatTimestamp(aud.timestamp).main}
+                    </div>
+                    <div style={{ fontSize: 11, color: '#71717a', marginTop: 1 }}>
+                      {formatTimestamp(aud.timestamp).sub}
+                    </div>
                   </td>
                   <td style={{ padding: '0 16px', fontSize: 13, fontWeight: 500, color: '#18181b' }}>
                     {aud.actor}

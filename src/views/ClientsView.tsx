@@ -171,9 +171,20 @@ export const ClientsView: React.FC = () => {
                 justifyContent: 'space-between',
                 paddingTop: 14,
                 borderTop: '1px solid #f4f4f5',
+                gap: 12,
               }}
             >
-              <span style={{ fontSize: 12, color: '#a1a1aa' }}>
+              <span
+                style={{
+                  fontSize: 12,
+                  color: '#71717a',
+                  flex: 1,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+                title={client.recentActivity}
+              >
                 {client.recentActivity}
               </span>
 
@@ -183,7 +194,7 @@ export const ClientsView: React.FC = () => {
                 onClick={() => navigate('jobs')}
                 style={{
                   height: 32,
-                  padding: '0 12px',
+                  padding: '0 14px',
                   borderRadius: 6,
                   fontSize: 12.5,
                   fontWeight: 500,
@@ -194,6 +205,8 @@ export const ClientsView: React.FC = () => {
                   color: '#ffffff',
                   border: 'none',
                   cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0,
                 }}
               >
                 <span>View Jobs</span>
