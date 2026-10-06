@@ -9,8 +9,8 @@ import {
   Save,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { Button } from '../components/common/Button';
 import { Input } from '../components/common/Input';
+import { CustomSelect } from '../components/common/CustomDropdown';
 
 export const SettingsView: React.FC = () => {
   const { settings, updateSettings } = useApp();
@@ -78,75 +78,100 @@ export const SettingsView: React.FC = () => {
         requireConsentForSourcing: requireConsent,
       },
     });
+    alert('Settings successfully updated!');
   };
 
   const tabs: { id: typeof activeTab; label: string; icon: React.ReactNode }[] = [
     { id: 'profile', label: 'Profile', icon: <User size={14} /> },
     { id: 'workspace', label: 'Workspace', icon: <Building size={14} /> },
     { id: 'notifications', label: 'Notifications', icon: <Bell size={14} /> },
-    { id: 'ai', label: 'AI Preferences', icon: <Sparkles size={14} /> },
-    { id: 'security', label: 'Security', icon: <Lock size={14} /> },
+    { id: 'ai', label: 'AI Parameters', icon: <Sparkles size={14} /> },
+    { id: 'security', label: 'Security & Access', icon: <Lock size={14} /> },
     { id: 'privacy', label: 'Privacy & Retention', icon: <Shield size={14} /> },
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 880, margin: '0 auto' }}>
-      {/* Header */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 900, margin: '0 auto' }}>
+      {/* 1. Header */}
       <div
         style={{
           display: 'flex',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: 16,
+          paddingBottom: 4,
         }}
       >
         <div>
           <h1
             style={{
-              fontSize: 'var(--font-size-2xl)',
+              fontSize: 22,
               fontWeight: 600,
-              color: 'var(--color-text-primary)',
+              color: '#18181b',
               letterSpacing: '-0.02em',
+              lineHeight: 1.2,
             }}
           >
-            Settings
+            Organization Settings
           </h1>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', marginTop: 2 }}>
+          <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
             Manage recruiter profiles, AI matching parameters, session rules, and retention schedules.
           </p>
         </div>
 
-        <Button variant="primary" size="sm" icon={<Save size={13} />} onClick={handleSave}>
-          Save Changes
-        </Button>
+        <button
+          className="btn-dark"
+          onClick={handleSave}
+          style={{
+            height: 36,
+            padding: '0 16px',
+            borderRadius: 8,
+            fontSize: 13,
+            fontWeight: 500,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 7,
+            background: '#18181b',
+            color: '#ffffff',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+        >
+          <Save size={14} />
+          <span>Save Changes</span>
+        </button>
       </div>
 
-      {/* Tabs Navigation */}
-      <div style={{ display: 'flex', gap: 4, borderBottom: '1px solid var(--color-border)', paddingBottom: 2, flexWrap: 'wrap' }}>
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: '6px 12px',
-              border: 'none',
-              background: 'transparent',
-              fontSize: 'var(--font-size-xs)',
-              fontWeight: activeTab === tab.id ? 600 : 500,
-              color: activeTab === tab.id ? 'var(--color-text-primary)' : 'var(--color-text-secondary)',
-              borderBottom: activeTab === tab.id ? '2px solid var(--color-primary)' : '2px solid transparent',
-              cursor: 'pointer',
-              transition: 'all var(--transition-fast)',
-            }}
-          >
-            {tab.icon}
-            <span>{tab.label}</span>
-          </button>
-        ))}
+      {/* 2. Tabs Navigation */}
+      <div style={{ display: 'flex', gap: 3, background: '#f4f4f5', padding: 3, borderRadius: 8, flexWrap: 'wrap' }}>
+        {tabs.map((tab) => {
+          const isSelected = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '6px 14px',
+                borderRadius: 6,
+                fontSize: 13,
+                fontWeight: isSelected ? 600 : 500,
+                border: 'none',
+                background: isSelected ? '#ffffff' : 'transparent',
+                color: isSelected ? '#18181b' : '#71717a',
+                cursor: 'pointer',
+                boxShadow: isSelected ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                transition: 'all 0.12s ease',
+              }}
+            >
+              <span style={{ color: isSelected ? '#18181b' : '#a1a1aa' }}>{tab.icon}</span>
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Settings Form Container */}
@@ -292,93 +317,101 @@ export const SettingsView: React.FC = () => {
 
         {/* Tab 4: AI Preferences */}
         {activeTab === 'ai' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <h3 style={{ fontSize: 'var(--font-size-md)', fontWeight: 600, borderBottom: '1px solid var(--color-divider)', paddingBottom: 10 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+            <h3 style={{ fontSize: 15, fontWeight: 600, color: '#18181b', margin: 0, borderBottom: '1px solid #f4f4f5', paddingBottom: 12 }}>
               AI Match & Sourcing Parameters
             </h3>
 
-            <div className="form-group">
-              <label className="form-label">Advisory Explanation Detail</label>
-              <select
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Advisory Explanation Detail</label>
+              <CustomSelect
                 value={advisoryDetail}
-                onChange={(e) => setAdvisoryDetail(e.target.value as any)}
-                className="form-select"
-              >
-                <option value="in-depth">In-Depth (Detailed skill match breakdown & rationale)</option>
-                <option value="concise">Concise (High-level summary bullets only)</option>
-              </select>
+                onChange={(val) => setAdvisoryDetail(val as any)}
+                options={[
+                  { value: 'in-depth', label: 'In-Depth (Detailed skill match breakdown & rationale)' },
+                  { value: 'concise', label: 'Concise (High-level summary bullets only)' },
+                ]}
+                size="md"
+                menuWidth="100%"
+              />
             </div>
 
-            <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid var(--color-divider)' }}>
-              <div>
-                <div style={{ fontWeight: 600, fontSize: 'var(--font-size-xs)' }}>Auto-Highlight Skill Gaps</div>
-                <div style={{ fontSize: '11px', color: 'var(--color-text-secondary)' }}>
-                  Highlight missing required competencies on candidate profile review cards.
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 8 }}>
+              <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #f4f4f5' }}>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: 13, color: '#18181b' }}>Auto-Highlight Skill Gaps</div>
+                  <div style={{ fontSize: 12, color: '#71717a', marginTop: 2 }}>
+                    Highlight missing required competencies on candidate profile review cards.
+                  </div>
                 </div>
-              </div>
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={autoHighlightGaps}
-                  onChange={(e) => setAutoHighlightGaps(e.target.checked)}
-                />
-                <span className="slider" />
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={autoHighlightGaps}
+                    onChange={(e) => setAutoHighlightGaps(e.target.checked)}
+                  />
+                  <span className="slider" />
+                </label>
               </label>
-            </label>
 
-            <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid var(--color-divider)' }}>
-              <div>
-                <div style={{ fontWeight: 600, fontSize: 'var(--font-size-xs)' }}>Smart Outreach Draft Generation</div>
-                <div style={{ fontSize: '11px', color: 'var(--color-text-secondary)' }}>
-                  Enable automatic personalized drafts when opening candidate outreach drawer.
+              <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0' }}>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: 13, color: '#18181b' }}>Smart Outreach Draft Generation</div>
+                  <div style={{ fontSize: 12, color: '#71717a', marginTop: 2 }}>
+                    Enable automatic personalized drafts when opening candidate outreach drawer.
+                  </div>
                 </div>
-              </div>
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={smartTemplates}
-                  onChange={(e) => setSmartTemplates(e.target.checked)}
-                />
-                <span className="slider" />
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={smartTemplates}
+                    onChange={(e) => setSmartTemplates(e.target.checked)}
+                  />
+                  <span className="slider" />
+                </label>
               </label>
-            </label>
+            </div>
           </div>
         )}
 
         {/* Tab 5: Security */}
         {activeTab === 'security' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <h3 style={{ fontSize: 'var(--font-size-md)', fontWeight: 600, borderBottom: '1px solid var(--color-divider)', paddingBottom: 10 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+            <h3 style={{ fontSize: 15, fontWeight: 600, color: '#18181b', margin: 0, borderBottom: '1px solid #f4f4f5', paddingBottom: 12 }}>
               Security & Session Rules
             </h3>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14 }}>
-              <div className="form-group">
-                <label className="form-label">Session Inactivity Timeout (Minutes)</label>
-                <select
-                  value={sessionTimeout}
-                  onChange={(e) => setSessionTimeout(Number(e.target.value))}
-                  className="form-select"
-                >
-                  <option value={15}>15 Minutes</option>
-                  <option value={30}>30 Minutes</option>
-                  <option value={60}>60 Minutes (Default)</option>
-                  <option value={120}>120 Minutes</option>
-                </select>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Session Inactivity Timeout</label>
+                <CustomSelect
+                  value={String(sessionTimeout)}
+                  onChange={(val) => setSessionTimeout(Number(val))}
+                  options={[
+                    { value: '15', label: '15 Minutes' },
+                    { value: '30', label: '30 Minutes' },
+                    { value: '60', label: '60 Minutes (Default)' },
+                    { value: '120', label: '120 Minutes' },
+                  ]}
+                  size="md"
+                  menuWidth="100%"
+                />
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Audit Trail Retention (Days)</label>
-                <select
-                  value={auditRetention}
-                  onChange={(e) => setAuditRetention(Number(e.target.value))}
-                  className="form-select"
-                >
-                  <option value={30}>30 Days</option>
-                  <option value={60}>60 Days</option>
-                  <option value={90}>90 Days (Default)</option>
-                  <option value={365}>365 Days</option>
-                </select>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Audit Trail Retention</label>
+                <CustomSelect
+                  value={String(auditRetention)}
+                  onChange={(val) => setAuditRetention(Number(val))}
+                  options={[
+                    { value: '30', label: '30 Days' },
+                    { value: '60', label: '60 Days' },
+                    { value: '90', label: '90 Days (Default)' },
+                    { value: '365', label: '365 Days' },
+                  ]}
+                  size="md"
+                  menuWidth="100%"
+                />
               </div>
             </div>
           </div>
@@ -386,31 +419,33 @@ export const SettingsView: React.FC = () => {
 
         {/* Tab 6: Privacy */}
         {activeTab === 'privacy' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <h3 style={{ fontSize: 'var(--font-size-md)', fontWeight: 600, borderBottom: '1px solid var(--color-divider)', paddingBottom: 10 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+            <h3 style={{ fontSize: 15, fontWeight: 600, color: '#18181b', margin: 0, borderBottom: '1px solid #f4f4f5', paddingBottom: 12 }}>
               Candidate Privacy & Retention Schedules
             </h3>
 
-            <div className="form-group">
-              <label className="form-label">Candidate Profile Retention Period</label>
-              <select
-                value={dataRetention}
-                onChange={(e) => setDataRetention(Number(e.target.value))}
-                className="form-select"
-              >
-                <option value={12}>12 Months</option>
-                <option value={24}>24 Months (Default)</option>
-                <option value={36}>36 Months</option>
-              </select>
-              <span style={{ fontSize: '10.5px', color: 'var(--color-text-muted)', marginTop: 2 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Candidate Profile Retention Period</label>
+              <CustomSelect
+                value={String(dataRetention)}
+                onChange={(val) => setDataRetention(Number(val))}
+                options={[
+                  { value: '12', label: '12 Months' },
+                  { value: '24', label: '24 Months (Default)' },
+                  { value: '36', label: '36 Months' },
+                ]}
+                size="md"
+                menuWidth="100%"
+              />
+              <span style={{ fontSize: 12, color: '#71717a', marginTop: 2 }}>
                 Configure according to organizational data retention guidelines. Legal review required.
               </span>
             </div>
 
-            <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid var(--color-divider)' }}>
+            <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderTop: '1px solid #f4f4f5', marginTop: 8 }}>
               <div>
-                <div style={{ fontWeight: 600, fontSize: 'var(--font-size-xs)' }}>Require Verified Sourcing Consent</div>
-                <div style={{ fontSize: '11px', color: 'var(--color-text-secondary)' }}>
+                <div style={{ fontWeight: 600, fontSize: 13, color: '#18181b' }}>Require Verified Sourcing Consent</div>
+                <div style={{ fontSize: 12, color: '#71717a', marginTop: 2 }}>
                   Enforce consent audit check before adding sourced profiles to active pipelines.
                 </div>
               </div>
@@ -431,14 +466,32 @@ export const SettingsView: React.FC = () => {
           style={{
             display: 'flex',
             justifyContent: 'flex-end',
-            paddingTop: 16,
-            marginTop: 16,
-            borderTop: '1px solid var(--color-divider)',
+            paddingTop: 18,
+            marginTop: 18,
+            borderTop: '1px solid #f4f4f5',
           }}
         >
-          <Button type="submit" variant="primary" size="sm" icon={<Save size={13} />}>
-            Save All Settings
-          </Button>
+          <button
+            type="submit"
+            className="btn-dark"
+            style={{
+              height: 36,
+              padding: '0 18px',
+              borderRadius: 8,
+              fontSize: 13,
+              fontWeight: 500,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 7,
+              background: '#18181b',
+              color: '#ffffff',
+              border: 'none',
+              cursor: 'pointer',
+            }}
+          >
+            <Save size={14} />
+            <span>Save All Settings</span>
+          </button>
         </div>
       </form>
     </div>

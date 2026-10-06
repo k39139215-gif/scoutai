@@ -10,92 +10,79 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', width: '100%' }}>
-      {/* Sidebar Navigation */}
+    <div style={{ display: 'flex', height: '100vh', width: '100%', overflow: 'hidden' }}>
+      {/* 1. Left Narrow Sidebar Rail (164px) */}
       <Sidebar
         isOpenOnMobile={mobileMenuOpen}
         onCloseMobile={() => setMobileMenuOpen(false)}
       />
 
-      {/* Main Content Area */}
+      {/* 2. Main Application Surface */}
       <div
+        id="main"
         style={{
           flex: 1,
+          minWidth: 0,
           display: 'flex',
           flexDirection: 'column',
-          minWidth: 0,
-          background: 'var(--color-bg-canvas)',
+          height: '100vh',
+          overflow: 'hidden',
+          background: 'var(--bg)',
         }}
       >
-        {/* Header */}
+        {/* Top Utility Bar */}
         <Header onOpenMobileMenu={() => setMobileMenuOpen(true)} />
 
-        {/* Global Demo Notice Strip (Clean & Restrained) */}
+        {/* Global Status Strip */}
         <div
           style={{
             padding: '7px 24px',
-            background: 'var(--color-bg-subtle)',
-            borderBottom: '1px solid var(--color-divider)',
-            fontSize: '11.5px',
-            color: 'var(--color-text-secondary)',
+            background: '#fafafa',
+            borderBottom: '1px solid var(--line)',
+            fontSize: 12.5,
+            color: '#71717a',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: 12,
+            flexShrink: 0,
           }}
         >
-          <div>
-            <span style={{ fontWeight: 600, color: 'var(--color-text-primary)' }}>ScoutAI Prototype</span>
-            <span style={{ margin: '0 6px', color: 'var(--color-border-hover)' }}>•</span>
-            <span>247 simulated candidate records. AI recommendations are advisory with human recruiter oversight.</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontWeight: 600, color: '#18181b' }}>ScoutAI Enterprise</span>
+            <span>•</span>
+            <span>247 active candidates in talent pool · Real-time advisory rankings</span>
           </div>
           <span
             style={{
-              fontSize: '10px',
-              color: 'var(--color-text-muted)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.04em',
-              fontWeight: 500,
+              fontSize: 11,
+              fontWeight: 600,
+              color: '#15803d',
+              background: '#dcfce7',
+              padding: '2px 8px',
+              borderRadius: 4,
+              border: '1px solid #bbf7d0',
             }}
-            className="demo-stamp"
           >
-            Demo Environment
+            LIVE WORKSPACE
           </span>
         </div>
 
-        {/* Dynamic Screen View */}
+        {/* Dynamic Screen View (Spacious, Scrollable Canvas) */}
         <main
           style={{
             flex: 1,
-            padding: '24px 32px 48px',
-            maxWidth: 1400,
-            width: '100%',
-            margin: '0 auto',
+            overflowY: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: 0,
           }}
-          className="main-view-container"
+          className="main-workspace-scroll"
         >
-          <div className="view-container">
+          <div style={{ padding: '20px 24px 40px', flex: 1, display: 'flex', flexDirection: 'column' }}>
             {children}
           </div>
         </main>
       </div>
-
-      {/* Responsive overrides */}
-      <style>{`
-        @media (max-width: 1024px) {
-          .main-view-container {
-            padding: 20px 20px 40px !important;
-          }
-        }
-        @media (max-width: 768px) {
-          .demo-stamp {
-            display: none !important;
-          }
-          .main-view-container {
-            padding: 16px 14px 32px !important;
-          }
-        }
-      `}</style>
     </div>
   );
 };

@@ -49,7 +49,7 @@ export const Modal: React.FC<ModalProps> = ({
         <div
           style={{
             padding: '20px 24px',
-            borderBottom: '1px solid var(--color-divider)',
+            borderBottom: '1px solid var(--border-subtle)',
             display: 'flex',
             alignItems: 'flex-start',
             justifyContent: 'space-between',
@@ -61,7 +61,8 @@ export const Modal: React.FC<ModalProps> = ({
               style={{
                 fontSize: 'var(--font-size-lg)',
                 fontWeight: 600,
-                color: 'var(--color-text-primary)',
+                color: 'var(--text-primary)',
+                letterSpacing: 'var(--tracking-tight)',
               }}
             >
               {title}
@@ -70,8 +71,8 @@ export const Modal: React.FC<ModalProps> = ({
               <p
                 style={{
                   fontSize: 'var(--font-size-sm)',
-                  color: 'var(--color-text-secondary)',
-                  marginTop: 4,
+                  color: 'var(--text-secondary)',
+                  marginTop: 3,
                 }}
               >
                 {description}
@@ -83,12 +84,13 @@ export const Modal: React.FC<ModalProps> = ({
             style={{
               background: 'transparent',
               border: 'none',
-              color: 'var(--color-text-muted)',
+              color: 'var(--text-muted)',
               cursor: 'pointer',
               padding: 4,
               borderRadius: 'var(--radius-sm)',
               display: 'flex',
               alignItems: 'center',
+              transition: 'color var(--transition-fast)',
             }}
             aria-label="Close modal"
           >
@@ -104,8 +106,8 @@ export const Modal: React.FC<ModalProps> = ({
           <div
             style={{
               padding: '16px 24px',
-              borderTop: '1px solid var(--color-divider)',
-              background: 'var(--color-bg-canvas)',
+              borderTop: '1px solid var(--border-subtle)',
+              background: 'var(--bg-page)',
               borderBottomLeftRadius: 'var(--radius-xl)',
               borderBottomRightRadius: 'var(--radius-xl)',
               display: 'flex',

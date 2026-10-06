@@ -1,22 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
   Search,
-  Plus,
   Bell,
   Menu,
-  User,
-  Briefcase,
   X,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
-import { Button } from '../common/Button';
 
 interface HeaderProps {
   onOpenMobileMenu: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
-  const { candidates, jobs, aiActivity, navigate } = useApp();
+  const { candidates, jobs, aiActivity, navigate, settings } = useApp();
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [localQuery, setLocalQuery] = useState('');
@@ -46,7 +42,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
     return () => document.removeEventListener('mousedown', handleOutside);
   }, []);
 
-  // Global keydown for search shortcut
+  // Global keydown for search shortcut (Cmd+K / Ctrl+K)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -66,7 +62,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
           c.name.toLowerCase().includes(localQuery.toLowerCase()) ||
           c.title.toLowerCase().includes(localQuery.toLowerCase()) ||
           c.skills.some((s) => s.toLowerCase().includes(localQuery.toLowerCase()))
-      )
+      ).slice(0, 5)
     : [];
 
   const filteredJobs = localQuery.trim()
@@ -75,467 +71,365 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
           j.title.toLowerCase().includes(localQuery.toLowerCase()) ||
           j.client.toLowerCase().includes(localQuery.toLowerCase()) ||
           j.location.toLowerCase().includes(localQuery.toLowerCase())
-      )
+      ).slice(0, 4)
     : [];
 
   const unreadAlerts = aiActivity.slice(0, 5);
 
+  const initials = settings.profile.name
+    ? settings.profile.name
+        .split(' ')
+        .map((n) => n[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase()
+    : 'AK';
+
   return (
     <header
       style={{
-        height: 'var(--header-height)',
-        background: 'var(--color-bg-surface)',
-        borderBottom: '1px solid var(--color-border)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '0 24px',
+        gap: 14,
+        padding: '0 20px',
+        borderBottom: '1px solid var(--line)',
+        background: '#ffffff',
+        height: 'var(--header-height)',
         position: 'sticky',
         top: 0,
         zIndex: 90,
       }}
     >
-      {/* Left side: Mobile Toggle + Global Search */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 14, flex: 1, maxWidth: 480 }}>
-        <button
-          onClick={onOpenMobileMenu}
-          className="mobile-menu-btn"
-          style={{
-            background: 'transparent',
-            border: 'none',
-            color: 'var(--color-text-secondary)',
-            cursor: 'pointer',
-            padding: 4,
-            display: 'none',
-          }}
-          aria-label="Toggle navigation menu"
-        >
-          <Menu size={20} />
-        </button>
+      {/* Mobile Menu Button */}
+      <button
+        onClick={onOpenMobileMenu}
+        style={{
+          display: 'none',
+          padding: 6,
+          color: 'var(--ink)',
+          background: 'transparent',
+          border: 'none',
+          cursor: 'pointer',
+        }}
+        className="mobile-menu-btn"
+        aria-label="Open navigation"
+      >
+        <Menu size={18} />
+      </button>
 
-        {/* Global Search Bar */}
-        <div ref={searchContainerRef} style={{ position: 'relative', width: '100%' }}>
+      {/* Global Command Search */}
+      <div
+        ref={searchContainerRef}
+        style={{ width: 380, maxWidth: '100%', position: 'relative', display: 'flex', alignItems: 'center' }}
+      >
+        <div style={{ position: 'relative', width: '100%', display: 'flex', alignItems: 'center' }}>
+          <Search
+            size={15}
+            style={{
+              position: 'absolute',
+              left: 12,
+              color: '#71717a',
+              pointerEvents: 'none',
+            }}
+          />
+          <input
+            ref={searchInputRef}
+            type="text"
+            value={localQuery}
+            onChange={(e) => {
+              setLocalQuery(e.target.value);
+              setSearchOpen(true);
+            }}
+            onFocus={() => setSearchOpen(true)}
+            placeholder="Search candidates, jobs, skills…"
+            style={{
+              width: '100%',
+              height: 36,
+              border: '1px solid #e4e4e7',
+              borderRadius: 8,
+              padding: '0 44px 0 34px',
+              fontSize: 13,
+              background: '#ffffff',
+              color: 'var(--ink)',
+              outline: 'none',
+              transition: 'border-color 0.15s, box-shadow 0.15s',
+            }}
+            onFocusCapture={(e) => (e.currentTarget.style.borderColor = '#18181b')}
+            onBlurCapture={(e) => (e.currentTarget.style.borderColor = '#e4e4e7')}
+          />
           <div
             style={{
-              position: 'relative',
+              position: 'absolute',
+              right: 8,
               display: 'flex',
               alignItems: 'center',
-              width: '100%',
+              gap: 4,
             }}
           >
-            <Search
-              size={14}
-              style={{
-                position: 'absolute',
-                left: 10,
-                color: 'var(--color-text-muted)',
-                pointerEvents: 'none',
-              }}
-            />
-            <input
-              ref={searchInputRef}
-              type="text"
-              placeholder="Search candidates, roles, skills..."
-              value={localQuery}
-              onChange={(e) => {
-                setLocalQuery(e.target.value);
-                setSearchOpen(true);
-              }}
-              onFocus={() => setSearchOpen(true)}
-              className="form-input"
-              style={{
-                paddingLeft: 32,
-                paddingRight: 60,
-                height: 32,
-                fontSize: 'var(--font-size-xs)',
-                borderRadius: 'var(--radius-md)',
-                background: 'var(--color-bg-subtle)',
-                border: '1px solid var(--color-border)',
-              }}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                right: 8,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 4,
-              }}
-            >
-              {localQuery ? (
-                <button
-                  onClick={() => {
-                    setLocalQuery('');
-                    setSearchOpen(false);
-                  }}
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    color: 'var(--color-text-muted)',
-                    cursor: 'pointer',
-                    padding: 2,
-                    display: 'flex',
-                  }}
-                  aria-label="Clear search"
-                >
-                  <X size={12} />
-                </button>
-              ) : (
-                <kbd
-                  style={{
-                    fontSize: '10px',
-                    fontFamily: 'inherit',
-                    color: 'var(--color-text-muted)',
-                    background: 'var(--color-bg-surface)',
-                    border: '1px solid var(--color-border)',
-                    borderRadius: 'var(--radius-xs)',
-                    padding: '1px 4px',
-                  }}
-                >
-                  ⌘K
-                </kbd>
-              )}
-            </div>
+            {localQuery ? (
+              <button
+                onClick={() => setLocalQuery('')}
+                style={{
+                  color: 'var(--mut)',
+                  padding: 2,
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                <X size={13} />
+              </button>
+            ) : (
+              <span
+                style={{
+                  background: '#f4f4f5',
+                  border: '1px solid #e4e4e7',
+                  borderRadius: 4,
+                  padding: '1px 5px',
+                  fontSize: 11,
+                  fontWeight: 600,
+                  color: '#71717a',
+                  lineHeight: 1.2,
+                }}
+              >
+                ⌘K
+              </span>
+            )}
           </div>
-
-          {/* Search Dropdown Results */}
-          {searchOpen && localQuery.trim().length > 0 && (
-            <div
-              style={{
-                position: 'absolute',
-                top: 38,
-                left: 0,
-                right: 0,
-                background: 'var(--color-bg-surface)',
-                border: '1px solid var(--color-border)',
-                borderRadius: 'var(--radius-md)',
-                boxShadow: 'var(--shadow-dropdown)',
-                maxHeight: 340,
-                overflowY: 'auto',
-                zIndex: 200,
-                padding: '6px 0',
-              }}
-            >
-              {filteredCandidates.length === 0 && filteredJobs.length === 0 ? (
-                <div
-                  style={{
-                    padding: '14px',
-                    textAlign: 'center',
-                    fontSize: 'var(--font-size-xs)',
-                    color: 'var(--color-text-muted)',
-                  }}
-                >
-                  No matching records for "{localQuery}"
-                </div>
-              ) : (
-                <>
-                  {/* Candidates */}
-                  {filteredCandidates.length > 0 && (
-                    <div style={{ marginBottom: 4 }}>
-                      <div
-                        style={{
-                          fontSize: '10px',
-                          fontWeight: 600,
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.04em',
-                          color: 'var(--color-text-muted)',
-                          padding: '4px 14px',
-                        }}
-                      >
-                        Candidates ({filteredCandidates.length})
-                      </div>
-                      {filteredCandidates.map((c) => (
-                        <div
-                          key={c.id}
-                          onClick={() => {
-                            navigate('candidate-detail', { candidateId: c.id });
-                            setSearchOpen(false);
-                            setLocalQuery('');
-                          }}
-                          style={{
-                            padding: '6px 14px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            cursor: 'pointer',
-                            transition: 'background var(--transition-fast)',
-                          }}
-                          onMouseEnter={(e) =>
-                            (e.currentTarget.style.background = 'var(--color-bg-subtle)')
-                          }
-                          onMouseLeave={(e) =>
-                            (e.currentTarget.style.background = 'transparent')
-                          }
-                        >
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                            <User size={13} style={{ color: 'var(--color-text-muted)' }} />
-                            <div>
-                              <div
-                                style={{
-                                  fontSize: 'var(--font-size-xs)',
-                                  fontWeight: 600,
-                                  color: 'var(--color-text-primary)',
-                                }}
-                              >
-                                {c.name}
-                              </div>
-                              <div
-                                style={{
-                                  fontSize: '11px',
-                                  color: 'var(--color-text-muted)',
-                                }}
-                              >
-                                {c.title} • {c.location}
-                              </div>
-                            </div>
-                          </div>
-                          <span className="snow-badge snow-badge-success" style={{ fontSize: '10px' }}>
-                            {c.matchScore}% Match
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Jobs */}
-                  {filteredJobs.length > 0 && (
-                    <div>
-                      <div
-                        style={{
-                          fontSize: '10px',
-                          fontWeight: 600,
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.04em',
-                          color: 'var(--color-text-muted)',
-                          padding: '4px 14px',
-                          borderTop:
-                            filteredCandidates.length > 0
-                              ? '1px solid var(--color-divider)'
-                              : undefined,
-                        }}
-                      >
-                        Jobs ({filteredJobs.length})
-                      </div>
-                      {filteredJobs.map((j) => (
-                        <div
-                          key={j.id}
-                          onClick={() => {
-                            navigate('job-workspace', { jobId: j.id });
-                            setSearchOpen(false);
-                            setLocalQuery('');
-                          }}
-                          style={{
-                            padding: '6px 14px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            cursor: 'pointer',
-                            transition: 'background var(--transition-fast)',
-                          }}
-                          onMouseEnter={(e) =>
-                            (e.currentTarget.style.background = 'var(--color-bg-subtle)')
-                          }
-                          onMouseLeave={(e) =>
-                            (e.currentTarget.style.background = 'transparent')
-                          }
-                        >
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                            <Briefcase size={13} style={{ color: 'var(--color-text-muted)' }} />
-                            <div>
-                              <div
-                                style={{
-                                  fontSize: 'var(--font-size-xs)',
-                                  fontWeight: 600,
-                                  color: 'var(--color-text-primary)',
-                                }}
-                              >
-                                {j.title}
-                              </div>
-                              <div
-                                style={{
-                                  fontSize: '11px',
-                                  color: 'var(--color-text-muted)',
-                                }}
-                              >
-                                {j.client} • {j.location}
-                              </div>
-                            </div>
-                          </div>
-                          <span
-                            style={{
-                              fontSize: '11px',
-                              color: 'var(--color-text-secondary)',
-                            }}
-                          >
-                            {j.status}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          )}
         </div>
+
+        {/* Search Results Dropdown */}
+        {searchOpen && localQuery.trim().length > 0 && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 'calc(100% + 4px)',
+              left: 0,
+              right: 0,
+              background: '#ffffff',
+              border: '1px solid var(--line)',
+              borderRadius: 'var(--radius-md)',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
+              maxHeight: 380,
+              overflowY: 'auto',
+              zIndex: 100,
+              padding: '6px 0',
+            }}
+          >
+            {filteredCandidates.length === 0 && filteredJobs.length === 0 ? (
+              <div style={{ padding: '12px 14px', fontSize: 12, color: 'var(--mut)' }}>
+                No records matching "{localQuery}"
+              </div>
+            ) : (
+              <>
+                {filteredCandidates.length > 0 && (
+                  <div>
+                    <div style={{ padding: '4px 12px', fontSize: 10, fontWeight: 600, color: 'var(--mut)', textTransform: 'uppercase' }}>
+                      Candidates
+                    </div>
+                    {filteredCandidates.map((c) => (
+                      <div
+                        key={c.id}
+                        onClick={() => {
+                          navigate('candidate-detail', { candidateId: c.id });
+                          setSearchOpen(false);
+                          setLocalQuery('');
+                        }}
+                        style={{
+                          padding: '6px 12px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          cursor: 'pointer',
+                          fontSize: 12,
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--soft)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                      >
+                        <div>
+                          <span style={{ fontWeight: 600 }}>{c.name}</span>
+                          <span style={{ color: 'var(--mut)', marginLeft: 8 }}>{c.title}</span>
+                        </div>
+                        <span style={{ fontSize: 10, background: '#d9f3dc', color: '#1c6b2c', padding: '1px 5px', borderRadius: 4 }}>
+                          {c.matchScore}%
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {filteredJobs.length > 0 && (
+                  <div style={{ borderTop: '1px solid var(--line)', marginTop: 4, paddingTop: 4 }}>
+                    <div style={{ padding: '4px 12px', fontSize: 10, fontWeight: 600, color: 'var(--mut)', textTransform: 'uppercase' }}>
+                      Active Roles
+                    </div>
+                    {filteredJobs.map((j) => (
+                      <div
+                        key={j.id}
+                        onClick={() => {
+                          navigate('job-workspace', { jobId: j.id });
+                          setSearchOpen(false);
+                          setLocalQuery('');
+                        }}
+                        style={{
+                          padding: '6px 12px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          cursor: 'pointer',
+                          fontSize: 12,
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--soft)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                      >
+                        <div>
+                          <span style={{ fontWeight: 600 }}>{j.title}</span>
+                          <span style={{ color: 'var(--mut)', marginLeft: 8 }}>{j.client}</span>
+                        </div>
+                        <span style={{ fontSize: 10, color: 'var(--mut)' }}>{j.location}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        )}
       </div>
 
-      {/* Right side: Operations Hub, Notifications, Create Job CTA */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <div
+      {/* Notifications Button */}
+      <div ref={notifContainerRef} style={{ position: 'relative' }}>
+        <button
+          onClick={() => setNotificationsOpen(!notificationsOpen)}
           style={{
+            border: '1px solid var(--line)',
+            borderRadius: 'var(--radius-md)',
+            padding: '5px 8px',
+            background: '#ffffff',
             display: 'flex',
             alignItems: 'center',
-            gap: 6,
-            fontSize: '11.5px',
-            color: 'var(--color-text-secondary)',
-            padding: '3px 9px',
-            background: 'var(--color-bg-canvas)',
-            border: '1px solid var(--color-border)',
-            borderRadius: 'var(--radius-sm)',
+            color: 'var(--ink)',
+            position: 'relative',
           }}
-          className="hub-badge-desktop"
+          onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--soft)')}
+          onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
+          aria-label="View notifications"
         >
+          <Bell size={13} />
           <span
             style={{
+              position: 'absolute',
+              top: 4,
+              right: 4,
               width: 5,
               height: 5,
               borderRadius: '50%',
-              background: 'var(--color-success)',
+              background: '#3b5bdb',
             }}
           />
-          <span>India Hub</span>
-        </div>
+        </button>
 
-        {/* Notifications Popover */}
-        <div ref={notifContainerRef} style={{ position: 'relative' }}>
-          <button
-            onClick={() => setNotificationsOpen(!notificationsOpen)}
+        {notificationsOpen && (
+          <div
             style={{
-              background: 'var(--color-bg-surface)',
-              border: '1px solid var(--color-border)',
+              position: 'absolute',
+              top: 'calc(100% + 4px)',
+              right: 0,
+              width: 280,
+              background: '#ffffff',
+              border: '1px solid var(--line)',
               borderRadius: 'var(--radius-md)',
-              padding: '6px 9px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 5,
-              color: 'var(--color-text-primary)',
-              transition: 'all var(--transition-fast)',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
+              zIndex: 100,
+              padding: '6px 0',
             }}
-            aria-label="View activity notifications"
           >
-            <Bell size={14} />
-            <span
-              style={{
-                fontSize: '11px',
-                fontWeight: 600,
-                color: 'var(--color-text-primary)',
-              }}
-            >
-              {unreadAlerts.length}
-            </span>
-          </button>
-
-          {notificationsOpen && (
             <div
               style={{
-                position: 'absolute',
-                top: 38,
-                right: 0,
-                width: 320,
-                background: 'var(--color-bg-surface)',
-                border: '1px solid var(--color-border)',
-                borderRadius: 'var(--radius-md)',
-                boxShadow: 'var(--shadow-dropdown)',
-                zIndex: 200,
-                overflow: 'hidden',
+                padding: '6px 12px',
+                borderBottom: '1px solid var(--line)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                fontSize: 11,
+                fontWeight: 600,
               }}
             >
+              <span>AI Activity Alerts</span>
+              <span style={{ color: 'var(--mut)', cursor: 'pointer' }} onClick={() => navigate('ai-activity')}>
+                View All
+              </span>
+            </div>
+            {unreadAlerts.map((a) => (
               <div
+                key={a.id}
                 style={{
-                  padding: '10px 14px',
-                  borderBottom: '1px solid var(--color-divider)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
+                  padding: '8px 12px',
+                  borderBottom: '1px solid var(--line)',
+                  fontSize: 11.5,
                 }}
               >
-                <span
-                  style={{
-                    fontSize: 'var(--font-size-xs)',
-                    fontWeight: 600,
-                    color: 'var(--color-text-primary)',
-                  }}
-                >
-                  System Activity
-                </span>
-                <span
-                  style={{
-                    fontSize: '11px',
-                    color: 'var(--color-text-secondary)',
-                    cursor: 'pointer',
-                    fontWeight: 500,
-                  }}
-                  onClick={() => {
-                    navigate('ai-activity');
-                    setNotificationsOpen(false);
-                  }}
-                >
-                  View All
-                </span>
+                <div style={{ fontWeight: 500, color: 'var(--ink)' }}>{a.type}</div>
+                <div style={{ color: 'var(--mut)', fontSize: 10.5, marginTop: 2 }}>{a.details}</div>
               </div>
-
-              <div style={{ maxHeight: 280, overflowY: 'auto' }}>
-                {unreadAlerts.map((act) => (
-                  <div
-                    key={act.id}
-                    style={{
-                      padding: '9px 14px',
-                      borderBottom: '1px solid var(--color-divider)',
-                      fontSize: 'var(--font-size-xs)',
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        marginBottom: 2,
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontWeight: 600,
-                          color: 'var(--color-text-primary)',
-                        }}
-                      >
-                        {act.type}
-                      </span>
-                      <span style={{ color: 'var(--color-text-muted)', fontSize: '10.5px' }}>
-                        {act.timestamp.split(' ')[1]}
-                      </span>
-                    </div>
-                    <div style={{ color: 'var(--color-text-secondary)', lineHeight: 1.35, fontSize: '11.5px' }}>
-                      {act.details}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Create Job CTA */}
-        <Button
-          variant="primary"
-          size="sm"
-          icon={<Plus size={13} />}
-          onClick={() => navigate('create-job')}
-        >
-          Create Job
-        </Button>
+            ))}
+          </div>
+        )}
       </div>
+
+      {/* Primary Action Button */}
+      <button
+        onClick={() => navigate('sourcing')}
+        className="btn-dark"
+        style={{
+          background: '#18181b',
+          color: '#ffffff',
+          height: 36,
+          padding: '0 14px',
+          borderRadius: 8,
+          fontWeight: 500,
+          fontSize: 13,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 7,
+          whiteSpace: 'nowrap',
+          border: 'none',
+          cursor: 'pointer',
+        }}
+      >
+        <span>✳</span>
+        <span>Execute with AI</span>
+      </button>
+
+      {/* User Avatar */}
+      <div
+        onClick={() => navigate('settings')}
+        style={{
+          width: 34,
+          height: 34,
+          borderRadius: '50%',
+          background: '#f4f4f5',
+          border: '1px solid #e4e4e7',
+          display: 'grid',
+          placeItems: 'center',
+          fontSize: 12,
+          fontWeight: 600,
+          color: '#18181b',
+          cursor: 'pointer',
+          flexShrink: 0,
+        }}
+        title={settings.profile.name || 'User Profile'}
+      >
+        {initials}
+      </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .mobile-menu-btn {
+            display: block !important;
+          }
+        }
+      `}</style>
     </header>
   );
 };

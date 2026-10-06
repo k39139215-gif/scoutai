@@ -9,6 +9,7 @@ import { useApp } from '../context/AppContext';
 import { Button } from '../components/common/Button';
 import { StatusBadge } from '../components/common/Badge';
 import { Input, Textarea } from '../components/common/Input';
+import { CustomSelect } from '../components/common/CustomDropdown';
 import type { OutreachTone } from '../types';
 
 export const OutreachView: React.FC = () => {
@@ -110,36 +111,38 @@ Lead Talent Advisor, ScoutAI`;
       <div
         style={{
           display: 'flex',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: 16,
+          paddingBottom: 4,
         }}
       >
         <div>
           <h1
             style={{
-              fontSize: 'var(--font-size-2xl)',
+              fontSize: 22,
               fontWeight: 600,
-              color: 'var(--color-text-primary)',
+              color: '#18181b',
               letterSpacing: '-0.02em',
+              lineHeight: 1.2,
             }}
           >
             Candidate Outreach
           </h1>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', marginTop: 2 }}>
+          <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
             Draft tailored candidate messaging, review copy inline, and approve outreach dispatches.
           </p>
         </div>
 
         <div
           style={{
-            fontSize: '11px',
-            color: 'var(--color-text-muted)',
+            fontSize: 12,
+            color: '#71717a',
             padding: '4px 10px',
-            background: 'var(--color-bg-canvas)',
-            borderRadius: 'var(--radius-sm)',
-            border: '1px solid var(--color-border)',
+            background: '#fafafa',
+            borderRadius: 6,
+            border: '1px solid #e4e4e7',
           }}
         >
           Simulation: No live emails sent
@@ -158,30 +161,32 @@ Lead Talent Advisor, ScoutAI`;
         <div className="snow-card" style={{ padding: '20px 24px' }}>
           <div style={{ borderBottom: '1px solid var(--color-divider)', paddingBottom: 12, marginBottom: 16 }}>
             <h3 style={{ fontSize: 'var(--font-size-md)', fontWeight: 600 }}>Generate & Review Outreach</h3>
-            <p style={{ fontSize: '11.5px', color: 'var(--color-text-muted)', marginTop: 1 }}>
+            <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: 2 }}>
               Drafts personalized messages based on candidate profile and role criteria.
             </p>
           </div>
 
-          <form onSubmit={handleSaveDraft} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <form onSubmit={handleSaveDraft} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {/* Candidate Selector */}
             <div className="form-group">
-              <label className="form-label">Target Candidate</label>
-              <select
+              <label className="form-label" style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block' }}>
+                Target Candidate
+              </label>
+              <CustomSelect
                 value={selectedCandidateId}
-                onChange={(e) => {
-                  setSelectedCandidateId(e.target.value);
-                  const cand = candidates.find((c) => c.id === e.target.value);
+                onChange={(val) => {
+                  setSelectedCandidateId(val);
+                  const cand = candidates.find((c) => c.id === val);
                   if (cand) handleGenerateTemplate(cand, tone);
                 }}
-                className="form-select"
-              >
-                {candidates.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name} — {c.title} ({c.matchScore}% Match)
-                  </option>
-                ))}
-              </select>
+                options={candidates.map((c) => ({
+                  value: c.id,
+                  label: `${c.name} — ${c.title}`,
+                  badge: `${c.matchScore}% Match`,
+                }))}
+                size="md"
+                menuWidth="100%"
+              />
             </div>
 
             {/* Tone Selector */}

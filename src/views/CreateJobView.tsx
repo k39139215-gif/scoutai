@@ -4,8 +4,8 @@ import {
   Check,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { Button } from '../components/common/Button';
 import { Input, Textarea } from '../components/common/Input';
+import { CustomSelect } from '../components/common/CustomDropdown';
 import type { JobPriority } from '../types';
 
 export const CreateJobView: React.FC = () => {
@@ -62,49 +62,62 @@ export const CreateJobView: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 780, margin: '0 auto' }}>
-      {/* Top Nav */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 840, margin: '0 auto' }}>
+      {/* Top Nav Back */}
       <button
         onClick={() => navigate('jobs')}
         style={{
           background: 'transparent',
           border: 'none',
-          color: 'var(--color-text-secondary)',
-          fontSize: 'var(--font-size-xs)',
+          color: '#71717a',
+          fontSize: 13,
           cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
-          gap: 5,
+          gap: 6,
           padding: 0,
           alignSelf: 'flex-start',
+          fontWeight: 500,
         }}
+        onMouseEnter={(e) => (e.currentTarget.style.color = '#18181b')}
+        onMouseLeave={(e) => (e.currentTarget.style.color = '#71717a')}
       >
         <ArrowLeft size={14} />
-        <span>Back to Jobs</span>
+        <span>Back to Requisitions</span>
       </button>
 
       {/* Header */}
       <div>
         <h1
           style={{
-            fontSize: 'var(--font-size-xl)',
+            fontSize: 22,
             fontWeight: 600,
-            color: 'var(--color-text-primary)',
+            color: '#18181b',
             letterSpacing: '-0.02em',
+            lineHeight: 1.2,
           }}
         >
           Create Job Requisition
         </h1>
-        <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', marginTop: 2 }}>
+        <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
           Define role specifications, required technical competencies, and compensation parameters.
         </p>
       </div>
 
       {/* Form Card */}
-      <form onSubmit={handleSubmit} className="snow-card" style={{ padding: '24px 28px' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          background: '#ffffff',
+          border: '1px solid #e4e4e7',
+          borderRadius: 8,
+          padding: '24px 28px',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+        }}
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {/* Row 1: Title & Client */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
             <Input
               label="Job Title"
               required
@@ -114,72 +127,80 @@ export const CreateJobView: React.FC = () => {
               error={errors.title}
             />
 
-            <div className="form-group">
-              <label className="form-label">Client Account</label>
-              <select
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Client Account</label>
+              <CustomSelect
                 value={client}
-                onChange={(e) => setClient(e.target.value)}
-                className="form-select"
-              >
-                <option value="Razorpay (Fintech Payments)">Razorpay (Fintech Payments)</option>
-                <option value="Swiggy (Consumer Tech)">Swiggy (Consumer Tech)</option>
-                <option value="BrowserStack (Developer Tooling)">BrowserStack (Developer Tooling)</option>
-                <option value="Postman (API Platform)">Postman (API Platform)</option>
-                <option value="Pine Labs (Merchant Commerce)">Pine Labs (Merchant Commerce)</option>
-              </select>
+                onChange={setClient}
+                options={[
+                  { value: 'Razorpay (Fintech Payments)', label: 'Razorpay (Fintech Payments)' },
+                  { value: 'Swiggy (Consumer Tech)', label: 'Swiggy (Consumer Tech)' },
+                  { value: 'BrowserStack (Developer Tooling)', label: 'BrowserStack (Developer Tooling)' },
+                  { value: 'Postman (API Platform)', label: 'Postman (API Platform)' },
+                  { value: 'Pine Labs (Merchant Commerce)', label: 'Pine Labs (Merchant Commerce)' },
+                ]}
+                size="md"
+                menuWidth="100%"
+              />
             </div>
           </div>
 
           {/* Row 2: Department, Location & Priority */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 14 }}>
-            <div className="form-group">
-              <label className="form-label">Department</label>
-              <select
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Department</label>
+              <CustomSelect
                 value={department}
-                onChange={(e) => setDepartment(e.target.value)}
-                className="form-select"
-              >
-                <option value="Backend Systems">Backend Systems</option>
-                <option value="Frontend Architecture">Frontend Architecture</option>
-                <option value="Infrastructure & SRE">Infrastructure & SRE</option>
-                <option value="Data & Analytics">Data & Analytics</option>
-                <option value="Applied AI & ML">Applied AI & ML</option>
-                <option value="Security Engineering">Security Engineering</option>
-              </select>
+                onChange={setDepartment}
+                options={[
+                  { value: 'Backend Systems', label: 'Backend Systems' },
+                  { value: 'Frontend Architecture', label: 'Frontend Architecture' },
+                  { value: 'Infrastructure & SRE', label: 'Infrastructure & SRE' },
+                  { value: 'Data & Analytics', label: 'Data & Analytics' },
+                  { value: 'Applied AI & ML', label: 'Applied AI & ML' },
+                  { value: 'Security Engineering', label: 'Security Engineering' },
+                ]}
+                size="md"
+                menuWidth="100%"
+              />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Location</label>
-              <select
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Location</label>
+              <CustomSelect
                 value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                className="form-select"
-              >
-                <option value="Bengaluru, Karnataka (Hybrid)">Bengaluru (Hybrid)</option>
-                <option value="Bengaluru, Karnataka (On-site)">Bengaluru (On-site)</option>
-                <option value="Hyderabad, Telangana (Hybrid)">Hyderabad (Hybrid)</option>
-                <option value="Pune, Maharashtra (Hybrid)">Pune (Hybrid)</option>
-                <option value="Gurugram, Haryana (Hybrid)">Gurugram (Hybrid)</option>
-                <option value="Remote (India)">Remote (India)</option>
-              </select>
+                onChange={setLocation}
+                options={[
+                  { value: 'Bengaluru, Karnataka (Hybrid)', label: 'Bengaluru (Hybrid)' },
+                  { value: 'Bengaluru, Karnataka (On-site)', label: 'Bengaluru (On-site)' },
+                  { value: 'Hyderabad, Telangana (Hybrid)', label: 'Hyderabad (Hybrid)' },
+                  { value: 'Pune, Maharashtra (Hybrid)', label: 'Pune (Hybrid)' },
+                  { value: 'Gurugram, Haryana (Hybrid)', label: 'Gurugram (Hybrid)' },
+                  { value: 'Remote (India)', label: 'Remote (India)' },
+                ]}
+                size="md"
+                menuWidth="100%"
+              />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Priority</label>
-              <select
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Priority</label>
+              <CustomSelect
                 value={priority}
-                onChange={(e) => setPriority(e.target.value as JobPriority)}
-                className="form-select"
-              >
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-              </select>
+                onChange={(val) => setPriority(val as JobPriority)}
+                options={[
+                  { value: 'High', label: 'High Priority' },
+                  { value: 'Medium', label: 'Medium Priority' },
+                  { value: 'Low', label: 'Low Priority' },
+                ]}
+                size="md"
+                menuWidth="100%"
+              />
             </div>
           </div>
 
           {/* Row 3: Experience & Compensation */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
             <Input
               label="Experience Level"
               required
@@ -225,29 +246,54 @@ export const CreateJobView: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-end',
-              gap: 8,
-              paddingTop: 14,
-              borderTop: '1px solid var(--color-divider)',
+              gap: 10,
+              paddingTop: 16,
+              borderTop: '1px solid #f4f4f5',
             }}
           >
-            <Button
+            <button
               type="button"
-              variant="secondary"
               onClick={() => navigate('jobs')}
+              style={{
+                height: 36,
+                padding: '0 16px',
+                borderRadius: 8,
+                fontSize: 13,
+                fontWeight: 500,
+                background: '#ffffff',
+                border: '1px solid #e4e4e7',
+                color: '#18181b',
+                cursor: 'pointer',
+              }}
             >
               Cancel
-            </Button>
+            </button>
 
-            <Button
+            <button
               type="submit"
-              variant="primary"
-              icon={<Check size={14} />}
+              className="btn-dark"
+              style={{
+                height: 36,
+                padding: '0 18px',
+                borderRadius: 8,
+                fontSize: 13,
+                fontWeight: 500,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 7,
+                background: '#18181b',
+                color: '#ffffff',
+                border: 'none',
+                cursor: 'pointer',
+              }}
             >
-              Publish Requisition
-            </Button>
+              <Check size={14} />
+              <span>Publish Requisition</span>
+            </button>
           </div>
         </div>
       </form>
     </div>
   );
 };
+

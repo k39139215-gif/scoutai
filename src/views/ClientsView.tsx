@@ -6,94 +6,117 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { Button } from '../components/common/Button';
 
 export const ClientsView: React.FC = () => {
   const { clients, navigate } = useApp();
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      {/* Header */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {/* 1. Header */}
       <div
         style={{
           display: 'flex',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: 16,
+          paddingBottom: 4,
         }}
       >
         <div>
           <h1
             style={{
-              fontSize: 'var(--font-size-2xl)',
+              fontSize: 22,
               fontWeight: 600,
-              color: 'var(--color-text-primary)',
+              color: '#18181b',
               letterSpacing: '-0.02em',
+              lineHeight: 1.2,
             }}
           >
             Client Accounts
           </h1>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', marginTop: 2 }}>
+          <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
             Hiring partner requisitions, candidate pipeline status, and key recruitment contacts.
           </p>
         </div>
 
-        <span className="snow-badge snow-badge-default" style={{ fontSize: '11px' }}>4 Active Accounts</span>
+        <div
+          style={{
+            fontSize: 12.5,
+            fontWeight: 500,
+            color: '#71717a',
+            padding: '6px 12px',
+            background: '#ffffff',
+            borderRadius: 8,
+            border: '1px solid #e4e4e7',
+          }}
+        >
+          <strong style={{ color: '#18181b' }}>{clients.length}</strong> Active Partner Accounts
+        </div>
       </div>
 
-      {/* Clients Cards Grid */}
+      {/* 2. Clients Cards Grid */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
           gap: 16,
         }}
       >
         {clients.map((client) => (
           <div
             key={client.id}
-            className="snow-card"
             style={{
+              background: '#ffffff',
+              border: '1px solid #e4e4e7',
+              borderRadius: 8,
               padding: '20px 22px',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
-              gap: 16,
+              gap: 18,
+              boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
             }}
           >
             <div>
-              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 4 }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 6 }}>
                 <div>
-                  <h3 style={{ fontSize: 'var(--font-size-md)', fontWeight: 600, color: 'var(--color-text-primary)' }}>
+                  <h3 style={{ fontSize: 16, fontWeight: 600, color: '#18181b', margin: 0 }}>
                     {client.name}
                   </h3>
-                  <span style={{ fontSize: '11.5px', color: 'var(--color-text-secondary)' }}>
+                  <span style={{ fontSize: 12.5, color: '#71717a', display: 'block', marginTop: 2 }}>
                     {client.industry}
                   </span>
                 </div>
-                <div style={{ padding: 5, background: 'var(--color-bg-subtle)', borderRadius: 'var(--radius-sm)' }}>
-                  <Building2 size={15} style={{ color: 'var(--color-text-primary)' }} />
+                <div
+                  style={{
+                    padding: 8,
+                    background: '#f4f4f5',
+                    borderRadius: 6,
+                    color: '#18181b',
+                  }}
+                >
+                  <Building2 size={16} />
                 </div>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: '11.5px', color: 'var(--color-text-muted)', marginBottom: 14 }}>
-                <MapPin size={11} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12.5, color: '#71717a', marginBottom: 14 }}>
+                <MapPin size={13} />
                 <span>{client.location}</span>
               </div>
 
               {/* Progress Bar */}
-              <div style={{ marginBottom: 14 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', marginBottom: 4 }}>
-                  <span style={{ color: 'var(--color-text-secondary)' }}>Hiring Fulfillment</span>
-                  <span style={{ fontWeight: 600, color: 'var(--color-text-primary)' }}>{client.hiringProgress}%</span>
+              <div style={{ marginBottom: 16 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 5 }}>
+                  <span style={{ color: '#71717a' }}>Hiring Fulfillment</span>
+                  <span style={{ fontWeight: 600, color: '#18181b' }}>{client.hiringProgress}%</span>
                 </div>
                 <div
                   style={{
-                    height: 4,
+                    height: 6,
                     width: '100%',
-                    background: 'var(--color-bg-subtle)',
-                    borderRadius: 'var(--radius-full)',
+                    background: '#f4f4f5',
+                    borderRadius: 9999,
                     overflow: 'hidden',
                   }}
                 >
@@ -101,8 +124,8 @@ export const ClientsView: React.FC = () => {
                     style={{
                       height: '100%',
                       width: `${client.hiringProgress}%`,
-                      background: 'var(--color-primary)',
-                      borderRadius: 'var(--radius-full)',
+                      background: '#18181b',
+                      borderRadius: 9999,
                     }}
                   />
                 </div>
@@ -113,28 +136,28 @@ export const ClientsView: React.FC = () => {
                 style={{
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr',
-                  gap: 10,
-                  padding: '10px 12px',
-                  background: 'var(--color-bg-canvas)',
-                  borderRadius: 'var(--radius-md)',
-                  border: '1px solid var(--color-border)',
+                  gap: 12,
+                  padding: '12px 14px',
+                  background: '#f8fafc',
+                  borderRadius: 6,
+                  border: '1px solid #f1f5f9',
                 }}
               >
                 <div>
-                  <div style={{ fontSize: 'var(--font-size-md)', fontWeight: 600 }}>{client.openJobsCount}</div>
-                  <div style={{ fontSize: '10.5px', color: 'var(--color-text-muted)' }}>Open Roles</div>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: '#18181b' }}>{client.openJobsCount}</div>
+                  <div style={{ fontSize: 11.5, color: '#71717a' }}>Open Requisitions</div>
                 </div>
                 <div>
-                  <div style={{ fontSize: 'var(--font-size-md)', fontWeight: 600 }}>{client.activeCandidatesCount}</div>
-                  <div style={{ fontSize: '10.5px', color: 'var(--color-text-muted)' }}>In Pipeline</div>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: '#18181b' }}>{client.activeCandidatesCount}</div>
+                  <div style={{ fontSize: 11.5, color: '#71717a' }}>Candidates in Pipeline</div>
                 </div>
               </div>
 
               {/* Contact Info */}
-              <div style={{ marginTop: 12, fontSize: '11.5px', color: 'var(--color-text-secondary)', display: 'flex', flexDirection: 'column', gap: 3 }}>
+              <div style={{ marginTop: 14, fontSize: 12.5, color: '#52525b', display: 'flex', flexDirection: 'column', gap: 4 }}>
                 <div><strong>Talent Lead:</strong> {client.keyContact}</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                  <Mail size={11} style={{ color: 'var(--color-text-muted)' }} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 5, color: '#71717a' }}>
+                  <Mail size={12} />
                   <span>{client.email}</span>
                 </div>
               </div>
@@ -146,22 +169,36 @@ export const ClientsView: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                paddingTop: 12,
-                borderTop: '1px solid var(--color-divider)',
+                paddingTop: 14,
+                borderTop: '1px solid #f4f4f5',
               }}
             >
-              <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>
+              <span style={{ fontSize: 12, color: '#a1a1aa' }}>
                 {client.recentActivity}
               </span>
 
-              <Button
-                variant="primary"
-                size="sm"
-                iconRight={<ArrowRight size={12} />}
+              <button
+                type="button"
+                className="btn-dark"
                 onClick={() => navigate('jobs')}
+                style={{
+                  height: 32,
+                  padding: '0 12px',
+                  borderRadius: 6,
+                  fontSize: 12.5,
+                  fontWeight: 500,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  background: '#18181b',
+                  color: '#ffffff',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
               >
-                View Jobs
-              </Button>
+                <span>View Jobs</span>
+                <ArrowRight size={13} />
+              </button>
             </div>
           </div>
         ))}

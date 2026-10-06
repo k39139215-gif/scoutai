@@ -10,6 +10,7 @@ import { Button } from '../components/common/Button';
 import { StatusBadge } from '../components/common/Badge';
 import { Modal } from '../components/common/Modal';
 import { Input } from '../components/common/Input';
+import { CustomSelect } from '../components/common/CustomDropdown';
 import type { TaskCategory, JobPriority } from '../types';
 
 export const TasksView: React.FC = () => {
@@ -44,86 +45,130 @@ export const TasksView: React.FC = () => {
   });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      {/* Header */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {/* 1. Page Header */}
       <div
         style={{
           display: 'flex',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: 16,
+          paddingBottom: 4,
         }}
       >
         <div>
           <h1
             style={{
-              fontSize: 'var(--font-size-2xl)',
+              fontSize: 22,
               fontWeight: 600,
-              color: 'var(--color-text-primary)',
+              color: '#18181b',
               letterSpacing: '-0.02em',
+              lineHeight: 1.2,
             }}
           >
             Recruiter Tasks
           </h1>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', marginTop: 2 }}>
+          <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
             Manage candidate evaluations, outreach reviews, and hiring manager follow-ups.
           </p>
         </div>
 
-        <Button
-          variant="primary"
-          icon={<Plus size={14} />}
+        <button
+          className="btn-dark"
           onClick={() => setModalOpen(true)}
+          style={{
+            height: 36,
+            padding: '0 16px',
+            borderRadius: 8,
+            fontSize: 13,
+            fontWeight: 500,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 7,
+            background: '#18181b',
+            color: '#ffffff',
+            border: 'none',
+            cursor: 'pointer',
+          }}
         >
-          Add Task
-        </Button>
+          <Plus size={15} />
+          <span>Add Task</span>
+        </button>
       </div>
 
-      {/* Filter Row */}
+      {/* 2. Filter Bar */}
       <div
-        className="snow-card"
         style={{
-          padding: '10px 16px',
+          padding: '12px 16px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          gap: 10,
+          gap: 12,
+          background: '#ffffff',
+          border: '1px solid #e4e4e7',
+          borderRadius: 8,
         }}
       >
-        <div style={{ display: 'flex', gap: 4 }}>
-          {['All', 'Pending', 'In Progress', 'Completed'].map((st) => (
-            <button
-              key={st}
-              onClick={() => setStatusFilter(st)}
-              style={{
-                padding: '4px 10px',
-                borderRadius: 'var(--radius-sm)',
-                fontSize: 'var(--font-size-xs)',
-                fontWeight: statusFilter === st ? 600 : 500,
-                border: '1px solid',
-                borderColor: statusFilter === st ? 'var(--color-primary)' : 'var(--color-border)',
-                background: statusFilter === st ? 'var(--color-primary)' : 'var(--color-bg-surface)',
-                color: statusFilter === st ? '#ffffff' : 'var(--color-text-secondary)',
-                cursor: 'pointer',
-                transition: 'all var(--transition-fast)',
-              }}
-            >
-              {st}
-            </button>
-          ))}
+        <div style={{ display: 'flex', gap: 3, background: '#f4f4f5', padding: 3, borderRadius: 7 }}>
+          {['All', 'Pending', 'In Progress', 'Completed'].map((st) => {
+            const isSelected = statusFilter === st;
+            const count = st === 'All' ? tasks.length : tasks.filter((t) => t.status === st).length;
+            return (
+              <button
+                key={st}
+                onClick={() => setStatusFilter(st)}
+                style={{
+                  padding: '5px 12px',
+                  borderRadius: 6,
+                  fontSize: 12.5,
+                  fontWeight: isSelected ? 600 : 500,
+                  border: 'none',
+                  background: isSelected ? '#ffffff' : 'transparent',
+                  color: isSelected ? '#18181b' : '#71717a',
+                  cursor: 'pointer',
+                  boxShadow: isSelected ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                  transition: 'all 0.12s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                }}
+              >
+                <span>{st}</span>
+                <span
+                  style={{
+                    fontSize: 11,
+                    padding: '0 5px',
+                    borderRadius: 9999,
+                    background: isSelected ? '#f4f4f5' : 'transparent',
+                    color: isSelected ? '#18181b' : '#a1a1aa',
+                  }}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
-        <span style={{ fontSize: '11.5px', color: 'var(--color-text-muted)' }}>
-          {filteredTasks.length} tasks
+        <span style={{ fontSize: 13, color: '#71717a' }}>
+          Showing <strong style={{ color: '#18181b' }}>{filteredTasks.length}</strong> of {tasks.length} tasks
         </span>
       </div>
 
-      {/* Task List */}
-      <div className="snow-card" style={{ padding: '4px 0', overflow: 'hidden' }}>
+      {/* 3. Task List Table / Container */}
+      <div
+        style={{
+          background: '#ffffff',
+          border: '1px solid #e4e4e7',
+          borderRadius: 8,
+          overflow: 'hidden',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+        }}
+      >
         {filteredTasks.length === 0 ? (
-          <div style={{ padding: 36, textAlign: 'center', color: 'var(--color-text-muted)', fontSize: 'var(--font-size-xs)' }}>
+          <div style={{ padding: 48, textAlign: 'center', color: '#71717a', fontSize: 13 }}>
             No tasks found with status "{statusFilter}".
           </div>
         ) : (
@@ -135,26 +180,32 @@ export const TasksView: React.FC = () => {
                 <div
                   key={t.id}
                   style={{
-                    padding: '12px 20px',
-                    borderBottom: '1px solid var(--color-divider)',
+                    padding: '14px 20px',
+                    borderBottom: '1px solid #f4f4f5',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    gap: 14,
-                    background: isCompleted ? 'var(--color-bg-canvas)' : 'var(--color-bg-surface)',
-                    transition: 'background var(--transition-fast)',
+                    gap: 16,
+                    background: isCompleted ? '#fafafa' : '#ffffff',
+                    transition: 'background 0.12s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isCompleted) e.currentTarget.style.background = '#fafafa';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isCompleted) e.currentTarget.style.background = '#ffffff';
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, flex: 1, minWidth: 0 }}>
                     {/* Checkbox Toggle */}
                     <input
                       type="checkbox"
                       checked={isCompleted}
                       onChange={() => toggleTaskStatus(t.id)}
                       style={{
-                        width: 16,
-                        height: 16,
-                        accentColor: 'var(--color-primary)',
+                        width: 17,
+                        height: 17,
+                        accentColor: '#18181b',
                         cursor: 'pointer',
                         flexShrink: 0,
                       }}
@@ -163,30 +214,31 @@ export const TasksView: React.FC = () => {
                     <div style={{ minWidth: 0 }}>
                       <div
                         style={{
-                          fontSize: 'var(--font-size-sm)',
-                          fontWeight: 600,
-                          color: isCompleted ? 'var(--color-text-muted)' : 'var(--color-text-primary)',
+                          fontSize: 13.5,
+                          fontWeight: 500,
+                          color: isCompleted ? '#a1a1aa' : '#18181b',
                           textDecoration: isCompleted ? 'line-through' : 'none',
                         }}
                       >
                         {t.title}
                       </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 3, flexWrap: 'wrap' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 4, flexWrap: 'wrap' }}>
                         <span
                           style={{
-                            fontSize: '10.5px',
-                            background: 'var(--color-bg-subtle)',
-                            padding: '1px 5px',
-                            borderRadius: 'var(--radius-xs)',
-                            color: 'var(--color-text-secondary)',
+                            fontSize: 11,
+                            background: '#f4f4f5',
+                            padding: '2px 7px',
+                            borderRadius: 4,
+                            color: '#52525b',
+                            fontWeight: 500,
                           }}
                         >
                           {t.category}
                         </span>
 
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '11px', color: 'var(--color-text-muted)' }}>
-                          <Clock size={11} />
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 12, color: '#71717a' }}>
+                          <Clock size={12} />
                           <span>Due {t.dueDate}</span>
                         </div>
 
@@ -197,15 +249,15 @@ export const TasksView: React.FC = () => {
                               navigate('candidate-detail', { candidateId: t.relatedCandidateId })
                             }
                             style={{
-                              fontSize: '11px',
-                              color: 'var(--color-text-secondary)',
+                              fontSize: 12,
+                              color: '#2563eb',
                               cursor: 'pointer',
                               display: 'flex',
                               alignItems: 'center',
-                              gap: 2,
+                              gap: 4,
                             }}
                           >
-                            <User size={10} />
+                            <User size={12} />
                             <span>{t.relatedCandidateName}</span>
                           </span>
                         )}
@@ -213,7 +265,7 @@ export const TasksView: React.FC = () => {
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
                     <StatusBadge status={t.priority} />
                     <StatusBadge status={t.status} />
                   </div>
@@ -224,7 +276,7 @@ export const TasksView: React.FC = () => {
         )}
       </div>
 
-      {/* Add Task Modal */}
+      {/* 4. Add Task Modal */}
       <Modal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
@@ -240,7 +292,7 @@ export const TasksView: React.FC = () => {
           </>
         }
       >
-        <form onSubmit={handleCreateTask} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <form onSubmit={handleCreateTask} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <Input
             label="Task Description"
             required
@@ -249,33 +301,37 @@ export const TasksView: React.FC = () => {
             onChange={(e) => setTaskTitle(e.target.value)}
           />
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-            <div className="form-group">
-              <label className="form-label">Category</label>
-              <select
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Category</label>
+              <CustomSelect
                 value={category}
-                onChange={(e) => setCategory(e.target.value as TaskCategory)}
-                className="form-select"
-              >
-                <option value="Review Candidate">Review Candidate</option>
-                <option value="Approve Outreach">Approve Outreach</option>
-                <option value="Schedule Interview">Schedule Interview</option>
-                <option value="Review Application">Review Application</option>
-                <option value="Follow Up With Client">Follow Up With Client</option>
-              </select>
+                onChange={(val) => setCategory(val as TaskCategory)}
+                options={[
+                  { value: 'Review Candidate', label: 'Review Candidate' },
+                  { value: 'Approve Outreach', label: 'Approve Outreach' },
+                  { value: 'Schedule Interview', label: 'Schedule Interview' },
+                  { value: 'Review Application', label: 'Review Application' },
+                  { value: 'Follow Up With Client', label: 'Follow Up With Client' },
+                ]}
+                size="md"
+                menuWidth="100%"
+              />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Priority</label>
-              <select
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Priority</label>
+              <CustomSelect
                 value={priority}
-                onChange={(e) => setPriority(e.target.value as JobPriority)}
-                className="form-select"
-              >
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-              </select>
+                onChange={(val) => setPriority(val as JobPriority)}
+                options={[
+                  { value: 'High', label: 'High Priority' },
+                  { value: 'Medium', label: 'Medium Priority' },
+                  { value: 'Low', label: 'Low Priority' },
+                ]}
+                size="md"
+                menuWidth="100%"
+              />
             </div>
           </div>
 
@@ -291,3 +347,4 @@ export const TasksView: React.FC = () => {
     </div>
   );
 };
+

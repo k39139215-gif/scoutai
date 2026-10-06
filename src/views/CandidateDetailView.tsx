@@ -19,6 +19,7 @@ import { AIMatchCard } from '../components/common/AIMatchCard';
 import { Modal } from '../components/common/Modal';
 import { Drawer } from '../components/common/Drawer';
 import { Input, Textarea } from '../components/common/Input';
+import { CustomSelect } from '../components/common/CustomDropdown';
 import type { OutreachTone } from '../types';
 
 export const CandidateDetailView: React.FC = () => {
@@ -664,38 +665,42 @@ Lead Technical Recruiter, ScoutAI`);
             />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-            <div className="form-group">
-              <label className="form-label">Round</label>
-              <select
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Round Type</label>
+              <CustomSelect
                 value={interviewType}
-                onChange={(e) => setInterviewType(e.target.value as any)}
-                className="form-select"
-              >
-                <option value="Technical Screen">Technical Screen</option>
-                <option value="System Architecture">System Architecture</option>
-                <option value="Hiring Manager Round">Hiring Manager Round</option>
-                <option value="Culture & Alignment">Culture & Alignment</option>
-              </select>
+                onChange={(val) => setInterviewType(val as any)}
+                options={[
+                  { value: 'Technical Screen', label: 'Technical Screen' },
+                  { value: 'System Architecture', label: 'System Architecture' },
+                  { value: 'Hiring Manager Round', label: 'Hiring Manager Round' },
+                  { value: 'Culture & Alignment', label: 'Culture & Alignment' },
+                ]}
+                size="md"
+                menuWidth="100%"
+              />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Duration</label>
-              <select
-                value={interviewDuration}
-                onChange={(e) => setInterviewDuration(Number(e.target.value))}
-                className="form-select"
-              >
-                <option value={30}>30 Minutes</option>
-                <option value={45}>45 Minutes</option>
-                <option value={60}>60 Minutes</option>
-                <option value={90}>90 Minutes</option>
-              </select>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Duration</label>
+              <CustomSelect
+                value={String(interviewDuration)}
+                onChange={(val) => setInterviewDuration(Number(val))}
+                options={[
+                  { value: '30', label: '30 Minutes' },
+                  { value: '45', label: '45 Minutes' },
+                  { value: '60', label: '60 Minutes' },
+                  { value: '90', label: '90 Minutes' },
+                ]}
+                size="md"
+                menuWidth="100%"
+              />
             </div>
           </div>
 
           <Input
-            label="Interviewer"
+            label="Assigned Interviewer"
             required
             placeholder="e.g. Sameer Kulkarni (VP Engineering)"
             value={interviewer}
@@ -703,7 +708,7 @@ Lead Technical Recruiter, ScoutAI`);
           />
 
           <Textarea
-            label="Notes / Focus"
+            label="Assessment Focus / Notes"
             rows={3}
             value={interviewNotes}
             onChange={(e) => setInterviewNotes(e.target.value)}

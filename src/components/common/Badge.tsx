@@ -26,7 +26,7 @@ export const Badge: React.FC<BadgeProps> = ({
   const variantClass = `snow-badge-${variant}`;
   const sizeStyle =
     size === 'sm'
-      ? { fontSize: '10px', padding: '1px 6px', height: '18px' }
+      ? { fontSize: '10.5px', padding: '1px 6px', height: '18px' }
       : { fontSize: 'var(--font-size-xs)', padding: '2px 8px', height: '22px' };
 
   return (
@@ -53,6 +53,7 @@ export const StatusBadge: React.FC<{
     case 'Completed':
     case 'Open':
     case 'Approved':
+    case 'Success':
       return <Badge variant="success">{status}</Badge>;
     case 'Interviewing':
     case 'In Progress':
@@ -65,12 +66,16 @@ export const StatusBadge: React.FC<{
     case 'Medium':
     case 'Draft':
     case 'Paused':
+    case 'Warning':
       return <Badge variant="warning">{status}</Badge>;
     case 'Closed':
     case 'Cancelled':
     case 'Archived':
     case 'Low':
       return <Badge variant="default">{status}</Badge>;
+    case 'Error':
+    case 'Blocked':
+      return <Badge variant="danger">{status}</Badge>;
     case 'Sent — Demo':
       return <Badge variant="ai">{status}</Badge>;
     default:

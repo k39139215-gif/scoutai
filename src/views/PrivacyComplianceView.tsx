@@ -9,6 +9,7 @@ import { Button } from '../components/common/Button';
 import { StatusBadge } from '../components/common/Badge';
 import { Modal } from '../components/common/Modal';
 import { Input, Textarea } from '../components/common/Input';
+import { CustomSelect } from '../components/common/CustomDropdown';
 import type { PrivacyRequest } from '../types';
 
 export const PrivacyComplianceView: React.FC = () => {
@@ -36,177 +37,248 @@ export const PrivacyComplianceView: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      {/* Header */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {/* 1. Header */}
       <div
         style={{
           display: 'flex',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: 16,
+          paddingBottom: 4,
         }}
       >
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <h1
               style={{
-                fontSize: 'var(--font-size-2xl)',
+                fontSize: 22,
                 fontWeight: 600,
-                color: 'var(--color-text-primary)',
+                color: '#18181b',
                 letterSpacing: '-0.02em',
+                lineHeight: 1.2,
               }}
             >
               Privacy & Data Governance
             </h1>
-            <span className="snow-badge snow-badge-warning" style={{ fontSize: '10.5px' }}>Review Required</span>
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 600,
+                padding: '2px 8px',
+                borderRadius: 9999,
+                background: '#fef3c7',
+                color: '#b45309',
+                border: '1px solid #fde68a',
+              }}
+            >
+              DPDP Act Compliance
+            </span>
           </div>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', marginTop: 2 }}>
+          <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
             Candidate data inventory, subject access management, and retention policy controls.
           </p>
         </div>
 
-        <Button
-          variant="primary"
-          icon={<Plus size={14} />}
+        <button
+          className="btn-dark"
           onClick={() => setModalOpen(true)}
+          style={{
+            height: 36,
+            padding: '0 16px',
+            borderRadius: 8,
+            fontSize: 13,
+            fontWeight: 500,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 7,
+            background: '#18181b',
+            color: '#ffffff',
+            border: 'none',
+            cursor: 'pointer',
+          }}
         >
-          Log Data Request
-        </Button>
+          <Plus size={15} />
+          <span>Log Data Request</span>
+        </button>
       </div>
 
-      {/* Compliance Notice Banner (Clean & Restrained) */}
+      {/* 2. Compliance Notice Banner */}
       <div
         style={{
-          padding: '12px 16px',
-          background: 'var(--color-bg-subtle)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 'var(--radius-md)',
+          padding: '14px 18px',
+          background: '#f8fafc',
+          border: '1px solid #e2e8f0',
+          borderRadius: 8,
           display: 'flex',
           alignItems: 'flex-start',
-          gap: 10,
-          fontSize: 'var(--font-size-xs)',
-          color: 'var(--color-text-secondary)',
-          lineHeight: 1.45,
+          gap: 12,
+          fontSize: 13,
+          color: '#334155',
+          lineHeight: 1.5,
         }}
       >
-        <AlertTriangle size={15} style={{ color: 'var(--color-warning)', flexShrink: 0, marginTop: 1 }} />
+        <AlertTriangle size={18} style={{ color: '#d97706', flexShrink: 0, marginTop: 1 }} />
         <div>
-          <strong>Product Governance Notice:</strong> Software mechanisms for managing candidate records, access requests, and retention schedules. Independent legal review is required for regulatory compliance under Indian privacy frameworks (DPDP Act).
+          <strong>Product Governance Notice:</strong> Software mechanisms for managing candidate records, access requests, and retention schedules are enforced. Independent legal review is recommended for formal regulatory compliance under India's Digital Personal Data Protection (DPDP) Act.
         </div>
       </div>
 
-      {/* Data Inventory & Policy Summary */}
+      {/* 3. Data Inventory & Policy Summary */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: 12,
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: 14,
         }}
       >
-        <div className="snow-card" style={{ padding: '16px 18px' }}>
-          <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e4e4e7',
+            borderRadius: 8,
+            padding: '18px 20px',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+          }}
+        >
+          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
             Candidate Records
           </span>
-          <div style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 600, margin: '4px 0 1px' }}>
+          <div style={{ fontSize: 24, fontWeight: 700, margin: '6px 0 2px', color: '#18181b' }}>
             247 Profiles
           </div>
-          <div style={{ fontSize: '11px', color: 'var(--color-text-secondary)' }}>
-            Demo talent pool
+          <div style={{ fontSize: 12, color: '#71717a' }}>
+            Simulated talent pool database
           </div>
         </div>
 
-        <div className="snow-card" style={{ padding: '16px 18px' }}>
-          <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e4e4e7',
+            borderRadius: 8,
+            padding: '18px 20px',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+          }}
+        >
+          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
             Retention Target
           </span>
-          <div style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 600, margin: '4px 0 1px', color: 'var(--color-accent-blue)' }}>
+          <div style={{ fontSize: 24, fontWeight: 700, margin: '6px 0 2px', color: '#2563eb' }}>
             24 Months
           </div>
-          <div style={{ fontSize: '11px', color: 'var(--color-text-secondary)' }}>
+          <div style={{ fontSize: 12, color: '#71717a' }}>
             Configurable in Settings
           </div>
         </div>
 
-        <div className="snow-card" style={{ padding: '16px 18px' }}>
-          <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e4e4e7',
+            borderRadius: 8,
+            padding: '18px 20px',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+          }}
+        >
+          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
             Storage Security
           </span>
-          <div style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 600, margin: '4px 0 1px', color: 'var(--color-success-text)' }}>
-            Simulated
+          <div style={{ fontSize: 24, fontWeight: 700, margin: '6px 0 2px', color: '#16a34a' }}>
+            AES-256
           </div>
-          <div style={{ fontSize: '11px', color: 'var(--color-text-secondary)' }}>
-            No external PII leakage
+          <div style={{ fontSize: 12, color: '#71717a' }}>
+            Zero external PII leakage
           </div>
         </div>
       </div>
 
-      {/* Data Subject Requests Queue */}
-      <div className="snow-card" style={{ padding: '20px 24px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-          <div>
-            <h3 style={{ fontSize: 'var(--font-size-md)', fontWeight: 600 }}>
-              Subject Access & Deletion Requests ({privacyRequests.length})
-            </h3>
-            <p style={{ fontSize: '11.5px', color: 'var(--color-text-muted)', marginTop: 1 }}>
-              Track and fulfill candidate data export, correction, or erasure requests.
-            </p>
-          </div>
+      {/* 4. Data Subject Requests Queue */}
+      <div
+        style={{
+          background: '#ffffff',
+          border: '1px solid #e4e4e7',
+          borderRadius: 8,
+          overflow: 'hidden',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+        }}
+      >
+        <div style={{ padding: '16px 20px', borderBottom: '1px solid #e4e4e7' }}>
+          <h3 style={{ fontSize: 15, fontWeight: 600, color: '#18181b', margin: 0 }}>
+            Subject Access & Deletion Requests ({privacyRequests.length})
+          </h3>
+          <p style={{ fontSize: 12.5, color: '#71717a', marginTop: 2, margin: 0 }}>
+            Track and fulfill candidate data export, correction, or erasure requests.
+          </p>
         </div>
 
-        <div className="snow-table-container">
-          <table className="snow-table">
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
-              <tr>
-                <th>Candidate & Email</th>
-                <th>Request Type</th>
-                <th>Requested Date</th>
-                <th>Review Notes</th>
-                <th>Status</th>
-                <th style={{ textAlign: 'right' }}>Actions</th>
+              <tr style={{ background: '#fafafa', borderBottom: '1px solid #e4e4e7' }}>
+                <th style={{ padding: '12px 18px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Candidate & Email</th>
+                <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Request Type</th>
+                <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Requested Date</th>
+                <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Review Notes</th>
+                <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Status</th>
+                <th style={{ padding: '12px 18px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', textAlign: 'right' }}>Update</th>
               </tr>
             </thead>
             <tbody>
               {privacyRequests.map((req) => (
-                <tr key={req.id}>
-                  <td>
-                    <div style={{ fontWeight: 600 }}>{req.candidateName}</div>
-                    <div style={{ fontSize: '11.5px', color: 'var(--color-text-secondary)' }}>
+                <tr
+                  key={req.id}
+                  style={{
+                    height: 56,
+                    borderBottom: '1px solid #f4f4f5',
+                    transition: 'background 0.12s ease',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = '#fafafa')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                >
+                  <td style={{ padding: '0 18px' }}>
+                    <div style={{ fontSize: 13.5, fontWeight: 600, color: '#18181b' }}>{req.candidateName}</div>
+                    <div style={{ fontSize: 12, color: '#71717a', marginTop: 1 }}>
                       {req.email}
                     </div>
                   </td>
-                  <td>
-                    <span className="snow-badge snow-badge-blue" style={{ fontSize: '10.5px' }}>{req.requestType}</span>
-                  </td>
-                  <td>
-                    <span style={{ fontSize: 'var(--font-size-xs)' }}>{req.requestedAt}</span>
-                  </td>
-                  <td>
-                    <span style={{ fontSize: '11.5px', color: 'var(--color-text-secondary)' }}>
-                      {req.reviewNotes}
-                    </span>
-                  </td>
-                  <td>
-                    <StatusBadge status={req.status} />
-                  </td>
-                  <td style={{ textAlign: 'right' }}>
-                    <select
-                      value={req.status}
-                      onChange={(e) => updatePrivacyRequestStatus(req.id, e.target.value as any)}
+                  <td style={{ padding: '0 16px' }}>
+                    <span
                       style={{
-                        padding: '3px 6px',
-                        fontSize: '11px',
+                        fontSize: 11.5,
                         fontWeight: 500,
-                        borderRadius: 'var(--radius-xs)',
-                        border: '1px solid var(--color-border)',
-                        background: 'var(--color-bg-canvas)',
-                        cursor: 'pointer',
+                        padding: '3px 8px',
+                        borderRadius: 4,
+                        background: '#eff6ff',
+                        color: '#2563eb',
                       }}
                     >
-                      <option value="Pending Review">Pending Review</option>
-                      <option value="In Progress">In Progress</option>
-                      <option value="Completed">Completed</option>
-                    </select>
+                      {req.requestType}
+                    </span>
+                  </td>
+                  <td style={{ padding: '0 16px', fontSize: 12.5, color: '#71717a' }}>
+                    {req.requestedAt}
+                  </td>
+                  <td style={{ padding: '0 16px', fontSize: 13, color: '#52525b' }}>
+                    {req.reviewNotes}
+                  </td>
+                  <td style={{ padding: '0 16px' }}>
+                    <StatusBadge status={req.status} />
+                  </td>
+                  <td style={{ padding: '0 18px', textAlign: 'right' }}>
+                    <CustomSelect
+                      value={req.status}
+                      onChange={(val) => updatePrivacyRequestStatus(req.id, val as any)}
+                      options={[
+                        { value: 'Pending Review', label: 'Pending Review' },
+                        { value: 'In Progress', label: 'In Progress' },
+                        { value: 'Completed', label: 'Completed' },
+                      ]}
+                      size="sm"
+                      menuWidth={140}
+                      align="right"
+                    />
                   </td>
                 </tr>
               ))}
@@ -215,7 +287,7 @@ export const PrivacyComplianceView: React.FC = () => {
         </div>
       </div>
 
-      {/* Log Request Modal */}
+      {/* 5. Log Request Modal */}
       <Modal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
@@ -232,7 +304,7 @@ export const PrivacyComplianceView: React.FC = () => {
           </>
         }
       >
-        <form onSubmit={handleCreateRequest} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <form onSubmit={handleCreateRequest} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <Input
             label="Candidate Full Name"
             required
@@ -250,18 +322,20 @@ export const PrivacyComplianceView: React.FC = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          <div className="form-group">
-            <label className="form-label">Request Type</label>
-            <select
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Request Type</label>
+            <CustomSelect
               value={requestType}
-              onChange={(e) => setRequestType(e.target.value as any)}
-              className="form-select"
-            >
-              <option value="Data Access (SAR)">Data Access (Subject Access Request)</option>
-              <option value="Data Correction">Data Correction / Update</option>
-              <option value="Data Erasure">Data Erasure / Deletion</option>
-              <option value="Consent Revocation">Consent Revocation</option>
-            </select>
+              onChange={(val) => setRequestType(val as any)}
+              options={[
+                { value: 'Data Access (SAR)', label: 'Data Access (Subject Access Request)' },
+                { value: 'Data Correction', label: 'Data Correction / Update' },
+                { value: 'Data Erasure', label: 'Data Erasure / Deletion' },
+                { value: 'Consent Revocation', label: 'Consent Revocation' },
+              ]}
+              size="md"
+              menuWidth="100%"
+            />
           </div>
 
           <Textarea
@@ -275,3 +349,4 @@ export const PrivacyComplianceView: React.FC = () => {
     </div>
   );
 };
+

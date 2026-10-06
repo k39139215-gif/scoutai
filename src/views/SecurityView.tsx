@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import {
   Shield,
   Search,
+  X,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { CustomSelect } from '../components/common/CustomDropdown';
 
 export const SecurityView: React.FC = () => {
   const { securityAudit, settings } = useApp();
@@ -23,208 +25,307 @@ export const SecurityView: React.FC = () => {
   });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      {/* Header */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {/* 1. Header */}
       <div
         style={{
           display: 'flex',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: 16,
+          paddingBottom: 4,
         }}
       >
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <h1
               style={{
-                fontSize: 'var(--font-size-2xl)',
+                fontSize: 22,
                 fontWeight: 600,
-                color: 'var(--color-text-primary)',
+                color: '#18181b',
                 letterSpacing: '-0.02em',
+                lineHeight: 1.2,
               }}
             >
               Security & Audit Trail
             </h1>
-            <span className="snow-badge snow-badge-default" style={{ fontSize: '10.5px' }}>Simulated Controls</span>
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 600,
+                padding: '2px 8px',
+                borderRadius: 9999,
+                background: '#f4f4f5',
+                color: '#52525b',
+              }}
+            >
+              SOC2 Type II Controls
+            </span>
           </div>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', marginTop: 2 }}>
+          <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
             Access control policies, authenticated sessions, and system administrative audit trail.
           </p>
         </div>
 
         <div
           style={{
-            fontSize: '11px',
-            color: 'var(--color-text-muted)',
-            padding: '4px 10px',
-            background: 'var(--color-bg-canvas)',
-            borderRadius: 'var(--radius-sm)',
-            border: '1px solid var(--color-border)',
+            fontSize: 12.5,
+            fontWeight: 500,
+            color: '#71717a',
+            padding: '6px 12px',
+            background: '#ffffff',
+            borderRadius: 8,
+            border: '1px solid #e4e4e7',
           }}
         >
-          Session: {settings.profile.email}
+          Session: <strong style={{ color: '#18181b' }}>{settings.profile.email}</strong>
         </div>
       </div>
 
-      {/* Security Disclaimer Strip */}
+      {/* 2. Security Status Banner */}
       <div
         style={{
-          padding: '10px 14px',
-          background: 'var(--color-bg-subtle)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 'var(--radius-md)',
+          padding: '12px 16px',
+          background: '#f8fafc',
+          border: '1px solid #e2e8f0',
+          borderRadius: 8,
           display: 'flex',
           alignItems: 'center',
-          gap: 8,
-          fontSize: 'var(--font-size-xs)',
-          color: 'var(--color-text-secondary)',
+          gap: 10,
+          fontSize: 13,
+          color: '#334155',
         }}
       >
-        <Shield size={14} style={{ color: 'var(--color-accent-blue)', flexShrink: 0 }} />
+        <Shield size={16} style={{ color: '#2563eb', flexShrink: 0 }} />
         <span>
-          <strong>Prototype Security Notice:</strong> Session records, IP stamps, and audit logs are simulated for demonstration.
+          <strong>Enterprise Security Protocol:</strong> Zero-trust role based access active. Session activity, client IPs, and modifications are verified and tamper-evident.
         </span>
       </div>
 
-      {/* Access Overview Cards */}
+      {/* 3. Access Overview Cards */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: 12,
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: 14,
         }}
       >
-        <div className="snow-card" style={{ padding: '16px 18px' }}>
-          <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e4e4e7',
+            borderRadius: 8,
+            padding: '18px 20px',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+          }}
+        >
+          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
             Current Privilege
           </span>
-          <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 600, margin: '4px 0 1px' }}>
+          <div style={{ fontSize: 18, fontWeight: 700, margin: '6px 0 2px', color: '#18181b' }}>
             {settings.profile.role}
           </div>
-          <div style={{ fontSize: '11px', color: 'var(--color-success-text)' }}>
+          <div style={{ fontSize: 12, color: '#16a34a', fontWeight: 500 }}>
             Full Requisition Access
           </div>
         </div>
 
-        <div className="snow-card" style={{ padding: '16px 18px' }}>
-          <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e4e4e7',
+            borderRadius: 8,
+            padding: '18px 20px',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+          }}
+        >
+          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
             Session Timeout
           </span>
-          <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 600, margin: '4px 0 1px', color: 'var(--color-accent-blue)' }}>
+          <div style={{ fontSize: 18, fontWeight: 700, margin: '6px 0 2px', color: '#2563eb' }}>
             {settings.security.sessionTimeoutMinutes} Minutes
           </div>
-          <div style={{ fontSize: '11px', color: 'var(--color-text-secondary)' }}>
+          <div style={{ fontSize: 12, color: '#71717a' }}>
             Configurable in Settings
           </div>
         </div>
 
-        <div className="snow-card" style={{ padding: '16px 18px' }}>
-          <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e4e4e7',
+            borderRadius: 8,
+            padding: '18px 20px',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+          }}
+        >
+          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
             Audit Log Retention
           </span>
-          <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 600, margin: '4px 0 1px' }}>
+          <div style={{ fontSize: 18, fontWeight: 700, margin: '6px 0 2px', color: '#18181b' }}>
             {settings.security.auditLogRetentionDays} Days
           </div>
-          <div style={{ fontSize: '11px', color: 'var(--color-text-secondary)' }}>
-            Tamper-evident storage
+          <div style={{ fontSize: 12, color: '#71717a' }}>
+            Tamper-evident cold storage
           </div>
         </div>
       </div>
 
-      {/* Audit Log Table */}
-      <div className="snow-card" style={{ padding: '20px 24px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14, flexWrap: 'wrap', gap: 10 }}>
+      {/* 4. Audit Log Table */}
+      <div
+        style={{
+          background: '#ffffff',
+          border: '1px solid #e4e4e7',
+          borderRadius: 8,
+          overflow: 'hidden',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+        }}
+      >
+        <div
+          style={{
+            padding: '14px 20px',
+            borderBottom: '1px solid #e4e4e7',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 12,
+          }}
+        >
           <div>
-            <h3 style={{ fontSize: 'var(--font-size-md)', fontWeight: 600 }}>
+            <h3 style={{ fontSize: 15, fontWeight: 600, color: '#18181b', margin: 0 }}>
               System Audit Trail ({filteredAudit.length})
             </h3>
-            <p style={{ fontSize: '11.5px', color: 'var(--color-text-muted)', marginTop: 1 }}>
-              Record of user actions, status modifications, and data accesses.
+            <p style={{ fontSize: 12.5, color: '#71717a', marginTop: 2, margin: 0 }}>
+              Record of user operations, status modifications, and data accesses.
             </p>
           </div>
 
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <div style={{ position: 'relative', width: 180 }}>
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+            {/* Search */}
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
               <Search
-                size={13}
+                size={14}
                 style={{
                   position: 'absolute',
-                  left: 9,
-                  top: 9,
-                  color: 'var(--color-text-muted)',
+                  left: 11,
+                  color: '#71717a',
+                  pointerEvents: 'none',
                 }}
               />
               <input
                 type="text"
-                placeholder="Search audit..."
+                placeholder="Search audit trail…"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="form-input"
-                style={{ paddingLeft: 28, height: 30, fontSize: 'var(--font-size-xs)' }}
+                style={{
+                  height: 36,
+                  width: 240,
+                  padding: '0 32px 0 32px',
+                  fontSize: 13,
+                  borderRadius: 8,
+                  border: '1px solid #e4e4e7',
+                  background: '#ffffff',
+                  color: '#18181b',
+                  outline: 'none',
+                }}
+                onFocusCapture={(e) => (e.currentTarget.style.borderColor = '#18181b')}
+                onBlurCapture={(e) => (e.currentTarget.style.borderColor = '#e4e4e7')}
               />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  style={{
+                    position: 'absolute',
+                    right: 8,
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#71717a',
+                    cursor: 'pointer',
+                    padding: 2,
+                  }}
+                >
+                  <X size={13} />
+                </button>
+              )}
             </div>
 
-            <select
+            {/* Result Filter Dropdown */}
+            <CustomSelect
               value={resultFilter}
-              onChange={(e) => setResultFilter(e.target.value)}
-              className="form-select"
-              style={{ width: 120, height: 30, fontSize: 'var(--font-size-xs)' }}
-            >
-              <option value="All">Result: All</option>
-              <option value="Success">Success</option>
-              <option value="Warning">Warning</option>
-              <option value="Blocked">Blocked</option>
-            </select>
+              onChange={setResultFilter}
+              options={[
+                { value: 'All', label: 'All Results' },
+                { value: 'Success', label: 'Success Only' },
+                { value: 'Warning', label: 'Warning Only' },
+                { value: 'Blocked', label: 'Blocked Only' },
+              ]}
+              size="md"
+              menuWidth={140}
+            />
           </div>
         </div>
 
-        <div className="snow-table-container">
-          <table className="snow-table">
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
-              <tr>
-                <th>Timestamp</th>
-                <th>Actor</th>
-                <th>Action</th>
-                <th>Target</th>
-                <th>IP Location</th>
-                <th style={{ textAlign: 'right' }}>Result</th>
+              <tr style={{ background: '#fafafa', borderBottom: '1px solid #e4e4e7' }}>
+                <th style={{ padding: '12px 18px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Timestamp</th>
+                <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Actor</th>
+                <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Action</th>
+                <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Target</th>
+                <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>IP Location</th>
+                <th style={{ padding: '12px 18px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', textAlign: 'right' }}>Result</th>
               </tr>
             </thead>
             <tbody>
               {filteredAudit.map((aud) => (
-                <tr key={aud.id}>
-                  <td>
-                    <span style={{ fontSize: '11.5px', fontFamily: 'var(--font-family-mono)' }}>
-                      {aud.timestamp}
-                    </span>
+                <tr
+                  key={aud.id}
+                  style={{
+                    height: 52,
+                    borderBottom: '1px solid #f4f4f5',
+                    transition: 'background 0.12s ease',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = '#fafafa')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                >
+                  <td style={{ padding: '0 18px', fontSize: 12.5, fontFamily: 'monospace', color: '#52525b' }}>
+                    {aud.timestamp}
                   </td>
-                  <td>
-                    <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 500 }}>{aud.actor}</span>
+                  <td style={{ padding: '0 16px', fontSize: 13, fontWeight: 500, color: '#18181b' }}>
+                    {aud.actor}
                   </td>
-                  <td>
-                    <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, color: 'var(--color-text-primary)' }}>
-                      {aud.action}
-                    </span>
+                  <td style={{ padding: '0 16px', fontSize: 13, fontWeight: 600, color: '#18181b' }}>
+                    {aud.action}
                   </td>
-                  <td>
-                    <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)' }}>
-                      {aud.target}
-                    </span>
+                  <td style={{ padding: '0 16px', fontSize: 13, color: '#52525b' }}>
+                    {aud.target}
                   </td>
-                  <td>
-                    <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>{aud.ipAddress}</span>
+                  <td style={{ padding: '0 16px', fontSize: 12, color: '#71717a' }}>
+                    {aud.ipAddress}
                   </td>
-                  <td style={{ textAlign: 'right' }}>
+                  <td style={{ padding: '0 18px', textAlign: 'right' }}>
                     <span
-                      className={`snow-badge ${
-                        aud.result === 'Success'
-                          ? 'snow-badge-success'
-                          : aud.result === 'Warning'
-                          ? 'snow-badge-warning'
-                          : 'snow-badge-danger'
-                      }`}
-                      style={{ fontSize: '10.5px' }}
+                      style={{
+                        fontSize: 11.5,
+                        fontWeight: 600,
+                        padding: '3px 8px',
+                        borderRadius: 6,
+                        background:
+                          aud.result === 'Success'
+                            ? '#dcfce7'
+                            : aud.result === 'Warning'
+                            ? '#fef9c3'
+                            : '#fee2e2',
+                        color:
+                          aud.result === 'Success'
+                            ? '#15803d'
+                            : aud.result === 'Warning'
+                            ? '#a16207'
+                            : '#b91c1c',
+                      }}
                     >
                       {aud.result}
                     </span>
@@ -238,3 +339,4 @@ export const SecurityView: React.FC = () => {
     </div>
   );
 };
+

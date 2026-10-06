@@ -3,6 +3,7 @@ import {
   Sparkles,
   User,
   Search,
+  X,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -28,203 +29,253 @@ export const AIActivityView: React.FC = () => {
   });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      {/* Header */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {/* 1. Header */}
       <div
         style={{
           display: 'flex',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: 16,
+          paddingBottom: 4,
         }}
       >
         <div>
           <h1
             style={{
-              fontSize: 'var(--font-size-2xl)',
+              fontSize: 22,
               fontWeight: 600,
-              color: 'var(--color-text-primary)',
+              color: '#18181b',
               letterSpacing: '-0.02em',
+              lineHeight: 1.2,
             }}
           >
             AI & Operations Activity
           </h1>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', marginTop: 2 }}>
+          <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
             Audit log of autonomous candidate matching, draft generation, and recruiter decisions.
           </p>
         </div>
 
         <div
           style={{
-            fontSize: '11px',
-            color: 'var(--color-text-muted)',
-            padding: '4px 10px',
-            background: 'var(--color-bg-canvas)',
-            borderRadius: 'var(--radius-sm)',
-            border: '1px solid var(--color-border)',
+            fontSize: 12.5,
+            fontWeight: 500,
+            color: '#71717a',
+            padding: '6px 12px',
+            background: '#ffffff',
+            borderRadius: 8,
+            border: '1px solid #e4e4e7',
           }}
         >
-          {aiActivity.length} Total Events
+          <strong style={{ color: '#18181b' }}>{aiActivity.length}</strong> Total Operations
         </div>
       </div>
 
-      {/* Filter and Search Bar */}
+      {/* 2. Filter and Search Bar */}
       <div
-        className="snow-card"
         style={{
-          padding: '10px 16px',
+          padding: '12px 16px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          gap: 10,
+          gap: 12,
+          background: '#ffffff',
+          border: '1px solid #e4e4e7',
+          borderRadius: 8,
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+        <div style={{ display: 'flex', gap: 3, background: '#f4f4f5', padding: 3, borderRadius: 7 }}>
           <button
             onClick={() => setActorFilter('All')}
             style={{
-              padding: '4px 10px',
-              borderRadius: 'var(--radius-sm)',
-              fontSize: 'var(--font-size-xs)',
+              padding: '5px 12px',
+              borderRadius: 6,
+              fontSize: 12.5,
               fontWeight: actorFilter === 'All' ? 600 : 500,
-              border: '1px solid',
-              borderColor: actorFilter === 'All' ? 'var(--color-primary)' : 'var(--color-border)',
-              background: actorFilter === 'All' ? 'var(--color-primary)' : 'var(--color-bg-surface)',
-              color: actorFilter === 'All' ? '#ffffff' : 'var(--color-text-secondary)',
+              border: 'none',
+              background: actorFilter === 'All' ? '#ffffff' : 'transparent',
+              color: actorFilter === 'All' ? '#18181b' : '#71717a',
               cursor: 'pointer',
+              boxShadow: actorFilter === 'All' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+              transition: 'all 0.12s ease',
             }}
           >
-            All ({aiActivity.length})
+            All Events ({aiActivity.length})
           </button>
 
           <button
             onClick={() => setActorFilter('AI')}
             style={{
-              padding: '4px 10px',
-              borderRadius: 'var(--radius-sm)',
-              fontSize: 'var(--font-size-xs)',
+              padding: '5px 12px',
+              borderRadius: 6,
+              fontSize: 12.5,
               fontWeight: actorFilter === 'AI' ? 600 : 500,
-              border: '1px solid',
-              borderColor: actorFilter === 'AI' ? 'var(--color-primary)' : 'var(--color-border)',
-              background: actorFilter === 'AI' ? 'var(--color-primary)' : 'var(--color-bg-surface)',
-              color: actorFilter === 'AI' ? '#ffffff' : 'var(--color-text-secondary)',
+              border: 'none',
+              background: actorFilter === 'AI' ? '#ffffff' : 'transparent',
+              color: actorFilter === 'AI' ? '#6d28d9' : '#71717a',
               cursor: 'pointer',
+              boxShadow: actorFilter === 'AI' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+              transition: 'all 0.12s ease',
               display: 'flex',
               alignItems: 'center',
-              gap: 4,
+              gap: 5,
             }}
           >
-            <Sparkles size={11} />
-            <span>AI Operations</span>
+            <Sparkles size={13} style={{ color: '#7c3aed' }} />
+            <span>AI Automated</span>
           </button>
 
           <button
             onClick={() => setActorFilter('Human')}
             style={{
-              padding: '4px 10px',
-              borderRadius: 'var(--radius-sm)',
-              fontSize: 'var(--font-size-xs)',
+              padding: '5px 12px',
+              borderRadius: 6,
+              fontSize: 12.5,
               fontWeight: actorFilter === 'Human' ? 600 : 500,
-              border: '1px solid',
-              borderColor: actorFilter === 'Human' ? 'var(--color-primary)' : 'var(--color-border)',
-              background: actorFilter === 'Human' ? 'var(--color-primary)' : 'var(--color-bg-surface)',
-              color: actorFilter === 'Human' ? '#ffffff' : 'var(--color-text-secondary)',
+              border: 'none',
+              background: actorFilter === 'Human' ? '#ffffff' : 'transparent',
+              color: actorFilter === 'Human' ? '#18181b' : '#71717a',
               cursor: 'pointer',
+              boxShadow: actorFilter === 'Human' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+              transition: 'all 0.12s ease',
               display: 'flex',
               alignItems: 'center',
-              gap: 4,
+              gap: 5,
             }}
           >
-            <User size={11} />
-            <span>Human Decisions</span>
+            <User size={13} />
+            <span>Human Actions</span>
           </button>
         </div>
 
-        <div style={{ position: 'relative', width: 200 }}>
+        {/* Search */}
+        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
           <Search
-            size={13}
+            size={14}
             style={{
               position: 'absolute',
-              left: 9,
-              top: 9,
-              color: 'var(--color-text-muted)',
+              left: 11,
+              color: '#71717a',
+              pointerEvents: 'none',
             }}
           />
           <input
             type="text"
-            placeholder="Search activity..."
+            placeholder="Search activity by type, target, detail…"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="form-input"
-            style={{ paddingLeft: 28, height: 30, fontSize: 'var(--font-size-xs)' }}
+            style={{
+              height: 36,
+              width: 280,
+              padding: '0 32px 0 32px',
+              fontSize: 13,
+              borderRadius: 8,
+              border: '1px solid #e4e4e7',
+              background: '#ffffff',
+              color: '#18181b',
+              outline: 'none',
+            }}
+            onFocusCapture={(e) => (e.currentTarget.style.borderColor = '#18181b')}
+            onBlurCapture={(e) => (e.currentTarget.style.borderColor = '#e4e4e7')}
           />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              style={{
+                position: 'absolute',
+                right: 8,
+                background: 'transparent',
+                border: 'none',
+                color: '#71717a',
+                cursor: 'pointer',
+                padding: 2,
+              }}
+            >
+              <X size={13} />
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Activity Timeline List */}
-      <div className="snow-card" style={{ padding: '20px 24px' }}>
+      {/* 3. Activity Timeline List */}
+      <div
+        style={{
+          background: '#ffffff',
+          border: '1px solid #e4e4e7',
+          borderRadius: 8,
+          padding: '16px 20px',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+        }}
+      >
         {filteredEvents.length === 0 ? (
-          <div style={{ padding: 36, textAlign: 'center', color: 'var(--color-text-muted)', fontSize: 'var(--font-size-xs)' }}>
+          <div style={{ padding: 48, textAlign: 'center', color: '#71717a', fontSize: 13 }}>
             No activity records found matching query.
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {filteredEvents.map((evt) => (
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {filteredEvents.map((evt, idx) => (
               <div
                 key={evt.id}
                 style={{
                   display: 'flex',
                   alignItems: 'flex-start',
-                  gap: 12,
-                  paddingBottom: 14,
-                  borderBottom: '1px solid var(--color-divider)',
+                  gap: 14,
+                  padding: '16px 8px',
+                  borderBottom: idx < filteredEvents.length - 1 ? '1px solid #f4f4f5' : 'none',
                 }}
               >
                 {/* Avatar / Icon */}
                 <div
                   style={{
-                    width: 28,
-                    height: 28,
-                    borderRadius: 'var(--radius-sm)',
-                    background: 'var(--color-bg-subtle)',
-                    color: 'var(--color-text-primary)',
+                    width: 32,
+                    height: 32,
+                    borderRadius: 8,
+                    background: evt.isHumanAction ? '#f4f4f5' : '#f5f3ff',
+                    color: evt.isHumanAction ? '#18181b' : '#7c3aed',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0,
-                    border: '1px solid var(--color-border)',
+                    border: evt.isHumanAction ? '1px solid #e4e4e7' : '1px solid #ddd6fe',
                   }}
                 >
-                  {evt.isHumanAction ? <User size={13} /> : <Sparkles size={13} />}
+                  {evt.isHumanAction ? <User size={15} /> : <Sparkles size={15} />}
                 </div>
 
                 {/* Event Details */}
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 6 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                      <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, color: 'var(--color-text-primary)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                      <span style={{ fontSize: 13.5, fontWeight: 600, color: '#18181b' }}>
                         {evt.type}
                       </span>
                       <span
-                        className="snow-badge snow-badge-default"
-                        style={{ fontSize: '10px', height: '18px', padding: '0 5px' }}
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 500,
+                          padding: '2px 7px',
+                          borderRadius: 4,
+                          background: evt.isHumanAction ? '#f4f4f5' : '#ede9fe',
+                          color: evt.isHumanAction ? '#52525b' : '#6d28d9',
+                        }}
                       >
                         {evt.actor}
                       </span>
                     </div>
 
-                    <span style={{ fontSize: '10.5px', color: 'var(--color-text-muted)' }}>
+                    <span style={{ fontSize: 12, color: '#a1a1aa' }}>
                       {evt.timestamp}
                     </span>
                   </div>
 
-                  <div style={{ fontSize: '11.5px', fontWeight: 500, color: 'var(--color-text-secondary)', marginTop: 2 }}>
+                  <div style={{ fontSize: 12.5, fontWeight: 500, color: '#2563eb', marginTop: 3 }}>
                     Target: {evt.target}
                   </div>
 
-                  <p style={{ fontSize: '11.5px', color: 'var(--color-text-secondary)', marginTop: 3, lineHeight: 1.45 }}>
+                  <p style={{ fontSize: 13, color: '#52525b', marginTop: 4, lineHeight: 1.5, margin: 0 }}>
                     {evt.details}
                   </p>
                 </div>
@@ -236,3 +287,4 @@ export const AIActivityView: React.FC = () => {
     </div>
   );
 };
+

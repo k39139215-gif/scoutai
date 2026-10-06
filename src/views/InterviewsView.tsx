@@ -12,6 +12,7 @@ import { Button } from '../components/common/Button';
 import { StatusBadge } from '../components/common/Badge';
 import { Modal } from '../components/common/Modal';
 import { Input, Textarea } from '../components/common/Input';
+import { CustomSelect } from '../components/common/CustomDropdown';
 
 export const InterviewsView: React.FC = () => {
   const {
@@ -62,79 +63,115 @@ export const InterviewsView: React.FC = () => {
   });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       {/* Header */}
       <div
         style={{
           display: 'flex',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: 16,
+          paddingBottom: 4,
         }}
       >
         <div>
           <h1
             style={{
-              fontSize: 'var(--font-size-2xl)',
+              fontSize: 22,
               fontWeight: 600,
-              color: 'var(--color-text-primary)',
+              color: '#18181b',
               letterSpacing: '-0.02em',
+              lineHeight: 1.2,
             }}
           >
             Interviews Schedule
           </h1>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', marginTop: 2 }}>
+          <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
             Manage upcoming technical rounds, panel assessments, and candidate interview schedules.
           </p>
         </div>
 
-        <Button
-          variant="primary"
-          icon={<Plus size={14} />}
+        <button
+          className="btn-dark"
           onClick={() => setModalOpen(true)}
+          style={{
+            height: 36,
+            padding: '0 16px',
+            borderRadius: 8,
+            fontSize: 13,
+            fontWeight: 500,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 7,
+            background: '#18181b',
+            color: '#ffffff',
+            border: 'none',
+            cursor: 'pointer',
+          }}
         >
-          Schedule Interview
-        </Button>
+          <Plus size={15} />
+          <span>Schedule Interview</span>
+        </button>
       </div>
 
       {/* Filter Row */}
       <div
-        className="snow-card"
         style={{
-          padding: '10px 16px',
+          padding: '12px 16px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          gap: 10,
+          gap: 12,
+          background: '#ffffff',
+          border: '1px solid #e4e4e7',
+          borderRadius: 8,
         }}
       >
-        <div style={{ display: 'flex', gap: 4 }}>
-          {['All', 'Scheduled', 'Completed', 'Cancelled'].map((st) => (
-            <button
-              key={st}
-              onClick={() => setStatusFilter(st)}
-              style={{
-                padding: '4px 10px',
-                borderRadius: 'var(--radius-sm)',
-                fontSize: 'var(--font-size-xs)',
-                fontWeight: statusFilter === st ? 600 : 500,
-                border: '1px solid',
-                borderColor: statusFilter === st ? 'var(--color-primary)' : 'var(--color-border)',
-                background: statusFilter === st ? 'var(--color-primary)' : 'var(--color-bg-surface)',
-                color: statusFilter === st ? '#ffffff' : 'var(--color-text-secondary)',
-                cursor: 'pointer',
-                transition: 'all var(--transition-fast)',
-              }}
-            >
-              {st}
-            </button>
-          ))}
+        <div style={{ display: 'flex', gap: 3, background: '#f4f4f5', padding: 3, borderRadius: 7 }}>
+          {['All', 'Scheduled', 'Completed', 'Cancelled'].map((st) => {
+            const isSelected = statusFilter === st;
+            const count = st === 'All' ? interviews.length : interviews.filter((i) => i.status === st).length;
+            return (
+              <button
+                key={st}
+                onClick={() => setStatusFilter(st)}
+                style={{
+                  padding: '5px 12px',
+                  borderRadius: 6,
+                  fontSize: 12.5,
+                  fontWeight: isSelected ? 600 : 500,
+                  border: 'none',
+                  background: isSelected ? '#ffffff' : 'transparent',
+                  color: isSelected ? '#18181b' : '#71717a',
+                  cursor: 'pointer',
+                  boxShadow: isSelected ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                  transition: 'all 0.12s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                }}
+              >
+                <span>{st}</span>
+                <span
+                  style={{
+                    fontSize: 11,
+                    padding: '0 5px',
+                    borderRadius: 9999,
+                    background: isSelected ? '#f4f4f5' : 'transparent',
+                    color: isSelected ? '#18181b' : '#a1a1aa',
+                  }}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
-        <span style={{ fontSize: '11.5px', color: 'var(--color-text-muted)' }}>
-          Showing {filteredInterviews.length} of {interviews.length} interviews
+        <span style={{ fontSize: 13, color: '#71717a' }}>
+          Showing <strong style={{ color: '#18181b' }}>{filteredInterviews.length}</strong> of {interviews.length} interviews
         </span>
       </div>
 
@@ -144,17 +181,20 @@ export const InterviewsView: React.FC = () => {
           No interviews found with status "{statusFilter}".
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 14 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 16 }}>
           {filteredInterviews.map((item) => (
             <div
               key={item.id}
-              className="snow-card"
               style={{
-                padding: '16px 18px',
+                background: '#ffffff',
+                border: '1px solid #e4e4e7',
+                borderRadius: 8,
+                padding: '18px 20px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                gap: 14,
+                gap: 16,
+                boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
               }}
             >
               <div>
@@ -163,17 +203,17 @@ export const InterviewsView: React.FC = () => {
                     <div
                       onClick={() => navigate('candidate-detail', { candidateId: item.candidateId })}
                       style={{
-                        fontSize: 'var(--font-size-sm)',
+                        fontSize: 14.5,
                         fontWeight: 600,
-                        color: 'var(--color-text-primary)',
+                        color: '#18181b',
                         cursor: 'pointer',
                       }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-accent-blue)')}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-text-primary)')}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = '#2563eb')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = '#18181b')}
                     >
                       {item.candidateName}
                     </div>
-                    <div style={{ fontSize: '11.5px', color: 'var(--color-text-secondary)', marginTop: 1 }}>
+                    <div style={{ fontSize: 12.5, color: '#71717a', marginTop: 2 }}>
                       {item.jobTitle}
                     </div>
                   </div>
@@ -182,37 +222,37 @@ export const InterviewsView: React.FC = () => {
 
                 <div
                   style={{
-                    background: 'var(--color-bg-canvas)',
-                    border: '1px solid var(--color-border)',
-                    borderRadius: 'var(--radius-md)',
-                    padding: '10px 12px',
-                    margin: '12px 0',
+                    background: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: 6,
+                    padding: '12px 14px',
+                    margin: '14px 0',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: 6,
+                    gap: 8,
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 'var(--font-size-xs)', fontWeight: 600 }}>
-                    <Calendar size={13} style={{ color: 'var(--color-accent-blue)' }} />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 13, fontWeight: 600, color: '#1e293b' }}>
+                    <Calendar size={14} style={{ color: '#2563eb' }} />
                     <span>{item.date} • {item.time} ({item.durationMinutes} min)</span>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '11.5px', color: 'var(--color-text-secondary)' }}>
-                    <User size={12} style={{ color: 'var(--color-text-muted)' }} />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 12.5, color: '#64748b' }}>
+                    <User size={13} style={{ color: '#94a3b8' }} />
                     <span>Interviewer: {item.interviewer}</span>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '11.5px', color: 'var(--color-text-secondary)' }}>
-                    <Video size={12} style={{ color: 'var(--color-text-muted)' }} />
-                    <span style={{ fontFamily: 'var(--font-family-mono)', fontSize: '10.5px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 12.5, color: '#64748b' }}>
+                    <Video size={13} style={{ color: '#94a3b8' }} />
+                    <span style={{ fontFamily: 'monospace', fontSize: 11.5, color: '#334155' }}>
                       {item.locationOrLink}
                     </span>
                   </div>
                 </div>
 
                 {item.notes && (
-                  <p style={{ fontSize: '11.5px', color: 'var(--color-text-secondary)', lineHeight: 1.4 }}>
-                    <strong>Focus:</strong> {item.notes}
+                  <p style={{ fontSize: 12.5, color: '#64748b', lineHeight: 1.5, margin: 0 }}>
+                    <strong style={{ color: '#334155' }}>Focus:</strong> {item.notes}
                   </p>
                 )}
               </div>
@@ -281,22 +321,21 @@ export const InterviewsView: React.FC = () => {
         }
       >
         <form onSubmit={handleCreateInterview} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <div className="form-group">
-            <label className="form-label">Candidate</label>
-            <select
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Candidate</label>
+            <CustomSelect
               value={candidateId}
-              onChange={(e) => setCandidateId(e.target.value)}
-              className="form-select"
-            >
-              {candidates.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name} — {c.appliedJobTitle}
-                </option>
-              ))}
-            </select>
+              onChange={(val) => setCandidateId(val)}
+              options={candidates.map((c) => ({
+                value: c.id,
+                label: `${c.name} — ${c.appliedJobTitle}`,
+              }))}
+              size="md"
+              menuWidth="100%"
+            />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             <Input
               label="Date"
               type="date"
@@ -312,33 +351,37 @@ export const InterviewsView: React.FC = () => {
             />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-            <div className="form-group">
-              <label className="form-label">Round Type</label>
-              <select
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Round Type</label>
+              <CustomSelect
                 value={type}
-                onChange={(e) => setType(e.target.value as any)}
-                className="form-select"
-              >
-                <option value="Technical Screen">Technical Screen</option>
-                <option value="System Architecture">System Architecture</option>
-                <option value="Hiring Manager Round">Hiring Manager Round</option>
-                <option value="Culture & Alignment">Culture & Alignment</option>
-              </select>
+                onChange={(val) => setType(val as any)}
+                options={[
+                  { value: 'Technical Screen', label: 'Technical Screen' },
+                  { value: 'System Architecture', label: 'System Architecture' },
+                  { value: 'Hiring Manager Round', label: 'Hiring Manager Round' },
+                  { value: 'Culture & Alignment', label: 'Culture & Alignment' },
+                ]}
+                size="md"
+                menuWidth="100%"
+              />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Duration (Minutes)</label>
-              <select
-                value={durationMinutes}
-                onChange={(e) => setDurationMinutes(Number(e.target.value))}
-                className="form-select"
-              >
-                <option value={30}>30 Minutes</option>
-                <option value={45}>45 Minutes</option>
-                <option value={60}>60 Minutes</option>
-                <option value={90}>90 Minutes</option>
-              </select>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Duration</label>
+              <CustomSelect
+                value={String(durationMinutes)}
+                onChange={(val) => setDurationMinutes(Number(val))}
+                options={[
+                  { value: '30', label: '30 Minutes' },
+                  { value: '45', label: '45 Minutes' },
+                  { value: '60', label: '60 Minutes' },
+                  { value: '90', label: '90 Minutes' },
+                ]}
+                size="md"
+                menuWidth="100%"
+              />
             </div>
           </div>
 

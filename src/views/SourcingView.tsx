@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Button } from '../components/common/Button';
+import { CustomSelect } from '../components/common/CustomDropdown';
 
 export const SourcingView: React.FC = () => {
   const { jobs, candidates, selectedJobId, shortlistCandidate, navigate } = useApp();
@@ -52,56 +53,74 @@ export const SourcingView: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       {/* Header */}
       <div
         style={{
           display: 'flex',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: 16,
+          paddingBottom: 4,
         }}
       >
         <div>
           <h1
             style={{
-              fontSize: 'var(--font-size-2xl)',
+              fontSize: 22,
               fontWeight: 600,
-              color: 'var(--color-text-primary)',
+              color: '#18181b',
               letterSpacing: '-0.02em',
+              lineHeight: 1.2,
             }}
           >
             AI Candidate Sourcing
           </h1>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', marginTop: 2 }}>
+          <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
             Autonomous talent pool matching and ranking against active job requirements.
           </p>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <select
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <CustomSelect
             value={targetJobId}
-            onChange={(e) => setTargetJobId(e.target.value)}
-            className="form-select"
-            style={{ width: 240, height: 32, fontSize: 'var(--font-size-xs)' }}
-          >
-            {jobs.map((j) => (
-              <option key={j.id} value={j.id}>
-                Role: {j.title}
-              </option>
-            ))}
-          </select>
+            onChange={setTargetJobId}
+            options={jobs.map((j) => ({
+              value: j.id,
+              label: `Role: ${j.title}`,
+            }))}
+            size="md"
+            menuWidth={280}
+          />
 
-          <Button
-            variant="primary"
-            size="sm"
-            icon={isScanning ? <Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} /> : <Sparkles size={13} />}
+          <button
+            className="btn-dark"
             disabled={isScanning}
             onClick={handleRunSourcing}
+            style={{
+              height: 36,
+              padding: '0 16px',
+              borderRadius: 8,
+              fontSize: 13,
+              fontWeight: 500,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 7,
+              background: '#18181b',
+              color: '#ffffff',
+              border: 'none',
+              cursor: isScanning ? 'not-allowed' : 'pointer',
+              opacity: isScanning ? 0.7 : 1,
+            }}
           >
-            {isScanning ? 'Scanning...' : 'Run Sourcing'}
-          </Button>
+            {isScanning ? (
+              <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} />
+            ) : (
+              <Sparkles size={14} />
+            )}
+            <span>{isScanning ? 'Scanning...' : 'Run Sourcing'}</span>
+          </button>
         </div>
       </div>
 

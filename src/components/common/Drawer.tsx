@@ -49,12 +49,12 @@ export const Drawer: React.FC<DrawerProps> = ({
         <div
           style={{
             padding: '20px 24px',
-            borderBottom: '1px solid var(--color-border)',
+            borderBottom: '1px solid var(--border-subtle)',
             display: 'flex',
             alignItems: 'flex-start',
             justifyContent: 'space-between',
             gap: 16,
-            background: 'var(--color-bg-surface)',
+            background: 'var(--bg-surface)',
           }}
         >
           <div>
@@ -62,7 +62,8 @@ export const Drawer: React.FC<DrawerProps> = ({
               style={{
                 fontSize: 'var(--font-size-lg)',
                 fontWeight: 600,
-                color: 'var(--color-text-primary)',
+                color: 'var(--text-primary)',
+                letterSpacing: 'var(--tracking-tight)',
               }}
             >
               {title}
@@ -71,7 +72,7 @@ export const Drawer: React.FC<DrawerProps> = ({
               <p
                 style={{
                   fontSize: 'var(--font-size-sm)',
-                  color: 'var(--color-text-secondary)',
+                  color: 'var(--text-secondary)',
                   marginTop: 2,
                 }}
               >
@@ -84,12 +85,13 @@ export const Drawer: React.FC<DrawerProps> = ({
             style={{
               background: 'transparent',
               border: 'none',
-              color: 'var(--color-text-muted)',
+              color: 'var(--text-muted)',
               cursor: 'pointer',
               padding: 4,
               borderRadius: 'var(--radius-sm)',
               display: 'flex',
               alignItems: 'center',
+              transition: 'color var(--transition-fast)',
             }}
             aria-label="Close drawer"
           >
@@ -113,8 +115,8 @@ export const Drawer: React.FC<DrawerProps> = ({
           <div
             style={{
               padding: '16px 24px',
-              borderTop: '1px solid var(--color-border)',
-              background: 'var(--color-bg-canvas)',
+              borderTop: '1px solid var(--border-subtle)',
+              background: 'var(--bg-page)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-end',
