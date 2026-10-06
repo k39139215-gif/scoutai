@@ -30,13 +30,12 @@ export const OutreachView: React.FC = () => {
 
   // Auto-fill template when candidate or tone changes
   const handleGenerateTemplate = (candidateObj = selectedCandidate, toneVal = tone) => {
-    setTimeout(() => {
-      let subj = '';
-      let msgBody = '';
+    let subj = '';
+    let msgBody = '';
 
-      if (toneVal === 'Professional') {
-        subj = `Opportunity: ${candidateObj.appliedJobTitle} at ScoutAI Partner`;
-        msgBody = `Hi ${candidateObj.name.split(' ')[0]},
+    if (toneVal === 'Professional') {
+      subj = `Opportunity: ${candidateObj.appliedJobTitle} at ScoutAI Partner`;
+      msgBody = `Hi ${candidateObj.name.split(' ')[0]},
 
 I reviewed your experience in ${candidateObj.skills.slice(0, 3).join(', ')} and was impressed by your work at ${candidateObj.experienceList[0]?.company || 'your previous roles'}.
 
@@ -47,9 +46,9 @@ Would you be open for a brief 15-minute introductory call this week to learn mor
 Best regards,
 Aarav Mehta
 Lead Technical Recruiter, ScoutAI`;
-      } else if (toneVal === 'Engaging') {
-        subj = `Hey ${candidateObj.name.split(' ')[0]} — Impressive work on ${candidateObj.skills[0]}!`;
-        msgBody = `Hey ${candidateObj.name.split(' ')[0]},
+    } else if (toneVal === 'Engaging') {
+      subj = `Hey ${candidateObj.name.split(' ')[0]} — Impressive work on ${candidateObj.skills[0]}!`;
+      msgBody = `Hey ${candidateObj.name.split(' ')[0]},
 
 Your background in ${candidateObj.skills.slice(0, 2).join(' and ')} caught our eye!
 
@@ -59,9 +58,9 @@ Would love to grab 10 minutes over a quick virtual coffee to share more about ou
 
 Cheers,
 Aarav Mehta`;
-      } else {
-        subj = `Executive Invitation: ${candidateObj.appliedJobTitle} Technical Leadership`;
-        msgBody = `Dear ${candidateObj.name},
+    } else {
+      subj = `Executive Invitation: ${candidateObj.appliedJobTitle} Technical Leadership`;
+      msgBody = `Dear ${candidateObj.name},
 
 I am writing regarding a strategic engineering appointment for a ${candidateObj.appliedJobTitle}.
 
@@ -72,11 +71,10 @@ I would welcome the opportunity to discuss this initiative in confidence. Please
 Sincerely,
 Aarav Mehta
 Lead Talent Advisor, ScoutAI`;
-      }
+    }
 
-      setSubject(subj);
-      setBody(msgBody);
-    }, 100);
+    setSubject(subj);
+    setBody(msgBody);
   };
 
   React.useEffect(() => {

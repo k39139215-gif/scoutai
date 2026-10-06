@@ -150,11 +150,26 @@ button {
   background: none;
   border: 0;
   cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
   outline: 2px solid #4b6bfb;
   outline-offset: 1px;
+}
+
+/* Snappy tactile press feedback for all buttons across the entire app */
+button:active:not(:disabled),
+.btn-dark:active:not(:disabled),
+.snow-btn-primary:active:not(:disabled),
+.pill:active:not(:disabled),
+.snow-btn-secondary:active:not(:disabled),
+.snow-btn-ghost:active:not(:disabled),
+.snow-btn-danger:active:not(:disabled),
+.snow-btn-success:active:not(:disabled) {
+  transform: scale(0.97) !important;
+  transition: transform 0.03s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 /* ==========================================================================
@@ -173,7 +188,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   align-items: center !important;
   justify-content: center !important;
   gap: 7px !important;
-  transition: all 0.15s ease !important;
+  transition: background-color 0.08s ease, border-color 0.08s ease, color 0.08s ease, box-shadow 0.08s ease, transform 0.04s ease !important;
   cursor: pointer !important;
 }
 .btn-dark:hover, .snow-btn-primary:hover {
@@ -193,7 +208,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   display: inline-flex !important;
   align-items: center !important;
   gap: 7px !important;
-  transition: all 0.15s ease !important;
+  transition: background-color 0.08s ease, border-color 0.08s ease, color 0.08s ease, box-shadow 0.08s ease, transform 0.04s ease !important;
   cursor: pointer !important;
 }
 .pill:hover, .snow-btn-secondary:hover {

@@ -93,28 +93,30 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
     if (matched) setSelectedPartitionTab(matched.id);
   }, [currentView]);
 
-  // Close dropdowns on outside click
+  // Close dropdowns on outside click (deferred so target clicks are not dropped)
   useEffect(() => {
     const handleOutside = (e: MouseEvent) => {
       const target = e.target as Node;
-      if (
-        searchContainerRef.current &&
-        !searchContainerRef.current.contains(target)
-      ) {
-        setSearchOpen(false);
-      }
-      if (
-        notifContainerRef.current &&
-        !notifContainerRef.current.contains(target)
-      ) {
-        setNotificationsOpen(false);
-      }
-      if (
-        partitionContainerRef.current &&
-        !partitionContainerRef.current.contains(target)
-      ) {
-        setPartitionOpen(false);
-      }
+      setTimeout(() => {
+        if (
+          searchContainerRef.current &&
+          !searchContainerRef.current.contains(target)
+        ) {
+          setSearchOpen(false);
+        }
+        if (
+          notifContainerRef.current &&
+          !notifContainerRef.current.contains(target)
+        ) {
+          setNotificationsOpen(false);
+        }
+        if (
+          partitionContainerRef.current &&
+          !partitionContainerRef.current.contains(target)
+        ) {
+          setPartitionOpen(false);
+        }
+      }, 0);
     };
     document.addEventListener('mousedown', handleOutside);
     return () => document.removeEventListener('mousedown', handleOutside);

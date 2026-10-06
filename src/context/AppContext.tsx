@@ -167,34 +167,55 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   });
 
-  // Sync to local storage
+  // Debounced, non-blocking storage persistence helper
   useEffect(() => {
-    localStorage.setItem(`${STORAGE_KEY}_jobs`, JSON.stringify(jobs));
-  }, [jobs]);
-  useEffect(() => {
-    localStorage.setItem(`${STORAGE_KEY}_candidates`, JSON.stringify(candidates));
-  }, [candidates]);
-  useEffect(() => {
-    localStorage.setItem(`${STORAGE_KEY}_outreach`, JSON.stringify(outreachMessages));
-  }, [outreachMessages]);
-  useEffect(() => {
-    localStorage.setItem(`${STORAGE_KEY}_interviews`, JSON.stringify(interviews));
-  }, [interviews]);
-  useEffect(() => {
-    localStorage.setItem(`${STORAGE_KEY}_tasks`, JSON.stringify(tasks));
-  }, [tasks]);
-  useEffect(() => {
-    localStorage.setItem(`${STORAGE_KEY}_aiActivity`, JSON.stringify(aiActivity));
-  }, [aiActivity]);
-  useEffect(() => {
-    localStorage.setItem(`${STORAGE_KEY}_privacy`, JSON.stringify(privacyRequests));
-  }, [privacyRequests]);
-  useEffect(() => {
-    localStorage.setItem(`${STORAGE_KEY}_security`, JSON.stringify(securityAudit));
-  }, [securityAudit]);
-  useEffect(() => {
-    localStorage.setItem(`${STORAGE_KEY}_settings`, JSON.stringify(settings));
-  }, [settings]);
+    const pendingSaves = new Map<string, any>();
+    let saveTimeout: any = null;
+
+    const flushSaves = () => {
+      if (saveTimeout) {
+        clearTimeout(saveTimeout);
+        saveTimeout = null;
+      }
+      pendingSaves.forEach((data, key) => {
+        try {
+          localStorage.setItem(key, JSON.stringify(data));
+        } catch {
+          // ignore quota or parse errors
+        }
+      });
+      pendingSaves.clear();
+    };
+
+    const scheduleSave = (key: string, data: any) => {
+      pendingSaves.set(key, data);
+      if (!saveTimeout) {
+        saveTimeout = setTimeout(() => {
+          flushSaves();
+        }, 150);
+      }
+    };
+
+    scheduleSave(`${STORAGE_KEY}_jobs`, jobs);
+    scheduleSave(`${STORAGE_KEY}_candidates`, candidates);
+    scheduleSave(`${STORAGE_KEY}_outreach`, outreachMessages);
+    scheduleSave(`${STORAGE_KEY}_interviews`, interviews);
+    scheduleSave(`${STORAGE_KEY}_tasks`, tasks);
+    scheduleSave(`${STORAGE_KEY}_aiActivity`, aiActivity);
+    scheduleSave(`${STORAGE_KEY}_privacy`, privacyRequests);
+    scheduleSave(`${STORAGE_KEY}_security`, securityAudit);
+    scheduleSave(`${STORAGE_KEY}_settings`, settings);
+
+    const handleBeforeUnload = () => {
+      flushSaves();
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      if (saveTimeout) clearTimeout(saveTimeout);
+    };
+  }, [jobs, candidates, outreachMessages, interviews, tasks, aiActivity, privacyRequests, securityAudit, settings]);
 
   const logAIActivity = (
     type: AIActivityEvent['type'],
@@ -239,7 +260,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     if (params?.jobId) setSelectedJobId(params.jobId);
     if (params?.candidateId) setSelectedCandidateId(params.candidateId);
     setCurrentView(view);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const scrollContainer = document.querySelector('.main-workspace-scroll');
+    if (scrollContainer) {
+      scrollContainer.scrollTop = 0;
+    }
   };
 
   const createJob = (

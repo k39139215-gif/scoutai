@@ -101,7 +101,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
     });
   }, [direction]);
 
-  // Click outside to close
+  // Click outside to close (without swallowing clicks on external buttons)
   useEffect(() => {
     if (!isOpen) return;
 
@@ -113,7 +113,10 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
         menuRef.current &&
         !menuRef.current.contains(target)
       ) {
-        setIsOpen(false);
+        // Defer unmounting to the next frame so any concurrent button click executes immediately
+        setTimeout(() => {
+          setIsOpen(false);
+        }, 0);
       }
     };
 
@@ -368,7 +371,9 @@ export const CustomMenu: React.FC<CustomMenuProps> = ({
         menuRef.current &&
         !menuRef.current.contains(target)
       ) {
-        setIsOpen(false);
+        setTimeout(() => {
+          setIsOpen(false);
+        }, 0);
       }
     };
 
