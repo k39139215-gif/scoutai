@@ -18,9 +18,9 @@ export const OperationalSummary: React.FC = () => {
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-        background: 'var(--bg-surface)',
-        border: '1px solid var(--border-default)',
-        borderRadius: 'var(--radius-lg)',
+        background: '#ffffff',
+        border: '1px solid #e4e4e7',
+        borderRadius: 10,
         overflow: 'hidden',
       }}
     >
@@ -28,27 +28,27 @@ export const OperationalSummary: React.FC = () => {
       <div
         onClick={() => navigate('jobs')}
         style={{
-          padding: '16px 20px',
-          borderRight: '1px solid var(--border-subtle)',
+          padding: '18px 22px',
+          borderRight: '1px solid #f4f4f5',
           cursor: 'pointer',
-          transition: 'background var(--transition-fast)',
+          transition: 'background 0.15s ease',
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
+        onMouseEnter={(e) => (e.currentTarget.style.background = '#fafafa')}
         onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
         role="button"
         tabIndex={0}
         aria-label="View open jobs"
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
             Open Roles
           </span>
-          <Briefcase size={14} style={{ color: 'var(--text-muted)' }} />
+          <Briefcase size={14} style={{ color: '#71717a' }} />
         </div>
-        <div style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 600, letterSpacing: 'var(--tracking-tight)', color: 'var(--text-primary)' }}>
+        <div style={{ fontSize: 24, fontWeight: 600, letterSpacing: '-0.02em', color: '#18181b' }}>
           {openJobsCount}
         </div>
-        <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', marginTop: 2 }}>
+        <div style={{ fontSize: 12, color: '#71717a', marginTop: 2 }}>
           Across {jobs.length} requisitions
         </div>
       </div>
@@ -57,27 +57,27 @@ export const OperationalSummary: React.FC = () => {
       <div
         onClick={() => navigate('candidates')}
         style={{
-          padding: '16px 20px',
-          borderRight: '1px solid var(--border-subtle)',
+          padding: '18px 22px',
+          borderRight: '1px solid #f4f4f5',
           cursor: 'pointer',
-          transition: 'background var(--transition-fast)',
+          transition: 'background 0.15s ease',
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
+        onMouseEnter={(e) => (e.currentTarget.style.background = '#fafafa')}
         onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
         role="button"
         tabIndex={0}
         aria-label="View active candidates"
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
             Active Candidates
           </span>
-          <Users size={14} style={{ color: 'var(--text-muted)' }} />
+          <Users size={14} style={{ color: '#71717a' }} />
         </div>
-        <div style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 600, letterSpacing: 'var(--tracking-tight)', color: 'var(--text-primary)' }}>
+        <div style={{ fontSize: 24, fontWeight: 600, letterSpacing: '-0.02em', color: '#18181b' }}>
           {activeCandidatesCount}
         </div>
-        <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', marginTop: 2 }}>
+        <div style={{ fontSize: 12, color: '#71717a', marginTop: 2 }}>
           247 in talent pool
         </div>
       </div>
@@ -86,27 +86,27 @@ export const OperationalSummary: React.FC = () => {
       <div
         onClick={() => navigate('candidates')}
         style={{
-          padding: '16px 20px',
-          borderRight: '1px solid var(--border-subtle)',
+          padding: '18px 22px',
+          borderRight: '1px solid #f4f4f5',
           cursor: 'pointer',
-          transition: 'background var(--transition-fast)',
+          transition: 'background 0.15s ease',
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
+        onMouseEnter={(e) => (e.currentTarget.style.background = '#fafafa')}
         onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
         role="button"
         tabIndex={0}
         aria-label="View shortlisted candidates"
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
             Shortlisted
           </span>
-          <CheckCircle2 size={14} style={{ color: 'var(--color-success)' }} />
+          <CheckCircle2 size={14} style={{ color: '#16a34a' }} />
         </div>
-        <div style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 600, letterSpacing: 'var(--tracking-tight)', color: 'var(--color-success-text)' }}>
+        <div style={{ fontSize: 24, fontWeight: 600, letterSpacing: '-0.02em', color: '#16a34a' }}>
           {shortlistedCandidatesCount}
         </div>
-        <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', marginTop: 2 }}>
+        <div style={{ fontSize: 12, color: '#71717a', marginTop: 2 }}>
           Ready for client review
         </div>
       </div>
@@ -115,26 +115,26 @@ export const OperationalSummary: React.FC = () => {
       <div
         onClick={() => navigate('interviews')}
         style={{
-          padding: '16px 20px',
+          padding: '18px 22px',
           cursor: 'pointer',
-          transition: 'background var(--transition-fast)',
+          transition: 'background 0.15s ease',
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
+        onMouseEnter={(e) => (e.currentTarget.style.background = '#fafafa')}
         onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
         role="button"
         tabIndex={0}
         aria-label="View scheduled interviews"
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
             Interviews
           </span>
-          <Calendar size={14} style={{ color: 'var(--color-accent-blue)' }} />
+          <Calendar size={14} style={{ color: '#2563eb' }} />
         </div>
-        <div style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 600, letterSpacing: 'var(--tracking-tight)', color: 'var(--text-primary)' }}>
+        <div style={{ fontSize: 24, fontWeight: 600, letterSpacing: '-0.02em', color: '#18181b' }}>
           {upcomingInterviewsCount}
         </div>
-        <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', marginTop: 2 }}>
+        <div style={{ fontSize: 12, color: '#71717a', marginTop: 2 }}>
           {nextInterview ? `Next: ${nextInterview.time}` : 'None scheduled today'}
         </div>
       </div>

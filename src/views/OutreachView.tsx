@@ -6,7 +6,6 @@ import {
   FileText,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { Button } from '../components/common/Button';
 import { StatusBadge } from '../components/common/Badge';
 import { Input, Textarea } from '../components/common/Input';
 import { CustomSelect } from '../components/common/CustomDropdown';
@@ -106,7 +105,7 @@ Lead Talent Advisor, ScoutAI`;
   });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       {/* Header */}
       <div
         style={{
@@ -139,7 +138,7 @@ Lead Talent Advisor, ScoutAI`;
           style={{
             fontSize: 12,
             color: '#71717a',
-            padding: '4px 10px',
+            padding: '5px 12px',
             background: '#fafafa',
             borderRadius: 6,
             border: '1px solid #e4e4e7',
@@ -153,23 +152,33 @@ Lead Talent Advisor, ScoutAI`;
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))',
           gap: 20,
         }}
       >
         {/* Left Column: AI Outreach Generator & Editor */}
-        <div className="snow-card" style={{ padding: '20px 24px' }}>
-          <div style={{ borderBottom: '1px solid var(--color-divider)', paddingBottom: 12, marginBottom: 16 }}>
-            <h3 style={{ fontSize: 'var(--font-size-md)', fontWeight: 600 }}>Generate & Review Outreach</h3>
-            <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: 2 }}>
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e4e4e7',
+            borderRadius: 10,
+            padding: '22px 24px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 16,
+          }}
+        >
+          <div style={{ borderBottom: '1px solid #f4f4f5', paddingBottom: 14 }}>
+            <h3 style={{ fontSize: 16, fontWeight: 600, color: '#18181b' }}>Generate & Review Outreach</h3>
+            <p style={{ fontSize: 12.5, color: '#71717a', marginTop: 2 }}>
               Drafts personalized messages based on candidate profile and role criteria.
             </p>
           </div>
 
-          <form onSubmit={handleSaveDraft} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <form onSubmit={handleSaveDraft} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {/* Candidate Selector */}
             <div className="form-group">
-              <label className="form-label" style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: 'block' }}>
+              <label className="form-label" style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>
                 Target Candidate
               </label>
               <CustomSelect
@@ -191,8 +200,10 @@ Lead Talent Advisor, ScoutAI`;
 
             {/* Tone Selector */}
             <div className="form-group">
-              <label className="form-label">Tone Preset</label>
-              <div style={{ display: 'flex', gap: 6 }}>
+              <label className="form-label" style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>
+                Tone Preset
+              </label>
+              <div style={{ display: 'flex', gap: 8 }}>
                 {(['Professional', 'Engaging', 'Executive'] as OutreachTone[]).map((t) => (
                   <button
                     key={t}
@@ -203,16 +214,17 @@ Lead Talent Advisor, ScoutAI`;
                     }}
                     style={{
                       flex: 1,
-                      padding: '5px 8px',
-                      borderRadius: 'var(--radius-sm)',
+                      height: 32,
+                      padding: '0 8px',
+                      borderRadius: 6,
                       border: '1px solid',
-                      borderColor: tone === t ? 'var(--color-primary)' : 'var(--color-border)',
-                      background: tone === t ? 'var(--color-primary)' : 'var(--color-bg-surface)',
-                      color: tone === t ? '#ffffff' : 'var(--color-text-secondary)',
-                      fontSize: 'var(--font-size-xs)',
+                      borderColor: tone === t ? '#18181b' : '#e4e4e7',
+                      background: tone === t ? '#18181b' : '#ffffff',
+                      color: tone === t ? '#ffffff' : '#52525b',
+                      fontSize: 12.5,
                       fontWeight: 500,
                       cursor: 'pointer',
-                      transition: 'all var(--transition-fast)',
+                      transition: 'all 0.15s ease',
                     }}
                   >
                     {t}
@@ -245,58 +257,101 @@ Lead Talent Advisor, ScoutAI`;
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                paddingTop: 12,
-                borderTop: '1px solid var(--color-divider)',
+                paddingTop: 14,
+                borderTop: '1px solid #f4f4f5',
               }}
             >
-              <Button
+              <button
                 type="button"
-                variant="ghost"
-                size="sm"
-                icon={<Sparkles size={12} />}
                 onClick={() => handleGenerateTemplate(selectedCandidate, tone)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  height: 34,
+                  padding: '0 14px',
+                  borderRadius: 6,
+                  fontSize: 12.5,
+                  fontWeight: 500,
+                  background: '#ffffff',
+                  border: '1px solid #e4e4e7',
+                  color: '#18181b',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#f4f4f5';
+                  e.currentTarget.style.borderColor = '#d4d4d8';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#ffffff';
+                  e.currentTarget.style.borderColor = '#e4e4e7';
+                }}
               >
-                Regenerate
-              </Button>
+                <Sparkles size={13} style={{ color: '#7c3aed' }} />
+                <span>Regenerate</span>
+              </button>
 
-              <Button
+              <button
                 type="submit"
-                variant="primary"
-                size="sm"
-                icon={<FileText size={13} />}
+                className="btn-dark"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  height: 34,
+                  padding: '0 16px',
+                  borderRadius: 6,
+                  fontSize: 12.5,
+                  fontWeight: 500,
+                  background: '#18181b',
+                  color: '#ffffff',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
               >
-                Save as Draft
-              </Button>
+                <FileText size={13} />
+                <span>Save as Draft</span>
+              </button>
             </div>
           </form>
         </div>
 
         {/* Right Column: Outreach Pipeline & Tracking */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <div className="snow-card" style={{ padding: '18px 20px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14, flexWrap: 'wrap', gap: 8 }}>
+          <div
+            style={{
+              background: '#ffffff',
+              border: '1px solid #e4e4e7',
+              borderRadius: 10,
+              padding: '20px 22px',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, flexWrap: 'wrap', gap: 10 }}>
               <div>
-                <h3 style={{ fontSize: 'var(--font-size-md)', fontWeight: 600 }}>Message Queue</h3>
-                <p style={{ fontSize: '11.5px', color: 'var(--color-text-muted)' }}>
+                <h3 style={{ fontSize: 16, fontWeight: 600, color: '#18181b' }}>Message Queue</h3>
+                <p style={{ fontSize: 12, color: '#71717a', marginTop: 2 }}>
                   Manage drafts, approvals, and dispatch status.
                 </p>
               </div>
 
               {/* Status Filter */}
-              <div style={{ display: 'flex', gap: 3 }}>
+              <div style={{ display: 'flex', gap: 4, background: '#f4f4f5', padding: 3, borderRadius: 6 }}>
                 {['All', 'Draft', 'Approved', 'Sent — Demo'].map((st) => (
                   <button
                     key={st}
                     onClick={() => setStatusFilter(st)}
                     style={{
-                      padding: '3px 7px',
-                      borderRadius: 'var(--radius-xs)',
-                      fontSize: '11px',
-                      border: '1px solid',
-                      borderColor: statusFilter === st ? 'var(--color-primary)' : 'var(--color-border)',
-                      background: statusFilter === st ? 'var(--color-primary)' : 'var(--color-bg-surface)',
-                      color: statusFilter === st ? '#ffffff' : 'var(--color-text-secondary)',
+                      padding: '4px 9px',
+                      borderRadius: 4,
+                      fontSize: 11.5,
+                      fontWeight: 500,
+                      border: 'none',
+                      background: statusFilter === st ? '#ffffff' : 'transparent',
+                      color: statusFilter === st ? '#18181b' : '#71717a',
+                      boxShadow: statusFilter === st ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
                       cursor: 'pointer',
+                      transition: 'all 0.1s ease',
                     }}
                   >
                     {st}
@@ -306,87 +361,113 @@ Lead Talent Advisor, ScoutAI`;
             </div>
 
             {filteredMessages.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '28px 16px', color: 'var(--color-text-muted)', fontSize: 'var(--font-size-xs)' }}>
+              <div style={{ textAlign: 'center', padding: '36px 16px', color: '#a1a1aa', fontSize: 13 }}>
                 No messages match the selected status.
               </div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {filteredMessages.map((msg) => (
                   <div
                     key={msg.id}
                     style={{
-                      padding: 12,
-                      borderRadius: 'var(--radius-md)',
-                      border: '1px solid var(--color-border)',
-                      background: 'var(--color-bg-canvas)',
+                      padding: '14px 16px',
+                      borderRadius: 8,
+                      border: '1px solid #f4f4f5',
+                      background: '#fafafa',
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: 8,
+                      gap: 10,
                     }}
                   >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
                       <div>
-                        <div style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, color: 'var(--color-text-primary)' }}>
+                        <div style={{ fontSize: 13.5, fontWeight: 600, color: '#18181b' }}>
                           {msg.candidateName}
                         </div>
-                        <div style={{ fontSize: '11px', color: 'var(--color-text-secondary)' }}>
+                        <div style={{ fontSize: 12, color: '#71717a', marginTop: 1 }}>
                           {msg.jobTitle} • {msg.tone} Tone
                         </div>
                       </div>
                       <StatusBadge status={msg.status} />
                     </div>
 
-                    <div style={{ fontSize: '11.5px', fontWeight: 600, color: 'var(--color-text-primary)' }}>
+                    <div style={{ fontSize: 12.5, fontWeight: 600, color: '#18181b' }}>
                       {msg.subject}
                     </div>
 
                     <p
                       style={{
-                        fontSize: '11.5px',
-                        color: 'var(--color-text-secondary)',
+                        fontSize: 12,
+                        color: '#52525b',
                         whiteSpace: 'pre-line',
-                        lineHeight: 1.4,
-                        maxHeight: 80,
+                        lineHeight: 1.45,
+                        maxHeight: 90,
                         overflowY: 'auto',
-                        padding: 6,
-                        background: 'var(--color-bg-surface)',
-                        borderRadius: 'var(--radius-xs)',
-                        border: '1px solid var(--color-border-subtle)',
+                        padding: '8px 10px',
+                        background: '#ffffff',
+                        borderRadius: 6,
+                        border: '1px solid #e4e4e7',
                       }}
                     >
                       {msg.body}
                     </p>
 
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 4 }}>
-                      <span style={{ fontSize: '10.5px', color: 'var(--color-text-muted)' }}>
+                      <span style={{ fontSize: 11, color: '#a1a1aa' }}>
                         Created {msg.createdAt}
                       </span>
 
-                      <div style={{ display: 'flex', gap: 6 }}>
+                      <div style={{ display: 'flex', gap: 8 }}>
                         {msg.status === 'Draft' && (
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            icon={<CheckCircle2 size={12} />}
+                          <button
+                            type="button"
                             onClick={() => approveOutreachMessage(msg.id)}
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: 5,
+                              height: 28,
+                              padding: '0 10px',
+                              borderRadius: 5,
+                              fontSize: 12,
+                              fontWeight: 500,
+                              background: '#ffffff',
+                              border: '1px solid #e4e4e7',
+                              color: '#18181b',
+                              cursor: 'pointer',
+                            }}
                           >
-                            Approve
-                          </Button>
+                            <CheckCircle2 size={12} />
+                            <span>Approve</span>
+                          </button>
                         )}
 
                         {msg.status === 'Approved' && (
-                          <Button
-                            variant="primary"
-                            size="sm"
-                            icon={<Send size={12} />}
+                          <button
+                            type="button"
                             onClick={() => sendOutreachMessage(msg.id)}
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: 5,
+                              height: 28,
+                              padding: '0 10px',
+                              borderRadius: 5,
+                              fontSize: 12,
+                              fontWeight: 500,
+                              background: '#18181b',
+                              color: '#ffffff',
+                              border: 'none',
+                              cursor: 'pointer',
+                            }}
                           >
-                            Send (Demo)
-                          </Button>
+                            <Send size={12} />
+                            <span>Send (Demo)</span>
+                          </button>
                         )}
 
                         {msg.status === 'Sent — Demo' && (
-                          <span style={{ fontSize: '11px', color: 'var(--color-success-text)', fontWeight: 600 }}>
+                          <span style={{ fontSize: 12, color: '#16a34a', fontWeight: 600 }}>
                             Dispatched
                           </span>
                         )}

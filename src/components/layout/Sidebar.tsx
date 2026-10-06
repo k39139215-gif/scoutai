@@ -118,7 +118,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
           display: 'flex',
           flexDirection: 'column',
           padding: '0 8px 12px',
-          overflowY: 'auto',
+          overflow: 'hidden',
           fontSize: 13.5,
           background: 'var(--bg)',
           zIndex: 999,
@@ -136,6 +136,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
             padding: '0 8px',
             borderBottom: '1px solid var(--line)',
             marginBottom: 8,
+            flexShrink: 0,
           }}
         >
           <div
@@ -180,7 +181,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
         </div>
 
         {/* Navigation Accordion Groups */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 2, paddingRight: 2 }}>
           {navGroups.map((grp) => {
             const isClosed = collapsed[grp.section];
             return (

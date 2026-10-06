@@ -16,7 +16,7 @@ export const AttentionRequired: React.FC = () => {
       title: 'Candidates Awaiting Review',
       count: pendingReviewCandidates.length,
       description: `${pendingReviewCandidates.length} high-match profiles ready for evaluation`,
-      icon: <Users size={14} style={{ color: 'var(--color-accent-blue)' }} />,
+      icon: <Users size={14} style={{ color: '#2563eb' }} />,
       onClick: () => navigate('candidates'),
     },
     {
@@ -24,7 +24,7 @@ export const AttentionRequired: React.FC = () => {
       title: 'Outreach Drafts Pending Approval',
       count: pendingOutreachDrafts.length,
       description: `${pendingOutreachDrafts.length} personalized messages drafted by AI`,
-      icon: <Send size={14} style={{ color: 'var(--color-warning)' }} />,
+      icon: <Send size={14} style={{ color: '#d97706' }} />,
       onClick: () => navigate('outreach'),
     },
     {
@@ -32,7 +32,7 @@ export const AttentionRequired: React.FC = () => {
       title: 'Upcoming Assessment Rounds',
       count: scheduledInterviews.length,
       description: `${scheduledInterviews.length} technical screen sessions booked`,
-      icon: <Calendar size={14} style={{ color: 'var(--color-success)' }} />,
+      icon: <Calendar size={14} style={{ color: '#16a34a' }} />,
       onClick: () => navigate('interviews'),
     },
     {
@@ -40,87 +40,99 @@ export const AttentionRequired: React.FC = () => {
       title: 'Recruiter Action Items',
       count: pendingTasks.length,
       description: `${pendingTasks.length} operational follow-ups remaining`,
-      icon: <CheckSquare size={14} style={{ color: 'var(--text-primary)' }} />,
+      icon: <CheckSquare size={14} style={{ color: '#18181b' }} />,
       onClick: () => navigate('tasks'),
     },
   ];
 
+  const totalActions = pendingReviewCandidates.length + pendingOutreachDrafts.length + pendingTasks.length;
+
   return (
-    <div className="snow-card" style={{ padding: '20px 22px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+    <div
+      style={{
+        background: '#ffffff',
+        border: '1px solid #e4e4e7',
+        borderRadius: 10,
+        padding: '20px 22px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 16,
+      }}
+    >
       <div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <h2 style={{ fontSize: 'var(--font-size-md)', fontWeight: 600, color: 'var(--text-primary)' }}>
+          <h2 style={{ fontSize: 16, fontWeight: 600, color: '#18181b', letterSpacing: '-0.01em' }}>
             Attention Required
           </h2>
           <span
             style={{
-              fontSize: '10.5px',
+              fontSize: 11,
               fontWeight: 600,
-              padding: '2px 6px',
-              borderRadius: 'var(--radius-sm)',
-              background: 'var(--color-warning-subtle)',
-              color: 'var(--color-warning-text)',
-              border: '1px solid var(--color-warning-border)',
+              padding: '2px 8px',
+              borderRadius: 5,
+              background: '#fef3c7',
+              color: '#92400e',
+              border: '1px solid #fde68a',
             }}
           >
-            {pendingReviewCandidates.length + pendingOutreachDrafts.length + pendingTasks.length} Action Items
+            {totalActions} Action Items
           </span>
         </div>
-        <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', marginTop: 2 }}>
+        <p style={{ fontSize: 12.5, color: '#71717a', marginTop: 2 }}>
           Items requiring recruiter decision or scheduling today.
         </p>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {items.map((item) => (
           <div
             key={item.id}
             onClick={item.onClick}
             style={{
-              padding: '10px 12px',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--border-default)',
-              background: 'var(--bg-surface)',
+              padding: '11px 14px',
+              borderRadius: 8,
+              border: '1px solid #f4f4f5',
+              background: '#fafafa',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              gap: 10,
+              gap: 12,
               cursor: 'pointer',
-              transition: 'all var(--transition-fast)',
+              transition: 'all 0.15s ease',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'var(--border-strong)';
-              e.currentTarget.style.background = 'var(--bg-subtle)';
+              e.currentTarget.style.borderColor = '#e4e4e7';
+              e.currentTarget.style.background = '#f4f4f5';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'var(--border-default)';
-              e.currentTarget.style.background = 'var(--bg-surface)';
+              e.currentTarget.style.borderColor = '#f4f4f5';
+              e.currentTarget.style.background = '#fafafa';
             }}
             role="button"
             tabIndex={0}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
               <div
                 style={{
-                  width: 28,
-                  height: 28,
-                  borderRadius: 'var(--radius-sm)',
-                  background: 'var(--bg-subtle)',
+                  width: 30,
+                  height: 30,
+                  borderRadius: 6,
+                  background: '#ffffff',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   flexShrink: 0,
-                  border: '1px solid var(--border-subtle)',
+                  border: '1px solid #e4e4e7',
                 }}
               >
                 {item.icon}
               </div>
 
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, color: 'var(--text-primary)' }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#18181b' }}>
                   {item.title}
                 </div>
-                <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <div style={{ fontSize: 12, color: '#71717a', marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {item.description}
                 </div>
               </div>
@@ -129,14 +141,14 @@ export const AttentionRequired: React.FC = () => {
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
               <span
                 style={{
-                  fontSize: '11px',
+                  fontSize: 12.5,
                   fontWeight: 600,
-                  color: item.count > 0 ? 'var(--text-primary)' : 'var(--text-muted)',
+                  color: item.count > 0 ? '#18181b' : '#a1a1aa',
                 }}
               >
                 {item.count}
               </span>
-              <ArrowRight size={13} style={{ color: 'var(--text-muted)' }} />
+              <ArrowRight size={13} style={{ color: '#a1a1aa' }} />
             </div>
           </div>
         ))}

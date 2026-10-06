@@ -303,29 +303,32 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
         <button
           onClick={() => setNotificationsOpen(!notificationsOpen)}
           style={{
-            border: '1px solid var(--line)',
-            borderRadius: 'var(--radius-md)',
-            padding: '5px 8px',
+            border: '1px solid #e4e4e7',
+            borderRadius: 8,
+            height: 36,
+            width: 36,
             background: '#ffffff',
             display: 'flex',
             alignItems: 'center',
-            color: 'var(--ink)',
+            justifyContent: 'center',
+            color: '#18181b',
             position: 'relative',
+            cursor: 'pointer',
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--soft)')}
+          onMouseEnter={(e) => (e.currentTarget.style.background = '#f4f4f5')}
           onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
           aria-label="View notifications"
         >
-          <Bell size={13} />
+          <Bell size={15} />
           <span
             style={{
               position: 'absolute',
-              top: 4,
-              right: 4,
-              width: 5,
-              height: 5,
+              top: 7,
+              right: 7,
+              width: 6,
+              height: 6,
               borderRadius: '50%',
-              background: '#3b5bdb',
+              background: '#2563eb',
             }}
           />
         </button>
@@ -334,14 +337,14 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
           <div
             style={{
               position: 'absolute',
-              top: 'calc(100% + 4px)',
+              top: 'calc(100% + 5px)',
               right: 0,
-              width: 280,
+              width: 300,
               background: '#ffffff',
-              border: '1px solid var(--line)',
-              borderRadius: 'var(--radius-md)',
-              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
-              zIndex: 100,
+              border: '1px solid #e4e4e7',
+              borderRadius: 8,
+              boxShadow: '0 12px 30px -4px rgba(0, 0, 0, 0.12), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+              zIndex: 9999,
               padding: '6px 0',
             }}
           >
