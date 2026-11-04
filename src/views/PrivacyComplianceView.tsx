@@ -3,6 +3,7 @@ import {
   AlertTriangle,
   Plus,
   ShieldCheck,
+  Sparkles,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Button } from '../components/common/Button';
@@ -13,7 +14,7 @@ import { CustomSelect } from '../components/common/CustomDropdown';
 import type { PrivacyRequest } from '../types';
 
 export const PrivacyComplianceView: React.FC = () => {
-  const { privacyRequests, updatePrivacyRequestStatus, createPrivacyRequest } = useApp();
+  const { privacyRequests, updatePrivacyRequestStatus, createPrivacyRequest, navigate } = useApp();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [candidateName, setCandidateName] = useState('');
@@ -81,27 +82,50 @@ export const PrivacyComplianceView: React.FC = () => {
           </p>
         </div>
 
-        <button
-          className="btn-dark"
-          onClick={() => setModalOpen(true)}
-          style={{
-            height: 36,
-            padding: '0 16px',
-            borderRadius: 8,
-            fontSize: 13,
-            fontWeight: 500,
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 7,
-            background: '#18181b',
-            color: '#ffffff',
-            border: 'none',
-            cursor: 'pointer',
-          }}
-        >
-          <Plus size={15} />
-          <span>Log Data Request</span>
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <button
+            onClick={() => navigate('talent-studio')}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              height: 36,
+              padding: '0 13px',
+              fontSize: 12.5,
+              fontWeight: 600,
+              color: '#3b82f6',
+              background: '#eff6ff',
+              border: '1px solid #bfdbfe',
+              borderRadius: 8,
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            <Sparkles size={14} />
+            Studio Desk (Refs)
+          </button>
+          <button
+            className="btn-dark"
+            onClick={() => setModalOpen(true)}
+            style={{
+              height: 36,
+              padding: '0 16px',
+              borderRadius: 8,
+              fontSize: 13,
+              fontWeight: 500,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 7,
+              background: '#18181b',
+              color: '#ffffff',
+              border: 'none',
+              cursor: 'pointer',
+            }}
+          >
+            <Plus size={15} />
+            <span>Log Data Request</span>
+          </button>
+        </div>
       </div>
 
       {/* 2. Compliance Notice Banner */}

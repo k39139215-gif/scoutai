@@ -3,12 +3,13 @@ import {
   Shield,
   Search,
   X,
+  Sparkles,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { CustomSelect } from '../components/common/CustomDropdown';
 
 export const SecurityView: React.FC = () => {
-  const { securityAudit, settings } = useApp();
+  const { securityAudit, settings, navigate } = useApp();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [resultFilter, setResultFilter] = useState<string>('All');
@@ -81,18 +82,41 @@ export const SecurityView: React.FC = () => {
           </p>
         </div>
 
-        <div
-          style={{
-            fontSize: 12.5,
-            fontWeight: 500,
-            color: '#71717a',
-            padding: '6px 12px',
-            background: '#ffffff',
-            borderRadius: 8,
-            border: '1px solid #e4e4e7',
-          }}
-        >
-          Session: <strong style={{ color: '#18181b' }}>{settings.profile.email}</strong>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <button
+            onClick={() => navigate('talent-studio')}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              height: 36,
+              padding: '0 13px',
+              fontSize: 12.5,
+              fontWeight: 600,
+              color: '#3b82f6',
+              background: '#eff6ff',
+              border: '1px solid #bfdbfe',
+              borderRadius: 8,
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            <Sparkles size={14} />
+            Studio Desk (Refs)
+          </button>
+          <div
+            style={{
+              fontSize: 12.5,
+              fontWeight: 500,
+              color: '#71717a',
+              padding: '6px 12px',
+              background: '#ffffff',
+              borderRadius: 8,
+              border: '1px solid #e4e4e7',
+            }}
+          >
+            Session: <strong style={{ color: '#18181b' }}>{settings.profile.email}</strong>
+          </div>
         </div>
       </div>
 
