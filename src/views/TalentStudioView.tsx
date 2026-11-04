@@ -426,6 +426,74 @@ export const TalentStudioView: React.FC = () => {
     window.print();
   };
 
+  const handleExportDossierHTML = (candidate: (typeof candidates)[0]) => {
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ScoutAI Executive Dossier - ${candidate.name}</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8fafc; color: #0f172a; margin: 0; padding: 40px 20px; }
+    .card { max-width: 760px; margin: 0 auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 40px; box-shadow: 0 10px 25px rgba(0,0,0,0.06); }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #0f172a; padding-bottom: 20px; margin-bottom: 24px; }
+    .sub { font-size: 11px; color: #64748b; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; }
+    h1 { margin: 4px 0; font-size: 26px; }
+    .score-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 18px; text-align: right; }
+    .score-val { font-size: 28px; font-weight: 900; color: #0f172a; }
+    .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; background: #f8fafc; border-radius: 8px; padding: 16px; margin-bottom: 24px; }
+    .meta-label { font-size: 11px; color: #64748b; display: block; margin-bottom: 2px; }
+    .meta-val { font-size: 13px; font-weight: 700; color: #0f172a; }
+    .section-title { font-size: 14px; font-weight: 700; color: #0f172a; margin: 20px 0 8px; }
+    .p-text { font-size: 13px; line-height: 1.6; color: #334155; margin: 0; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag { font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; color: #0f172a; padding: 4px 10px; border-radius: 4px; font-weight: 500; }
+    .footer { border-top: 1px dashed #cbd5e1; padding-top: 16px; margin-top: 32px; display: flex; justify-content: space-between; font-size: 11px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div>
+        <div class="sub">CONFIDENTIAL TALENT DOSSIER • SCOUTAI VERIFIED</div>
+        <h1>${candidate.name}</h1>
+        <div style="color: #475569; font-size: 14px; font-weight: 500;">Target Requisition: ${candidate.title}</div>
+      </div>
+      <div class="score-box">
+        <div style="font-size: 11px; color: #64748b; font-weight: 600;">MATCH ACCURACY</div>
+        <div class="score-val">${candidate.matchScore}%</div>
+        <div style="font-size: 11px; color: #10b981; font-weight: 700;">GRADE A VERIFIED</div>
+      </div>
+    </div>
+    <div class="meta-grid">
+      <div><span class="meta-label">Total Experience</span><span class="meta-val">${candidate.experienceYears} Years Production</span></div>
+      <div><span class="meta-label">Location & Status</span><span class="meta-val">${candidate.location} (${candidate.status})</span></div>
+      <div><span class="meta-label">Compensation Target</span><span class="meta-val">${dossierComp}</span></div>
+    </div>
+    <div class="section-title">Executive Evaluation & Systems Fit</div>
+    <p class="p-text">${candidate.aiAnalysisExplanation}</p>
+    <div class="section-title">Verified Competency Vectors</div>
+    <div class="tag-row">
+      ${candidate.skills.map((s) => `<span class="tag">✓ ${s}</span>`).join('')}
+    </div>
+    <div class="footer">
+      <div>AUTHENTICATION: SOC 2 TYPE II COMPLIANT LEDGER</div>
+      <div>SCOUTAI TALENT OPERATIONS DESK</div>
+    </div>
+  </div>
+</body>
+</html>`;
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${candidate.name.toLowerCase().replace(/\s+/g, '_')}_scoutai_dossier.html`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    showToast(`Downloaded standalone Executive Dossier for ${candidate.name}`, 'success');
+  };
+
   // Helper for department tags
   const getDeptColor = (index: number) => {
     const colors = [
@@ -2838,26 +2906,46 @@ export const TalentStudioView: React.FC = () => {
                     <div style={{ fontSize: 10, color: '#10b981', fontWeight: 700 }}>
                       GRADE A VERIFIED
                     </div>
-                    <button
-                      onClick={handlePrintDossier}
-                      style={{
-                        marginTop: 6,
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 4,
-                        padding: '3px 8px',
-                        borderRadius: 4,
-                        border: '1px solid #cbd5e1',
-                        backgroundColor: '#ffffff',
-                        fontSize: 10,
-                        fontWeight: 600,
-                        color: '#334155',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      <Printer size={11} />
-                      <span>Print Brief</span>
-                    </button>
+                    <div style={{ display: 'flex', gap: 4, marginTop: 6 }}>
+                      <button
+                        onClick={handlePrintDossier}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 4,
+                          padding: '3px 8px',
+                          borderRadius: 4,
+                          border: '1px solid #cbd5e1',
+                          backgroundColor: '#ffffff',
+                          fontSize: 10,
+                          fontWeight: 600,
+                          color: '#334155',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <Printer size={11} />
+                        <span>Print</span>
+                      </button>
+                      <button
+                        onClick={() => handleExportDossierHTML(activeCandidate)}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 4,
+                          padding: '3px 8px',
+                          borderRadius: 4,
+                          border: '1px solid #bfdbfe',
+                          backgroundColor: '#eff6ff',
+                          fontSize: 10,
+                          fontWeight: 600,
+                          color: '#2563eb',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <Download size={11} />
+                        <span>HTML</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
 
