@@ -24,10 +24,12 @@ import {
   Zap,
   Printer,
   GitCompare,
+  Command,
 } from 'lucide-react';
 import { CustomCheckbox } from '../components/common/CustomCheckbox';
 import { CompetencyRadarChart } from '../components/studio/CompetencyRadarChart';
 import { CandidateComparisonModal } from '../components/studio/CandidateComparisonModal';
+import { StudioCommandPalette } from '../components/studio/StudioCommandPalette';
 import { useApp } from '../context/AppContext';
 import { useToast } from '../context/ToastContext';
 import type { CandidateStatus } from '../types';
@@ -74,6 +76,7 @@ export const TalentStudioView: React.FC = () => {
   };
 
   const [compareModalOpen, setCompareModalOpen] = useState(false);
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [expandedRowIds, setExpandedRowIds] = useState<string[]>(['cand-1']);
   const [searchQuery, setSearchQuery] = useState('');
@@ -263,6 +266,12 @@ export const TalentStudioView: React.FC = () => {
   // Global Keyboard Shortcuts (Ref 6: 920dba95d421aa4879c1b70e83f29021.png)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setCommandPaletteOpen((prev) => !prev);
+        return;
+      }
+
       const target = e.target as HTMLElement;
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes(target?.tagName)) return;
 
@@ -728,21 +737,28 @@ export const TalentStudioView: React.FC = () => {
                 outline: 'none',
               }}
             />
-            <span
+            <button
+              onClick={() => setCommandPaletteOpen(true)}
+              title="Open Command Launcher (⌘K)"
               style={{
                 position: 'absolute',
-                right: 8,
+                right: 6,
                 fontSize: 10,
-                color: '#94a3b8',
-                fontFamily: 'var(--font-family-base)',
+                color: '#64748b',
+                fontFamily: 'monospace',
                 backgroundColor: '#ffffff',
-                border: '1px solid #e2e8f0',
-                padding: '1px 4px',
-                borderRadius: 3,
+                border: '1px solid #cbd5e1',
+                padding: '1px 5px',
+                borderRadius: 4,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 3,
               }}
             >
-              ⌘K
-            </span>
+              <Command size={10} />
+              <span>K</span>
+            </button>
           </div>
 
           {/* Filter Popover Trigger Button (Ref 1, 6, 8) */}
@@ -2599,6 +2615,7 @@ export const TalentStudioView: React.FC = () => {
 
               {/* Right Side: Live Printable Executive Briefing Document Canvas (Ref 19) */}
               <div
+                className="printable-dossier-canvas"
                 style={{
                   backgroundColor: '#ffffff',
                   borderRadius: 12,
@@ -3309,6 +3326,7 @@ export const TalentStudioView: React.FC = () => {
           ========================================================================= */}
       {selectedIds.length > 0 && (
         <div
+          className="floating-dock"
           style={{
             position: 'fixed',
             bottom: 24,
@@ -3894,6 +3912,19 @@ export const TalentStudioView: React.FC = () => {
         onRemoveCandidate={(id) => {
           setSelectedIds((prev) => prev.filter((i) => i !== id));
         }}
+      />
+
+      {/* Reference 6: Command Launcher Palette (⌘K) */}
+      <StudioCommandPalette
+        isOpen={commandPaletteOpen}
+        onClose={() => setCommandPaletteOpen(false)}
+        onSelectMode={(mode) => handleSelectViewMode(mode)}
+        onToggleCopilot={() => setCopilotOpen((prev) => !prev)}
+        onOpenReferences={() => setShowReferenceModal(true)}
+        onRunSimulation={handleRunPipelineSimulation}
+        onExportCSV={() => handleExportCSV(sortedCandidates)}
+        onQuickFilter={(type) => setQuickExpFilter(type)}
+        onSelectAll={handleToggleSelectAll}
       />
     </div>
   );

@@ -708,3 +708,27 @@ tr.sel td, .snow-table tbody tr.selected td {
     display: none !important;
   }
 }
+
+/* Print Optimization for Executive Dossier Brief (Reference 19) */
+@media print {
+  @page {
+    margin: 12mm;
+    size: auto;
+  }
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    font-size: 11pt !important;
+  }
+  header, #side, .sidebar-desktop, .btn-dark, .floating-dock, button, .top-header-banner, .dense-filter-sidebar {
+    display: none !important;
+  }
+  .printable-dossier-canvas {
+    box-shadow: none !important;
+    border: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
