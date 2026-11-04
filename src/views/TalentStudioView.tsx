@@ -25,6 +25,7 @@ import {
   Printer,
   GitCompare,
   Command,
+  ArrowRight,
 } from 'lucide-react';
 import { CustomCheckbox } from '../components/common/CustomCheckbox';
 import { CompetencyRadarChart } from '../components/studio/CompetencyRadarChart';
@@ -47,6 +48,7 @@ export const TalentStudioView: React.FC = () => {
   const {
     candidates,
     shortlistCandidate,
+    updateCandidateStatus,
     createOutreachMessage,
     navigate,
   } = useApp();
@@ -1859,6 +1861,37 @@ export const TalentStudioView: React.FC = () => {
                                         <UserCheck size={13} style={{ color: '#10b981' }} />
                                         <span>Shortlist Candidate</span>
                                       </button>
+                                      {candidate.status !== 'Review' && (
+                                        <button
+                                          onClick={() => {
+                                            const nextStage =
+                                              candidate.status === 'Qualified'
+                                                ? 'Shortlisted'
+                                                : candidate.status === 'Shortlisted'
+                                                ? 'Interviewing'
+                                                : 'Review';
+                                            updateCandidateStatus(candidate.id, nextStage);
+                                            showToast(`Moved ${candidate.name} to ${nextStage}`, 'success');
+                                            setRowMenuId(null);
+                                          }}
+                                          style={{
+                                            width: '100%',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 8,
+                                            padding: '8px 10px',
+                                            fontSize: 12,
+                                            color: '#ffffff',
+                                            background: 'none',
+                                            border: 'none',
+                                            borderRadius: 4,
+                                            cursor: 'pointer',
+                                          }}
+                                        >
+                                          <ArrowRight size={13} style={{ color: '#60a5fa' }} />
+                                          <span>Advance Stage</span>
+                                        </button>
+                                      )}
                                       <button
                                         onClick={() => {
                                           setActiveCandidateId(candidate.id);
@@ -2444,7 +2477,7 @@ export const TalentStudioView: React.FC = () => {
                               ))}
                             </div>
 
-                            {/* Card Footer */}
+                            {/* Card Footer (Refs 11 & 18) */}
                             <div
                               style={{
                                 display: 'flex',
@@ -2457,7 +2490,41 @@ export const TalentStudioView: React.FC = () => {
                               }}
                             >
                               <span>{cand.experienceYears}y exp</span>
-                              <span style={{ color: '#2563eb', fontWeight: 600 }}>Dossier ›</span>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                {stage !== 'Review' && (
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      const nextStage: CandidateStatus =
+                                        stage === 'Qualified'
+                                          ? 'Shortlisted'
+                                          : stage === 'Shortlisted'
+                                          ? 'Interviewing'
+                                          : 'Review';
+                                      updateCandidateStatus(cand.id, nextStage);
+                                      showToast(`Advanced ${cand.name} to ${nextStage}`, 'success');
+                                    }}
+                                    title="Advance candidate to next stage"
+                                    style={{
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      gap: 3,
+                                      padding: '2px 6px',
+                                      backgroundColor: '#eff6ff',
+                                      border: '1px solid #bfdbfe',
+                                      borderRadius: 4,
+                                      color: '#2563eb',
+                                      fontSize: 10,
+                                      fontWeight: 600,
+                                      cursor: 'pointer',
+                                    }}
+                                  >
+                                    <span>Advance</span>
+                                    <ArrowRight size={10} />
+                                  </button>
+                                )}
+                                <span style={{ color: '#64748b', fontWeight: 600 }}>Dossier ›</span>
+                              </div>
                             </div>
                           </div>
                         ))}
