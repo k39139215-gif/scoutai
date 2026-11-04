@@ -1,5 +1,5 @@
 import React from 'react';
-import { SearchCheck, Plus } from 'lucide-react';
+import { SearchCheck, Plus, Sparkles } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { OperationalSummary } from '../components/dashboard/OperationalSummary';
 import { HiringPipeline } from '../components/dashboard/HiringPipeline';
@@ -42,6 +42,28 @@ export const DashboardView: React.FC = () => {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <button
+            onClick={() => navigate('talent-studio')}
+            style={{
+              height: 32,
+              padding: '0 12px',
+              borderRadius: 6,
+              fontSize: 12.5,
+              fontWeight: 600,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              background: '#eef2ff',
+              border: '1px solid #c7d2fe',
+              color: '#4338ca',
+              cursor: 'pointer',
+              transition: 'all 0.12s ease',
+            }}
+          >
+            <Sparkles size={13} />
+            <span>Studio Desk (Refs)</span>
+          </button>
+
           <button
             className="pill"
             onClick={() => navigate('sourcing')}
