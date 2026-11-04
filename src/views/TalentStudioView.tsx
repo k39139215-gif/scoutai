@@ -20,6 +20,7 @@ import {
   Send,
   MoreVertical,
   UserCheck,
+  UserPlus,
   Columns3,
   Zap,
   Printer,
@@ -33,6 +34,7 @@ import { CustomCheckbox } from '../components/common/CustomCheckbox';
 import { CompetencyRadarChart } from '../components/studio/CompetencyRadarChart';
 import { CandidateComparisonModal } from '../components/studio/CandidateComparisonModal';
 import { StudioCommandPalette } from '../components/studio/StudioCommandPalette';
+import { NewCandidateModal } from '../components/studio/NewCandidateModal';
 import {
   playTickSound,
   playSelectSound,
@@ -59,6 +61,7 @@ export const TalentStudioView: React.FC = () => {
     candidates,
     shortlistCandidate,
     updateCandidateStatus,
+    createCandidate,
     createOutreachMessage,
     navigate,
     selectedCandidateId,
@@ -101,6 +104,7 @@ export const TalentStudioView: React.FC = () => {
 
   const [compareModalOpen, setCompareModalOpen] = useState(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+  const [newCandidateModalOpen, setNewCandidateModalOpen] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [expandedRowIds, setExpandedRowIds] = useState<string[]>(['cand-1']);
   const [searchQuery, setSearchQuery] = useState('');
@@ -368,6 +372,9 @@ export const TalentStudioView: React.FC = () => {
         handleSelectViewMode('dossier');
       } else if (e.key === '4') {
         handleSelectViewMode('pipeline');
+      } else if (e.key === 'n' || e.key === 'N') {
+        e.preventDefault();
+        setNewCandidateModalOpen(true);
       }
     };
 
@@ -1353,6 +1360,28 @@ export const TalentStudioView: React.FC = () => {
                 backgroundColor: '#10b981',
               }}
             />
+          </button>
+
+          {/* Direct Candidate Ingestion Button */}
+          <button
+            onClick={() => setNewCandidateModalOpen(true)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '6px 12px',
+              borderRadius: 6,
+              border: '1px solid #cbd5e1',
+              backgroundColor: '#ffffff',
+              color: '#0f172a',
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: 'pointer',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+            }}
+          >
+            <UserPlus size={14} />
+            <span>+ Candidate <kbd style={{ fontSize: 10, opacity: 0.6, backgroundColor: '#f1f5f9', padding: '1px 4px', borderRadius: 3, border: '1px solid #cbd5e1' }}>N</kbd></span>
           </button>
 
           {/* Primary Action Button */}
@@ -4624,6 +4653,17 @@ export const TalentStudioView: React.FC = () => {
         onExportCSV={() => handleExportCSV(sortedCandidates)}
         onQuickFilter={(type) => setQuickExpFilter(type)}
         onSelectAll={handleToggleSelectAll}
+        onNewCandidate={() => setNewCandidateModalOpen(true)}
+      />
+
+      {/* Direct Candidate Ingestion Modal (Ref 14 & 04) */}
+      <NewCandidateModal
+        isOpen={newCandidateModalOpen}
+        onClose={() => setNewCandidateModalOpen(false)}
+        onSubmit={(candData) => {
+          const newId = createCandidate(candData);
+          setActiveCandidateId(newId);
+        }}
       />
     </div>
   );

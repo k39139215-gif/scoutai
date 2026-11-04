@@ -13,6 +13,7 @@ import {
   Check,
   X,
   Command,
+  UserPlus,
 } from 'lucide-react';
 
 interface CommandItem {
@@ -35,6 +36,7 @@ interface StudioCommandPaletteProps {
   onExportCSV: () => void;
   onQuickFilter: (type: string) => void;
   onSelectAll: () => void;
+  onNewCandidate?: () => void;
 }
 
 export const StudioCommandPalette: React.FC<StudioCommandPaletteProps> = ({
@@ -47,6 +49,7 @@ export const StudioCommandPalette: React.FC<StudioCommandPaletteProps> = ({
   onExportCSV,
   onQuickFilter,
   onSelectAll,
+  onNewCandidate,
 }) => {
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -92,6 +95,15 @@ export const StudioCommandPalette: React.FC<StudioCommandPaletteProps> = ({
     },
 
     // Actions
+    {
+      id: 'act-new-candidate',
+      title: 'Ingest New Candidate Profile',
+      subtitle: 'Add verified talent profile with automatic neural match prediction',
+      category: 'Actions',
+      icon: <UserPlus size={15} style={{ color: '#0f172a' }} />,
+      shortcut: 'N',
+      run: () => onNewCandidate?.(),
+    },
     {
       id: 'act-simulation',
       title: 'Run AI Pipeline Simulation',

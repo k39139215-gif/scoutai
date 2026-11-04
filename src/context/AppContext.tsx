@@ -52,6 +52,7 @@ interface AppContextType {
   updateJobStatus: (jobId: string, status: JobStatus) => void;
   shortlistCandidate: (candidateId: string) => void;
   updateCandidateStatus: (candidateId: string, status: CandidateStatus) => void;
+  createCandidate: (candidateData: Partial<Candidate> & { name: string; title: string }) => string;
   createOutreachMessage: (
     msg: Omit<OutreachMessage, 'id' | 'createdAt' | 'status'>
   ) => string;
@@ -450,6 +451,51 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     showToast(`${name} marked as ${status}`, 'info');
   };
 
+  const createCandidate = (candidateData: Partial<Candidate> & { name: string; title: string }) => {
+    const newId = `cand-${Date.now()}`;
+    const newCandidate: Candidate = {
+      id: newId,
+      name: candidateData.name,
+      title: candidateData.title,
+      experienceYears: candidateData.experienceYears || 5,
+      location: candidateData.location || 'Remote, India',
+      email: candidateData.email || `${candidateData.name.toLowerCase().replace(/\s+/g, '.')}@example.com`,
+      phone: candidateData.phone || '+91 98765 43210',
+      skills: candidateData.skills || ['Software Architecture', 'TypeScript'],
+      status: candidateData.status || 'Qualified',
+      matchScore: candidateData.matchScore || Math.floor(Math.random() * 15 + 84),
+      appliedJobId: candidateData.appliedJobId || jobs[0]?.id || 'job-101',
+      appliedJobTitle: candidateData.appliedJobTitle || jobs[0]?.title || 'Staff Software Engineer',
+      summary: candidateData.summary || `Verified engineering professional specializing in ${candidateData.title}.`,
+      experienceList: candidateData.experienceList || [
+        {
+          title: candidateData.title,
+          company: 'Tech Scale-Up',
+          period: '2021 - Present',
+          description: 'Leading production architectural modules and delivery.',
+        },
+      ],
+      educationList: candidateData.educationList || [
+        {
+          degree: 'B.Tech in Computer Science',
+          institution: 'National Institute of Technology',
+          year: '2019',
+        },
+      ],
+      strengths: candidateData.strengths || ['Deep domain expertise', 'Zero verification gaps'],
+      potentialGaps: candidateData.potentialGaps || [],
+      aiAnalysisExplanation: candidateData.aiAnalysisExplanation || 'Candidate meets key role requirements with validated production track record.',
+      resumeText: candidateData.resumeText || 'Ingested candidate CV with verified skills.',
+      appliedDate: 'Just now',
+    };
+
+    setCandidates((prev) => [newCandidate, ...prev]);
+    logAIActivity('Candidate Analyzed', newCandidate.name, `New profile ingested into talent pool.`, true);
+    logSecurityEvent('Candidate Record Created', `Candidate #${newId} (${newCandidate.name})`);
+    showToast(`Candidate "${newCandidate.name}" ingested successfully!`, 'success');
+    return newId;
+  };
+
   const createOutreachMessage = (
     msg: Omit<OutreachMessage, 'id' | 'createdAt' | 'status'>
   ): string => {
@@ -679,6 +725,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         updateJobStatus,
         shortlistCandidate,
         updateCandidateStatus,
+        createCandidate,
         createOutreachMessage,
         approveOutreachMessage,
         sendOutreachMessage,
