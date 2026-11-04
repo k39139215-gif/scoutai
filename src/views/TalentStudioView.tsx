@@ -26,11 +26,21 @@ import {
   GitCompare,
   Command,
   ArrowRight,
+  Volume2,
+  VolumeX,
 } from 'lucide-react';
 import { CustomCheckbox } from '../components/common/CustomCheckbox';
 import { CompetencyRadarChart } from '../components/studio/CompetencyRadarChart';
 import { CandidateComparisonModal } from '../components/studio/CandidateComparisonModal';
 import { StudioCommandPalette } from '../components/studio/StudioCommandPalette';
+import {
+  playTickSound,
+  playSelectSound,
+  playModeSwitchSound,
+  playSuccessSound,
+  isSoundEnabled,
+  setSoundEnabled,
+} from '../utils/soundEffects';
 import { useApp } from '../context/AppContext';
 import { useToast } from '../context/ToastContext';
 import type { CandidateStatus } from '../types';
@@ -66,7 +76,18 @@ export const TalentStudioView: React.FC = () => {
     return 'table';
   });
 
+  const [soundOn, setSoundOn] = useState(isSoundEnabled());
+
+  const handleToggleSound = () => {
+    const next = !soundOn;
+    setSoundOn(next);
+    setSoundEnabled(next);
+    if (next) playSelectSound();
+    showToast(next ? 'Tactile audio haptics enabled' : 'Audio haptics muted', 'info');
+  };
+
   const handleSelectViewMode = (mode: ViewMode) => {
+    playModeSwitchSound();
     setViewMode(mode);
     try {
       const url = new URL(window.location.href);
@@ -262,12 +283,14 @@ export const TalentStudioView: React.FC = () => {
   };
 
   const handleToggleSelectRow = (id: string) => {
+    playSelectSound();
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   };
 
   const handleToggleExpandRow = (id: string) => {
+    playTickSound();
     setExpandedRowIds((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
@@ -287,9 +310,11 @@ export const TalentStudioView: React.FC = () => {
 
       if (e.key === 'j' || e.key === 'ArrowDown') {
         e.preventDefault();
+        playTickSound();
         setFocusedRowIndex((prev) => Math.min(prev + 1, sortedCandidates.length - 1));
       } else if (e.key === 'k' || e.key === 'ArrowUp') {
         e.preventDefault();
+        playTickSound();
         setFocusedRowIndex((prev) => Math.max(prev - 1, 0));
       } else if (e.key === 'x') {
         e.preventDefault();
@@ -351,6 +376,7 @@ export const TalentStudioView: React.FC = () => {
   };
 
   const handleBatchShortlist = () => {
+    playSuccessSound();
     selectedIds.forEach((id) => shortlistCandidate(id));
     showToast(`${selectedIds.length} candidates moved to Shortlisted stage.`, 'success');
     setSelectedIds([]);
@@ -662,6 +688,28 @@ export const TalentStudioView: React.FC = () => {
             <Lock size={12} />
             <span>Private Tenant DB</span>
           </div>
+
+          <button
+            onClick={handleToggleSound}
+            title={soundOn ? 'Mute Tactile Audio Haptics' : 'Enable Tactile Audio Haptics'}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 5,
+              padding: '3px 8px',
+              backgroundColor: soundOn ? '#f1f5f9' : '#ffffff',
+              border: '1px solid #cbd5e1',
+              borderRadius: 9999,
+              fontSize: 10.5,
+              fontWeight: 600,
+              color: soundOn ? '#0f172a' : '#94a3b8',
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            {soundOn ? <Volume2 size={12} style={{ color: '#10b981' }} /> : <VolumeX size={12} />}
+            <span>{soundOn ? 'Audio ON' : 'Audio Muted'}</span>
+          </button>
         </div>
       </div>
 
