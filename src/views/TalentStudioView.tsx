@@ -3579,24 +3579,99 @@ export const TalentStudioView: React.FC = () => {
               </div>
             )}
 
-            {/* Tab: Metrics Bento */}
+            {/* Tab: Metrics Bento (Ref 03: 3b2da56d0f98673d03f2d8662018b627.png) */}
             {copilotTab === 'metrics' && (
               <div style={{ padding: 16 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: '#0f172a', marginBottom: 12 }}>
-                  Neural Engine Telemetry
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#0f172a' }}>
+                    Neural Engine Telemetry
+                  </div>
+                  <span style={{ fontSize: 10, color: '#2563eb', fontWeight: 600, backgroundColor: '#eff6ff', padding: '1px 6px', borderRadius: 4, border: '1px solid #bfdbfe' }}>
+                    REF 03 ACTIVE
+                  </span>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  <div style={{ padding: 12, border: '1px solid #e2e8f0', borderRadius: 8 }}>
-                    <div style={{ fontSize: 11, color: '#64748b' }}>Hourly Ingestion Rate</div>
-                    <div style={{ fontSize: 18, fontWeight: 800 }}>14.2k / hour</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  {/* Metric 1: Hourly Ingestion Rate with SVG Sparkline */}
+                  <div style={{ padding: 12, border: '1px solid #e2e8f0', borderRadius: 8, backgroundColor: '#ffffff' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                      <span style={{ fontSize: 11, color: '#64748b' }}>Hourly Ingestion Rate</span>
+                      <span style={{ fontSize: 10, color: '#10b981', fontWeight: 600 }}>↑ 12.4% vs avg</span>
+                    </div>
+                    <div style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', margin: '2px 0 4px' }}>
+                      14.2k / hour
+                    </div>
+                    {/* SVG Sparkline (Ref 03) */}
+                    <svg width="100%" height="32" viewBox="0 0 240 32" style={{ overflow: 'visible', display: 'block' }}>
+                      <defs>
+                        <linearGradient id="ingest-grad" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.25" />
+                          <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.0" />
+                        </linearGradient>
+                      </defs>
+                      <path
+                        d="M0,24 Q20,12 40,20 T80,14 T120,8 T160,16 T200,6 L240,10 L240,32 L0,32 Z"
+                        fill="url(#ingest-grad)"
+                      />
+                      <path
+                        d="M0,24 Q20,12 40,20 T80,14 T120,8 T160,16 T200,6 L240,10"
+                        fill="none"
+                        stroke="#2563eb"
+                        strokeWidth="2"
+                      />
+                      <circle cx="200" cy="6" r="3" fill="#2563eb" stroke="#ffffff" strokeWidth="1.5" />
+                    </svg>
                   </div>
-                  <div style={{ padding: 12, border: '1px solid #e2e8f0', borderRadius: 8 }}>
-                    <div style={{ fontSize: 11, color: '#64748b' }}>Error Rate</div>
-                    <div style={{ fontSize: 18, fontWeight: 800 }}>0.04%</div>
+
+                  {/* Metric 2: Latency Percentiles */}
+                  <div style={{ padding: 12, border: '1px solid #e2e8f0', borderRadius: 8, backgroundColor: '#ffffff' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                      <span style={{ fontSize: 11, color: '#64748b' }}>Inference Latency Profile</span>
+                      <span style={{ fontSize: 10, color: '#10b981', fontWeight: 600 }}>Sub-400ms SLA</span>
+                    </div>
+                    <div style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', margin: '2px 0 6px' }}>
+                      245ms <span style={{ fontSize: 11, fontWeight: 500, color: '#64748b' }}>mean</span>
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, fontSize: 10 }}>
+                      <div style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', padding: '4px 6px', borderRadius: 4, textAlign: 'center' }}>
+                        <span style={{ color: '#64748b', display: 'block' }}>p50</span>
+                        <span style={{ fontWeight: 700, color: '#0f172a' }}>180ms</span>
+                      </div>
+                      <div style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', padding: '4px 6px', borderRadius: 4, textAlign: 'center' }}>
+                        <span style={{ color: '#64748b', display: 'block' }}>p95</span>
+                        <span style={{ fontWeight: 700, color: '#0f172a' }}>290ms</span>
+                      </div>
+                      <div style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', padding: '4px 6px', borderRadius: 4, textAlign: 'center' }}>
+                        <span style={{ color: '#64748b', display: 'block' }}>p99</span>
+                        <span style={{ fontWeight: 700, color: '#0f172a' }}>340ms</span>
+                      </div>
+                    </div>
                   </div>
-                  <div style={{ padding: 12, border: '1px solid #e2e8f0', borderRadius: 8 }}>
-                    <div style={{ fontSize: 11, color: '#64748b' }}>Vector Tokens Consumed</div>
-                    <div style={{ fontSize: 18, fontWeight: 800 }}>2,410,920</div>
+
+                  {/* Metric 3: Vector Tokens Consumed with Histogram */}
+                  <div style={{ padding: 12, border: '1px solid #e2e8f0', borderRadius: 8, backgroundColor: '#ffffff' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                      <span style={{ fontSize: 11, color: '#64748b' }}>Vector Tokens Consumed</span>
+                      <span style={{ fontSize: 10, color: '#4f46e5', fontWeight: 600 }}>12-Hour Bin</span>
+                    </div>
+                    <div style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', margin: '2px 0 6px' }}>
+                      2,410,920
+                    </div>
+                    {/* Token Volume Histogram Bars */}
+                    <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4, height: 28 }}>
+                      {[40, 58, 48, 72, 60, 85, 80, 65, 92, 84, 70, 95].map((val, idx) => (
+                        <div
+                          key={idx}
+                          title={`Hour ${idx + 1}: ${Math.round(val * 24.1)}k tokens`}
+                          style={{
+                            flex: 1,
+                            height: `${val}%`,
+                            backgroundColor: idx === 11 ? '#4f46e5' : '#c7d2fe',
+                            borderRadius: 2,
+                            transition: 'height 0.2s ease',
+                          }}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
