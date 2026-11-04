@@ -552,7 +552,7 @@ export const TalentStudioView: React.FC = () => {
           <span
             style={{
               fontSize: 11,
-              fontFamily: 'var(--font-family-mono)',
+              fontFamily: 'var(--font-family-base)',
               color: '#64748b',
               background: '#f1f5f9',
               padding: '2px 8px',
@@ -732,7 +732,7 @@ export const TalentStudioView: React.FC = () => {
                 right: 8,
                 fontSize: 10,
                 color: '#94a3b8',
-                fontFamily: 'var(--font-family-mono)',
+                fontFamily: 'var(--font-family-base)',
                 backgroundColor: '#ffffff',
                 border: '1px solid #e2e8f0',
                 padding: '1px 4px',
@@ -1255,7 +1255,7 @@ export const TalentStudioView: React.FC = () => {
                       Review ({candidates.filter((c) => c.status === 'Review').length})
                     </span>
                   </div>
-                  <span style={{ fontSize: 10, color: '#94a3b8', fontFamily: 'var(--font-family-mono)' }}>
+                  <span style={{ fontSize: 10, color: '#94a3b8', fontFamily: 'var(--font-family-base)' }}>
                     VELOCITY: 3.8 DAYS / STAGE
                   </span>
                 </div>
@@ -1576,7 +1576,7 @@ export const TalentStudioView: React.FC = () => {
                                   </button>
                                   <span
                                     style={{
-                                      fontFamily: 'var(--font-family-mono)',
+                                      fontFamily: 'var(--font-family-base)',
                                       fontSize: 11,
                                       color: '#475569',
                                       fontWeight: 600,
@@ -1936,7 +1936,7 @@ export const TalentStudioView: React.FC = () => {
                                     <span
                                       style={{
                                         fontSize: 10,
-                                        fontFamily: 'var(--font-family-mono)',
+                                        fontFamily: 'var(--font-family-base)',
                                         color: '#64748b',
                                       }}
                                     >
@@ -2022,7 +2022,7 @@ export const TalentStudioView: React.FC = () => {
                                       <span style={{ fontWeight: 600, color: '#475569' }}>Historical Version v1.0:</span>
                                       <span>Initial ingestion match was 84% prior to rubric calibration.</span>
                                     </div>
-                                    <span style={{ fontFamily: 'var(--font-family-mono)', fontSize: 10, color: '#10b981', fontWeight: 600 }}>
+                                    <span style={{ fontFamily: 'var(--font-family-base)', fontSize: 10, color: '#10b981', fontWeight: 600 }}>
                                       +7% DELTA RECALIBRATED
                                     </span>
                                   </div>
@@ -2068,16 +2068,16 @@ export const TalentStudioView: React.FC = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                   {/* Keyboard Shortcuts Hint (Ref 6: 920dba95d421aa4879c1b70e83f29021.png) */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#64748b' }}>
-                    <span style={{ backgroundColor: '#e2e8f0', color: '#1e293b', padding: '1px 5px', borderRadius: 3, fontFamily: 'var(--font-family-mono)', fontSize: 10, fontWeight: 700 }}>J / K</span>
+                    <span style={{ backgroundColor: '#e2e8f0', color: '#1e293b', padding: '1px 5px', borderRadius: 3, fontFamily: 'var(--font-family-base)', fontSize: 10, fontWeight: 700 }}>J / K</span>
                     <span>Navigate</span>
                     <span style={{ color: '#cbd5e1' }}>•</span>
-                    <span style={{ backgroundColor: '#e2e8f0', color: '#1e293b', padding: '1px 5px', borderRadius: 3, fontFamily: 'var(--font-family-mono)', fontSize: 10, fontWeight: 700 }}>X</span>
+                    <span style={{ backgroundColor: '#e2e8f0', color: '#1e293b', padding: '1px 5px', borderRadius: 3, fontFamily: 'var(--font-family-base)', fontSize: 10, fontWeight: 700 }}>X</span>
                     <span>Select</span>
                     <span style={{ color: '#cbd5e1' }}>•</span>
-                    <span style={{ backgroundColor: '#e2e8f0', color: '#1e293b', padding: '1px 5px', borderRadius: 3, fontFamily: 'var(--font-family-mono)', fontSize: 10, fontWeight: 700 }}>↵</span>
+                    <span style={{ backgroundColor: '#e2e8f0', color: '#1e293b', padding: '1px 5px', borderRadius: 3, fontFamily: 'var(--font-family-base)', fontSize: 10, fontWeight: 700 }}>↵</span>
                     <span>Expand</span>
                     <span style={{ color: '#cbd5e1' }}>•</span>
-                    <span style={{ backgroundColor: '#e2e8f0', color: '#1e293b', padding: '1px 5px', borderRadius: 3, fontFamily: 'var(--font-family-mono)', fontSize: 10, fontWeight: 700 }}>1–4</span>
+                    <span style={{ backgroundColor: '#e2e8f0', color: '#1e293b', padding: '1px 5px', borderRadius: 3, fontFamily: 'var(--font-family-base)', fontSize: 10, fontWeight: 700 }}>1–4</span>
                     <span>Views</span>
                   </div>
 
@@ -2365,7 +2365,7 @@ export const TalentStudioView: React.FC = () => {
                               <span
                                 style={{
                                   fontSize: 10,
-                                  fontFamily: 'var(--font-family-mono)',
+                                  fontFamily: 'var(--font-family-base)',
                                   color: '#64748b',
                                   fontWeight: 600,
                                   backgroundColor: '#f1f5f9',
@@ -2621,7 +2621,7 @@ export const TalentStudioView: React.FC = () => {
                     <span
                       style={{
                         fontSize: 10,
-                        fontFamily: 'var(--font-family-mono)',
+                        fontFamily: 'var(--font-family-base)',
                         color: '#64748b',
                         letterSpacing: '0.08em',
                       }}
@@ -3007,7 +3007,7 @@ export const TalentStudioView: React.FC = () => {
                   color: '#f8fafc',
                   borderRadius: 8,
                   padding: 16,
-                  fontFamily: 'var(--font-family-mono)',
+                  fontFamily: 'var(--font-family-base)',
                   fontSize: 11,
                   lineHeight: 1.6,
                 }}
@@ -3289,7 +3289,7 @@ export const TalentStudioView: React.FC = () => {
 
             {/* Tab: Traces */}
             {copilotTab === 'traces' && (
-              <div style={{ padding: 16, fontSize: 11, fontFamily: 'var(--font-family-mono)' }}>
+              <div style={{ padding: 16, fontSize: 11, fontFamily: 'var(--font-family-base)' }}>
                 <div style={{ color: '#64748b', marginBottom: 8 }}>RECENT VERIFICATION LOGS</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   <div>[14:22:01] Model: claude-3-5-sonnet matched cand-1 (91%)</div>
@@ -3540,7 +3540,7 @@ export const TalentStudioView: React.FC = () => {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <span
                       style={{
-                        fontFamily: 'var(--font-family-mono)',
+                        fontFamily: 'var(--font-family-base)',
                         fontSize: 11,
                         backgroundColor: '#0f172a',
                         color: '#ffffff',

@@ -24,35 +24,14 @@ export const Badge: React.FC<BadgeProps> = ({
   size = 'md',
 }) => {
   const variantClass = `snow-badge-${variant}`;
-  const sizeStyle: React.CSSProperties =
-    size === 'sm'
-      ? {
-          fontSize: '11px',
-          padding: '0 6px',
-          height: '18px',
-          lineHeight: '18px',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxSizing: 'border-box',
-          verticalAlign: 'middle',
-        }
-      : {
-          fontSize: '11.5px',
-          padding: '0 8px',
-          height: '20px',
-          lineHeight: '20px',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxSizing: 'border-box',
-          verticalAlign: 'middle',
-        };
+  const sizeClass = size === 'sm' ? 'snow-badge-sm' : 'snow-badge-md';
 
   return (
-    <span className={`snow-badge ${variantClass} ${className}`} style={sizeStyle}>
-      {icon && <span style={{ display: 'inline-flex', alignItems: 'center', marginRight: 3 }}>{icon}</span>}
-      <span style={{ fontVariantNumeric: 'tabular-nums', display: 'inline-flex', alignItems: 'center', lineHeight: 1 }}>{children}</span>
+    <span className={`snow-badge ${variantClass} ${sizeClass} ${className}`}>
+      {icon && <span style={{ display: 'inline-flex', alignItems: 'center', marginRight: 4 }}>{icon}</span>}
+      <span style={{ fontVariantNumeric: 'tabular-nums', display: 'inline-flex', alignItems: 'center', lineHeight: 1 }}>
+        {children}
+      </span>
     </span>
   );
 };

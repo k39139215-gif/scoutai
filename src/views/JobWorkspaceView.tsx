@@ -4,6 +4,7 @@ import {
   SearchCheck,
   CheckCircle2,
   ArrowLeft,
+  Sparkles,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { StatusBadge } from '../components/common/Badge';
@@ -90,6 +91,27 @@ export const JobWorkspaceView: React.FC = () => {
             size="sm"
             menuWidth={140}
           />
+
+          <button
+            onClick={() => navigate('talent-studio', { jobId: currentJob.id })}
+            style={{
+              height: 32,
+              padding: '0 12px',
+              borderRadius: 6,
+              fontSize: 12,
+              fontWeight: 600,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 5,
+              background: '#eef2ff',
+              color: '#4338ca',
+              border: '1px solid #c7d2fe',
+              cursor: 'pointer',
+            }}
+          >
+            <Sparkles size={13} />
+            <span>Studio Desk (Refs)</span>
+          </button>
 
           <button
             className="btn-dark"
@@ -196,6 +218,63 @@ export const JobWorkspaceView: React.FC = () => {
               {s}
             </span>
           ))}
+        </div>
+      </div>
+
+      {/* Reference 04: Multi-Segment Pipeline Distribution Rail */}
+      <div
+        style={{
+          background: '#ffffff',
+          border: '1px solid #e4e4e7',
+          borderRadius: 8,
+          padding: '14px 20px',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: 10, fontWeight: 700, color: '#4338ca', backgroundColor: '#e0e7ff', padding: '2px 6px', borderRadius: 4 }}>
+              REF 04
+            </span>
+            <span style={{ fontSize: 12.5, fontWeight: 600, color: '#18181b' }}>
+              Requisition Pipeline Velocity Distribution
+            </span>
+          </div>
+          <span style={{ fontSize: 11.5, color: '#71717a' }}>
+            {jobCandidates.length} candidate profiles in flow • 14-day median conversion
+          </span>
+        </div>
+
+        {/* Multi-segment bar */}
+        <div style={{ height: 10, borderRadius: 9999, overflow: 'hidden', display: 'flex', backgroundColor: '#f4f4f5' }}>
+          <div style={{ width: '40%', backgroundColor: '#38bdf8' }} title="Ingested / Qualified: 40%" />
+          <div style={{ width: '30%', backgroundColor: '#6366f1' }} title="Shortlisted: 30%" />
+          <div style={{ width: '20%', backgroundColor: '#f59e0b' }} title="Interviewing: 20%" />
+          <div style={{ width: '10%', backgroundColor: '#10b981' }} title="Offer / Closing: 10%" />
+        </div>
+
+        {/* Stage Legend */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 10, flexWrap: 'wrap', fontSize: 11.5 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <span style={{ width: 8, height: 8, borderRadius: 2, backgroundColor: '#38bdf8' }} />
+            <span style={{ color: '#71717a' }}>Ingested:</span>
+            <strong style={{ color: '#18181b' }}>40%</strong>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <span style={{ width: 8, height: 8, borderRadius: 2, backgroundColor: '#6366f1' }} />
+            <span style={{ color: '#71717a' }}>Shortlisted:</span>
+            <strong style={{ color: '#18181b' }}>30%</strong>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <span style={{ width: 8, height: 8, borderRadius: 2, backgroundColor: '#f59e0b' }} />
+            <span style={{ color: '#71717a' }}>Interviewing:</span>
+            <strong style={{ color: '#18181b' }}>20%</strong>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <span style={{ width: 8, height: 8, borderRadius: 2, backgroundColor: '#10b981' }} />
+            <span style={{ color: '#71717a' }}>Offer:</span>
+            <strong style={{ color: '#18181b' }}>10%</strong>
+          </div>
         </div>
       </div>
 
@@ -407,6 +486,27 @@ export const JobWorkspaceView: React.FC = () => {
               <div style={{ fontSize: 12, color: '#15803d' }}>High-Confidence (85%+)</div>
             </div>
           </div>
+
+          <button
+            onClick={() => navigate('talent-studio', { jobId: currentJob.id })}
+            style={{
+              height: 32,
+              padding: '0 12px',
+              borderRadius: 6,
+              fontSize: 12,
+              fontWeight: 600,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 5,
+              background: '#eef2ff',
+              color: '#4338ca',
+              border: '1px solid #c7d2fe',
+              cursor: 'pointer',
+            }}
+          >
+            <Sparkles size={13} />
+            <span>Studio Desk (Refs)</span>
+          </button>
 
           <button
             className="btn-dark"

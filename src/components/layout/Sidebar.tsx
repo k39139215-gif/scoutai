@@ -149,7 +149,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
               <span style={{ fontWeight: 600, fontSize: 14, color: '#0f172a', letterSpacing: '-0.015em' }}>
                 ScoutAI
               </span>
-              <span style={{ fontSize: 11, color: '#9ca3af', fontFamily: 'var(--font-family-mono)' }}>
+              <span style={{ fontSize: 11, color: '#94a3b8', fontWeight: 500 }}>
                 ops
               </span>
             </div>

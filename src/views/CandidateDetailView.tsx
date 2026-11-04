@@ -11,7 +11,9 @@ import {
   FileText,
   Copy,
   Check,
+  Sparkles,
 } from 'lucide-react';
+import { CompetencyRadarChart } from '../components/studio/CompetencyRadarChart';
 import { useApp } from '../context/AppContext';
 import { Button } from '../components/common/Button';
 import { StatusBadge } from '../components/common/Badge';
@@ -35,7 +37,7 @@ export const CandidateDetailView: React.FC = () => {
     navigate,
   } = useApp();
 
-  const [activeTab, setActiveTab] = useState<'experience' | 'resume' | 'outreach' | 'activity'>('experience');
+  const [activeTab, setActiveTab] = useState<'experience' | 'resume' | 'outreach' | 'activity' | 'radar'>('experience');
 
   // Modal / Drawer states
   const [outreachDrawerOpen, setOutreachDrawerOpen] = useState(false);
@@ -151,6 +153,16 @@ Lead Technical Recruiter, ScoutAI`);
         </button>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <Button
+            variant="secondary"
+            size="sm"
+            icon={<Sparkles size={13} style={{ color: '#4338ca' }} />}
+            onClick={() => navigate('talent-studio', { candidateId: candidate.id })}
+            style={{ backgroundColor: '#eef2ff', borderColor: '#c7d2fe', color: '#4338ca', fontWeight: 600 }}
+          >
+            Studio Dossier (Refs)
+          </Button>
+
           <Button
             variant="secondary"
             size="sm"
@@ -326,6 +338,26 @@ Lead Technical Recruiter, ScoutAI`);
           }}
         >
           Outreach & Interviews ({candidateOutreach.length + candidateInterviews.length})
+        </button>
+
+        <button
+          onClick={() => setActiveTab('radar')}
+          style={{
+            padding: '7px 14px',
+            border: 'none',
+            background: 'transparent',
+            fontSize: 'var(--font-size-sm)',
+            fontWeight: activeTab === 'radar' ? 600 : 500,
+            color: activeTab === 'radar' ? 'var(--color-text-primary)' : 'var(--color-text-secondary)',
+            borderBottom: activeTab === 'radar' ? '2px solid var(--color-primary)' : '2px solid transparent',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 5,
+          }}
+        >
+          <Sparkles size={12} style={{ color: activeTab === 'radar' ? '#4338ca' : '#94a3b8' }} />
+          <span>Competency Radar (Ref 20)</span>
         </button>
 
         <button
@@ -569,6 +601,37 @@ Lead Technical Recruiter, ScoutAI`);
               ))}
             </div>
           )}
+        </div>
+      )}
+
+      {/* Tab 5: Multidimensional Radar (Ref 20) */}
+      {activeTab === 'radar' && (
+        <div className="snow-card" style={{ padding: '24px 32px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, marginBottom: 20 }}>
+            <div>
+              <span style={{ fontSize: 10.5, fontWeight: 700, color: '#4338ca', backgroundColor: '#eef2ff', padding: '2px 8px', borderRadius: 4 }}>
+                REFERENCE 20 IMPLEMENTATION
+              </span>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--color-text-primary)', marginTop: 4 }}>
+                Multidimensional Competency Radar
+              </h3>
+              <p style={{ fontSize: 12.5, color: 'var(--color-text-secondary)', marginTop: 2 }}>
+                Algorithmic 5-vector evaluation model benchmarked against {candidate.appliedJobTitle} requirements.
+              </p>
+            </div>
+            <Button
+              variant="secondary"
+              size="sm"
+              icon={<Sparkles size={13} />}
+              onClick={() => navigate('talent-studio', { candidateId: candidate.id })}
+            >
+              Open in Studio Desk (Dossier Mode)
+            </Button>
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '20px 0' }}>
+            <CompetencyRadarChart candidate={candidate} size={320} showLegend={true} />
+          </div>
         </div>
       )}
 
