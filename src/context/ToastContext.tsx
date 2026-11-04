@@ -39,11 +39,11 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   return (
     <ToastContext.Provider value={{ showToast, removeToast }}>
       {children}
-      {/* Toast Render Container - Centered Floating Obsidian Pill */}
+      {/* Toast Render Container - ScoutAI Native Light Floating Pill */}
       <div
         style={{
           position: 'fixed',
-          bottom: 28,
+          bottom: 24,
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 9999,
@@ -52,7 +52,7 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
           alignItems: 'center',
           gap: 8,
           pointerEvents: 'none',
-          maxWidth: 460,
+          maxWidth: 480,
           width: 'calc(100% - 32px)',
         }}
       >
@@ -61,49 +61,81 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
           const isDanger = toast.type === 'danger';
           const isWarning = toast.type === 'warning';
 
-          const iconColor = isSuccess
-            ? '#10b981'
+          const iconBg = isSuccess
+            ? '#f0fdf4'
             : isDanger
-            ? '#ef4444'
+            ? '#fef2f2'
             : isWarning
-            ? '#f59e0b'
-            : '#818cf8';
+            ? '#fffbeb'
+            : '#eef2ff';
+
+          const iconBorder = isSuccess
+            ? '#bbf7d0'
+            : isDanger
+            ? '#fecaca'
+            : isWarning
+            ? '#fde68a'
+            : '#c7d2fe';
+
+          const iconColor = isSuccess
+            ? '#166534'
+            : isDanger
+            ? '#991b1b'
+            : isWarning
+            ? '#92400e'
+            : '#4338ca';
 
           return (
             <div
               key={toast.id}
               style={{
                 pointerEvents: 'auto',
-                background: '#0f172a',
-                color: '#ffffff',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
+                background: '#ffffff',
+                color: '#0f172a',
+                border: '1px solid #e2e8f0',
                 borderRadius: 9999,
-                padding: '9px 16px 9px 14px',
-                boxShadow: '0 20px 40px -8px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(15, 23, 42, 0.15)',
+                padding: '8px 14px 8px 12px',
+                boxShadow:
+                  '0 10px 25px -4px rgba(15, 23, 42, 0.1), 0 4px 10px -2px rgba(15, 23, 42, 0.04), 0 0 0 1px rgba(15, 23, 42, 0.02)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 10,
-                backdropFilter: 'blur(8px)',
-                animation: 'scaleIn 180ms ease-out forwards',
+                maxWidth: 460,
+                userSelect: 'none',
+                animation: 'scaleIn 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
               }}
             >
-              <div style={{ color: iconColor, flexShrink: 0, display: 'flex', alignItems: 'center' }}>
-                {isSuccess && <CheckCircle2 size={16} />}
-                {isDanger && <AlertCircle size={16} />}
-                {isWarning && <AlertCircle size={16} />}
-                {!isSuccess && !isDanger && !isWarning && <Info size={16} />}
+              <div
+                style={{
+                  width: 22,
+                  height: 22,
+                  borderRadius: '50%',
+                  background: iconBg,
+                  border: `1px solid ${iconBorder}`,
+                  color: iconColor,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                {isSuccess && <CheckCircle2 size={13} strokeWidth={2.5} />}
+                {isDanger && <AlertCircle size={13} strokeWidth={2.5} />}
+                {isWarning && <AlertCircle size={13} strokeWidth={2.5} />}
+                {!isSuccess && !isDanger && !isWarning && <Info size={13} strokeWidth={2.5} />}
               </div>
+
               <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
                 {toast.title && (
-                  <span style={{ fontSize: 12.5, fontWeight: 700, color: '#ffffff' }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: '#0f172a' }}>
                     {toast.title}:
                   </span>
                 )}
                 <span
                   style={{
-                    fontSize: 12.5,
+                    fontSize: 13,
                     fontWeight: 500,
-                    color: '#f8fafc',
+                    color: '#1e293b',
                     lineHeight: 1.4,
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
@@ -113,24 +145,36 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
                   {toast.message}
                 </span>
               </div>
+
               <button
+                type="button"
                 onClick={() => removeToast(toast.id)}
+                aria-label="Dismiss notification"
                 style={{
                   background: 'transparent',
                   border: 'none',
                   color: '#94a3b8',
                   cursor: 'pointer',
-                  padding: 2,
+                  padding: 3,
+                  marginLeft: 4,
                   display: 'flex',
                   alignItems: 'center',
-                  marginLeft: 4,
-                  transition: 'color 0.15s ease',
+                  justifyContent: 'center',
+                  borderRadius: 9999,
+                  transition: 'color 0.12s ease, background-color 0.12s ease',
+                  outline: 'none',
+                  boxShadow: 'none',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#94a3b8')}
-                aria-label="Dismiss notification"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = '#0f172a';
+                  e.currentTarget.style.background = '#f1f5f9';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = '#94a3b8';
+                  e.currentTarget.style.background = 'transparent';
+                }}
               >
-                <X size={14} />
+                <X size={13} strokeWidth={2} />
               </button>
             </div>
           );

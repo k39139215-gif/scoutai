@@ -25,6 +25,7 @@ import {
   Printer,
   GitCompare,
 } from 'lucide-react';
+import { CustomCheckbox } from '../components/common/CustomCheckbox';
 import { CompetencyRadarChart } from '../components/studio/CompetencyRadarChart';
 import { CandidateComparisonModal } from '../components/studio/CandidateComparisonModal';
 import { useApp } from '../context/AppContext';
@@ -1054,15 +1055,15 @@ export const TalentStudioView: React.FC = () => {
                       textTransform: 'capitalize',
                     }}
                   >
-                    <input
-                      type="checkbox"
-                      checked={(visibleColumns as any)[colKey]}
-                      onChange={(e) =>
+                    <CustomCheckbox
+                      checked={Boolean((visibleColumns as any)[colKey])}
+                      onChange={(checked: boolean) =>
                         setVisibleColumns((prev) => ({
                           ...prev,
-                          [colKey]: e.target.checked,
+                          [colKey]: checked,
                         }))
                       }
+                      size={14}
                     />
                     <span>{colKey}</span>
                   </label>
@@ -1324,13 +1325,13 @@ export const TalentStudioView: React.FC = () => {
                       }}
                     >
                       <th style={{ width: 40, padding: '10px 12px', textAlign: 'center' }}>
-                        <input
-                          type="checkbox"
+                        <CustomCheckbox
                           checked={
                             sortedCandidates.length > 0 &&
                             selectedIds.length === sortedCandidates.length
                           }
-                          onChange={handleToggleSelectAll}
+                          onChange={() => handleToggleSelectAll()}
+                          size={15}
                         />
                       </th>
                       {visibleColumns.code && (
@@ -1547,10 +1548,10 @@ export const TalentStudioView: React.FC = () => {
                           >
                             {/* Checkbox */}
                             <td style={{ padding: '12px', textAlign: 'center' }}>
-                              <input
-                                type="checkbox"
+                              <CustomCheckbox
                                 checked={isSelected}
                                 onChange={() => handleToggleSelectRow(candidate.id)}
+                                size={15}
                               />
                             </td>
 

@@ -11,6 +11,7 @@ import { StatusBadge } from '../components/common/Badge';
 import { Modal } from '../components/common/Modal';
 import { Input } from '../components/common/Input';
 import { CustomSelect } from '../components/common/CustomDropdown';
+import { CustomCheckbox } from '../components/common/CustomCheckbox';
 import type { TaskCategory, JobPriority } from '../types';
 
 export const TasksView: React.FC = () => {
@@ -62,14 +63,14 @@ export const TasksView: React.FC = () => {
             style={{
               fontSize: 22,
               fontWeight: 600,
-              color: '#18181b',
+              color: '#0f172a',
               letterSpacing: '-0.02em',
               lineHeight: 1.2,
             }}
           >
             Recruiter Tasks
           </h1>
-          <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
+          <p style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>
             Manage candidate evaluations, outreach reviews, and hiring manager follow-ups.
           </p>
         </div>
@@ -86,7 +87,7 @@ export const TasksView: React.FC = () => {
             display: 'inline-flex',
             alignItems: 'center',
             gap: 7,
-            background: '#18181b',
+            background: '#0f172a',
             color: '#ffffff',
             border: 'none',
             cursor: 'pointer',
@@ -107,11 +108,11 @@ export const TasksView: React.FC = () => {
           flexWrap: 'wrap',
           gap: 12,
           background: '#ffffff',
-          border: '1px solid #e4e4e7',
+          border: '1px solid #e2e8f0',
           borderRadius: 8,
         }}
       >
-        <div style={{ display: 'flex', gap: 3, background: '#f4f4f5', padding: 3, borderRadius: 7 }}>
+        <div style={{ display: 'flex', gap: 3, background: '#f1f5f9', padding: 3, borderRadius: 7 }}>
           {['All', 'Pending', 'In Progress', 'Completed'].map((st) => {
             const isSelected = statusFilter === st;
             const count = st === 'All' ? tasks.length : tasks.filter((t) => t.status === st).length;
@@ -126,7 +127,7 @@ export const TasksView: React.FC = () => {
                   fontWeight: isSelected ? 600 : 500,
                   border: 'none',
                   background: isSelected ? '#ffffff' : 'transparent',
-                  color: isSelected ? '#18181b' : '#71717a',
+                  color: isSelected ? '#0f172a' : '#64748b',
                   cursor: 'pointer',
                   boxShadow: isSelected ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
                   transition: 'all 0.12s ease',
@@ -141,8 +142,9 @@ export const TasksView: React.FC = () => {
                     fontSize: 11,
                     padding: '0 5px',
                     borderRadius: 9999,
-                    background: isSelected ? '#f4f4f5' : 'transparent',
-                    color: isSelected ? '#18181b' : '#a1a1aa',
+                    background: isSelected ? '#f1f5f9' : 'transparent',
+                    color: isSelected ? '#0f172a' : '#94a3b8',
+                    fontVariantNumeric: 'tabular-nums',
                   }}
                 >
                   {count}
@@ -152,8 +154,8 @@ export const TasksView: React.FC = () => {
           })}
         </div>
 
-        <span style={{ fontSize: 13, color: '#71717a' }}>
-          Showing <strong style={{ color: '#18181b' }}>{filteredTasks.length}</strong> of {tasks.length} tasks
+        <span style={{ fontSize: 13, color: '#64748b' }}>
+          Showing <strong style={{ color: '#0f172a' }}>{filteredTasks.length}</strong> of {tasks.length} tasks
         </span>
       </div>
 
@@ -161,14 +163,14 @@ export const TasksView: React.FC = () => {
       <div
         style={{
           background: '#ffffff',
-          border: '1px solid #e4e4e7',
+          border: '1px solid #e2e8f0',
           borderRadius: 8,
           overflow: 'hidden',
           boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
         }}
       >
         {filteredTasks.length === 0 ? (
-          <div style={{ padding: 48, textAlign: 'center', color: '#71717a', fontSize: 13 }}>
+          <div style={{ padding: 48, textAlign: 'center', color: '#64748b', fontSize: 13 }}>
             No tasks found with status "{statusFilter}".
           </div>
         ) : (
@@ -181,34 +183,27 @@ export const TasksView: React.FC = () => {
                   key={t.id}
                   style={{
                     padding: '14px 20px',
-                    borderBottom: '1px solid #f4f4f5',
+                    borderBottom: '1px solid #f1f5f9',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     gap: 16,
-                    background: isCompleted ? '#fafafa' : '#ffffff',
+                    background: isCompleted ? '#f8fafc' : '#ffffff',
                     transition: 'background 0.12s ease',
                   }}
                   onMouseEnter={(e) => {
-                    if (!isCompleted) e.currentTarget.style.background = '#fafafa';
+                    if (!isCompleted) e.currentTarget.style.background = '#f8fafc';
                   }}
                   onMouseLeave={(e) => {
                     if (!isCompleted) e.currentTarget.style.background = '#ffffff';
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: 14, flex: 1, minWidth: 0 }}>
-                    {/* Checkbox Toggle */}
-                    <input
-                      type="checkbox"
+                    {/* Checkbox Toggle with Custom Checkbox component (zero bounding box) */}
+                    <CustomCheckbox
                       checked={isCompleted}
                       onChange={() => toggleTaskStatus(t.id)}
-                      style={{
-                        width: 17,
-                        height: 17,
-                        accentColor: '#18181b',
-                        cursor: 'pointer',
-                        flexShrink: 0,
-                      }}
+                      ariaLabel={t.title}
                     />
 
                     <div style={{ minWidth: 0 }}>
@@ -216,7 +211,7 @@ export const TasksView: React.FC = () => {
                         style={{
                           fontSize: 13.5,
                           fontWeight: 500,
-                          color: isCompleted ? '#a1a1aa' : '#18181b',
+                          color: isCompleted ? '#94a3b8' : '#0f172a',
                           textDecoration: isCompleted ? 'line-through' : 'none',
                         }}
                       >
@@ -227,19 +222,19 @@ export const TasksView: React.FC = () => {
                         <span
                           style={{
                             fontSize: 11,
-                            background: '#f4f4f5',
+                            background: '#f1f5f9',
                             padding: '2px 7px',
                             borderRadius: 4,
-                            color: '#52525b',
+                            color: '#475569',
                             fontWeight: 500,
                           }}
                         >
                           {t.category}
                         </span>
 
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 12, color: '#71717a' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 12, color: '#64748b' }}>
                           <Clock size={12} />
-                          <span>Due {t.dueDate}</span>
+                          <span style={{ fontVariantNumeric: 'tabular-nums' }}>Due {t.dueDate}</span>
                         </div>
 
                         {t.relatedCandidateName && (
@@ -250,7 +245,7 @@ export const TasksView: React.FC = () => {
                             }
                             style={{
                               fontSize: 12,
-                              color: '#2563eb',
+                              color: '#4338ca',
                               cursor: 'pointer',
                               display: 'flex',
                               alignItems: 'center',
@@ -303,7 +298,7 @@ export const TasksView: React.FC = () => {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Category</label>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#0f172a' }}>Category</label>
               <CustomSelect
                 value={category}
                 onChange={(val) => setCategory(val as TaskCategory)}
@@ -320,7 +315,7 @@ export const TasksView: React.FC = () => {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Priority</label>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#0f172a' }}>Priority</label>
               <CustomSelect
                 value={priority}
                 onChange={(val) => setPriority(val as JobPriority)}
@@ -347,4 +342,3 @@ export const TasksView: React.FC = () => {
     </div>
   );
 };
-

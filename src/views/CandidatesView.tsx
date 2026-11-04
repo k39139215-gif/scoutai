@@ -23,6 +23,7 @@ import { useApp } from '../context/AppContext';
 import { useToast } from '../context/ToastContext';
 import { StatusBadge } from '../components/common/Badge';
 import { Drawer } from '../components/common/Drawer';
+import { CustomCheckbox } from '../components/common/CustomCheckbox';
 import { CustomSelect, CustomMenu } from '../components/common/CustomDropdown';
 
 export const CandidatesView: React.FC = () => {
@@ -87,8 +88,9 @@ export const CandidatesView: React.FC = () => {
     return a.name.localeCompare(b.name);
   });
 
-  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
+  const handleSelectAll = (checked: boolean | React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = typeof checked === 'boolean' ? checked : checked.target.checked;
+    if (isChecked) {
       setSelectedIds(sortedCandidates.map((c) => c.id));
     } else {
       setSelectedIds([]);
@@ -806,14 +808,14 @@ export const CandidatesView: React.FC = () => {
               <thead>
                 <tr style={{ background: '#fafafa', borderBottom: '1px solid #e4e4e7' }}>
                   <th style={{ width: 44, padding: '12px 14px', textAlign: 'center' }}>
-                    <input
-                      type="checkbox"
+                    <CustomCheckbox
                       checked={
                         sortedCandidates.length > 0 &&
                         selectedIds.length === sortedCandidates.length
                       }
-                      onChange={handleSelectAll}
-                      style={{ cursor: 'pointer', width: 15, height: 15, accentColor: '#18181b' }}
+                      onChange={(checked: boolean) => handleSelectAll(checked)}
+                      size={15}
+                      ariaLabel="Select all candidates"
                     />
                   </th>
                   <th
@@ -957,11 +959,11 @@ export const CandidatesView: React.FC = () => {
                       >
                         {/* Checkbox */}
                         <td style={{ padding: '0 14px', textAlign: 'center' }}>
-                          <input
-                            type="checkbox"
+                          <CustomCheckbox
                             checked={isSelected}
                             onChange={() => handleToggleSelect(c.id)}
-                            style={{ cursor: 'pointer', width: 15, height: 15, accentColor: '#18181b' }}
+                            size={15}
+                            ariaLabel={`Select ${c.name}`}
                           />
                         </td>
 

@@ -177,9 +177,54 @@ button {
   -webkit-user-select: none;
 }
 
-button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
-  outline: 2px solid var(--text-primary);
-  outline-offset: 1px;
+/* Eradicate jarring click bounding boxes across the entire product */
+*, *::before, *::after {
+  outline: none;
+}
+
+*:focus {
+  outline: none !important;
+}
+
+button:focus,
+input:focus,
+select:focus,
+textarea:focus,
+[tabindex]:focus {
+  outline: none !important;
+}
+
+button:focus:not(:focus-visible),
+input:focus:not(:focus-visible),
+select:focus:not(:focus-visible),
+textarea:focus:not(:focus-visible) {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Subtle, accessible focus ring ONLY for keyboard navigation (Tab key), never for mouse clicks */
+button:focus-visible,
+select:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #c7d2fe !important;
+}
+
+/* Checkboxes and radio buttons: strict zero bounding box on all states */
+input[type="checkbox"],
+input[type="radio"] {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: #cbd5e1;
+}
+
+input[type="checkbox"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:active,
+input[type="radio"]:active,
+input[type="checkbox"]:focus-visible,
+input[type="radio"]:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 /* Tactile, non-jarring button feedback */
@@ -356,10 +401,13 @@ input::placeholder, textarea::placeholder {
   color: var(--text-muted);
 }
 
-input:focus, textarea:focus, .form-input:focus, .form-textarea:focus {
+input:not([type="checkbox"]):not([type="radio"]):focus,
+textarea:focus,
+.form-input:focus,
+.form-textarea:focus {
   border-color: var(--text-primary) !important;
-  outline: none;
-  box-shadow: 0 0 0 1px var(--text-primary);
+  outline: none !important;
+  box-shadow: 0 0 0 1px var(--text-primary) !important;
 }
 
 /* ==========================================================================

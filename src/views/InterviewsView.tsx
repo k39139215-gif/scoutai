@@ -6,6 +6,7 @@ import {
   CheckCircle2,
   XCircle,
   Video,
+  Sparkles,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Button } from '../components/common/Button';
@@ -92,9 +93,32 @@ export const InterviewsView: React.FC = () => {
           </p>
         </div>
 
-        <button
-          className="btn-dark"
-          onClick={() => setModalOpen(true)}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <button
+            onClick={() => navigate('talent-studio')}
+            style={{
+              height: 36,
+              padding: '0 14px',
+              borderRadius: 8,
+              fontSize: 13,
+              fontWeight: 600,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              background: '#eef2ff',
+              border: '1px solid #c7d2fe',
+              color: '#4338ca',
+              cursor: 'pointer',
+              transition: 'all 0.12s ease',
+            }}
+          >
+            <Sparkles size={14} />
+            <span>Studio Desk (Refs)</span>
+          </button>
+
+          <button
+            className="btn-dark"
+            onClick={() => setModalOpen(true)}
           style={{
             height: 36,
             padding: '0 16px',
@@ -113,6 +137,7 @@ export const InterviewsView: React.FC = () => {
           <Plus size={15} />
           <span>Schedule Interview</span>
         </button>
+        </div>
       </div>
 
       {/* Filter Row */}
