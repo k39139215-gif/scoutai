@@ -159,6 +159,14 @@ export const TalentStudioView: React.FC = () => {
     'Strong cultural alignment observed during preliminary review. Candidate demonstrated high systems clarity.'
   );
   const [dossierComp, setDossierComp] = useState('₹45,00,000 - ₹55,00,000 PA');
+  const [rubricWeights, setRubricWeights] = useState({
+    arch: 20,
+    code: 20,
+    scale: 20,
+    lead: 20,
+    domain: 20,
+  });
+  const [selectedLogicNode, setSelectedLogicNode] = useState<string>('node-3');
 
   // References for outside click handling
   const filterPopoverRef = useRef<HTMLDivElement>(null);
@@ -2552,6 +2560,98 @@ export const TalentStudioView: React.FC = () => {
                     />
                   </div>
 
+                  {/* Reference 02: Interactive Model Weight Calibration Sliders */}
+                  <div
+                    style={{
+                      padding: 14,
+                      backgroundColor: '#f8fafc',
+                      borderRadius: 8,
+                      border: '1px solid #e2e8f0',
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        marginBottom: 10,
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 700,
+                          color: '#334155',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.04em',
+                        }}
+                      >
+                        Rubric Calibration (Ref 02)
+                      </span>
+                      <button
+                        onClick={() =>
+                          setRubricWeights({ arch: 20, code: 20, scale: 20, lead: 20, domain: 20 })
+                        }
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: '#2563eb',
+                          fontSize: 11,
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        Reset Defaults
+                      </button>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                      {[
+                        { key: 'arch' as const, label: 'Systems Architecture', val: rubricWeights.arch },
+                        { key: 'code' as const, label: 'Code Craftsmanship', val: rubricWeights.code },
+                        { key: 'scale' as const, label: 'Scalability & Perf', val: rubricWeights.scale },
+                        { key: 'lead' as const, label: 'Leadership & Collab', val: rubricWeights.lead },
+                        { key: 'domain' as const, label: 'Domain Velocity', val: rubricWeights.domain },
+                      ].map((item) => (
+                        <div key={item.key}>
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              fontSize: 11,
+                              color: '#475569',
+                              marginBottom: 3,
+                            }}
+                          >
+                            <span>{item.label}</span>
+                            <span style={{ fontWeight: 700, color: '#0f172a', fontFamily: 'monospace' }}>
+                              {item.val * 5}%
+                            </span>
+                          </div>
+                          <input
+                            type="range"
+                            min="10"
+                            max="30"
+                            step="1"
+                            value={item.val}
+                            onChange={(e) =>
+                              setRubricWeights((prev) => ({
+                                ...prev,
+                                [item.key]: Number(e.target.value),
+                              }))
+                            }
+                            style={{
+                              width: '100%',
+                              height: 4,
+                              accentColor: '#2563eb',
+                              cursor: 'pointer',
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
                   {/* Stage Advancement Button */}
                   <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
                     <button
@@ -2759,7 +2859,12 @@ export const TalentStudioView: React.FC = () => {
                       5-Vector Assessment
                     </span>
                   </div>
-                  <CompetencyRadarChart candidate={activeCandidate} size={280} showLegend={true} />
+                  <CompetencyRadarChart
+                    candidate={activeCandidate}
+                    size={280}
+                    showLegend={true}
+                    weights={rubricWeights}
+                  />
                 </div>
 
                 {/* Verified Skills Breakdown */}
@@ -2881,32 +2986,39 @@ export const TalentStudioView: React.FC = () => {
                   display: 'grid',
                   gridTemplateColumns: 'repeat(4, minmax(200px, 1fr))',
                   gap: 16,
-                  marginBottom: 24,
+                  marginBottom: 16,
                 }}
               >
                 {/* Node 1: Trigger */}
                 <div
+                  onClick={() => setSelectedLogicNode('node-1')}
                   style={{
                     backgroundColor: '#ffffff',
                     borderRadius: 8,
-                    border: '1px solid #cbd5e1',
+                    border: selectedLogicNode === 'node-1' ? '2px solid #2563eb' : '1px solid #cbd5e1',
                     padding: 14,
-                    boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)',
+                    boxShadow: selectedLogicNode === 'node-1' ? '0 6px 16px -2px rgba(37, 99, 235, 0.2)' : '0 4px 6px -1px rgba(0,0,0,0.05)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
                   }}
                 >
                   <div
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 4,
-                      fontSize: 10,
-                      fontWeight: 700,
-                      color: '#d97706',
+                      justifyContent: 'space-between',
                       marginBottom: 6,
                     }}
                   >
-                    <Zap size={12} />
-                    <span>TRIGGER</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 700, color: '#d97706' }}>
+                      <Zap size={12} />
+                      <span>TRIGGER</span>
+                    </div>
+                    {selectedLogicNode === 'node-1' && (
+                      <span style={{ fontSize: 9, fontWeight: 700, color: '#2563eb', backgroundColor: '#eff6ff', padding: '1px 5px', borderRadius: 3 }}>
+                        SELECTED
+                      </span>
+                    )}
                   </div>
                   <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', marginBottom: 4 }}>
                     Candidate Ingest
@@ -2919,27 +3031,34 @@ export const TalentStudioView: React.FC = () => {
 
                 {/* Node 2: Action */}
                 <div
+                  onClick={() => setSelectedLogicNode('node-2')}
                   style={{
                     backgroundColor: '#ffffff',
                     borderRadius: 8,
-                    border: '1px solid #cbd5e1',
+                    border: selectedLogicNode === 'node-2' ? '2px solid #2563eb' : '1px solid #cbd5e1',
                     padding: 14,
-                    boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)',
+                    boxShadow: selectedLogicNode === 'node-2' ? '0 6px 16px -2px rgba(37, 99, 235, 0.2)' : '0 4px 6px -1px rgba(0,0,0,0.05)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
                   }}
                 >
                   <div
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 4,
-                      fontSize: 10,
-                      fontWeight: 700,
-                      color: '#2563eb',
+                      justifyContent: 'space-between',
                       marginBottom: 6,
                     }}
                   >
-                    <Workflow size={12} />
-                    <span>ACTION</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 700, color: '#2563eb' }}>
+                      <Workflow size={12} />
+                      <span>ACTION</span>
+                    </div>
+                    {selectedLogicNode === 'node-2' && (
+                      <span style={{ fontSize: 9, fontWeight: 700, color: '#2563eb', backgroundColor: '#eff6ff', padding: '1px 5px', borderRadius: 3 }}>
+                        SELECTED
+                      </span>
+                    )}
                   </div>
                   <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', marginBottom: 4 }}>
                     Resume Extraction
@@ -2952,27 +3071,34 @@ export const TalentStudioView: React.FC = () => {
 
                 {/* Node 3: AI Inference */}
                 <div
+                  onClick={() => setSelectedLogicNode('node-3')}
                   style={{
                     backgroundColor: '#ffffff',
                     borderRadius: 8,
-                    border: '1px solid #818cf8',
+                    border: selectedLogicNode === 'node-3' ? '2px solid #4f46e5' : '1px solid #818cf8',
                     padding: 14,
-                    boxShadow: '0 4px 12px -2px rgba(99, 102, 241, 0.15)',
+                    boxShadow: selectedLogicNode === 'node-3' ? '0 8px 20px -2px rgba(79, 70, 229, 0.3)' : '0 4px 12px -2px rgba(99, 102, 241, 0.15)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
                   }}
                 >
                   <div
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 4,
-                      fontSize: 10,
-                      fontWeight: 700,
-                      color: '#4f46e5',
+                      justifyContent: 'space-between',
                       marginBottom: 6,
                     }}
                   >
-                    <Sparkles size={12} />
-                    <span>AI INFERENCE</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 700, color: '#4f46e5' }}>
+                      <Sparkles size={12} />
+                      <span>AI INFERENCE</span>
+                    </div>
+                    {selectedLogicNode === 'node-3' && (
+                      <span style={{ fontSize: 9, fontWeight: 700, color: '#4f46e5', backgroundColor: '#eef2ff', padding: '1px 5px', borderRadius: 3 }}>
+                        SELECTED
+                      </span>
+                    )}
                   </div>
                   <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', marginBottom: 4 }}>
                     Claude 3.5 Scoring
@@ -2987,27 +3113,34 @@ export const TalentStudioView: React.FC = () => {
 
                 {/* Node 4: Output */}
                 <div
+                  onClick={() => setSelectedLogicNode('node-4')}
                   style={{
                     backgroundColor: '#ffffff',
                     borderRadius: 8,
-                    border: '1px solid #cbd5e1',
+                    border: selectedLogicNode === 'node-4' ? '2px solid #16a34a' : '1px solid #cbd5e1',
                     padding: 14,
-                    boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)',
+                    boxShadow: selectedLogicNode === 'node-4' ? '0 6px 16px -2px rgba(22, 163, 74, 0.2)' : '0 4px 6px -1px rgba(0,0,0,0.05)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
                   }}
                 >
                   <div
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 4,
-                      fontSize: 10,
-                      fontWeight: 700,
-                      color: '#16a34a',
+                      justifyContent: 'space-between',
                       marginBottom: 6,
                     }}
                   >
-                    <CheckCircle2 size={12} />
-                    <span>OUTPUT</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 700, color: '#16a34a' }}>
+                      <CheckCircle2 size={12} />
+                      <span>OUTPUT</span>
+                    </div>
+                    {selectedLogicNode === 'node-4' && (
+                      <span style={{ fontSize: 9, fontWeight: 700, color: '#16a34a', backgroundColor: '#f0fdf4', padding: '1px 5px', borderRadius: 3 }}>
+                        SELECTED
+                      </span>
+                    )}
                   </div>
                   <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', marginBottom: 4 }}>
                     Dossier & Audit Trail
@@ -3017,6 +3150,102 @@ export const TalentStudioView: React.FC = () => {
                   </div>
                   <div style={{ fontSize: 10, color: '#16a34a', fontWeight: 600 }}>Status: Ready</div>
                 </div>
+              </div>
+
+              {/* Reference 13 & 15: Node Configuration & Schema Inspector */}
+              <div
+                style={{
+                  backgroundColor: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: 8,
+                  padding: '14px 18px',
+                  marginBottom: 16,
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: '#334155', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                      NODE INSPECTOR (REFS 13 & 15):
+                    </span>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: '#0f172a' }}>
+                      {selectedLogicNode === 'node-1' && 'Node 1 — Ingestion Webhook Handler'}
+                      {selectedLogicNode === 'node-2' && 'Node 2 — Document OCR & PII Scrubbing'}
+                      {selectedLogicNode === 'node-3' && 'Node 3 — Claude 3.5 Sonnet Neural Match'}
+                      {selectedLogicNode === 'node-4' && 'Node 4 — Verified Output & SOC 2 Ledger'}
+                    </span>
+                  </div>
+                  <span style={{ fontSize: 10, fontFamily: 'monospace', color: '#64748b', backgroundColor: '#ffffff', padding: '2px 6px', borderRadius: 4, border: '1px solid #cbd5e1' }}>
+                    CONFIG SCHEMA: v3.4.2
+                  </span>
+                </div>
+
+                {selectedLogicNode === 'node-1' && (
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, fontSize: 11 }}>
+                    <div style={{ backgroundColor: '#ffffff', padding: '8px 12px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
+                      <span style={{ color: '#64748b', display: 'block' }}>Endpoint URL</span>
+                      <code style={{ color: '#0f172a', fontWeight: 600 }}>/api/v1/intake/webhook</code>
+                    </div>
+                    <div style={{ backgroundColor: '#ffffff', padding: '8px 12px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
+                      <span style={{ color: '#64748b', display: 'block' }}>Auth Protocol</span>
+                      <code style={{ color: '#0f172a', fontWeight: 600 }}>HMAC-SHA256 (Lever/GH)</code>
+                    </div>
+                    <div style={{ backgroundColor: '#ffffff', padding: '8px 12px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
+                      <span style={{ color: '#64748b', display: 'block' }}>Rate Throttle</span>
+                      <code style={{ color: '#0f172a', fontWeight: 600 }}>500 payloads / min</code>
+                    </div>
+                  </div>
+                )}
+
+                {selectedLogicNode === 'node-2' && (
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, fontSize: 11 }}>
+                    <div style={{ backgroundColor: '#ffffff', padding: '8px 12px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
+                      <span style={{ color: '#64748b', display: 'block' }}>OCR Parser</span>
+                      <code style={{ color: '#0f172a', fontWeight: 600 }}>Tesseract v5.3 + PDFMiner</code>
+                    </div>
+                    <div style={{ backgroundColor: '#ffffff', padding: '8px 12px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
+                      <span style={{ color: '#64748b', display: 'block' }}>PII Anonymization</span>
+                      <code style={{ color: '#0f172a', fontWeight: 600 }}>Presidio DPDP Redactor Active</code>
+                    </div>
+                    <div style={{ backgroundColor: '#ffffff', padding: '8px 12px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
+                      <span style={{ color: '#64748b', display: 'block' }}>Embedding Dimensions</span>
+                      <code style={{ color: '#0f172a', fontWeight: 600 }}>1536 (Normalized Ada-002)</code>
+                    </div>
+                  </div>
+                )}
+
+                {selectedLogicNode === 'node-3' && (
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, fontSize: 11 }}>
+                    <div style={{ backgroundColor: '#ffffff', padding: '8px 12px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
+                      <span style={{ color: '#64748b', display: 'block' }}>LLM Core Engine</span>
+                      <code style={{ color: '#4f46e5', fontWeight: 700 }}>claude-3-5-sonnet-20241022</code>
+                    </div>
+                    <div style={{ backgroundColor: '#ffffff', padding: '8px 12px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
+                      <span style={{ color: '#64748b', display: 'block' }}>Hyperparameters</span>
+                      <code style={{ color: '#0f172a', fontWeight: 600 }}>temp: 0.15 • top_p: 0.95</code>
+                    </div>
+                    <div style={{ backgroundColor: '#ffffff', padding: '8px 12px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
+                      <span style={{ color: '#64748b', display: 'block' }}>Rubric Vector ID</span>
+                      <code style={{ color: '#0f172a', fontWeight: 600 }}>Rubric-Sys-Scale-v3.4</code>
+                    </div>
+                  </div>
+                )}
+
+                {selectedLogicNode === 'node-4' && (
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, fontSize: 11 }}>
+                    <div style={{ backgroundColor: '#ffffff', padding: '8px 12px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
+                      <span style={{ color: '#64748b', display: 'block' }}>Primary Database</span>
+                      <code style={{ color: '#0f172a', fontWeight: 600 }}>PostgreSQL (Encrypted-at-Rest)</code>
+                    </div>
+                    <div style={{ backgroundColor: '#ffffff', padding: '8px 12px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
+                      <span style={{ color: '#64748b', display: 'block' }}>Audit Trail</span>
+                      <code style={{ color: '#16a34a', fontWeight: 600 }}>SOC 2 Type II Immutable Log</code>
+                    </div>
+                    <div style={{ backgroundColor: '#ffffff', padding: '8px 12px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
+                      <span style={{ color: '#64748b', display: 'block' }}>Slack Notification</span>
+                      <code style={{ color: '#0f172a', fontWeight: 600 }}>#talent-ops-stream</code>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Live Trace Logs Console */}

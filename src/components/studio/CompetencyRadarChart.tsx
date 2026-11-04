@@ -7,15 +7,32 @@ export interface CompetencyDimension {
   score: number;
 }
 
-export const getCandidateCompetencies = (candidate: Candidate): CompetencyDimension[] => {
+export interface RubricWeights {
+  arch: number;
+  code: number;
+  scale: number;
+  lead: number;
+  domain: number;
+}
+
+export const getCandidateCompetencies = (
+  candidate: Candidate,
+  weights?: RubricWeights
+): CompetencyDimension[] => {
   const hasBackend = candidate.skills.some((s) => /distributed|cloud|backend|architect|microservices|golang|rust|node/i.test(s));
   const hasFrontend = candidate.skills.some((s) => /test|clean|react|typescript|next|vue/i.test(s));
   
-  const arch = Math.min(99, Math.max(65, Math.round(candidate.matchScore * 0.96 + (hasBackend ? 7 : 1))));
-  const code = Math.min(99, Math.max(68, Math.round(candidate.matchScore * 0.94 + (hasFrontend ? 6 : 2))));
-  const scale = Math.min(99, Math.max(60, Math.round(candidate.experienceYears * 4.5 + candidate.matchScore * 0.48)));
-  const lead = Math.min(98, Math.max(70, Math.round(candidate.matchScore * 0.88 + (candidate.experienceYears > 6 ? 9 : 3))));
-  const domain = Math.min(99, Math.max(66, Math.round(candidate.matchScore * 0.95 + Math.min(candidate.skills.length * 2, 7))));
+  const wArch = weights ? weights.arch / 20 : 1;
+  const wCode = weights ? weights.code / 20 : 1;
+  const wScale = weights ? weights.scale / 20 : 1;
+  const wLead = weights ? weights.lead / 20 : 1;
+  const wDomain = weights ? weights.domain / 20 : 1;
+
+  const arch = Math.min(99, Math.max(50, Math.round((candidate.matchScore * 0.96 + (hasBackend ? 7 : 1)) * wArch)));
+  const code = Math.min(99, Math.max(50, Math.round((candidate.matchScore * 0.94 + (hasFrontend ? 6 : 2)) * wCode)));
+  const scale = Math.min(99, Math.max(50, Math.round((candidate.experienceYears * 4.5 + candidate.matchScore * 0.48) * wScale)));
+  const lead = Math.min(98, Math.max(50, Math.round((candidate.matchScore * 0.88 + (candidate.experienceYears > 6 ? 9 : 3)) * wLead)));
+  const domain = Math.min(99, Math.max(50, Math.round((candidate.matchScore * 0.95 + Math.min(candidate.skills.length * 2, 7)) * wDomain)));
 
   return [
     { label: 'Systems Architecture', shortLabel: 'Architecture', score: arch },
@@ -30,14 +47,16 @@ interface CompetencyRadarChartProps {
   candidate: Candidate;
   size?: number;
   showLegend?: boolean;
+  weights?: RubricWeights;
 }
 
 export const CompetencyRadarChart: React.FC<CompetencyRadarChartProps> = ({
   candidate,
   size = 260,
   showLegend = true,
+  weights,
 }) => {
-  const competencies = getCandidateCompetencies(candidate);
+  const competencies = getCandidateCompetencies(candidate, weights);
   const numAxes = competencies.length;
   
   const width = size;
