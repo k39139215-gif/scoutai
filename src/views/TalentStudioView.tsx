@@ -3515,7 +3515,7 @@ export const TalentStudioView: React.FC = () => {
                 { id: 9, file: 'c52644afe1c61981064a1e4a2f90d20a.png', title: 'Column Header Action Menus', location: 'Table Column Headers', desc: 'Dropdown menus on header click (Sort Ascending, Sort Descending, Quick Filter).' },
                 { id: 10, file: '2edeb9efff5103e50fe694a0ce49bcf3.jpg', title: 'SKU Table & AI Copilot Drawer', location: 'Right-Docked Drawer & Table', desc: 'Dense roster with mono reference IDs [CAN-001] and right-hand intelligence drawer.' },
                 { id: 11, file: '393708a555b189af90b515e664ad86b8.jpg', title: 'Segmented View Switcher', location: 'Workspace Toolbar Mode Tabs', desc: 'Mode selector for Dense Table, Pipeline Kanban, Split Dossier, and AI Logic Nodes.' },
-                { id: 12, file: '59adea8897a056b51562b357a7a4ee8b.jpg', title: 'Hierarchical Tree Rows', location: 'Candidate Table [▸] Toggle', desc: 'Expandable sub-rows revealing AI evaluation provenance and competency vectors.' },
+                { id: 12, file: '59adea8897a056b51562b357a7a4ee8b.jpg', title: 'Candidate Differential Matrix & Hierarchy', location: 'Multi-Select Compare Modal & Sub-rows', desc: 'Side-by-side technical candidate comparison matrix, matrix CSV export, and expandable sub-rows.' },
                 { id: 13, file: '16954e2811169d4de46ddc00d64b0557.jpg', title: 'Execution Trace Canvas', location: 'AI Logic Nodes Mode', desc: 'Step execution cards, interactive pipeline simulation runner, and live execution trace console.' },
                 { id: 14, file: 'f18d23524634da20b75b3b94d6925fef.jpg', title: 'Notion/Airtable Compact Grid', location: 'Dense Table Mode', desc: 'Row checkboxes, colored status dots, striped previous version diffs, and + Add row footer.' },
                 { id: 15, file: '760028c2c3399a5ce1b81533d691104d.jpg', title: 'Visual AI Pipeline Graph', location: 'AI Logic Nodes Mode', desc: 'Dot-matrix canvas with Trigger, Extraction, Claude 3.5 Scoring, and Output cards.' },
@@ -3523,7 +3523,7 @@ export const TalentStudioView: React.FC = () => {
                 { id: 17, file: '3b7e10ce952c3e304a8b14d9b17d79b4.jpg', title: 'Relational Database Header', location: 'Top Workspace Breadcrumb', desc: 'Private Tenant DB lock indicator, breadcrumbs, and view mode indicators.' },
                 { id: 18, file: 'ad520f87e81ea391aeeb9438246ccd2d.jpg', title: 'Linear Sprint Kanban Board', location: 'Pipeline Kanban Mode', desc: 'Sprint column cards with priority badges, candidate avatars, and stage counters.' },
                 { id: 19, file: '4d23e0d8f4ff0c29fd5adec2a7c94612.jpg', title: 'Split Dossier Canvas Preview', location: 'Split Dossier Mode', desc: 'Left configuration form side-by-side with formatted printable executive briefing sheet.' },
-                { id: 20, file: '8fa4f00de9bd38a8514ed42bab988586.jpg', title: 'Bento Telemetry Grid', location: 'AI Copilot Drawer > Overview & Metrics', desc: '4-cell Bento grid for Latency (245ms), Throughput (14.2k/h), Accuracy (99.4%), Tokens (2.4M).' },
+                { id: 20, file: '8fa4f00de9bd38a8514ed42bab988586.jpg', title: 'Multidimensional Radar & Bento Grid', location: 'Split Dossier & AI Copilot Drawer', desc: '5-vector SVG competency radar chart (Architecture, Code, Scalability, Leadership, Domain) + 4-cell Bento telemetry grid.' },
               ].map((ref) => (
                 <div
                   key={ref.id}

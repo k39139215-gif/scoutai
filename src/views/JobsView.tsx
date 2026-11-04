@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Plus,
   MapPin,
+  Sparkles,
   SearchCheck,
   ArrowRight,
   Search,
@@ -64,9 +65,32 @@ export const JobsView: React.FC = () => {
           </p>
         </div>
 
-        <button
-          className="btn-dark"
-          onClick={() => navigate('create-job')}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <button
+            onClick={() => navigate('talent-studio')}
+            style={{
+              height: 36,
+              padding: '0 14px',
+              borderRadius: 8,
+              fontSize: 13,
+              fontWeight: 600,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              background: '#eef2ff',
+              border: '1px solid #c7d2fe',
+              color: '#4338ca',
+              cursor: 'pointer',
+              transition: 'all 0.12s ease',
+            }}
+          >
+            <Sparkles size={14} />
+            <span>Studio Desk (Refs)</span>
+          </button>
+
+          <button
+            className="btn-dark"
+            onClick={() => navigate('create-job')}
           style={{
             height: 36,
             padding: '0 16px',
@@ -85,6 +109,7 @@ export const JobsView: React.FC = () => {
           <Plus size={15} />
           <span>Create Requisition</span>
         </button>
+        </div>
       </div>
 
       {/* 2. Secondary Toolbar */}
