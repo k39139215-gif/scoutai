@@ -7,6 +7,7 @@ import {
   Lock,
   Shield,
   Save,
+  Sparkles,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { useToast } from '../context/ToastContext';
@@ -15,7 +16,7 @@ import { CustomSelect } from '../components/common/CustomDropdown';
 import { ToggleSwitch } from '../components/common/ToggleSwitch';
 
 export const SettingsView: React.FC = () => {
-  const { settings, updateSettings } = useApp();
+  const { settings, updateSettings, navigate } = useApp();
   const { showToast } = useToast();
 
   const [activeTab, setActiveTab] = useState<
@@ -123,8 +124,31 @@ export const SettingsView: React.FC = () => {
           </p>
         </div>
 
-        <button
-          onClick={handleSave}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <button
+            type="button"
+            onClick={() => navigate('talent-studio')}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              height: 36,
+              padding: '0 13px',
+              fontSize: 12.5,
+              fontWeight: 600,
+              color: '#3b82f6',
+              background: '#eff6ff',
+              border: '1px solid #bfdbfe',
+              borderRadius: 6,
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            <Sparkles size={14} />
+            Studio Desk (Refs)
+          </button>
+          <button
+            onClick={handleSave}
           style={{
             height: 36,
             padding: '0 16px',
@@ -145,6 +169,7 @@ export const SettingsView: React.FC = () => {
           <Save size={14} />
           <span>Save Changes</span>
         </button>
+        </div>
       </div>
 
       {/* 2. Tabs Navigation */}
