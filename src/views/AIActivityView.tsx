@@ -4,11 +4,12 @@ import {
   User,
   Search,
   X,
+  Sparkles,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const AIActivityView: React.FC = () => {
-  const { aiActivity } = useApp();
+  const { aiActivity, navigate } = useApp();
 
   const [actorFilter, setActorFilter] = useState<'All' | 'System' | 'Recruiter'>('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -58,18 +59,42 @@ export const AIActivityView: React.FC = () => {
           </p>
         </div>
 
-        <div
-          style={{
-            fontSize: 12,
-            fontWeight: 500,
-            color: 'var(--text-secondary)',
-            padding: '5px 10px',
-            background: '#ffffff',
-            borderRadius: 6,
-            border: '1px solid var(--border-subtle)',
-          }}
-        >
-          <span className="tabular-nums" style={{ fontWeight: 600, color: '#0f172a' }}>{aiActivity.length}</span> total operations recorded
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <button
+            onClick={() => navigate('talent-studio')}
+            style={{
+              height: 32,
+              padding: '0 12px',
+              borderRadius: 6,
+              fontSize: 12.5,
+              fontWeight: 600,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 5,
+              background: '#eef2ff',
+              border: '1px solid #c7d2fe',
+              color: '#4338ca',
+              cursor: 'pointer',
+              transition: 'all 0.12s ease',
+            }}
+          >
+            <Sparkles size={13} />
+            <span>Studio Desk (Refs)</span>
+          </button>
+
+          <div
+            style={{
+              fontSize: 12,
+              fontWeight: 500,
+              color: 'var(--text-secondary)',
+              padding: '5px 10px',
+              background: '#ffffff',
+              borderRadius: 6,
+              border: '1px solid var(--border-subtle)',
+            }}
+          >
+            <span className="tabular-nums" style={{ fontWeight: 600, color: '#0f172a' }}>{aiActivity.length}</span> total operations recorded
+          </div>
         </div>
       </div>
 
