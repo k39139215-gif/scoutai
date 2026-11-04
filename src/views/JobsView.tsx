@@ -52,14 +52,14 @@ export const JobsView: React.FC = () => {
             style={{
               fontSize: 22,
               fontWeight: 600,
-              color: '#18181b',
+              color: '#0f172a',
               letterSpacing: '-0.02em',
               lineHeight: 1.2,
             }}
           >
             Job Requisitions
           </h1>
-          <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
+          <p style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>
             Manage open roles, assign hiring teams, track candidate stages, and monitor pipeline progress.
           </p>
         </div>
@@ -76,7 +76,7 @@ export const JobsView: React.FC = () => {
             display: 'inline-flex',
             alignItems: 'center',
             gap: 7,
-            background: '#18181b',
+            background: '#0f172a',
             color: '#ffffff',
             border: 'none',
             cursor: 'pointer',
@@ -95,7 +95,7 @@ export const JobsView: React.FC = () => {
           gap: 10,
           padding: '12px 16px',
           background: '#ffffff',
-          border: '1px solid #e4e4e7',
+          border: '1px solid #e2e8f0',
           borderRadius: 8,
           flexWrap: 'wrap',
         }}
@@ -105,7 +105,7 @@ export const JobsView: React.FC = () => {
           style={{
             display: 'flex',
             alignItems: 'center',
-            background: '#f4f4f5',
+            background: '#f1f5f9',
             padding: 3,
             borderRadius: 7,
             gap: 2,
@@ -124,7 +124,7 @@ export const JobsView: React.FC = () => {
                   fontSize: 12.5,
                   fontWeight: isSelected ? 600 : 500,
                   background: isSelected ? '#ffffff' : 'transparent',
-                  color: isSelected ? '#18181b' : '#71717a',
+                  color: isSelected ? '#0f172a' : '#64748b',
                   border: 'none',
                   cursor: 'pointer',
                   boxShadow: isSelected ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
@@ -140,8 +140,9 @@ export const JobsView: React.FC = () => {
                     fontSize: 11,
                     padding: '0 5px',
                     borderRadius: 9999,
-                    background: isSelected ? '#f4f4f5' : 'transparent',
-                    color: isSelected ? '#18181b' : '#a1a1aa',
+                    background: isSelected ? '#f1f5f9' : 'transparent',
+                    color: isSelected ? '#0f172a' : '#94a3b8',
+                    fontVariantNumeric: 'tabular-nums',
                   }}
                 >
                   {count}
@@ -170,7 +171,7 @@ export const JobsView: React.FC = () => {
             style={{
               position: 'absolute',
               left: 11,
-              color: '#71717a',
+              color: '#94a3b8',
               pointerEvents: 'none',
             }}
           />
@@ -185,13 +186,13 @@ export const JobsView: React.FC = () => {
               padding: '0 32px 0 32px',
               fontSize: 13,
               borderRadius: 8,
-              border: '1px solid #e4e4e7',
+              border: '1px solid #cbd5e1',
               background: '#ffffff',
-              color: '#18181b',
+              color: '#0f172a',
               outline: 'none',
             }}
-            onFocusCapture={(e) => (e.currentTarget.style.borderColor = '#18181b')}
-            onBlurCapture={(e) => (e.currentTarget.style.borderColor = '#e4e4e7')}
+            onFocusCapture={(e) => (e.currentTarget.style.borderColor = '#0f172a')}
+            onBlurCapture={(e) => (e.currentTarget.style.borderColor = '#cbd5e1')}
           />
           {searchQuery && (
             <button
@@ -201,7 +202,7 @@ export const JobsView: React.FC = () => {
                 right: 8,
                 background: 'transparent',
                 border: 'none',
-                color: '#71717a',
+                color: '#94a3b8',
                 cursor: 'pointer',
                 padding: 2,
               }}
@@ -213,8 +214,8 @@ export const JobsView: React.FC = () => {
 
         <div style={{ flex: 1 }} />
 
-        <span style={{ fontSize: 13, color: '#71717a' }}>
-          Showing <strong style={{ color: '#18181b' }}>{filteredJobs.length}</strong> of {jobs.length} requisitions
+        <span style={{ fontSize: 13, color: '#64748b' }}>
+          Showing <strong style={{ color: '#0f172a' }}>{filteredJobs.length}</strong> of {jobs.length} requisitions
         </span>
       </div>
 
@@ -222,83 +223,94 @@ export const JobsView: React.FC = () => {
       <div
         style={{
           background: '#ffffff',
-          border: '1px solid #e4e4e7',
+          border: '1px solid #e2e8f0',
           borderRadius: 8,
-          overflow: 'visible',
+          overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
         }}
       >
         <div style={{ overflowX: 'auto', flex: 1 }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
-              <tr style={{ background: '#fafafa', borderBottom: '1px solid var(--border-subtle)' }}>
+              <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
                 <th
                   style={{
-                    padding: '10px 14px',
-                    fontSize: 11.5,
-                    fontWeight: 500,
-                    color: 'var(--text-secondary)',
+                    padding: '12px 16px',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: '#64748b',
+                    letterSpacing: '0.01em',
                   }}
                 >
                   Role & client requisition
                 </th>
                 <th
                   style={{
-                    padding: '10px 14px',
-                    fontSize: 11.5,
-                    fontWeight: 500,
-                    color: 'var(--text-secondary)',
+                    padding: '12px 16px',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: '#64748b',
+                    letterSpacing: '0.01em',
                   }}
                 >
                   Department
                 </th>
                 <th
                   style={{
-                    padding: '10px 14px',
-                    fontSize: 11.5,
-                    fontWeight: 500,
-                    color: 'var(--text-secondary)',
+                    padding: '12px 16px',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: '#64748b',
+                    letterSpacing: '0.01em',
                   }}
                 >
-                  Location
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <MapPin size={13} style={{ color: '#94a3b8' }} />
+                    <span>Location</span>
+                  </div>
                 </th>
                 <th
                   style={{
-                    padding: '10px 14px',
-                    fontSize: 11.5,
-                    fontWeight: 500,
-                    color: 'var(--text-secondary)',
+                    padding: '12px 16px',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: '#64748b',
+                    letterSpacing: '0.01em',
                   }}
                 >
                   Experience
                 </th>
                 <th
                   style={{
-                    padding: '10px 14px',
-                    fontSize: 11.5,
-                    fontWeight: 500,
-                    color: 'var(--text-secondary)',
+                    padding: '12px 16px',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: '#64748b',
+                    letterSpacing: '0.01em',
                   }}
                 >
                   Pipeline
                 </th>
                 <th
                   style={{
-                    padding: '10px 14px',
-                    fontSize: 11.5,
-                    fontWeight: 500,
-                    color: 'var(--text-secondary)',
+                    padding: '12px 16px',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: '#64748b',
+                    letterSpacing: '0.01em',
                   }}
                 >
                   Status
                 </th>
                 <th
                   style={{
-                    padding: '10px 14px',
-                    fontSize: 11.5,
-                    fontWeight: 500,
-                    color: 'var(--text-secondary)',
+                    padding: '12px 16px',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: '#64748b',
+                    letterSpacing: '0.01em',
                     textAlign: 'right',
                   }}
                 >
@@ -314,7 +326,7 @@ export const JobsView: React.FC = () => {
                     style={{
                       textAlign: 'center',
                       padding: '48px 16px',
-                      color: '#71717a',
+                      color: '#64748b',
                     }}
                   >
                     No requisitions found matching selected filters.
@@ -326,64 +338,66 @@ export const JobsView: React.FC = () => {
                     key={job.id}
                     style={{
                       height: 56,
-                      borderBottom: '1px solid #f4f4f5',
+                      borderBottom: '1px solid #f1f5f9',
                       transition: 'background 0.12s ease',
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = '#fafafa')}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = '#f8fafc')}
                     onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                   >
-                    <td style={{ padding: '0 18px' }}>
+                    <td style={{ padding: '12px 16px' }}>
                       <div>
                         <span
                           onClick={() => navigate('job-workspace', { jobId: job.id })}
                           style={{
-                            fontSize: 14,
+                            fontSize: 13.5,
                             fontWeight: 600,
-                            color: '#18181b',
+                            color: '#0f172a',
                             cursor: 'pointer',
                           }}
-                          onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
-                          onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
+                          onMouseEnter={(e) => (e.currentTarget.style.color = '#4338ca')}
+                          onMouseLeave={(e) => (e.currentTarget.style.color = '#0f172a')}
                         >
                           {job.title}
                         </span>
-                        <div style={{ fontSize: 12, color: '#71717a', marginTop: 2 }}>
+                        <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>
                           {job.client} • {job.salaryRange}
                         </div>
                       </div>
                     </td>
 
-                    <td style={{ padding: '0 16px', fontSize: 13, color: '#3f3f46' }}>
+                    <td style={{ padding: '12px 16px', fontSize: 13, color: '#334155' }}>
                       {job.department}
                     </td>
 
-                    <td style={{ padding: '0 16px', fontSize: 13, color: '#71717a' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                        <MapPin size={12} style={{ color: '#a1a1aa' }} />
+                    <td style={{ padding: '12px 16px', fontSize: 13, color: '#64748b' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <MapPin size={13} style={{ color: '#94a3b8' }} />
                         <span>{job.location}</span>
                       </div>
                     </td>
 
-                    <td style={{ padding: '0 16px', fontSize: 13, color: '#3f3f46' }}>
+                    <td style={{ padding: '12px 16px', fontSize: 13, color: '#334155' }}>
                       {job.experienceLevel}
                     </td>
 
-                    <td style={{ padding: '0 16px' }}>
+                    <td style={{ padding: '12px 16px' }}>
                       <span
                         style={{
-                          fontWeight: 600,
-                          fontSize: 12.5,
-                          color: job.shortlistedCount > 0 ? '#15803d' : '#71717a',
-                          background: job.shortlistedCount > 0 ? '#dcfce7' : '#f4f4f5',
+                          fontWeight: 500,
+                          fontSize: 12,
+                          color: job.shortlistedCount > 0 ? '#166534' : '#64748b',
+                          background: job.shortlistedCount > 0 ? '#dcfce7' : '#f1f5f9',
+                          border: job.shortlistedCount > 0 ? '1px solid #bbf7d0' : '1px solid #e2e8f0',
                           padding: '3px 8px',
                           borderRadius: 6,
+                          fontVariantNumeric: 'tabular-nums',
                         }}
                       >
                         {job.shortlistedCount} shortlisted ({job.applicantsCount} total)
                       </span>
                     </td>
 
-                    <td style={{ padding: '0 16px' }}>
+                    <td style={{ padding: '12px 16px' }}>
                       <CustomSelect
                         value={job.status}
                         onChange={(val) => updateJobStatus(job.id, val as JobStatus)}
@@ -398,26 +412,27 @@ export const JobsView: React.FC = () => {
                       />
                     </td>
 
-                    <td style={{ padding: '0 18px', textAlign: 'right' }}>
+                    <td style={{ padding: '12px 16px', textAlign: 'right' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 8 }}>
                         <button
                           className="pill"
                           style={{
                             height: 28,
-                            padding: '0 8px',
-                            fontSize: 11.5,
-                            borderRadius: 4,
-                            border: '1px solid var(--border-default)',
+                            padding: '0 10px',
+                            fontSize: 12,
+                            borderRadius: 6,
+                            border: '1px solid #cbd5e1',
                             background: '#ffffff',
-                            color: 'var(--text-primary)',
+                            color: '#334155',
                             cursor: 'pointer',
                             display: 'inline-flex',
                             alignItems: 'center',
-                            gap: 4,
+                            gap: 5,
+                            fontWeight: 500,
                           }}
                           onClick={() => navigate('sourcing', { jobId: job.id })}
                         >
-                          <SearchCheck size={12} style={{ color: 'var(--text-muted)' }} />
+                          <SearchCheck size={13} style={{ color: '#64748b' }} />
                           <span>Match</span>
                         </button>
 
@@ -428,18 +443,19 @@ export const JobsView: React.FC = () => {
                             padding: '0 12px',
                             fontSize: 12,
                             borderRadius: 6,
-                            background: '#18181b',
+                            background: '#0f172a',
                             color: '#ffffff',
                             border: 'none',
                             cursor: 'pointer',
                             display: 'inline-flex',
                             alignItems: 'center',
                             gap: 5,
+                            fontWeight: 500,
                           }}
                           onClick={() => navigate('job-workspace', { jobId: job.id })}
                         >
                           <span>Workspace</span>
-                          <ArrowRight size={11} />
+                          <ArrowRight size={12} />
                         </button>
                       </div>
                     </td>

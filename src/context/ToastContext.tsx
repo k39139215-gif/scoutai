@@ -27,7 +27,7 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     (message: string, type: ToastItem['type'] = 'success', title?: string) => {
       const id = Math.random().toString(36).substring(2, 9);
       const newToast: ToastItem = { id, type, message, title };
-      setToasts((prev) => [...prev.slice(-4), newToast]);
+      setToasts((prev) => [...prev.slice(-3), newToast]);
 
       setTimeout(() => {
         removeToast(id);
@@ -39,18 +39,20 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   return (
     <ToastContext.Provider value={{ showToast, removeToast }}>
       {children}
-      {/* Toast Render Container */}
+      {/* Toast Render Container - Centered Floating Obsidian Pill */}
       <div
         style={{
           position: 'fixed',
-          bottom: 24,
-          right: 24,
+          bottom: 28,
+          left: '50%',
+          transform: 'translateX(-50%)',
           zIndex: 9999,
           display: 'flex',
           flexDirection: 'column',
+          alignItems: 'center',
           gap: 8,
           pointerEvents: 'none',
-          maxWidth: 380,
+          maxWidth: 460,
           width: 'calc(100% - 32px)',
         }}
       >
@@ -60,69 +62,72 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
           const isWarning = toast.type === 'warning';
 
           const iconColor = isSuccess
-            ? 'var(--color-success)'
+            ? '#10b981'
             : isDanger
-            ? 'var(--color-danger)'
+            ? '#ef4444'
             : isWarning
-            ? 'var(--color-warning)'
-            : 'var(--color-accent-blue)';
+            ? '#f59e0b'
+            : '#818cf8';
 
           return (
             <div
               key={toast.id}
               style={{
                 pointerEvents: 'auto',
-                background: 'var(--color-bg-surface)',
-                border: '1px solid var(--color-border)',
-                borderRadius: 'var(--radius-lg)',
-                padding: '12px 14px',
-                boxShadow: 'var(--shadow-lg)',
+                background: '#0f172a',
+                color: '#ffffff',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                borderRadius: 9999,
+                padding: '9px 16px 9px 14px',
+                boxShadow: '0 20px 40px -8px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(15, 23, 42, 0.15)',
                 display: 'flex',
-                alignItems: 'flex-start',
+                alignItems: 'center',
                 gap: 10,
+                backdropFilter: 'blur(8px)',
                 animation: 'scaleIn 180ms ease-out forwards',
               }}
             >
-              <div style={{ marginTop: 2, color: iconColor, flexShrink: 0 }}>
+              <div style={{ color: iconColor, flexShrink: 0, display: 'flex', alignItems: 'center' }}>
                 {isSuccess && <CheckCircle2 size={16} />}
                 {isDanger && <AlertCircle size={16} />}
                 {isWarning && <AlertCircle size={16} />}
                 {!isSuccess && !isDanger && !isWarning && <Info size={16} />}
               </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
                 {toast.title && (
-                  <div
-                    style={{
-                      fontSize: 'var(--font-size-sm)',
-                      fontWeight: 600,
-                      color: 'var(--color-text-primary)',
-                      marginBottom: 2,
-                    }}
-                  >
-                    {toast.title}
-                  </div>
+                  <span style={{ fontSize: 12.5, fontWeight: 700, color: '#ffffff' }}>
+                    {toast.title}:
+                  </span>
                 )}
-                <div
+                <span
                   style={{
-                    fontSize: 'var(--font-size-sm)',
-                    color: 'var(--color-text-secondary)',
+                    fontSize: 12.5,
+                    fontWeight: 500,
+                    color: '#f8fafc',
                     lineHeight: 1.4,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
                   }}
                 >
                   {toast.message}
-                </div>
+                </span>
               </div>
               <button
                 onClick={() => removeToast(toast.id)}
                 style={{
                   background: 'transparent',
                   border: 'none',
-                  color: 'var(--color-text-muted)',
+                  color: '#94a3b8',
                   cursor: 'pointer',
                   padding: 2,
                   display: 'flex',
                   alignItems: 'center',
+                  marginLeft: 4,
+                  transition: 'color 0.15s ease',
                 }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '#94a3b8')}
                 aria-label="Dismiss notification"
               >
                 <X size={14} />

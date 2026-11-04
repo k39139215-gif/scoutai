@@ -1497,7 +1497,7 @@ export const CandidatesView: React.FC = () => {
                   maxHeight: 160,
                   overflowY: 'auto',
                   whiteSpace: 'pre-wrap',
-                  fontFamily: "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+                  fontFamily: 'inherit',
                   letterSpacing: '-0.015em',
                 }}
               >

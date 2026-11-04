@@ -432,7 +432,7 @@ Lead Technical Recruiter, ScoutAI`);
               padding: '16px 18px',
               fontSize: '11.5px',
               lineHeight: 1.65,
-              fontFamily: "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+              fontFamily: 'inherit',
               letterSpacing: '-0.015em',
               whiteSpace: 'pre-wrap',
               color: '#334155',

@@ -23,7 +23,10 @@ import {
   Columns3,
   Zap,
   Printer,
+  GitCompare,
 } from 'lucide-react';
+import { CompetencyRadarChart } from '../components/studio/CompetencyRadarChart';
+import { CandidateComparisonModal } from '../components/studio/CandidateComparisonModal';
 import { useApp } from '../context/AppContext';
 import { useToast } from '../context/ToastContext';
 import type { CandidateStatus } from '../types';
@@ -46,8 +49,30 @@ export const TalentStudioView: React.FC = () => {
   } = useApp();
   const { showToast } = useToast();
 
-  // Mode & selection state
-  const [viewMode, setViewMode] = useState<ViewMode>('table');
+  // Mode & selection state with URL search param synchronization
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    try {
+      const p = new URLSearchParams(window.location.search);
+      const m = p.get('mode') as ViewMode;
+      if (m && ['table', 'kanban', 'dossier', 'pipeline'].includes(m)) return m;
+    } catch {
+      // fallback
+    }
+    return 'table';
+  });
+
+  const handleSelectViewMode = (mode: ViewMode) => {
+    setViewMode(mode);
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set('mode', mode);
+      window.history.replaceState(null, '', url.toString());
+    } catch {
+      // ignore
+    }
+  };
+
+  const [compareModalOpen, setCompareModalOpen] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [expandedRowIds, setExpandedRowIds] = useState<string[]>(['cand-1']);
   const [searchQuery, setSearchQuery] = useState('');
@@ -255,13 +280,13 @@ export const TalentStudioView: React.FC = () => {
         const cand = sortedCandidates[focusedRowIndex];
         if (cand) handleToggleExpandRow(cand.id);
       } else if (e.key === '1') {
-        setViewMode('table');
+        handleSelectViewMode('table');
       } else if (e.key === '2') {
-        setViewMode('kanban');
+        handleSelectViewMode('kanban');
       } else if (e.key === '3') {
-        setViewMode('dossier');
+        handleSelectViewMode('dossier');
       } else if (e.key === '4') {
-        setViewMode('pipeline');
+        handleSelectViewMode('pipeline');
       }
     };
 
@@ -502,6 +527,28 @@ export const TalentStudioView: React.FC = () => {
           >
             <span>📷 20 Reference Designs</span>
           </button>
+
+          {selectedIds.length >= 2 && (
+            <button
+              onClick={() => setCompareModalOpen(true)}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 5,
+                padding: '4px 10px',
+                backgroundColor: '#eff6ff',
+                border: '1px solid #bfdbfe',
+                borderRadius: 9999,
+                fontSize: 11,
+                fontWeight: 600,
+                color: '#2563eb',
+                cursor: 'pointer',
+              }}
+            >
+              <GitCompare size={12} />
+              <span>Compare Selected ({selectedIds.length})</span>
+            </button>
+          )}
           <span
             style={{
               fontSize: 11,
@@ -561,7 +608,7 @@ export const TalentStudioView: React.FC = () => {
             }}
           >
             <button
-              onClick={() => setViewMode('table')}
+              onClick={() => handleSelectViewMode('table')}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -582,7 +629,7 @@ export const TalentStudioView: React.FC = () => {
             </button>
 
             <button
-              onClick={() => setViewMode('kanban')}
+              onClick={() => handleSelectViewMode('kanban')}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -603,7 +650,7 @@ export const TalentStudioView: React.FC = () => {
             </button>
 
             <button
-              onClick={() => setViewMode('dossier')}
+              onClick={() => handleSelectViewMode('dossier')}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -624,7 +671,7 @@ export const TalentStudioView: React.FC = () => {
             </button>
 
             <button
-              onClick={() => setViewMode('pipeline')}
+              onClick={() => handleSelectViewMode('pipeline')}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -1789,7 +1836,7 @@ export const TalentStudioView: React.FC = () => {
                                       <button
                                         onClick={() => {
                                           setActiveCandidateId(candidate.id);
-                                          setViewMode('dossier');
+                                          handleSelectViewMode('dossier');
                                           setRowMenuId(null);
                                         }}
                                         style={{
@@ -2295,7 +2342,7 @@ export const TalentStudioView: React.FC = () => {
                             key={cand.id}
                             onClick={() => {
                               setActiveCandidateId(cand.id);
-                              setViewMode('dossier');
+                              handleSelectViewMode('dossier');
                             }}
                             style={{
                               backgroundColor: '#ffffff',
@@ -2670,6 +2717,32 @@ export const TalentStudioView: React.FC = () => {
                   </p>
                 </div>
 
+                {/* Reference 20: Multidimensional Evaluation Radar */}
+                <div
+                  style={{
+                    marginBottom: 20,
+                    padding: '16px 20px',
+                    backgroundColor: '#f8fafc',
+                    borderRadius: 8,
+                    border: '1px solid #e2e8f0',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                    <div>
+                      <span style={{ fontSize: 10, fontWeight: 700, color: '#4338ca', letterSpacing: '0.04em' }}>
+                        REFERENCE 20 IMPLEMENTATION
+                      </span>
+                      <h4 style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', margin: '2px 0 0' }}>
+                        Multidimensional Evaluation Radar
+                      </h4>
+                    </div>
+                    <span style={{ fontSize: 11, color: '#64748b' }}>
+                      5-Vector Assessment
+                    </span>
+                  </div>
+                  <CompetencyRadarChart candidate={activeCandidate} size={280} showLegend={true} />
+                </div>
+
                 {/* Verified Skills Breakdown */}
                 <div style={{ marginBottom: 20 }}>
                   <h4 style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', marginBottom: 8 }}>
@@ -2713,7 +2786,7 @@ export const TalentStudioView: React.FC = () => {
                   </div>
                   <div
                     style={{
-                      fontFamily: 'cursive',
+                      fontWeight: 600,
                       fontSize: 16,
                       color: '#475569',
                       borderBottom: '1px solid #cbd5e1',
@@ -3306,6 +3379,28 @@ export const TalentStudioView: React.FC = () => {
             <span>AI Outreach</span>
           </button>
 
+          {selectedIds.length >= 2 && (
+            <button
+              onClick={() => setCompareModalOpen(true)}
+              style={{
+                background: 'rgba(59, 130, 246, 0.2)',
+                border: '1px solid rgba(59, 130, 246, 0.45)',
+                color: '#93c5fd',
+                fontSize: 12,
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '4px 10px',
+                borderRadius: 9999,
+              }}
+            >
+              <GitCompare size={14} style={{ color: '#60a5fa' }} />
+              <span>Compare ({selectedIds.length})</span>
+            </button>
+          )}
+
           <button
             onClick={() => {
               const toExport = candidates.filter((c) => selectedIds.includes(c.id));
@@ -3511,6 +3606,32 @@ export const TalentStudioView: React.FC = () => {
           </div>
         </div>
       )}
+      {/* Reference 12: Candidate Differential Matrix Modal */}
+      <CandidateComparisonModal
+        isOpen={compareModalOpen}
+        onClose={() => setCompareModalOpen(false)}
+        candidates={candidates.filter((c) => selectedIds.includes(c.id))}
+        onShortlist={(id) => {
+          shortlistCandidate(id);
+          showToast('Updated candidate status in comparison matrix', 'success');
+        }}
+        onOutreach={(c) => {
+          createOutreachMessage({
+            candidateId: c.id,
+            candidateName: c.name,
+            candidateEmail: c.email,
+            jobId: c.appliedJobId || 'job-101',
+            jobTitle: c.appliedJobTitle || 'Staff Engineer',
+            subject: 'ScoutAI Differential Shortlist: ' + c.name,
+            body: 'Hi ' + c.name + ',\\n\\nFollowing our comparative technical review for the ' + (c.appliedJobTitle || 'Staff Engineer') + ' role, we would love to connect this week.',
+            tone: 'Professional',
+          });
+          showToast('Drafted outreach for ' + c.name, 'success');
+        }}
+        onRemoveCandidate={(id) => {
+          setSelectedIds((prev) => prev.filter((i) => i !== id));
+        }}
+      />
     </div>
   );
 };

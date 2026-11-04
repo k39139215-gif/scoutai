@@ -131,7 +131,7 @@ export const AIActivityPreview: React.FC = () => {
               </div>
             </div>
 
-            <span className="mono-tag tabular-nums" style={{ color: 'var(--text-muted)', flexShrink: 0, whiteSpace: 'nowrap' }}>
+            <span style={{ fontSize: 12, fontWeight: 500, color: '#64748b', fontVariantNumeric: 'tabular-nums', flexShrink: 0, whiteSpace: 'nowrap' }}>
               {evt.timestamp.split(' ')[1] || evt.timestamp}
             </span>
           </div>

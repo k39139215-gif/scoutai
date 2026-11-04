@@ -244,7 +244,7 @@ export const InterviewsView: React.FC = () => {
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 12.5, color: '#64748b' }}>
                     <Video size={13} style={{ color: '#2563eb', flexShrink: 0 }} />
-                    <span style={{ fontFamily: 'monospace', fontSize: 11.5, color: '#334155', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <span style={{ fontSize: 12, color: '#334155', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {item.locationOrLink}
                     </span>
                   </div>

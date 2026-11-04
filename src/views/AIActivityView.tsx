@@ -263,7 +263,7 @@ export const AIActivityView: React.FC = () => {
                       </span>
                     </div>
 
-                    <span className="mono-tag tabular-nums" style={{ color: 'var(--text-muted)' }}>
+                    <span style={{ fontSize: 12, fontWeight: 500, color: '#64748b', fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.01em' }}>
                       {evt.timestamp}
                     </span>
                   </div>
