@@ -61,6 +61,7 @@ export const TalentStudioView: React.FC = () => {
     updateCandidateStatus,
     createOutreachMessage,
     navigate,
+    selectedCandidateId,
   } = useApp();
   const { showToast } = useToast();
 
@@ -103,7 +104,25 @@ export const TalentStudioView: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [expandedRowIds, setExpandedRowIds] = useState<string[]>(['cand-1']);
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeCandidateId, setActiveCandidateId] = useState<string>(candidates[0]?.id || 'cand-1');
+  const [activeCandidateId, setActiveCandidateId] = useState<string>(() => {
+    if (selectedCandidateId && candidates.some((c) => c.id === selectedCandidateId)) {
+      return selectedCandidateId;
+    }
+    try {
+      const p = new URLSearchParams(window.location.search);
+      const cid = p.get('candidateId');
+      if (cid && candidates.some((c) => c.id === cid)) return cid;
+    } catch {
+      // ignore
+    }
+    return candidates[0]?.id || 'cand-1';
+  });
+
+  useEffect(() => {
+    if (selectedCandidateId && candidates.some((c) => c.id === selectedCandidateId)) {
+      setActiveCandidateId(selectedCandidateId);
+    }
+  }, [selectedCandidateId, candidates]);
 
   // AI Copilot Panel state
   const [copilotOpen, setCopilotOpen] = useState(true);
@@ -122,7 +141,9 @@ export const TalentStudioView: React.FC = () => {
   const [filterRules, setFilterRules] = useState<FilterRule[]>([
     { id: 'rule-1', field: 'matchScore', operator: 'gte', value: '80' },
   ]);
+  const [filterLogic, setFilterLogic] = useState<'AND' | 'OR'>('AND');
   const [quickExpFilter, setQuickExpFilter] = useState<string>('All');
+  const [simulationStep, setSimulationStep] = useState<number | null>(null);
 
   // Column Menu state
   const [sortField, setSortField] = useState<'matchScore' | 'experienceYears' | 'name'>('matchScore');
@@ -238,26 +259,41 @@ export const TalentStudioView: React.FC = () => {
       if (quickExpFilter === 'Mid' && (c.experienceYears < 3 || c.experienceYears >= 5)) return false;
       if (quickExpFilter === 'Junior' && c.experienceYears >= 3) return false;
 
-      // Active Rules
-      for (const rule of filterRules) {
-        if (rule.field === 'matchScore') {
-          const val = Number(rule.value) || 0;
-          if (rule.operator === 'gte' && c.matchScore < val) return false;
-          if (rule.operator === 'lte' && c.matchScore > val) return false;
-        } else if (rule.field === 'experienceYears') {
-          const val = Number(rule.value) || 0;
-          if (rule.operator === 'gte' && c.experienceYears < val) return false;
-          if (rule.operator === 'lte' && c.experienceYears > val) return false;
-        } else if (rule.field === 'location') {
-          if (!c.location.toLowerCase().includes(rule.value.toLowerCase())) return false;
-        } else if (rule.field === 'status') {
-          if (c.status.toLowerCase() !== rule.value.toLowerCase()) return false;
+      // Active Rules with Conjunction/Disjunction (AND / OR) - Ref 01
+      if (filterRules.length > 0) {
+        const matchesRule = (rule: FilterRule) => {
+          if (rule.field === 'matchScore') {
+            const val = Number(rule.value) || 0;
+            if (rule.operator === 'gte') return c.matchScore >= val;
+            if (rule.operator === 'lte') return c.matchScore <= val;
+            if (rule.operator === 'equals') return c.matchScore === val;
+          } else if (rule.field === 'experienceYears') {
+            const val = Number(rule.value) || 0;
+            if (rule.operator === 'gte') return c.experienceYears >= val;
+            if (rule.operator === 'lte') return c.experienceYears <= val;
+            if (rule.operator === 'equals') return c.experienceYears === val;
+          } else if (rule.field === 'location') {
+            const val = rule.value.toLowerCase().trim();
+            if (rule.operator === 'equals') return c.location.toLowerCase() === val;
+            return c.location.toLowerCase().includes(val);
+          } else if (rule.field === 'status') {
+            const val = rule.value.toLowerCase().trim();
+            if (rule.operator === 'equals') return c.status.toLowerCase() === val;
+            return c.status.toLowerCase().includes(val);
+          }
+          return true;
+        };
+
+        if (filterLogic === 'AND') {
+          if (!filterRules.every(matchesRule)) return false;
+        } else {
+          if (!filterRules.some(matchesRule)) return false;
         }
       }
 
       return true;
     });
-  }, [candidates, searchQuery, quickExpFilter, filterRules]);
+  }, [candidates, searchQuery, quickExpFilter, filterRules, filterLogic]);
 
   const sortedCandidates = useMemo(() => {
     return [...filteredCandidates].sort((a, b) => {
@@ -404,21 +440,50 @@ export const TalentStudioView: React.FC = () => {
 
   const handleRunPipelineSimulation = () => {
     setSimulatingPipeline(true);
+    setSimulationStep(0);
+    setSelectedLogicNode('node-1');
+    playTickSound();
     setPipelineLogs((prev) => [
       ...prev,
-      `[${new Date().toLocaleTimeString()}] Pipeline test triggered manually for current candidate cohort...`,
+      `[${new Date().toLocaleTimeString()}] Pipeline execution initiated: Trigger Node 1 (Candidate Inbound Webhook)...`,
     ]);
 
     setTimeout(() => {
+      setSimulationStep(1);
+      setSelectedLogicNode('node-2');
+      playTickSound();
       setPipelineLogs((prev) => [
         ...prev,
-        `[${new Date().toLocaleTimeString()}] Vector ingestion: OK (0.18s)`,
-        `[${new Date().toLocaleTimeString()}] Neural inference: 18 profiles scored (sub-400ms avg)`,
-        `[${new Date().toLocaleTimeString()}] Bias audit: 0 flagged issues. Ready for recruiter sign-off.`,
+        `[${new Date().toLocaleTimeString()}] Node 2 OCR & PII sanitize: 18 PDF artifacts parsed. Vectors tokenized.`,
       ]);
+    }, 350);
+
+    setTimeout(() => {
+      setSimulationStep(2);
+      setSelectedLogicNode('node-3');
+      playTickSound();
+      setPipelineLogs((prev) => [
+        ...prev,
+        `[${new Date().toLocaleTimeString()}] Node 3 Claude 3.5 Sonnet: 6 rubric dimensions evaluated. Latency: 184ms.`,
+      ]);
+    }, 700);
+
+    setTimeout(() => {
+      setSimulationStep(3);
+      setSelectedLogicNode('node-4');
+      playSelectSound();
+      setPipelineLogs((prev) => [
+        ...prev,
+        `[${new Date().toLocaleTimeString()}] Node 4 Ledger Commit: SOC 2 hash computed. Bias audit passed (0 discrepancies).`,
+      ]);
+    }, 1050);
+
+    setTimeout(() => {
       setSimulatingPipeline(false);
-      showToast('Pipeline simulation passed with 99.4% confidence rating.', 'success');
-    }, 1200);
+      setSimulationStep(null);
+      playSuccessSound();
+      showToast('Pipeline simulation passed with 99.4% confidence rating across 4 nodes.', 'success');
+    }, 1400);
   };
 
   const [showReferenceModal, setShowReferenceModal] = useState(false);
@@ -944,25 +1009,72 @@ export const TalentStudioView: React.FC = () => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    marginBottom: 12,
+                    marginBottom: 10,
                   }}
                 >
-                  <span style={{ fontSize: 13, fontWeight: 600, color: '#0f172a' }}>
-                    Active Filter Criteria
+                  <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>
+                    Structured Rule Builder (Ref 01)
                   </span>
                   <button
                     onClick={() => setFilterRules([])}
                     style={{
                       fontSize: 11,
-                      color: '#64748b',
+                      color: '#ef4444',
                       background: 'none',
                       border: 'none',
                       cursor: 'pointer',
-                      textDecoration: 'underline',
+                      fontWeight: 600,
                     }}
                   >
                     Reset all
                   </button>
+                </div>
+
+                {/* AND / OR Segmented Evaluation Switch (Ref 01) */}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    backgroundColor: '#f1f5f9',
+                    padding: '3px 6px',
+                    borderRadius: 6,
+                    marginBottom: 12,
+                  }}
+                >
+                  <span style={{ fontSize: 11, color: '#64748b', fontWeight: 600 }}>Evaluation Logic:</span>
+                  <div style={{ display: 'flex', gap: 4 }}>
+                    <button
+                      onClick={() => setFilterLogic('AND')}
+                      style={{
+                        padding: '2px 8px',
+                        fontSize: 10,
+                        fontWeight: 700,
+                        borderRadius: 4,
+                        border: 'none',
+                        backgroundColor: filterLogic === 'AND' ? '#0f172a' : 'transparent',
+                        color: filterLogic === 'AND' ? '#ffffff' : '#64748b',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      MATCH ALL (AND)
+                    </button>
+                    <button
+                      onClick={() => setFilterLogic('OR')}
+                      style={{
+                        padding: '2px 8px',
+                        fontSize: 10,
+                        fontWeight: 700,
+                        borderRadius: 4,
+                        border: 'none',
+                        backgroundColor: filterLogic === 'OR' ? '#0f172a' : 'transparent',
+                        color: filterLogic === 'OR' ? '#ffffff' : '#64748b',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      MATCH ANY (OR)
+                    </button>
+                  </div>
                 </div>
 
                 {/* Filter Rule Rows */}
@@ -980,8 +1092,8 @@ export const TalentStudioView: React.FC = () => {
                         border: '1px solid #e2e8f0',
                       }}
                     >
-                      <span style={{ fontSize: 11, color: '#64748b', fontWeight: 600 }}>
-                        {idx === 0 ? 'Where' : 'And'}
+                      <span style={{ fontSize: 11, color: '#64748b', fontWeight: 700, minWidth: 38 }}>
+                        {idx === 0 ? 'Where' : filterLogic}
                       </span>
                       <select
                         value={rule.field}
@@ -3183,12 +3295,41 @@ export const TalentStudioView: React.FC = () => {
                 </button>
               </div>
 
-              {/* Node Graph Cards (Ref 15: 760028c2c3399a5ce1b81533d691104d.jpg) */}
+              {/* Live DAG Status Ribbon */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  backgroundColor: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: 8,
+                  padding: '8px 16px',
+                  marginBottom: 16,
+                  fontSize: 11,
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontWeight: 700, color: '#0f172a' }}>PIPELINE ORCHESTRATION BUS (REFS 13 & 15)</span>
+                  <span style={{ color: '#cbd5e1' }}>|</span>
+                  <span style={{ color: simulatingPipeline ? '#2563eb' : '#64748b', fontWeight: 600 }}>
+                    {simulatingPipeline ? `⚡ STEP ${(simulationStep ?? 0) + 1} OF 4 ACTIVE INFERENCE RUN` : '● ALL 4 NODES OPERATIONAL & CONNECTED'}
+                  </span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <span style={{ color: '#64748b' }}>DAG: 4 Nodes</span>
+                  <span style={{ color: '#64748b' }}>Latency: &lt;400ms SLA</span>
+                  <span style={{ color: '#16a34a', fontWeight: 700 }}>✓ SOC 2 Verified</span>
+                </div>
+              </div>
+
+              {/* Node Graph Cards with Interactive Connector Grid */}
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(4, minmax(200px, 1fr))',
-                  gap: 16,
+                  gridTemplateColumns: 'minmax(180px, 1fr) auto minmax(180px, 1fr) auto minmax(180px, 1fr) auto minmax(180px, 1fr)',
+                  gap: 8,
+                  alignItems: 'center',
                   marginBottom: 16,
                 }}
               >
@@ -3232,6 +3373,23 @@ export const TalentStudioView: React.FC = () => {
                   <div style={{ fontSize: 10, color: '#10b981', fontWeight: 600 }}>0.0 sec latency</div>
                 </div>
 
+                {/* Connector 1 -> 2 */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, padding: '0 2px' }}>
+                  <span style={{ fontSize: 9, fontFamily: 'monospace', color: simulatingPipeline && (simulationStep === 0 || simulationStep === 1) ? '#2563eb' : '#64748b', fontWeight: 700, backgroundColor: '#f1f5f9', padding: '1px 5px', borderRadius: 3, border: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
+                    JSON Ingest
+                  </span>
+                  <svg width="28" height="12" viewBox="0 0 28 12" fill="none">
+                    <path
+                      d="M2 6 H22 M16 2 L22 6 L16 10"
+                      stroke={simulatingPipeline && (simulationStep === 0 || simulationStep === 1) ? '#2563eb' : '#94a3b8'}
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeDasharray={simulatingPipeline ? '4 2' : 'none'}
+                    />
+                  </svg>
+                </div>
+
                 {/* Node 2: Action */}
                 <div
                   onClick={() => setSelectedLogicNode('node-2')}
@@ -3270,6 +3428,23 @@ export const TalentStudioView: React.FC = () => {
                     Parse PDF, sanitize PII, vector tokenization
                   </div>
                   <div style={{ fontSize: 10, color: '#10b981', fontWeight: 600 }}>0.2 sec latency</div>
+                </div>
+
+                {/* Connector 2 -> 3 */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, padding: '0 2px' }}>
+                  <span style={{ fontSize: 9, fontFamily: 'monospace', color: simulatingPipeline && (simulationStep === 1 || simulationStep === 2) ? '#4f46e5' : '#64748b', fontWeight: 700, backgroundColor: '#f1f5f9', padding: '1px 5px', borderRadius: 3, border: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
+                    1536d Vectors
+                  </span>
+                  <svg width="28" height="12" viewBox="0 0 28 12" fill="none">
+                    <path
+                      d="M2 6 H22 M16 2 L22 6 L16 10"
+                      stroke={simulatingPipeline && (simulationStep === 1 || simulationStep === 2) ? '#4f46e5' : '#94a3b8'}
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeDasharray={simulatingPipeline ? '4 2' : 'none'}
+                    />
+                  </svg>
                 </div>
 
                 {/* Node 3: AI Inference */}
@@ -3312,6 +3487,23 @@ export const TalentStudioView: React.FC = () => {
                   <div style={{ fontSize: 10, color: '#4f46e5', fontWeight: 600 }}>
                     1,240 tokens consumed
                   </div>
+                </div>
+
+                {/* Connector 3 -> 4 */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, padding: '0 2px' }}>
+                  <span style={{ fontSize: 9, fontFamily: 'monospace', color: simulatingPipeline && (simulationStep === 2 || simulationStep === 3) ? '#16a34a' : '#64748b', fontWeight: 700, backgroundColor: '#f1f5f9', padding: '1px 5px', borderRadius: 3, border: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
+                    Rubric Match
+                  </span>
+                  <svg width="28" height="12" viewBox="0 0 28 12" fill="none">
+                    <path
+                      d="M2 6 H22 M16 2 L22 6 L16 10"
+                      stroke={simulatingPipeline && (simulationStep === 2 || simulationStep === 3) ? '#16a34a' : '#94a3b8'}
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeDasharray={simulatingPipeline ? '4 2' : 'none'}
+                    />
+                  </svg>
                 </div>
 
                 {/* Node 4: Output */}
