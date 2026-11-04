@@ -152,56 +152,56 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
           </span>
         </div>
 
-        {(currentView === 'candidates' || currentView === 'talent-studio') && (
-          <div
+        <div
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            background: '#f1f5f9',
+            padding: '2px',
+            borderRadius: 6,
+            marginLeft: 8,
+            border: '1px solid #e2e8f0',
+            fontSize: 11,
+            fontWeight: 500,
+          }}
+        >
+          <button
+            onClick={() => navigate(currentView === 'talent-studio' ? 'candidates' : currentView)}
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              background: '#f1f5f9',
-              padding: '2px',
-              borderRadius: 6,
-              marginLeft: 8,
-              border: '1px solid #e2e8f0',
-              fontSize: 11,
-              fontWeight: 500,
+              padding: '3px 9px',
+              borderRadius: 4,
+              border: 'none',
+              background: currentView !== 'talent-studio' ? '#ffffff' : 'transparent',
+              color: currentView !== 'talent-studio' ? '#0f172a' : '#64748b',
+              boxShadow: currentView !== 'talent-studio' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+              fontWeight: currentView !== 'talent-studio' ? 600 : 500,
+              cursor: 'pointer',
+              transition: 'all 0.1s ease',
             }}
           >
-            <button
-              onClick={() => navigate('candidates')}
-              style={{
-                padding: '3px 8px',
-                borderRadius: 4,
-                border: 'none',
-                background: currentView === 'candidates' ? '#ffffff' : 'transparent',
-                color: currentView === 'candidates' ? '#0f172a' : '#64748b',
-                boxShadow: currentView === 'candidates' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                fontWeight: currentView === 'candidates' ? 600 : 500,
-                cursor: 'pointer',
-              }}
-            >
-              Live Grid
-            </button>
-            <button
-              onClick={() => navigate('talent-studio')}
-              style={{
-                padding: '3px 8px',
-                borderRadius: 4,
-                border: 'none',
-                background: currentView === 'talent-studio' ? '#ffffff' : 'transparent',
-                color: currentView === 'talent-studio' ? '#0f172a' : '#64748b',
-                boxShadow: currentView === 'talent-studio' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                fontWeight: currentView === 'talent-studio' ? 600 : 500,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 4,
-              }}
-            >
-              <span>Studio Desk</span>
-              <span style={{ fontSize: 9, background: '#e0e7ff', color: '#4338ca', padding: '1px 4px', borderRadius: 3 }}>REF</span>
-            </button>
-          </div>
-        )}
+            {currentView === 'talent-studio' ? 'Live Ops View' : 'Live Mode'}
+          </button>
+          <button
+            onClick={() => navigate('talent-studio')}
+            style={{
+              padding: '3px 9px',
+              borderRadius: 4,
+              border: 'none',
+              background: currentView === 'talent-studio' ? '#ffffff' : 'transparent',
+              color: currentView === 'talent-studio' ? '#0f172a' : '#64748b',
+              boxShadow: currentView === 'talent-studio' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+              fontWeight: currentView === 'talent-studio' ? 600 : 500,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4,
+              transition: 'all 0.1s ease',
+            }}
+          >
+            <span>✨ Studio Desk</span>
+            <span style={{ fontSize: 9, background: currentView === 'talent-studio' ? '#4338ca' : '#e0e7ff', color: currentView === 'talent-studio' ? '#ffffff' : '#4338ca', padding: '1px 4px', borderRadius: 3, fontWeight: 700 }}>REF</span>
+          </button>
+        </div>
       </div>
 
       {/* Center: Clean Quick Search with Command Palette Keycap */}

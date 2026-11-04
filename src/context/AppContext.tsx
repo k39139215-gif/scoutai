@@ -75,13 +75,62 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const STORAGE_KEY = 'scoutai_prototype_store_v1';
 
+const VALID_VIEWS: AppView[] = [
+  'dashboard',
+  'jobs',
+  'create-job',
+  'job-workspace',
+  'candidates',
+  'candidate-detail',
+  'talent-studio',
+  'sourcing',
+  'outreach',
+  'interviews',
+  'tasks',
+  'ai-activity',
+  'analytics',
+  'clients',
+  'privacy',
+  'security',
+  'settings',
+];
+
+function getInitialView(): AppView {
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const view = urlParams.get('view') as AppView;
+    if (view && VALID_VIEWS.includes(view)) return view;
+
+    const hash = window.location.hash.replace('#', '');
+    if (hash) {
+      const hashParams = new URLSearchParams(hash.startsWith('?') ? hash.slice(1) : hash);
+      const hashView = hashParams.get('view') as AppView;
+      if (hashView && VALID_VIEWS.includes(hashView)) return hashView;
+    }
+  } catch {
+    // fallback
+  }
+  return 'dashboard';
+}
+
+function getInitialParam(key: string, fallback: string | null): string | null {
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const val = urlParams.get(key);
+    if (val) return val;
+  } catch {
+    // fallback
+  }
+  return fallback;
+}
+
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { showToast } = useToast();
 
-  // Load from localStorage or defaults
-  const [currentView, setCurrentView] = useState<AppView>('dashboard');
-  const [selectedJobId, setSelectedJobId] = useState<string | null>('job-101');
-  const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>('cand-1');
+  // Load from URL query params, localStorage or defaults
+  const [currentView, setCurrentView] = useState<AppView>(getInitialView);
+  const [selectedJobId, setSelectedJobId] = useState<string | null>(() => getInitialParam('jobId', 'job-101'));
+  const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(() => getInitialParam('candidateId', 'cand-1'));
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const [jobs, setJobs] = useState<Job[]>(() => {
@@ -256,10 +305,46 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setSecurityAudit((prev) => [newAudit, ...prev]);
   };
 
+  // Keep browser URL synchronized with current view for shareable deep links and back/forward navigation
+  useEffect(() => {
+    const handlePopState = () => {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const view = urlParams.get('view') as AppView;
+        if (view && VALID_VIEWS.includes(view)) {
+          setCurrentView(view);
+        }
+        const jId = urlParams.get('jobId');
+        if (jId) setSelectedJobId(jId);
+        const cId = urlParams.get('candidateId');
+        if (cId) setSelectedCandidateId(cId);
+      } catch {
+        // ignore
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
   const navigate = (view: AppView, params?: { jobId?: string; candidateId?: string }) => {
     if (params?.jobId) setSelectedJobId(params.jobId);
     if (params?.candidateId) setSelectedCandidateId(params.candidateId);
     setCurrentView(view);
+
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set('view', view);
+      if (params?.jobId) url.searchParams.set('jobId', params.jobId);
+      else if (view !== 'job-workspace') url.searchParams.delete('jobId');
+
+      if (params?.candidateId) url.searchParams.set('candidateId', params.candidateId);
+      else if (view !== 'candidate-detail') url.searchParams.delete('candidateId');
+
+      window.history.pushState({ view }, '', url.toString());
+    } catch {
+      // ignore
+    }
+
     const scrollContainer = document.querySelector('.main-workspace-scroll');
     if (scrollContainer) {
       scrollContainer.scrollTop = 0;
