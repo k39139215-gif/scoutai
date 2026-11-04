@@ -132,13 +132,31 @@ export const TalentStudioView: React.FC = () => {
   const [copilotOpen, setCopilotOpen] = useState(true);
   const [copilotTab, setCopilotTab] = useState<'overview' | 'metrics' | 'traces'>('overview');
   const [copilotInput, setCopilotInput] = useState('');
-  const [copilotMessages, setCopilotMessages] = useState<Array<{ sender: 'ai' | 'user'; text: string; time: string }>>([
+  interface CopilotAction {
+    label: string;
+    type: 'filter-top' | 'compare-top' | 'batch-outreach' | 'open-dossier' | 'pipeline-test';
+    candidateIds?: string[];
+  }
+
+  interface CopilotMessageItem {
+    sender: 'ai' | 'user';
+    text: string;
+    time: string;
+    actions?: CopilotAction[];
+  }
+
+  const [copilotMessages, setCopilotMessages] = useState<CopilotMessageItem[]>([
     {
       sender: 'ai',
-      text: 'Talent Intelligence Engine active. 18 candidates indexed with verified credentials. 3 high-fit senior distributed systems profiles detected.',
+      text: `Talent Intelligence Engine active. ${candidates.length} candidates indexed with verified credentials. 3 high-fit senior distributed systems profiles detected.`,
       time: 'Just now',
+      actions: [
+        { label: '🔍 Filter Top Profiles', type: 'filter-top' },
+        { label: '⚖️ Compare Top 2', type: 'compare-top' },
+      ],
     },
   ]);
+  const [hoveredBin, setHoveredBin] = useState<number | null>(null);
 
   // Floating Filter Builder popover state
   const [filterPopoverOpen, setFilterPopoverOpen] = useState(false);
@@ -382,12 +400,40 @@ export const TalentStudioView: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [sortedCandidates, focusedRowIndex]);
 
+  const handleExecuteCopilotAction = (act: CopilotAction) => {
+    playSelectSound();
+    if (act.type === 'filter-top') {
+      const top3 = [...candidates].sort((a, b) => b.matchScore - a.matchScore).slice(0, 3);
+      const minScore = top3[top3.length - 1]?.matchScore || 85;
+      setFilterRules([
+        { id: `rule-${Date.now()}`, field: 'matchScore', operator: 'gte', value: String(minScore) }
+      ]);
+      handleSelectViewMode('table');
+      showToast(`Applied filter: Match Score >= ${minScore}% (Top Candidates)`, 'info');
+    } else if (act.type === 'compare-top') {
+      const top2 = [...candidates].sort((a, b) => b.matchScore - a.matchScore).slice(0, 2);
+      setSelectedIds(top2.map((c) => c.id));
+      setCompareModalOpen(true);
+      showToast('Opened Differential Comparison Matrix for top candidates', 'info');
+    } else if (act.type === 'batch-outreach') {
+      handleBatchOutreach();
+    } else if (act.type === 'open-dossier') {
+      if (act.candidateIds && act.candidateIds[0]) {
+        setActiveCandidateId(act.candidateIds[0]);
+      }
+      handleSelectViewMode('dossier');
+    } else if (act.type === 'pipeline-test') {
+      handleSelectViewMode('pipeline');
+      handleRunPipelineSimulation();
+    }
+  };
+
   const handleSendCopilotMessage = (promptText?: string) => {
     const textToSend = promptText || copilotInput;
     if (!textToSend.trim()) return;
 
-    const userMsg = {
-      sender: 'user' as const,
+    const userMsg: CopilotMessageItem = {
+      sender: 'user',
       text: textToSend,
       time: 'Just now',
     };
@@ -396,15 +442,33 @@ export const TalentStudioView: React.FC = () => {
 
     setTimeout(() => {
       let reply = '';
-      if (textToSend.includes('top 3') || textToSend.includes('Rank')) {
-        const top3 = [...candidates].sort((a, b) => b.matchScore - a.matchScore).slice(0, 3);
+      let actions: CopilotAction[] | undefined;
+
+      const top3 = [...candidates].sort((a, b) => b.matchScore - a.matchScore).slice(0, 3);
+
+      if (textToSend.includes('top 3') || textToSend.includes('Rank') || textToSend.includes('best')) {
         reply = `Top 3 recommended candidates: 1) ${top3[0]?.name} (${top3[0]?.matchScore}%) for ${top3[0]?.title}, 2) ${top3[1]?.name} (${top3[1]?.matchScore}%), 3) ${top3[2]?.name} (${top3[2]?.matchScore}%). All 3 show zero compliance gaps.`;
+        actions = [
+          { label: '🔍 Apply Top 3 Filter', type: 'filter-top' },
+          { label: '⚖️ Compare Top 2 Side-by-Side', type: 'compare-top' },
+          { label: '📋 Open Top Dossier', type: 'open-dossier', candidateIds: [top3[0]?.id] },
+        ];
       } else if (textToSend.includes('gaps') || textToSend.includes('risk')) {
         reply = `Risk Analysis: 2 candidates have missing backend microservices proof in resume text (Sarah Chen, Vikram Malhotra). Recommended follow-up: send technical assessment screen.`;
+        actions = [
+          { label: '⚡ Run Bias & Risk Audit', type: 'pipeline-test' },
+        ];
       } else if (textToSend.includes('outreach') || textToSend.includes('Draft')) {
         reply = `Drafted 3 personalized executive outreach templates focusing on NovaStack architecture scaling and engineering leadership. Saved to Outreach queue.`;
+        actions = [
+          { label: '✉️ Send Batch Outreach', type: 'batch-outreach' },
+        ];
       } else {
-        reply = `Analysis completed for "${textToSend}". Evaluated 18 candidate profiles against client rubric. 94.2% confidence score achieved.`;
+        reply = `Analysis completed for "${textToSend}". Evaluated ${candidates.length} candidate profiles against client rubric. 94.2% confidence score achieved.`;
+        actions = [
+          { label: '🔍 Filter Top Profiles', type: 'filter-top' },
+          { label: '▶ Test Pipeline Execution', type: 'pipeline-test' },
+        ];
       }
 
       setCopilotMessages((prev) => [
@@ -413,6 +477,7 @@ export const TalentStudioView: React.FC = () => {
           sender: 'ai',
           text: reply,
           time: 'Just now',
+          actions,
         },
       ]);
     }, 600);
@@ -3892,7 +3957,32 @@ export const TalentStudioView: React.FC = () => {
                         maxWidth: '92%',
                       }}
                     >
-                      {msg.text}
+                      <div>{msg.text}</div>
+                      {msg.actions && msg.actions.length > 0 && (
+                        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 8, paddingTop: 6, borderTop: '1px solid #e2e8f0' }}>
+                          {msg.actions.map((act, aIdx) => (
+                            <button
+                              key={aIdx}
+                              onClick={() => handleExecuteCopilotAction(act)}
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 4,
+                                padding: '3px 8px',
+                                borderRadius: 4,
+                                border: '1px solid #c7d2fe',
+                                backgroundColor: '#eef2ff',
+                                color: '#4338ca',
+                                fontSize: 10,
+                                fontWeight: 700,
+                                cursor: 'pointer',
+                              }}
+                            >
+                              <span>{act.label}</span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -4013,22 +4103,30 @@ export const TalentStudioView: React.FC = () => {
                     <div style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', margin: '2px 0 6px' }}>
                       2,410,920
                     </div>
-                    {/* Token Volume Histogram Bars */}
-                    <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4, height: 28 }}>
+                    {/* Token Volume Histogram Bars with Interactive Scrubber (Ref 03) */}
+                    <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4, height: 28, position: 'relative' }}>
                       {[40, 58, 48, 72, 60, 85, 80, 65, 92, 84, 70, 95].map((val, idx) => (
                         <div
                           key={idx}
-                          title={`Hour ${idx + 1}: ${Math.round(val * 24.1)}k tokens`}
+                          onMouseEnter={() => setHoveredBin(idx)}
+                          onMouseLeave={() => setHoveredBin(null)}
                           style={{
                             flex: 1,
                             height: `${val}%`,
-                            backgroundColor: idx === 11 ? '#4f46e5' : '#c7d2fe',
+                            backgroundColor: hoveredBin === idx ? '#2563eb' : idx === 11 ? '#4f46e5' : '#c7d2fe',
                             borderRadius: 2,
-                            transition: 'height 0.2s ease',
+                            cursor: 'pointer',
+                            transition: 'all 0.15s ease',
+                            transform: hoveredBin === idx ? 'scaleY(1.08)' : 'none',
                           }}
                         />
                       ))}
                     </div>
+                    {hoveredBin !== null && (
+                      <div style={{ fontSize: 10, color: '#4338ca', fontWeight: 600, marginTop: 4, textAlign: 'center', backgroundColor: '#eef2ff', padding: '2px 6px', borderRadius: 4 }}>
+                        Hour {hoveredBin + 1}: {Math.round([40, 58, 48, 72, 60, 85, 80, 65, 92, 84, 70, 95][hoveredBin] * 24.1)}k tokens • {160 + [40, 58, 48, 72, 60, 85, 80, 65, 92, 84, 70, 95][hoveredBin]}ms avg latency
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
