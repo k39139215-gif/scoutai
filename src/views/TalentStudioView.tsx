@@ -65,6 +65,7 @@ export const TalentStudioView: React.FC = () => {
     createOutreachMessage,
     navigate,
     selectedCandidateId,
+    aiActivity,
   } = useApp();
   const { showToast } = useToast();
 
@@ -1360,13 +1361,53 @@ export const TalentStudioView: React.FC = () => {
                 <div
                   style={{
                     fontSize: 11,
-                    fontWeight: 600,
-                    color: '#64748b',
+                    fontWeight: 700,
+                    color: '#0f172a',
                     padding: '4px 8px',
                     borderBottom: '1px solid #f1f5f9',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
                   }}
                 >
-                  Toggle Table Columns
+                  <span>Table Columns (Ref 16)</span>
+                </div>
+
+                {/* Column Layout Presets */}
+                <div style={{ display: 'flex', gap: 4, padding: '6px 8px', borderBottom: '1px solid #f1f5f9', backgroundColor: '#f8fafc' }}>
+                  <button
+                    onClick={() => {
+                      playSelectSound();
+                      setVisibleColumns({
+                        code: true, candidate: true, department: true, matchScore: true, experience: true, status: true, actions: true
+                      });
+                    }}
+                    style={{ flex: 1, padding: '3px 4px', fontSize: 10, fontWeight: 600, borderRadius: 4, border: '1px solid #cbd5e1', backgroundColor: '#ffffff', cursor: 'pointer' }}
+                  >
+                    All
+                  </button>
+                  <button
+                    onClick={() => {
+                      playSelectSound();
+                      setVisibleColumns({
+                        code: true, candidate: true, department: true, matchScore: true, experience: true, status: false, actions: true
+                      });
+                    }}
+                    style={{ flex: 1, padding: '3px 4px', fontSize: 10, fontWeight: 600, borderRadius: 4, border: '1px solid #cbd5e1', backgroundColor: '#ffffff', cursor: 'pointer' }}
+                  >
+                    Tech Focus
+                  </button>
+                  <button
+                    onClick={() => {
+                      playSelectSound();
+                      setVisibleColumns({
+                        code: false, candidate: true, department: false, matchScore: true, experience: false, status: true, actions: true
+                      });
+                    }}
+                    style={{ flex: 1, padding: '3px 4px', fontSize: 10, fontWeight: 600, borderRadius: 4, border: '1px solid #cbd5e1', backgroundColor: '#ffffff', cursor: 'pointer' }}
+                  >
+                    Recruiter
+                  </button>
                 </div>
                 {Object.keys(visibleColumns).map((colKey) => (
                   <label
@@ -2813,6 +2854,35 @@ export const TalentStudioView: React.FC = () => {
                             >
                               <span>{cand.experienceYears}y exp</span>
                               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                {stage !== 'Qualified' && (
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      const prevStage: CandidateStatus =
+                                        stage === 'Review'
+                                          ? 'Interviewing'
+                                          : stage === 'Interviewing'
+                                          ? 'Shortlisted'
+                                          : 'Qualified';
+                                      playTickSound();
+                                      updateCandidateStatus(cand.id, prevStage);
+                                      showToast(`Moved ${cand.name} back to ${prevStage}`, 'info');
+                                    }}
+                                    title="Move candidate to previous stage"
+                                    style={{
+                                      padding: '3px 6px',
+                                      borderRadius: 4,
+                                      border: '1px solid #cbd5e1',
+                                      backgroundColor: '#ffffff',
+                                      color: '#64748b',
+                                      fontSize: 10,
+                                      fontWeight: 600,
+                                      cursor: 'pointer',
+                                    }}
+                                  >
+                                    ‹ Back
+                                  </button>
+                                )}
                                 {stage !== 'Review' && (
                                   <button
                                     onClick={(e) => {
@@ -2823,6 +2893,7 @@ export const TalentStudioView: React.FC = () => {
                                           : stage === 'Shortlisted'
                                           ? 'Interviewing'
                                           : 'Review';
+                                      playSelectSound();
                                       updateCandidateStatus(cand.id, nextStage);
                                       showToast(`Advanced ${cand.name} to ${nextStage}`, 'success');
                                     }}
@@ -4132,14 +4203,64 @@ export const TalentStudioView: React.FC = () => {
               </div>
             )}
 
-            {/* Tab: Traces */}
+            {/* Tab: Traces & SOC 2 Audit Ledger (Ref 18) */}
             {copilotTab === 'traces' && (
-              <div style={{ padding: 16, fontSize: 11, fontFamily: 'var(--font-family-base)' }}>
-                <div style={{ color: '#64748b', marginBottom: 8 }}>RECENT VERIFICATION LOGS</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  <div>[14:22:01] Model: claude-3-5-sonnet matched cand-1 (91%)</div>
-                  <div>[14:21:44] Bias check passed on candidate cohort</div>
-                  <div>[14:20:10] Ingested 4 new applicants from Lever</div>
+              <div style={{ padding: 16, fontSize: 11, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#0f172a' }}>
+                    Live Neural Audit Trail
+                  </div>
+                  <span style={{ fontSize: 9, fontWeight: 700, color: '#16a34a', backgroundColor: '#f0fdf4', padding: '1px 6px', borderRadius: 4, border: '1px solid #bbf7d0' }}>
+                    SOC 2 TYPE II VERIFIED
+                  </span>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 380, overflowY: 'auto' }}>
+                  {/* Latest Real-Time Activity Events */}
+                  {aiActivity.slice(0, 8).map((act, aIdx) => (
+                    <div
+                      key={aIdx}
+                      style={{
+                        padding: '8px 10px',
+                        backgroundColor: '#ffffff',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: 6,
+                        boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 }}>
+                        <span style={{ fontWeight: 700, color: '#0f172a', fontSize: 11 }}>{act.type}</span>
+                        <span style={{ fontSize: 9, color: '#94a3b8' }}>{act.timestamp}</span>
+                      </div>
+                      <div style={{ color: '#475569', fontSize: 11, marginBottom: 4 }}>
+                        <strong>{act.target}</strong>: {act.details}
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: act.isHumanAction ? '#10b981' : '#6366f1' }} />
+                        <span style={{ fontSize: 9, color: '#64748b' }}>{act.isHumanAction ? 'Human Verified' : 'Autonomous AI Trace'}</span>
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* Execution Logs */}
+                  <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: 8, marginTop: 4 }}>
+                    <div style={{ fontSize: 10, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: 6 }}>
+                      Pipeline Execution Console
+                    </div>
+                    {pipelineLogs.map((log, lIdx) => (
+                      <div
+                        key={lIdx}
+                        style={{
+                          fontSize: 10,
+                          fontFamily: 'monospace',
+                          color: '#475569',
+                          padding: '2px 0',
+                        }}
+                      >
+                        {log}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
