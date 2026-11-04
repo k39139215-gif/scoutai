@@ -376,6 +376,7 @@ export const TalentStudioView: React.FC = () => {
   };
 
   const [showReferenceModal, setShowReferenceModal] = useState(false);
+  const [selectedPreviewRef, setSelectedPreviewRef] = useState<{ id: number; file: string; title: string; location: string; desc: string; mode?: ViewMode } | null>(null);
 
   const handleExportCSV = (targetCandidates: typeof candidates) => {
     const headers = ['Candidate ID', 'Name', 'Title', 'Specialization', 'Match Score (%)', 'Experience (Years)', 'Location', 'Email', 'Status'];
@@ -3527,6 +3528,7 @@ export const TalentStudioView: React.FC = () => {
               ].map((ref) => (
                 <div
                   key={ref.id}
+                  onClick={() => setSelectedPreviewRef(ref as any)}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -3534,23 +3536,43 @@ export const TalentStudioView: React.FC = () => {
                     padding: '10px 14px',
                     borderRadius: 8,
                     border: '1px solid #e2e8f0',
-                    backgroundColor: '#f8fafc',
+                    backgroundColor: '#ffffff',
+                    cursor: 'pointer',
+                    transition: 'all 0.12s ease',
                   }}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f8fafc')}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#ffffff')}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <span
                       style={{
-                        fontFamily: 'var(--font-family-base)',
                         fontSize: 11,
                         backgroundColor: '#0f172a',
                         color: '#ffffff',
                         padding: '2px 6px',
                         borderRadius: 4,
                         fontWeight: 700,
+                        flexShrink: 0,
                       }}
                     >
                       #{ref.id}
                     </span>
+
+                    <img
+                      src={`./references/${ref.file}`}
+                      alt={ref.title}
+                      style={{
+                        width: 54,
+                        height: 38,
+                        objectFit: 'cover',
+                        borderRadius: 4,
+                        border: '1px solid #cbd5e1',
+                        backgroundColor: '#f1f5f9',
+                        flexShrink: 0,
+                      }}
+                      loading="lazy"
+                    />
+
                     <div>
                       <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>
                         {ref.title}
@@ -3561,19 +3583,24 @@ export const TalentStudioView: React.FC = () => {
                     </div>
                   </div>
 
-                  <span
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 600,
-                      backgroundColor: '#eef2ff',
-                      color: '#4338ca',
-                      padding: '3px 8px',
-                      borderRadius: 4,
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {ref.location}
-                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 600,
+                        backgroundColor: '#eef2ff',
+                        color: '#4338ca',
+                        padding: '3px 8px',
+                        borderRadius: 4,
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {ref.location}
+                    </span>
+                    <span style={{ fontSize: 11, color: '#2563eb', fontWeight: 600 }}>
+                      Inspect ›
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -3606,6 +3633,241 @@ export const TalentStudioView: React.FC = () => {
           </div>
         </div>
       )}
+      {/* High-Resolution Reference Image Lightbox */}
+      {selectedPreviewRef && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(15, 23, 42, 0.85)',
+            backdropFilter: 'blur(8px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1100,
+            padding: 24,
+            animation: 'fadeIn 0.15s ease-out',
+          }}
+          onClick={() => setSelectedPreviewRef(null)}
+        >
+          <div
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: 16,
+              maxWidth: 960,
+              width: '100%',
+              maxHeight: '92vh',
+              display: 'flex',
+              flexDirection: 'column',
+              boxShadow: '0 25px 60px -15px rgba(0,0,0,0.4)',
+              overflow: 'hidden',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Lightbox Header */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '16px 24px',
+                borderBottom: '1px solid #e2e8f0',
+                backgroundColor: '#f8fafc',
+              }}
+            >
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span
+                    style={{
+                      fontSize: 10.5,
+                      fontWeight: 700,
+                      backgroundColor: '#0f172a',
+                      color: '#ffffff',
+                      padding: '2px 6px',
+                      borderRadius: 4,
+                    }}
+                  >
+                    REF #{selectedPreviewRef.id}
+                  </span>
+                  <span style={{ fontSize: 12, color: '#64748b' }}>
+                    {selectedPreviewRef.file}
+                  </span>
+                </div>
+                <h3 style={{ fontSize: 18, fontWeight: 700, color: '#0f172a', margin: '4px 0 0' }}>
+                  {selectedPreviewRef.title}
+                </h3>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                {selectedPreviewRef.location.includes('AI Logic') && (
+                  <button
+                    onClick={() => {
+                      handleSelectViewMode('pipeline');
+                      setSelectedPreviewRef(null);
+                      setShowReferenceModal(false);
+                    }}
+                    style={{
+                      padding: '6px 12px',
+                      borderRadius: 6,
+                      backgroundColor: '#0f172a',
+                      color: '#ffffff',
+                      fontSize: 12,
+                      fontWeight: 600,
+                      border: 'none',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Jump to Logic Nodes
+                  </button>
+                )}
+                {selectedPreviewRef.location.includes('Kanban') && (
+                  <button
+                    onClick={() => {
+                      handleSelectViewMode('kanban');
+                      setSelectedPreviewRef(null);
+                      setShowReferenceModal(false);
+                    }}
+                    style={{
+                      padding: '6px 12px',
+                      borderRadius: 6,
+                      backgroundColor: '#0f172a',
+                      color: '#ffffff',
+                      fontSize: 12,
+                      fontWeight: 600,
+                      border: 'none',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Jump to Kanban
+                  </button>
+                )}
+                {selectedPreviewRef.location.includes('Dossier') && (
+                  <button
+                    onClick={() => {
+                      handleSelectViewMode('dossier');
+                      setSelectedPreviewRef(null);
+                      setShowReferenceModal(false);
+                    }}
+                    style={{
+                      padding: '6px 12px',
+                      borderRadius: 6,
+                      backgroundColor: '#0f172a',
+                      color: '#ffffff',
+                      fontSize: 12,
+                      fontWeight: 600,
+                      border: 'none',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Jump to Dossier
+                  </button>
+                )}
+                {selectedPreviewRef.location.includes('Table') && (
+                  <button
+                    onClick={() => {
+                      handleSelectViewMode('table');
+                      setSelectedPreviewRef(null);
+                      setShowReferenceModal(false);
+                    }}
+                    style={{
+                      padding: '6px 12px',
+                      borderRadius: 6,
+                      backgroundColor: '#0f172a',
+                      color: '#ffffff',
+                      fontSize: 12,
+                      fontWeight: 600,
+                      border: 'none',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Jump to Dense Table
+                  </button>
+                )}
+
+                <button
+                  onClick={() => setSelectedPreviewRef(null)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#64748b',
+                    cursor: 'pointer',
+                    padding: 6,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  aria-label="Close lightbox"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </div>
+
+            {/* High-Resolution Screenshot Image Container */}
+            <div
+              style={{
+                flex: 1,
+                overflowY: 'auto',
+                padding: 20,
+                backgroundColor: '#0f172a',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <img
+                src={`./references/${selectedPreviewRef.file}`}
+                alt={selectedPreviewRef.title}
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '65vh',
+                  objectFit: 'contain',
+                  borderRadius: 8,
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
+                }}
+              />
+            </div>
+
+            {/* Lightbox Footer Notes */}
+            <div
+              style={{
+                padding: '14px 24px',
+                borderTop: '1px solid #e2e8f0',
+                backgroundColor: '#f8fafc',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <div>
+                <span style={{ fontSize: 11, fontWeight: 700, color: '#4338ca', display: 'block' }}>
+                  IMPLEMENTATION LOCATION: {selectedPreviewRef.location.toUpperCase()}
+                </span>
+                <span style={{ fontSize: 12.5, color: '#334155', marginTop: 2, display: 'block' }}>
+                  {selectedPreviewRef.desc}
+                </span>
+              </div>
+
+              <button
+                onClick={() => setSelectedPreviewRef(null)}
+                style={{
+                  padding: '6px 14px',
+                  borderRadius: 6,
+                  border: '1px solid #cbd5e1',
+                  backgroundColor: '#ffffff',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: '#334155',
+                  cursor: 'pointer',
+                }}
+              >
+                Back to Showcase
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Reference 12: Candidate Differential Matrix Modal */}
       <CandidateComparisonModal
         isOpen={compareModalOpen}
