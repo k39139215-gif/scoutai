@@ -13,8 +13,8 @@ export const HiringPipeline: React.FC = () => {
     <div
       style={{
         background: '#ffffff',
-        border: '1px solid #e4e4e7',
-        borderRadius: 10,
+        border: '1px solid var(--border-subtle)',
+        borderRadius: 8,
         padding: '20px 22px',
         display: 'flex',
         flexDirection: 'column',
@@ -24,11 +24,11 @@ export const HiringPipeline: React.FC = () => {
       {/* Section Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h2 style={{ fontSize: 16, fontWeight: 600, color: '#18181b', letterSpacing: '-0.01em' }}>
+          <h2 style={{ fontSize: 15, fontWeight: 600, color: '#0f172a', letterSpacing: '-0.01em' }}>
             Active Hiring Pipelines
           </h2>
-          <p style={{ fontSize: 12.5, color: '#71717a', marginTop: 2 }}>
-            Live status of requisitions, applicant volume, and pipeline conversion stages.
+          <p style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 2 }}>
+            Conversion volume across open requisitions and screening stages.
           </p>
         </div>
 
@@ -38,49 +38,41 @@ export const HiringPipeline: React.FC = () => {
           style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: 6,
-            height: 32,
-            padding: '0 12px',
-            borderRadius: 6,
-            fontSize: 12.5,
+            gap: 5,
+            height: 28,
+            padding: '0 10px',
+            borderRadius: 5,
+            fontSize: 12,
             fontWeight: 500,
             background: '#ffffff',
-            border: '1px solid #e4e4e7',
-            color: '#18181b',
+            border: '1px solid var(--border-default)',
+            color: 'var(--text-primary)',
             cursor: 'pointer',
-            transition: 'all 0.15s ease',
+            transition: 'background-color 0.1s ease',
             whiteSpace: 'nowrap',
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = '#f4f4f5';
-            e.currentTarget.style.borderColor = '#d4d4d8';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = '#ffffff';
-            e.currentTarget.style.borderColor = '#e4e4e7';
-          }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
+          onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
         >
           <span>All Requisitions</span>
-          <ArrowRight size={13} style={{ color: '#71717a' }} />
+          <ArrowRight size={12} style={{ color: 'var(--text-muted)' }} />
         </button>
       </div>
 
       {/* Pipeline Table */}
       {displayJobs.length === 0 ? (
-        <div style={{ padding: '36px', textAlign: 'center', color: '#a1a1aa' }}>
+        <div style={{ padding: '36px', textAlign: 'center', color: 'var(--text-muted)' }}>
           <p style={{ fontSize: 13, marginBottom: 12 }}>No active hiring requisitions.</p>
           <button
             type="button"
             className="btn-dark"
             onClick={() => navigate('create-job')}
             style={{
-              height: 34,
-              padding: '0 14px',
-              borderRadius: 6,
-              fontSize: 12.5,
+              height: 30,
+              padding: '0 12px',
+              borderRadius: 5,
+              fontSize: 12,
               fontWeight: 500,
-              background: '#18181b',
-              color: '#ffffff',
               display: 'inline-flex',
               alignItems: 'center',
               gap: 6,
@@ -91,17 +83,17 @@ export const HiringPipeline: React.FC = () => {
           </button>
         </div>
       ) : (
-        <div style={{ overflowX: 'auto', borderRadius: 8, border: '1px solid #e4e4e7' }}>
+        <div style={{ overflowX: 'auto', borderRadius: 6, border: '1px solid var(--border-subtle)' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: 13 }}>
             <thead>
-              <tr style={{ background: '#fafafa', borderBottom: '1px solid #e4e4e7' }}>
-                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Role & Client</th>
-                <th style={{ padding: '10px 14px', textAlign: 'center', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Applied</th>
-                <th style={{ padding: '10px 14px', textAlign: 'center', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Qualified</th>
-                <th style={{ padding: '10px 14px', textAlign: 'center', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Shortlisted</th>
-                <th style={{ padding: '10px 14px', textAlign: 'center', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Interviewing</th>
-                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Status</th>
-                <th style={{ padding: '10px 14px', textAlign: 'right', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Actions</th>
+              <tr style={{ background: '#fafafa', borderBottom: '1px solid var(--border-subtle)' }}>
+                <th style={{ padding: '9px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Role & client</th>
+                <th style={{ padding: '9px 14px', textAlign: 'center', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Applied</th>
+                <th style={{ padding: '9px 14px', textAlign: 'center', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Qualified</th>
+                <th style={{ padding: '9px 14px', textAlign: 'center', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Shortlisted</th>
+                <th style={{ padding: '9px 14px', textAlign: 'center', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Interviewing</th>
+                <th style={{ padding: '9px 14px', textAlign: 'center', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Status</th>
+                <th style={{ padding: '9px 14px', textAlign: 'right', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -119,8 +111,8 @@ export const HiringPipeline: React.FC = () => {
                     key={job.id}
                     onClick={() => navigate('job-workspace', { jobId: job.id })}
                     style={{
-                      height: 52,
-                      borderBottom: '1px solid #f4f4f5',
+                      height: 48,
+                      borderBottom: '1px solid #f3f4f6',
                       cursor: 'pointer',
                       transition: 'background 0.1s ease',
                     }}
@@ -128,32 +120,32 @@ export const HiringPipeline: React.FC = () => {
                     onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
                   >
                     <td style={{ padding: '0 14px' }}>
-                      <div style={{ fontWeight: 600, color: '#18181b', fontSize: 13.5 }}>
+                      <div style={{ fontWeight: 500, color: '#0f172a', fontSize: 13 }}>
                         {job.title}
                       </div>
-                      <div style={{ fontSize: 12, color: '#71717a', marginTop: 1 }}>
+                      <div style={{ fontSize: 11.5, color: 'var(--text-muted)', marginTop: 1 }}>
                         {job.client} • {job.location}
                       </div>
                     </td>
 
-                    <td style={{ padding: '0 14px', textAlign: 'center', fontWeight: 500, fontSize: 13 }}>
+                    <td className="tabular-nums" style={{ padding: '0 14px', textAlign: 'center', fontSize: 12.5, color: 'var(--text-secondary)' }}>
                       {appliedCount}
                     </td>
 
-                    <td style={{ padding: '0 14px', textAlign: 'center', fontWeight: 500, fontSize: 13, color: '#2563eb' }}>
+                    <td className="tabular-nums" style={{ padding: '0 14px', textAlign: 'center', fontSize: 12.5, fontWeight: 500, color: '#0f172a' }}>
                       {qualifiedCount}
                     </td>
 
-                    <td style={{ padding: '0 14px', textAlign: 'center', fontWeight: 600, fontSize: 13, color: '#16a34a' }}>
+                    <td className="tabular-nums" style={{ padding: '0 14px', textAlign: 'center', fontSize: 12.5, fontWeight: 500, color: '#15803d' }}>
                       {shortlistedCount}
                     </td>
 
-                    <td style={{ padding: '0 14px', textAlign: 'center', fontWeight: 500, fontSize: 13 }}>
+                    <td className="tabular-nums" style={{ padding: '0 14px', textAlign: 'center', fontSize: 12.5, color: 'var(--text-secondary)' }}>
                       {interviewingCount}
                     </td>
 
-                    <td style={{ padding: '0 14px' }}>
-                      <StatusBadge status={job.status} />
+                    <td style={{ padding: '0 14px', textAlign: 'center' }}>
+                      <StatusBadge status={job.status} size="sm" />
                     </td>
 
                     <td style={{ padding: '0 14px', textAlign: 'right' }}>
@@ -166,29 +158,23 @@ export const HiringPipeline: React.FC = () => {
                         style={{
                           display: 'inline-flex',
                           alignItems: 'center',
-                          gap: 5,
-                          height: 30,
-                          padding: '0 10px',
-                          borderRadius: 6,
-                          fontSize: 12,
+                          gap: 4,
+                          height: 26,
+                          padding: '0 8px',
+                          borderRadius: 4,
+                          fontSize: 11.5,
                           fontWeight: 500,
                           background: '#ffffff',
-                          border: '1px solid #e4e4e7',
-                          color: '#18181b',
+                          border: '1px solid var(--border-default)',
+                          color: 'var(--text-primary)',
                           cursor: 'pointer',
-                          transition: 'all 0.15s ease',
+                          transition: 'background 0.1s ease',
                         }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.background = '#f4f4f5';
-                          e.currentTarget.style.borderColor = '#d4d4d8';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.background = '#ffffff';
-                          e.currentTarget.style.borderColor = '#e4e4e7';
-                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
                       >
                         <span>Workspace</span>
-                        <ArrowRight size={12} style={{ color: '#71717a' }} />
+                        <ArrowRight size={11} style={{ color: 'var(--text-muted)' }} />
                       </button>
                     </td>
                   </tr>

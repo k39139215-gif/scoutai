@@ -26,13 +26,13 @@ export const Badge: React.FC<BadgeProps> = ({
   const variantClass = `snow-badge-${variant}`;
   const sizeStyle =
     size === 'sm'
-      ? { fontSize: '10.5px', padding: '1px 6px', height: '18px' }
-      : { fontSize: 'var(--font-size-xs)', padding: '2px 8px', height: '22px' };
+      ? { fontSize: '10.5px', padding: '1px 5px', height: '18px' }
+      : { fontSize: '11px', padding: '2px 7px', height: '20px' };
 
   return (
     <span className={`snow-badge ${variantClass} ${className}`} style={sizeStyle}>
-      {icon && <span style={{ display: 'inline-flex' }}>{icon}</span>}
-      <span>{children}</span>
+      {icon && <span style={{ display: 'inline-flex', marginRight: 2 }}>{icon}</span>}
+      <span style={{ fontVariantNumeric: 'tabular-nums' }}>{children}</span>
     </span>
   );
 };
@@ -46,7 +46,8 @@ export const StatusBadge: React.FC<{
     | TaskStatus
     | JobPriority
     | string;
-}> = ({ status }) => {
+  size?: 'sm' | 'md';
+}> = ({ status, size = 'md' }) => {
   switch (status) {
     case 'Qualified':
     case 'Shortlisted':
@@ -54,12 +55,12 @@ export const StatusBadge: React.FC<{
     case 'Open':
     case 'Approved':
     case 'Success':
-      return <Badge variant="success">{status}</Badge>;
+      return <Badge variant="success" size={size}>{status}</Badge>;
     case 'Interviewing':
     case 'In Progress':
     case 'Scheduled':
     case 'High':
-      return <Badge variant="blue">{status}</Badge>;
+      return <Badge variant="blue" size={size}>{status}</Badge>;
     case 'Review':
     case 'Pending':
     case 'Pending Review':
@@ -67,18 +68,18 @@ export const StatusBadge: React.FC<{
     case 'Draft':
     case 'Paused':
     case 'Warning':
-      return <Badge variant="warning">{status}</Badge>;
+      return <Badge variant="warning" size={size}>{status}</Badge>;
     case 'Closed':
     case 'Cancelled':
     case 'Archived':
     case 'Low':
-      return <Badge variant="default">{status}</Badge>;
+      return <Badge variant="default" size={size}>{status}</Badge>;
     case 'Error':
     case 'Blocked':
-      return <Badge variant="danger">{status}</Badge>;
+      return <Badge variant="danger" size={size}>{status}</Badge>;
     case 'Sent — Demo':
-      return <Badge variant="ai">{status}</Badge>;
+      return <Badge variant="default" size={size}>{status}</Badge>;
     default:
-      return <Badge variant="default">{status}</Badge>;
+      return <Badge variant="default" size={size}>{status}</Badge>;
   }
 };

@@ -237,16 +237,17 @@ Lead Technical Recruiter, ScoutAI`);
 
           <div style={{ textAlign: 'right' }}>
             <div
+              className="tabular-nums"
               style={{
-                fontSize: 'var(--font-size-xl)',
+                fontSize: 22,
                 fontWeight: 600,
                 color: 'var(--color-success-text)',
               }}
             >
               {candidate.matchScore}%
             </div>
-            <div style={{ fontSize: '10.5px', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-              Advisory Match
+            <div style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>
+              Criteria Fit
             </div>
           </div>
         </div>
@@ -425,15 +426,16 @@ Lead Technical Recruiter, ScoutAI`);
           </div>
           <pre
             style={{
-              background: 'var(--color-bg-canvas)',
-              border: '1px solid var(--color-border)',
-              borderRadius: 'var(--radius-md)',
-              padding: 16,
+              background: '#f8fafc',
+              border: '1px solid #e2e8f0',
+              borderRadius: 8,
+              padding: '16px 18px',
               fontSize: '11.5px',
-              lineHeight: 1.6,
-              fontFamily: 'var(--font-family-mono)',
+              lineHeight: 1.65,
+              fontFamily: "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+              letterSpacing: '-0.015em',
               whiteSpace: 'pre-wrap',
-              color: 'var(--color-text-primary)',
+              color: '#334155',
             }}
           >
             {candidate.resumeText}

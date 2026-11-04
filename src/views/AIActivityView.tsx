@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Sparkles,
+  Activity,
   User,
   Search,
   X,
@@ -10,14 +10,14 @@ import { useApp } from '../context/AppContext';
 export const AIActivityView: React.FC = () => {
   const { aiActivity } = useApp();
 
-  const [actorFilter, setActorFilter] = useState<'All' | 'AI' | 'Human'>('All');
+  const [actorFilter, setActorFilter] = useState<'All' | 'System' | 'Recruiter'>('All');
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredEvents = aiActivity.filter((evt) => {
     const matchesActor =
       actorFilter === 'All' ||
-      (actorFilter === 'AI' && !evt.isHumanAction) ||
-      (actorFilter === 'Human' && evt.isHumanAction);
+      (actorFilter === 'System' && !evt.isHumanAction) ||
+      (actorFilter === 'Recruiter' && evt.isHumanAction);
 
     const matchesSearch =
       evt.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -29,169 +29,162 @@ export const AIActivityView: React.FC = () => {
   });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* 1. Header */}
       <div
         style={{
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: 16,
-          paddingBottom: 4,
+          paddingBottom: 2,
         }}
       >
         <div>
           <h1
             style={{
-              fontSize: 22,
+              fontSize: 20,
               fontWeight: 600,
-              color: '#18181b',
+              color: '#0f172a',
               letterSpacing: '-0.02em',
-              lineHeight: 1.2,
+              lineHeight: 1.25,
             }}
           >
-            AI & Operations Activity
+            Operations Audit Trail
           </h1>
-          <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
-            Audit log of autonomous candidate matching, draft generation, and recruiter decisions.
+          <p style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 4 }}>
+            Verifiable record of candidate evaluations, outreach dispatches, and recruiter determinations.
           </p>
         </div>
 
         <div
           style={{
-            fontSize: 12.5,
+            fontSize: 12,
             fontWeight: 500,
-            color: '#71717a',
-            padding: '6px 12px',
+            color: 'var(--text-secondary)',
+            padding: '5px 10px',
             background: '#ffffff',
-            borderRadius: 8,
-            border: '1px solid #e4e4e7',
+            borderRadius: 6,
+            border: '1px solid var(--border-subtle)',
           }}
         >
-          <strong style={{ color: '#18181b' }}>{aiActivity.length}</strong> Total Operations
+          <span className="tabular-nums" style={{ fontWeight: 600, color: '#0f172a' }}>{aiActivity.length}</span> total operations recorded
         </div>
       </div>
 
       {/* 2. Filter and Search Bar */}
       <div
         style={{
-          padding: '12px 16px',
+          padding: '10px 14px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: 12,
           background: '#ffffff',
-          border: '1px solid #e4e4e7',
+          border: '1px solid var(--border-subtle)',
           borderRadius: 8,
         }}
       >
-        <div style={{ display: 'flex', gap: 3, background: '#f4f4f5', padding: 3, borderRadius: 7 }}>
+        <div style={{ display: 'flex', gap: 2, background: 'var(--bg-subtle)', padding: 2, borderRadius: 6 }}>
           <button
             onClick={() => setActorFilter('All')}
             style={{
-              padding: '5px 12px',
-              borderRadius: 6,
-              fontSize: 12.5,
-              fontWeight: actorFilter === 'All' ? 600 : 500,
+              padding: '4px 10px',
+              borderRadius: 4,
+              fontSize: 12,
+              fontWeight: actorFilter === 'All' ? 500 : 400,
               border: 'none',
               background: actorFilter === 'All' ? '#ffffff' : 'transparent',
-              color: actorFilter === 'All' ? '#18181b' : '#71717a',
+              color: actorFilter === 'All' ? '#0f172a' : 'var(--text-secondary)',
               cursor: 'pointer',
-              boxShadow: actorFilter === 'All' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-              transition: 'all 0.12s ease',
+              boxShadow: actorFilter === 'All' ? '0 1px 2px rgba(0,0,0,0.05)' : 'none',
+              transition: 'all 0.1s ease',
             }}
           >
-            All Events ({aiActivity.length})
+            All events ({aiActivity.length})
           </button>
 
           <button
-            onClick={() => setActorFilter('AI')}
+            onClick={() => setActorFilter('System')}
             style={{
-              padding: '5px 12px',
-              borderRadius: 6,
-              fontSize: 12.5,
-              fontWeight: actorFilter === 'AI' ? 600 : 500,
+              padding: '4px 10px',
+              borderRadius: 4,
+              fontSize: 12,
+              fontWeight: actorFilter === 'System' ? 500 : 400,
               border: 'none',
-              background: actorFilter === 'AI' ? '#ffffff' : 'transparent',
-              color: actorFilter === 'AI' ? '#6d28d9' : '#71717a',
+              background: actorFilter === 'System' ? '#ffffff' : 'transparent',
+              color: actorFilter === 'System' ? '#0f172a' : 'var(--text-secondary)',
               cursor: 'pointer',
-              boxShadow: actorFilter === 'AI' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-              transition: 'all 0.12s ease',
+              boxShadow: actorFilter === 'System' ? '0 1px 2px rgba(0,0,0,0.05)' : 'none',
+              transition: 'all 0.1s ease',
               display: 'flex',
               alignItems: 'center',
               gap: 5,
             }}
           >
-            <Sparkles size={13} style={{ color: '#7c3aed' }} />
-            <span>AI Automated</span>
+            <Activity size={12} style={{ color: 'var(--text-muted)' }} />
+            <span>System</span>
           </button>
 
           <button
-            onClick={() => setActorFilter('Human')}
+            onClick={() => setActorFilter('Recruiter')}
             style={{
-              padding: '5px 12px',
-              borderRadius: 6,
-              fontSize: 12.5,
-              fontWeight: actorFilter === 'Human' ? 600 : 500,
+              padding: '4px 10px',
+              borderRadius: 4,
+              fontSize: 12,
+              fontWeight: actorFilter === 'Recruiter' ? 500 : 400,
               border: 'none',
-              background: actorFilter === 'Human' ? '#ffffff' : 'transparent',
-              color: actorFilter === 'Human' ? '#18181b' : '#71717a',
+              background: actorFilter === 'Recruiter' ? '#ffffff' : 'transparent',
+              color: actorFilter === 'Recruiter' ? '#0f172a' : 'var(--text-secondary)',
               cursor: 'pointer',
-              boxShadow: actorFilter === 'Human' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-              transition: 'all 0.12s ease',
+              boxShadow: actorFilter === 'Recruiter' ? '0 1px 2px rgba(0,0,0,0.05)' : 'none',
+              transition: 'all 0.1s ease',
               display: 'flex',
               alignItems: 'center',
               gap: 5,
             }}
           >
-            <User size={13} />
-            <span>Human Actions</span>
+            <User size={12} style={{ color: 'var(--text-muted)' }} />
+            <span>Recruiter</span>
           </button>
         </div>
 
         {/* Search */}
-        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+        <div style={{ position: 'relative', width: 260 }}>
           <Search
-            size={14}
-            style={{
-              position: 'absolute',
-              left: 11,
-              color: '#71717a',
-              pointerEvents: 'none',
-            }}
+            size={13}
+            style={{ position: 'absolute', left: 9, top: 9, color: 'var(--text-muted)', pointerEvents: 'none' }}
           />
           <input
             type="text"
-            placeholder="Search activity by type, target, detail…"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Filter audit entries..."
             style={{
-              height: 36,
-              width: 280,
-              padding: '0 32px 0 32px',
-              fontSize: 13,
-              borderRadius: 8,
-              border: '1px solid #e4e4e7',
-              background: '#ffffff',
-              color: '#18181b',
-              outline: 'none',
+              width: '100%',
+              height: 30,
+              paddingLeft: 28,
+              paddingRight: 26,
+              fontSize: 12,
+              borderRadius: 5,
+              border: '1px solid var(--border-subtle)',
+              background: 'var(--bg-canvas)',
+              color: '#0f172a',
             }}
-            onFocusCapture={(e) => (e.currentTarget.style.borderColor = '#18181b')}
-            onBlurCapture={(e) => (e.currentTarget.style.borderColor = '#e4e4e7')}
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
               style={{
                 position: 'absolute',
-                right: 8,
-                background: 'transparent',
+                right: 7,
+                top: 7,
+                background: 'none',
                 border: 'none',
-                color: '#71717a',
+                color: 'var(--text-muted)',
                 cursor: 'pointer',
-                padding: 2,
               }}
             >
               <X size={13} />
@@ -200,19 +193,18 @@ export const AIActivityView: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. Activity Timeline List */}
+      {/* 3. Event List */}
       <div
         style={{
           background: '#ffffff',
-          border: '1px solid #e4e4e7',
+          border: '1px solid var(--border-subtle)',
           borderRadius: 8,
-          padding: '16px 20px',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+          overflow: 'hidden',
         }}
       >
         {filteredEvents.length === 0 ? (
-          <div style={{ padding: 48, textAlign: 'center', color: '#71717a', fontSize: 13 }}>
-            No activity records found matching query.
+          <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-muted)', fontSize: 13 }}>
+            No operations recorded matching current filters.
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -220,64 +212,69 @@ export const AIActivityView: React.FC = () => {
               <div
                 key={evt.id}
                 style={{
+                  padding: '12px 16px',
                   display: 'flex',
                   alignItems: 'flex-start',
-                  gap: 14,
-                  padding: '16px 8px',
-                  borderBottom: idx < filteredEvents.length - 1 ? '1px solid #f4f4f5' : 'none',
+                  gap: 12,
+                  borderBottom: idx === filteredEvents.length - 1 ? 'none' : '1px solid #f3f4f6',
+                  transition: 'background 0.1s ease',
                 }}
+                onMouseEnter={(e) => (e.currentTarget.style.background = '#fafafa')}
+                onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
               >
                 {/* Avatar / Icon */}
                 <div
                   style={{
-                    width: 32,
-                    height: 32,
-                    borderRadius: 8,
-                    background: evt.isHumanAction ? '#f4f4f5' : '#f5f3ff',
-                    color: evt.isHumanAction ? '#18181b' : '#7c3aed',
+                    width: 28,
+                    height: 28,
+                    borderRadius: 5,
+                    background: 'var(--bg-subtle)',
+                    color: 'var(--text-secondary)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0,
-                    border: evt.isHumanAction ? '1px solid #e4e4e7' : '1px solid #ddd6fe',
+                    border: '1px solid var(--border-subtle)',
+                    marginTop: 1,
                   }}
                 >
-                  {evt.isHumanAction ? <User size={15} /> : <Sparkles size={15} />}
+                  {evt.isHumanAction ? <User size={13} /> : <Activity size={13} />}
                 </div>
 
                 {/* Event Details */}
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                      <span style={{ fontSize: 13.5, fontWeight: 600, color: '#18181b' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                      <span style={{ fontSize: 13, fontWeight: 500, color: '#0f172a' }}>
                         {evt.type}
                       </span>
                       <span
                         style={{
-                          fontSize: 11,
+                          fontSize: 10.5,
                           fontWeight: 500,
-                          padding: '2px 7px',
-                          borderRadius: 4,
-                          background: evt.isHumanAction ? '#f4f4f5' : '#ede9fe',
-                          color: evt.isHumanAction ? '#52525b' : '#6d28d9',
+                          padding: '1px 5px',
+                          borderRadius: 3,
+                          background: 'var(--bg-subtle)',
+                          color: 'var(--text-muted)',
+                          border: '1px solid var(--border-subtle)',
                         }}
                       >
                         {evt.actor}
                       </span>
                     </div>
 
-                    <span style={{ fontSize: 12, color: '#a1a1aa' }}>
+                    <span className="mono-tag tabular-nums" style={{ color: 'var(--text-muted)' }}>
                       {evt.timestamp}
                     </span>
                   </div>
 
-                  <div style={{ fontSize: 12.5, fontWeight: 500, color: '#2563eb', marginTop: 3 }}>
-                    Target: {evt.target}
+                  <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 2 }}>
+                    Target: <span style={{ fontWeight: 500, color: '#0f172a' }}>{evt.target}</span>
                   </div>
 
-                  <p style={{ fontSize: 13, color: '#52525b', marginTop: 4, lineHeight: 1.5, margin: 0 }}>
+                  <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 2, lineHeight: 1.45 }}>
                     {evt.details}
-                  </p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -287,4 +284,3 @@ export const AIActivityView: React.FC = () => {
     </div>
   );
 };
-

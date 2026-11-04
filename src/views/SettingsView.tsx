@@ -3,7 +3,7 @@ import {
   User,
   Building,
   Bell,
-  Sparkles,
+  SlidersHorizontal,
   Lock,
   Shield,
   Save,
@@ -85,7 +85,7 @@ export const SettingsView: React.FC = () => {
     { id: 'profile', label: 'Profile', icon: <User size={14} /> },
     { id: 'workspace', label: 'Workspace', icon: <Building size={14} /> },
     { id: 'notifications', label: 'Notifications', icon: <Bell size={14} /> },
-    { id: 'ai', label: 'AI Parameters', icon: <Sparkles size={14} /> },
+    { id: 'ai', label: 'Evaluation Model', icon: <SlidersHorizontal size={14} /> },
     { id: 'security', label: 'Security & Access', icon: <Lock size={14} /> },
     { id: 'privacy', label: 'Privacy & Retention', icon: <Shield size={14} /> },
   ];

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Sparkles,
+  SearchCheck,
   CheckCircle2,
   ArrowRight,
   Loader2,
@@ -18,10 +18,10 @@ export const SourcingView: React.FC = () => {
   const [hasScanned, setHasScanned] = useState(true);
 
   const scanSteps = [
-    'Analyzing role specifications & skill requirements...',
-    'Scanning 247 simulated candidate profiles in talent pool...',
-    'Evaluating requirement overlaps & experience depth...',
-    'Generating advisory ranking and match breakdown...',
+    'Analyzing role specifications & required competencies...',
+    'Scanning 247 profiles in talent repository...',
+    'Evaluating requirement overlap & experience depth...',
+    'Generating rubric compatibility breakdown...',
   ];
 
   const handleRunSourcing = () => {
@@ -52,36 +52,36 @@ export const SourcingView: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Header */}
       <div
         style={{
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: 16,
-          paddingBottom: 4,
+          paddingBottom: 2,
         }}
       >
         <div>
           <h1
             style={{
-              fontSize: 22,
+              fontSize: 20,
               fontWeight: 600,
-              color: '#18181b',
+              color: '#0f172a',
               letterSpacing: '-0.02em',
-              lineHeight: 1.2,
+              lineHeight: 1.25,
             }}
           >
-            AI Candidate Sourcing
+            Candidate Matching
           </h1>
-          <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
-            Autonomous talent pool matching and ranking against active job requirements.
+          <p style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 4 }}>
+            Cross-reference candidate profiles against active requisition criteria to compute compatibility rankings.
           </p>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <CustomSelect
             value={targetJobId}
             onChange={setTargetJobId}
@@ -98,15 +98,15 @@ export const SourcingView: React.FC = () => {
             disabled={isScanning}
             onClick={handleRunSourcing}
             style={{
-              height: 36,
-              padding: '0 16px',
-              borderRadius: 8,
-              fontSize: 13,
+              height: 32,
+              padding: '0 14px',
+              borderRadius: 6,
+              fontSize: 12.5,
               fontWeight: 500,
               display: 'inline-flex',
               alignItems: 'center',
-              gap: 7,
-              background: '#18181b',
+              gap: 6,
+              background: '#0f172a',
               color: '#ffffff',
               border: 'none',
               cursor: isScanning ? 'not-allowed' : 'pointer',
@@ -114,11 +114,11 @@ export const SourcingView: React.FC = () => {
             }}
           >
             {isScanning ? (
-              <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} />
+              <Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} />
             ) : (
-              <Sparkles size={14} />
+              <SearchCheck size={14} />
             )}
-            <span>{isScanning ? 'Scanning...' : 'Run Sourcing'}</span>
+            <span>{isScanning ? 'Evaluating...' : 'Match Candidates'}</span>
           </button>
         </div>
       </div>
@@ -127,16 +127,16 @@ export const SourcingView: React.FC = () => {
       {isScanning && (
         <div
           style={{
-            padding: '20px 24px',
+            padding: '20px 22px',
             background: '#ffffff',
-            border: '1px solid #e4e4e7',
-            borderRadius: 10,
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 8,
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
-            <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} />
-            <span style={{ fontSize: 13.5, fontWeight: 600, color: '#18181b' }}>
-              Sourcing Engine in Progress
+            <Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} />
+            <span style={{ fontSize: 13.5, fontWeight: 600, color: '#0f172a' }}>
+              Candidate Evaluation in Progress
             </span>
           </div>
 
@@ -148,31 +148,31 @@ export const SourcingView: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: 10,
-                  fontSize: 13,
+                  fontSize: 12.5,
                   color:
                     idx < scanStep
-                      ? '#16a34a'
+                      ? '#166534'
                       : idx === scanStep
-                      ? '#18181b'
-                      : '#a1a1aa',
+                      ? '#0f172a'
+                      : 'var(--text-muted)',
                 }}
               >
                 {idx < scanStep ? (
-                  <CheckCircle2 size={15} style={{ color: '#16a34a' }} />
+                  <CheckCircle2 size={14} style={{ color: '#166534' }} />
                 ) : idx === scanStep ? (
-                  <Loader2 size={15} style={{ animation: 'spin 1s linear infinite', color: '#18181b' }} />
+                  <Loader2 size={14} style={{ animation: 'spin 1s linear infinite', color: '#0f172a' }} />
                 ) : (
                   <span
                     style={{
                       width: 14,
                       height: 14,
                       borderRadius: '50%',
-                      border: '1px solid #d4d4d8',
+                      border: '1px solid var(--border-default)',
                       display: 'inline-block',
                     }}
                   />
                 )}
-                <span style={{ fontWeight: idx === scanStep ? 600 : 400 }}>{stepLabel}</span>
+                <span style={{ fontWeight: idx === scanStep ? 500 : 400 }}>{stepLabel}</span>
               </div>
             ))}
           </div>
@@ -183,41 +183,41 @@ export const SourcingView: React.FC = () => {
       {!isScanning && hasScanned && (
         <div
           style={{
-            padding: '18px 22px',
+            padding: '16px 20px',
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
             gap: 16,
             background: '#ffffff',
-            border: '1px solid #e4e4e7',
-            borderRadius: 10,
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 8,
           }}
         >
           <div>
-            <div style={{ fontSize: 11.5, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em', fontWeight: 600 }}>
-              Talent Pool Analyzed
+            <div style={{ fontSize: 11.5, color: 'var(--text-muted)', fontWeight: 500 }}>
+              Talent pool analyzed
             </div>
-            <div style={{ fontSize: 24, fontWeight: 600, margin: '4px 0', color: '#18181b' }}>247</div>
-            <div style={{ fontSize: 12, color: '#71717a' }}>Indian tech profiles</div>
+            <div className="metric-val" style={{ fontSize: 24, fontWeight: 600, margin: '4px 0', color: '#0f172a' }}>247</div>
+            <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>Registered talent profiles</div>
           </div>
 
           <div>
-            <div style={{ fontSize: 11.5, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em', fontWeight: 600 }}>
-              Qualified Matches
+            <div style={{ fontSize: 11.5, color: 'var(--text-muted)', fontWeight: 500 }}>
+              Qualified matches
             </div>
-            <div style={{ fontSize: 24, fontWeight: 600, margin: '4px 0', color: '#2563eb' }}>
+            <div className="metric-val" style={{ fontSize: 24, fontWeight: 600, margin: '4px 0', color: '#0f172a' }}>
               42
             </div>
-            <div style={{ fontSize: 12, color: '#71717a' }}>Core skills satisfied</div>
+            <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>Core requirements met</div>
           </div>
 
           <div>
-            <div style={{ fontSize: 11.5, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em', fontWeight: 600 }}>
-              High-Confidence (85%+)
+            <div style={{ fontSize: 11.5, color: 'var(--text-muted)', fontWeight: 500 }}>
+              High compatibility (85%+)
             </div>
-            <div style={{ fontSize: 24, fontWeight: 600, margin: '4px 0', color: '#16a34a' }}>
+            <div className="metric-val" style={{ fontSize: 24, fontWeight: 600, margin: '4px 0', color: '#166534' }}>
               12
             </div>
-            <div style={{ fontSize: 12, color: '#71717a' }}>Recommended for shortlist</div>
+            <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>Ready for shortlist review</div>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start' }}>
@@ -227,26 +227,20 @@ export const SourcingView: React.FC = () => {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 6,
-                height: 34,
-                padding: '0 14px',
-                borderRadius: 6,
-                fontSize: 12.5,
+                gap: 5,
+                height: 30,
+                padding: '0 12px',
+                borderRadius: 5,
+                fontSize: 12,
                 fontWeight: 500,
                 background: '#ffffff',
-                border: '1px solid #e4e4e7',
-                color: '#18181b',
+                border: '1px solid var(--border-default)',
+                color: 'var(--text-primary)',
                 cursor: 'pointer',
-                transition: 'all 0.15s ease',
+                transition: 'background-color 0.1s ease',
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#f4f4f5';
-                e.currentTarget.style.borderColor = '#d4d4d8';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = '#ffffff';
-                e.currentTarget.style.borderColor = '#e4e4e7';
-              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
+              onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
             >
               <Check size={13} />
               <span>Shortlist 90%+ Matches</span>
@@ -256,13 +250,13 @@ export const SourcingView: React.FC = () => {
       )}
 
       {/* Sourced Candidates Cards */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <h3 style={{ fontSize: 15, fontWeight: 600, color: '#18181b' }}>
-            Ranked Sourcing Matches ({matchingCandidates.length})
+          <h3 style={{ fontSize: 14, fontWeight: 600, color: '#0f172a' }}>
+            Ranked Matches ({matchingCandidates.length})
           </h3>
-          <span style={{ fontSize: 12, color: '#71717a' }}>
-            Sorted by highest advisory compatibility
+          <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
+            Ranked by compatibility rubric
           </span>
         </div>
 
@@ -271,21 +265,21 @@ export const SourcingView: React.FC = () => {
             <div
               key={cand.id}
               style={{
-                padding: '18px 20px',
+                padding: '16px 18px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                gap: 16,
+                gap: 14,
                 background: '#ffffff',
-                border: '1px solid #e4e4e7',
-                borderRadius: 10,
-                transition: 'box-shadow 0.15s ease, border-color 0.15s ease',
+                border: '1px solid var(--border-subtle)',
+                borderRadius: 8,
+                transition: 'border-color 0.12s ease',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#d4d4d8';
+                e.currentTarget.style.borderColor = 'var(--border-default)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = '#e4e4e7';
+                e.currentTarget.style.borderColor = 'var(--border-subtle)';
               }}
             >
               <div>
@@ -294,53 +288,54 @@ export const SourcingView: React.FC = () => {
                     <div
                       onClick={() => navigate('candidate-detail', { candidateId: cand.id })}
                       style={{
-                        fontSize: 14,
+                        fontSize: 13.5,
                         fontWeight: 600,
-                        color: '#18181b',
+                        color: '#0f172a',
                         cursor: 'pointer',
-                        transition: 'color 0.15s ease',
+                        transition: 'color 0.1s ease',
                       }}
                       onMouseEnter={(e) => (e.currentTarget.style.color = '#2563eb')}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = '#18181b')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = '#0f172a')}
                     >
                       {cand.name}
                     </div>
-                    <div style={{ fontSize: 12.5, color: '#71717a', marginTop: 2 }}>
+                    <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 2 }}>
                       {cand.title} • {cand.experienceYears} yrs exp
                     </div>
-                    <div style={{ fontSize: 11.5, color: '#a1a1aa', marginTop: 1 }}>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 1 }}>
                       {cand.location}
                     </div>
                   </div>
 
                   <span
+                    className="tabular-nums"
                     style={{
-                      fontSize: 11.5,
-                      fontWeight: 600,
-                      padding: '3px 8px',
-                      borderRadius: 5,
-                      background: '#dcfce7',
-                      color: '#15803d',
+                      fontSize: 11,
+                      fontWeight: 500,
+                      padding: '2px 7px',
+                      borderRadius: 4,
+                      background: '#f0fdf4',
+                      color: '#166534',
                       border: '1px solid #bbf7d0',
                       whiteSpace: 'nowrap',
                     }}
                   >
-                    {cand.matchScore}% Match
+                    {cand.matchScore}% Fit
                   </span>
                 </div>
 
                 {/* Skills tags */}
-                <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginTop: 12 }}>
+                <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginTop: 10 }}>
                   {cand.skills.map((sk) => (
                     <span
                       key={sk}
                       style={{
-                        fontSize: 11,
-                        background: '#fafafa',
-                        border: '1px solid #e4e4e7',
-                        padding: '2px 7px',
-                        borderRadius: 4,
-                        color: '#52525b',
+                        fontSize: 10.5,
+                        background: 'var(--bg-canvas)',
+                        border: '1px solid var(--border-subtle)',
+                        padding: '1px 5px',
+                        borderRadius: 3,
+                        color: 'var(--text-secondary)',
                       }}
                     >
                       {sk}
@@ -351,8 +346,8 @@ export const SourcingView: React.FC = () => {
                 {/* Key Strength snippet */}
                 <p
                   style={{
-                    fontSize: 12.5,
-                    color: '#52525b',
+                    fontSize: 12,
+                    color: 'var(--text-secondary)',
                     marginTop: 10,
                     lineHeight: 1.45,
                   }}
@@ -368,8 +363,8 @@ export const SourcingView: React.FC = () => {
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   gap: 10,
-                  paddingTop: 12,
-                  borderTop: '1px solid #f4f4f5',
+                  paddingTop: 10,
+                  borderTop: '1px solid #f3f4f6',
                 }}
               >
                 <button
@@ -378,21 +373,21 @@ export const SourcingView: React.FC = () => {
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: 6,
-                    height: 32,
-                    padding: '0 12px',
-                    borderRadius: 6,
-                    fontSize: 12.5,
+                    gap: 5,
+                    height: 28,
+                    padding: '0 10px',
+                    borderRadius: 4,
+                    fontSize: 12,
                     fontWeight: 500,
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
-                    transition: 'all 0.15s ease',
-                    background: cand.status === 'Shortlisted' ? '#dcfce7' : '#ffffff',
-                    border: cand.status === 'Shortlisted' ? '1px solid #86efac' : '1px solid #e4e4e7',
-                    color: cand.status === 'Shortlisted' ? '#15803d' : '#18181b',
+                    transition: 'background-color 0.1s ease',
+                    background: cand.status === 'Shortlisted' ? '#f0fdf4' : '#ffffff',
+                    border: cand.status === 'Shortlisted' ? '1px solid #bbf7d0' : '1px solid var(--border-default)',
+                    color: cand.status === 'Shortlisted' ? '#166534' : 'var(--text-primary)',
                   }}
                 >
-                  <CheckCircle2 size={13} />
+                  <CheckCircle2 size={12} />
                   <span>{cand.status === 'Shortlisted' ? 'Shortlisted' : 'Shortlist'}</span>
                 </button>
 
@@ -402,30 +397,24 @@ export const SourcingView: React.FC = () => {
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: 6,
-                    height: 32,
-                    padding: '0 12px',
-                    borderRadius: 6,
-                    fontSize: 12.5,
+                    gap: 5,
+                    height: 28,
+                    padding: '0 10px',
+                    borderRadius: 4,
+                    fontSize: 12,
                     fontWeight: 500,
                     background: '#ffffff',
-                    border: '1px solid #e4e4e7',
-                    color: '#18181b',
+                    border: '1px solid var(--border-default)',
+                    color: 'var(--text-primary)',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
-                    transition: 'all 0.15s ease',
+                    transition: 'background-color 0.1s ease',
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = '#f4f4f5';
-                    e.currentTarget.style.borderColor = '#d4d4d8';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = '#ffffff';
-                    e.currentTarget.style.borderColor = '#e4e4e7';
-                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
                 >
-                  <span>Review Profile</span>
-                  <ArrowRight size={13} style={{ color: '#71717a' }} />
+                  <span>Review profile</span>
+                  <ArrowRight size={12} style={{ color: 'var(--text-muted)' }} />
                 </button>
               </div>
             </div>

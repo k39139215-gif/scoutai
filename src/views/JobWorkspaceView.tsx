@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   MapPin,
-  Sparkles,
+  SearchCheck,
   CheckCircle2,
   ArrowLeft,
 } from 'lucide-react';
@@ -109,8 +109,8 @@ export const JobWorkspaceView: React.FC = () => {
               cursor: 'pointer',
             }}
           >
-            <Sparkles size={13} style={{ color: '#c084fc' }} />
-            <span>Run Sourcing Scan</span>
+            <SearchCheck size={13} />
+            <span>Match Candidates</span>
           </button>
         </div>
       </div>
@@ -257,8 +257,8 @@ export const JobWorkspaceView: React.FC = () => {
                   cursor: 'pointer',
                 }}
               >
-                <Sparkles size={14} style={{ color: '#c084fc' }} />
-                <span>Run AI Sourcing Scan</span>
+                <SearchCheck size={14} />
+                <span>Run Candidate Matching</span>
               </button>
             </div>
           ) : (
@@ -272,13 +272,13 @@ export const JobWorkspaceView: React.FC = () => {
             >
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                 <thead>
-                  <tr style={{ background: '#fafafa', borderBottom: '1px solid #e4e4e7' }}>
-                    <th style={{ padding: '12px 18px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Candidate</th>
-                    <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Experience</th>
-                    <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Location</th>
-                    <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Match Fit</th>
-                    <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Status</th>
-                    <th style={{ padding: '12px 18px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', textAlign: 'right' }}>Actions</th>
+                  <tr style={{ background: '#fafafa', borderBottom: '1px solid var(--border-subtle)' }}>
+                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Candidate</th>
+                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Experience</th>
+                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Location</th>
+                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Match fit</th>
+                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Status</th>
+                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)', textAlign: 'right' }}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -426,8 +426,8 @@ export const JobWorkspaceView: React.FC = () => {
               cursor: 'pointer',
             }}
           >
-            <Sparkles size={14} style={{ color: '#c084fc' }} />
-            <span>Launch Interactive Sourcing Scan</span>
+            <SearchCheck size={14} />
+            <span>Launch Candidate Matching</span>
           </button>
         </div>
       )}

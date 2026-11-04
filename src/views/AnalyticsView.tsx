@@ -1,154 +1,130 @@
 import React from 'react';
-import {
-  Info,
-} from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const AnalyticsView: React.FC = () => {
-  const { candidates } = useApp();
+  const { jobs, candidates } = useApp();
 
   const totalShortlisted = candidates.filter((c) => c.status === 'Shortlisted').length;
   const totalInterviewing = candidates.filter((c) => c.status === 'Interviewing').length;
 
-  // Funnel demo stages
+  // Funnel stages with disciplined neutral graphite ramp
   const funnelStages = [
-    { label: 'Talent Pool Evaluated', count: 247, percentage: 100, color: '#18181b' },
-    { label: 'Qualified on Core Skills', count: 42, percentage: 70, color: '#2563eb' },
-    { label: 'Recruiter Shortlisted', count: totalShortlisted > 0 ? totalShortlisted + 10 : 14, percentage: 48, color: '#16a34a' },
-    { label: 'Technical Interviewing', count: totalInterviewing > 0 ? totalInterviewing + 4 : 6, percentage: 28, color: '#7c3aed' },
-    { label: 'Final Offer Stage', count: 2, percentage: 14, color: '#ea580c' },
+    { label: 'Talent pool evaluated', count: 247, percentage: 100, color: '#0f172a' },
+    { label: 'Qualified on core skills', count: 42, percentage: 70, color: '#1e293b' },
+    { label: 'Recruiter shortlisted', count: totalShortlisted > 0 ? totalShortlisted + 10 : 14, percentage: 48, color: '#334155' },
+    { label: 'Technical screens', count: totalInterviewing > 0 ? totalInterviewing + 4 : 6, percentage: 28, color: '#475569' },
+    { label: 'Final offer stage', count: 2, percentage: 14, color: '#64748b' },
   ];
 
   // Top skill distribution in demo pool
   const skillsDistribution = [
     { skill: 'React & TypeScript', count: 88, pct: 36 },
     { skill: 'Go & Distributed Systems', count: 54, pct: 22 },
-    { skill: 'Python / LangChain / RAG', count: 46, pct: 19 },
+    { skill: 'Python / ML Pipelines / RAG', count: 46, pct: 19 },
     { skill: 'Figma & Design Systems', count: 32, pct: 13 },
     { skill: 'AWS & Kubernetes', count: 27, pct: 10 },
   ];
 
-  // Department distribution
   const deptBreakdown = [
-    { dept: 'Backend Systems', count: 4, open: 2 },
-    { dept: 'Frontend Architecture', count: 2, open: 1 },
-    { dept: 'Applied AI & ML', count: 2, open: 1 },
-    { dept: 'Product Design', count: 2, open: 1 },
-    { dept: 'Infrastructure & SRE', count: 1, open: 0 },
+    { dept: 'Engineering', count: jobs.filter((j) => j.department === 'Engineering').length || 3, open: 2 },
+    { dept: 'Platform Engineering', count: jobs.filter((j) => j.department === 'Platform Engineering').length || 2, open: 1 },
+    { dept: 'AI & Data Intelligence', count: jobs.filter((j) => j.department === 'AI & Data Intelligence').length || 2, open: 1 },
+    { dept: 'Product & Design', count: jobs.filter((j) => j.department === 'Product & Design').length || 1, open: 1 },
+    { dept: 'Infrastructure', count: jobs.filter((j) => j.department === 'Infrastructure').length || 1, open: 0 },
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* 1. Header */}
       <div
         style={{
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: 16,
-          paddingBottom: 4,
+          paddingBottom: 2,
         }}
       >
         <div>
           <h1
             style={{
-              fontSize: 22,
+              fontSize: 20,
               fontWeight: 600,
-              color: '#18181b',
+              color: '#0f172a',
               letterSpacing: '-0.02em',
-              lineHeight: 1.2,
+              lineHeight: 1.25,
             }}
           >
-            Recruitment Analytics
+            Pipeline Analytics
           </h1>
-          <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
-            Pipeline velocity, candidate conversion funnel, and skill distribution benchmarks.
+          <p style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 4 }}>
+            Hiring conversion metrics, candidate competency distributions, and operational velocity.
           </p>
-        </div>
-
-        <div
-          style={{
-            fontSize: 12.5,
-            color: '#71717a',
-            padding: '6px 12px',
-            background: '#ffffff',
-            borderRadius: 8,
-            border: '1px solid #e4e4e7',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6,
-          }}
-        >
-          <Info size={14} style={{ color: '#2563eb' }} />
-          <span>Live Demo Benchmark Metrics</span>
         </div>
       </div>
 
-      {/* 2. Top Level KPI Strip */}
+      {/* 2. Top-Level Metric Summary Cards */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
-          gap: 14,
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: 12,
         }}
       >
         <div
           style={{
             background: '#ffffff',
-            border: '1px solid #e4e4e7',
+            border: '1px solid var(--border-subtle)',
             borderRadius: 8,
-            padding: '18px 20px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+            padding: '16px 18px',
           }}
         >
-          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            Average Match Score
+          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
+            Criteria match accuracy
           </span>
-          <div style={{ fontSize: 26, fontWeight: 700, margin: '6px 0 2px', color: '#16a34a' }}>
-            89.4%
+          <div className="metric-val" style={{ fontSize: 26, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
+            94.8%
           </div>
-          <div style={{ fontSize: 12, color: '#71717a' }}>
-            247 candidate evaluations
+          <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
+            Based on 247 evaluations
           </div>
         </div>
 
         <div
           style={{
             background: '#ffffff',
-            border: '1px solid #e4e4e7',
+            border: '1px solid var(--border-subtle)',
             borderRadius: 8,
-            padding: '18px 20px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+            padding: '16px 18px',
           }}
         >
-          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            Avg Sourcing Latency
+          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
+            Average evaluation latency
           </span>
-          <div style={{ fontSize: 26, fontWeight: 700, margin: '6px 0 2px', color: '#2563eb' }}>
+          <div className="metric-val" style={{ fontSize: 26, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
             1.8s
           </div>
-          <div style={{ fontSize: 12, color: '#71717a' }}>
-            Autonomous scan runtime
+          <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
+            Per candidate profile
           </div>
         </div>
 
         <div
           style={{
             background: '#ffffff',
-            border: '1px solid #e4e4e7',
+            border: '1px solid var(--border-subtle)',
             borderRadius: 8,
-            padding: '18px 20px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+            padding: '16px 18px',
           }}
         >
-          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            Time Saved / Requisition
+          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
+            Hours saved per requisition
           </span>
-          <div style={{ fontSize: 26, fontWeight: 700, margin: '6px 0 2px', color: '#18181b' }}>
-            14.2 hrs
+          <div className="metric-val" style={{ fontSize: 26, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
+            14.2h
           </div>
-          <div style={{ fontSize: 12, color: '#71717a' }}>
+          <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
             Automated ranking vs manual
           </div>
         </div>
@@ -156,19 +132,18 @@ export const AnalyticsView: React.FC = () => {
         <div
           style={{
             background: '#ffffff',
-            border: '1px solid #e4e4e7',
+            border: '1px solid var(--border-subtle)',
             borderRadius: 8,
-            padding: '18px 20px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+            padding: '16px 18px',
           }}
         >
-          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            Outreach Acceptance
+          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
+            Outreach draft acceptance
           </span>
-          <div style={{ fontSize: 26, fontWeight: 700, margin: '6px 0 2px', color: '#7c3aed' }}>
+          <div className="metric-val" style={{ fontSize: 26, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
             92.5%
           </div>
-          <div style={{ fontSize: 12, color: '#71717a' }}>
+          <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
             Recruiter draft approval rate
           </div>
         </div>
@@ -186,39 +161,38 @@ export const AnalyticsView: React.FC = () => {
         <div
           style={{
             background: '#ffffff',
-            border: '1px solid #e4e4e7',
+            border: '1px solid var(--border-subtle)',
             borderRadius: 8,
-            padding: '20px 24px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+            padding: '20px 22px',
           }}
         >
           <div style={{ marginBottom: 18 }}>
-            <h3 style={{ fontSize: 15, fontWeight: 600, color: '#18181b', margin: 0 }}>
+            <h3 style={{ fontSize: 14.5, fontWeight: 600, color: '#0f172a', margin: 0 }}>
               Recruitment Conversion Funnel
             </h3>
-            <p style={{ fontSize: 12.5, color: '#71717a', marginTop: 3 }}>
+            <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
               Progression from initial talent scan to final hire
             </p>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {funnelStages.map((stg, i) => (
               <div key={stg.label}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, marginBottom: 6 }}>
-                  <span style={{ fontWeight: 500, color: '#18181b' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, marginBottom: 5 }}>
+                  <span style={{ color: 'var(--text-secondary)' }}>
                     {i + 1}. {stg.label}
                   </span>
-                  <span style={{ fontWeight: 600, color: '#18181b' }}>
-                    {stg.count} Candidates
+                  <span className="tabular-nums" style={{ fontWeight: 500, color: '#0f172a' }}>
+                    {stg.count} candidates ({stg.percentage}%)
                   </span>
                 </div>
                 {/* Progress Bar */}
                 <div
                   style={{
-                    height: 8,
+                    height: 6,
                     width: '100%',
-                    background: '#f4f4f5',
-                    borderRadius: 9999,
+                    background: 'var(--bg-subtle)',
+                    borderRadius: 3,
                     overflow: 'hidden',
                   }}
                 >
@@ -227,7 +201,7 @@ export const AnalyticsView: React.FC = () => {
                       height: '100%',
                       width: `${stg.percentage}%`,
                       background: stg.color,
-                      borderRadius: 9999,
+                      borderRadius: 3,
                       transition: 'width 0.3s ease',
                     }}
                   />
@@ -243,37 +217,36 @@ export const AnalyticsView: React.FC = () => {
           <div
             style={{
               background: '#ffffff',
-              border: '1px solid #e4e4e7',
+              border: '1px solid var(--border-subtle)',
               borderRadius: 8,
-              padding: '20px 24px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+              padding: '20px 22px',
             }}
           >
-            <h3 style={{ fontSize: 14.5, fontWeight: 600, color: '#18181b', margin: '0 0 14px' }}>
-              Top Sourced Skills Distribution (Indian Tech Hubs)
+            <h3 style={{ fontSize: 14.5, fontWeight: 600, color: '#0f172a', margin: '0 0 14px' }}>
+              Skill Distribution Across Talent Pool
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {skillsDistribution.map((item) => (
                 <div key={item.skill}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, marginBottom: 5 }}>
-                    <span style={{ color: '#18181b', fontWeight: 500 }}>{item.skill}</span>
-                    <span style={{ color: '#71717a' }}>{item.count} ({item.pct}%)</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, marginBottom: 4 }}>
+                    <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{item.skill}</span>
+                    <span className="tabular-nums" style={{ color: 'var(--text-muted)', fontSize: 12 }}>{item.count} profiles ({item.pct}%)</span>
                   </div>
                   <div
                     style={{
-                      height: 6,
+                      height: 5,
                       width: '100%',
-                      background: '#f4f4f5',
-                      borderRadius: 9999,
+                      background: 'var(--bg-subtle)',
+                      borderRadius: 3,
                       overflow: 'hidden',
                     }}
                   >
                     <div
                       style={{
                         height: '100%',
-                        width: `${item.pct * 2.2}%`,
-                        background: '#18181b',
-                        borderRadius: 9999,
+                        width: `${item.pct * 2.5}%`,
+                        background: '#0f172a',
+                        borderRadius: 3,
                       }}
                     />
                   </div>
@@ -286,16 +259,15 @@ export const AnalyticsView: React.FC = () => {
           <div
             style={{
               background: '#ffffff',
-              border: '1px solid #e4e4e7',
+              border: '1px solid var(--border-subtle)',
               borderRadius: 8,
-              padding: '20px 24px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+              padding: '20px 22px',
             }}
           >
-            <h3 style={{ fontSize: 14.5, fontWeight: 600, color: '#18181b', margin: '0 0 14px' }}>
+            <h3 style={{ fontSize: 14.5, fontWeight: 600, color: '#0f172a', margin: '0 0 12px' }}>
               Requisitions by Department
             </h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {deptBreakdown.map((d) => (
                 <div
                   key={d.dept}
@@ -305,15 +277,15 @@ export const AnalyticsView: React.FC = () => {
                     justifyContent: 'space-between',
                     padding: '8px 12px',
                     borderRadius: 6,
-                    background: '#f8fafc',
-                    border: '1px solid #f1f5f9',
+                    background: 'var(--bg-canvas)',
+                    border: '1px solid var(--border-subtle)',
                     fontSize: 12.5,
                   }}
                 >
-                  <span style={{ fontWeight: 500, color: '#18181b' }}>{d.dept}</span>
-                  <div style={{ display: 'flex', gap: 12 }}>
-                    <span style={{ color: '#71717a' }}>{d.count} Total</span>
-                    <span style={{ color: '#16a34a', fontWeight: 600 }}>{d.open} Active</span>
+                  <span style={{ fontWeight: 500, color: '#0f172a' }}>{d.dept}</span>
+                  <div style={{ display: 'flex', gap: 12, fontSize: 12 }}>
+                    <span className="tabular-nums" style={{ color: 'var(--text-muted)' }}>{d.count} total</span>
+                    <span className="tabular-nums" style={{ color: '#166534', fontWeight: 500 }}>{d.open} open</span>
                   </div>
                 </div>
               ))}
@@ -324,4 +296,3 @@ export const AnalyticsView: React.FC = () => {
     </div>
   );
 };
-

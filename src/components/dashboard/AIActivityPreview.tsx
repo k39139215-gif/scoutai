@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, User, ArrowRight } from 'lucide-react';
+import { Activity, User, ArrowRight } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const AIActivityPreview: React.FC = () => {
@@ -11,8 +11,8 @@ export const AIActivityPreview: React.FC = () => {
     <div
       style={{
         background: '#ffffff',
-        border: '1px solid #e4e4e7',
-        borderRadius: 10,
+        border: '1px solid var(--border-subtle)',
+        borderRadius: 8,
         padding: '20px 22px',
         display: 'flex',
         flexDirection: 'column',
@@ -22,11 +22,11 @@ export const AIActivityPreview: React.FC = () => {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h2 style={{ fontSize: 16, fontWeight: 600, color: '#18181b', letterSpacing: '-0.01em' }}>
-            AI & Operations Stream
+          <h2 style={{ fontSize: 15, fontWeight: 600, color: '#0f172a', letterSpacing: '-0.01em' }}>
+            Operations Audit Trail
           </h2>
-          <p style={{ fontSize: 12.5, color: '#71717a', marginTop: 2 }}>
-            Recent autonomous candidate evaluations, draft dispatches, and recruiter decisions.
+          <p style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 2 }}>
+            Recent candidate evaluations, outreach dispatches, and recruiter determinations.
           </p>
         </div>
 
@@ -36,58 +36,52 @@ export const AIActivityPreview: React.FC = () => {
           style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: 6,
-            height: 32,
-            padding: '0 12px',
-            borderRadius: 6,
-            fontSize: 12.5,
+            gap: 5,
+            height: 28,
+            padding: '0 10px',
+            borderRadius: 5,
+            fontSize: 12,
             fontWeight: 500,
             background: '#ffffff',
-            border: '1px solid #e4e4e7',
-            color: '#18181b',
+            border: '1px solid var(--border-default)',
+            color: 'var(--text-primary)',
             cursor: 'pointer',
-            transition: 'all 0.15s ease',
+            transition: 'background-color 0.1s ease',
             whiteSpace: 'nowrap',
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = '#f4f4f5';
-            e.currentTarget.style.borderColor = '#d4d4d8';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = '#ffffff';
-            e.currentTarget.style.borderColor = '#e4e4e7';
-          }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
+          onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
         >
-          <span>Full Audit Log</span>
-          <ArrowRight size={13} style={{ color: '#71717a' }} />
+          <span>Full audit log</span>
+          <ArrowRight size={12} style={{ color: 'var(--text-muted)' }} />
         </button>
       </div>
 
       {/* Activity Timeline List */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {recentEvents.map((evt) => (
           <div
             key={evt.id}
             onClick={() => navigate('ai-activity')}
             style={{
-              padding: '11px 14px',
-              borderRadius: 8,
-              border: '1px solid #f4f4f5',
-              background: '#fafafa',
+              padding: '10px 12px',
+              borderRadius: 6,
+              border: '1px solid var(--border-subtle)',
+              background: 'var(--bg-canvas)',
               display: 'flex',
               alignItems: 'flex-start',
               justifyContent: 'space-between',
               gap: 12,
               cursor: 'pointer',
-              transition: 'all 0.15s ease',
+              transition: 'background-color 0.1s ease, border-color 0.1s ease',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = '#e4e4e7';
-              e.currentTarget.style.background = '#f4f4f5';
+              e.currentTarget.style.borderColor = 'var(--border-default)';
+              e.currentTarget.style.background = '#ffffff';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = '#f4f4f5';
-              e.currentTarget.style.background = '#fafafa';
+              e.currentTarget.style.borderColor = 'var(--border-subtle)';
+              e.currentTarget.style.background = 'var(--bg-canvas)';
             }}
             role="button"
             tabIndex={0}
@@ -97,48 +91,47 @@ export const AIActivityPreview: React.FC = () => {
                 style={{
                   width: 26,
                   height: 26,
-                  borderRadius: 6,
+                  borderRadius: 5,
                   background: '#ffffff',
-                  border: '1px solid #e4e4e7',
+                  border: '1px solid var(--border-subtle)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: evt.isHumanAction ? '#18181b' : '#7c3aed',
+                  color: 'var(--text-secondary)',
                   flexShrink: 0,
                   marginTop: 1,
                 }}
               >
-                {evt.isHumanAction ? <User size={13} /> : <Sparkles size={13} />}
+                {evt.isHumanAction ? <User size={13} /> : <Activity size={13} />}
               </div>
 
               <div style={{ minWidth: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: '#18181b' }}>
+                  <span style={{ fontSize: 13, fontWeight: 500, color: '#0f172a' }}>
                     {evt.type}
                   </span>
                   <span
                     style={{
-                      fontSize: 10,
-                      fontWeight: 600,
-                      padding: '1px 6px',
-                      borderRadius: 4,
+                      fontSize: 10.5,
+                      fontWeight: 500,
+                      padding: '1px 5px',
+                      borderRadius: 3,
                       background: '#ffffff',
-                      border: '1px solid #e4e4e7',
-                      color: '#71717a',
-                      textTransform: 'uppercase',
+                      border: '1px solid var(--border-subtle)',
+                      color: 'var(--text-muted)',
                     }}
                   >
                     {evt.actor}
                   </span>
                 </div>
 
-                <div style={{ fontSize: 12, color: '#52525b', marginTop: 2, lineHeight: 1.4 }}>
-                  {evt.target} • {evt.details}
+                <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 2, lineHeight: 1.4 }}>
+                  <span style={{ fontWeight: 500, color: '#0f172a' }}>{evt.target}</span> • {evt.details}
                 </div>
               </div>
             </div>
 
-            <span style={{ fontSize: 11, color: '#a1a1aa', flexShrink: 0, whiteSpace: 'nowrap' }}>
+            <span className="mono-tag tabular-nums" style={{ color: 'var(--text-muted)', flexShrink: 0, whiteSpace: 'nowrap' }}>
               {evt.timestamp.split(' ')[1] || evt.timestamp}
             </span>
           </div>

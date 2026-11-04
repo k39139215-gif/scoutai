@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Plus } from 'lucide-react';
+import { SearchCheck, Plus } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { OperationalSummary } from '../components/dashboard/OperationalSummary';
 import { HiringPipeline } from '../components/dashboard/HiringPipeline';
@@ -9,132 +9,102 @@ import { UpcomingInterviews } from '../components/dashboard/UpcomingInterviews';
 import { AIActivityPreview } from '../components/dashboard/AIActivityPreview';
 
 export const DashboardView: React.FC = () => {
-  const { settings, navigate } = useApp();
-
-  const userFirstName = settings.profile.name ? settings.profile.name.split(' ')[0] : 'Recruiter';
+  const { navigate } = useApp();
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-      {/* 1. Page Header */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      {/* 1. Page Header (Clean, Authoritative, No Slop Greetings) */}
       <div
         style={{
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: 16,
-          paddingBottom: 4,
+          paddingBottom: 2,
         }}
       >
         <div>
           <h1
             style={{
-              fontSize: 22,
+              fontSize: 20,
               fontWeight: 600,
-              color: '#18181b',
+              color: '#0f172a',
               letterSpacing: '-0.02em',
-              lineHeight: 1.2,
+              lineHeight: 1.25,
             }}
           >
-            Hiring Operations — Good morning, {userFirstName}
+            Hiring Operations
           </h1>
-          <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
-            Real-time pipeline overview, candidate matches, and active hiring operations.
+          <p style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 4 }}>
+            Active requisitions, candidate qualification flow, and pending recruiter actions.
           </p>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <button
-            className="pill ai"
+            className="pill"
             onClick={() => navigate('sourcing')}
             style={{
-              height: 36,
-              padding: '0 14px',
-              borderRadius: 8,
-              fontSize: 13,
+              height: 32,
+              padding: '0 12px',
+              borderRadius: 6,
+              fontSize: 12.5,
               fontWeight: 500,
               display: 'inline-flex',
               alignItems: 'center',
-              gap: 7,
-              background: '#f5f3ff',
-              border: '1px solid #ddd6fe',
-              color: '#6d28d9',
+              gap: 6,
+              background: '#ffffff',
+              border: '1px solid var(--border-default)',
+              color: 'var(--text-primary)',
               cursor: 'pointer',
             }}
           >
-            <Sparkles size={14} style={{ color: '#7c3aed' }} />
-            <span>Run AI Sourcing</span>
+            <SearchCheck size={14} style={{ color: 'var(--text-muted)' }} />
+            <span>Match Candidates</span>
           </button>
 
           <button
             className="btn-dark"
             onClick={() => navigate('create-job')}
             style={{
-              height: 36,
-              padding: '0 16px',
-              borderRadius: 8,
-              fontSize: 13,
+              height: 32,
+              padding: '0 14px',
+              borderRadius: 6,
+              fontSize: 12.5,
               fontWeight: 500,
               display: 'inline-flex',
               alignItems: 'center',
-              gap: 7,
-              background: '#18181b',
+              gap: 6,
+              background: '#0f172a',
               color: '#ffffff',
               border: 'none',
               cursor: 'pointer',
             }}
           >
-            <Plus size={15} />
-            <span>Post Job</span>
+            <Plus size={14} />
+            <span>Post Requisition</span>
           </button>
         </div>
       </div>
 
-      {/* 2. Primary Operational Summary KPI Bar */}
+      {/* 2. Operational Summary KPI Cards */}
       <OperationalSummary />
 
-      {/* 3. Priority 1: Active Hiring Pipeline + Attention Required */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'minmax(0, 1.85fr) minmax(300px, 1.15fr)',
-          gap: 14,
-          alignItems: 'start',
-        }}
-        className="dashboard-priority-1-grid"
-      >
+      {/* 3. Priority 1: Active Pipelines + Recruiter Attention Items */}
+      <div className="dashboard-priority-1-grid">
         <HiringPipeline />
         <AttentionRequired />
       </div>
 
       {/* 4. Priority 2: Top Matched Candidates + Upcoming Interviews */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'minmax(0, 1.3fr) minmax(300px, 1.1fr)',
-          gap: 14,
-          alignItems: 'start',
-        }}
-        className="dashboard-priority-2-grid"
-      >
+      <div className="dashboard-priority-2-grid">
         <TopCandidates />
         <UpcomingInterviews />
       </div>
 
-      {/* 5. Priority 3: AI Activity & System Stream */}
-      <div>
-        <AIActivityPreview />
-      </div>
-
-      {/* Responsive layout styles */}
-      <style>{`
-        @media (max-width: 1024px) {
-          .dashboard-priority-1-grid,
-          .dashboard-priority-2-grid {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
+      {/* 5. Audit & Activity Stream */}
+      <AIActivityPreview />
     </div>
   );
 };

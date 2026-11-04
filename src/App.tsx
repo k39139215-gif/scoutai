@@ -20,6 +20,7 @@ import { ClientsView } from './views/ClientsView';
 import { PrivacyComplianceView } from './views/PrivacyComplianceView';
 import { SecurityView } from './views/SecurityView';
 import { SettingsView } from './views/SettingsView';
+import { TalentStudioView } from './views/TalentStudioView';
 
 const MainViewRouter: React.FC = () => {
   const { currentView } = useApp();
@@ -36,6 +37,8 @@ const MainViewRouter: React.FC = () => {
         return <JobWorkspaceView />;
       case 'candidates':
         return <CandidatesView />;
+      case 'talent-studio':
+        return <TalentStudioView />;
       case 'candidate-detail':
         return <CandidateDetailView />;
       case 'sourcing':

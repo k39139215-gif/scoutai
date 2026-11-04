@@ -127,19 +127,18 @@ export const SecurityView: React.FC = () => {
         <div
           style={{
             background: '#ffffff',
-            border: '1px solid #e4e4e7',
+            border: '1px solid var(--border-subtle)',
             borderRadius: 8,
-            padding: '18px 20px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+            padding: '16px 18px',
           }}
         >
-          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            Current Privilege
+          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
+            Current privilege
           </span>
-          <div style={{ fontSize: 18, fontWeight: 700, margin: '6px 0 2px', color: '#18181b' }}>
+          <div style={{ fontSize: 17, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
             {settings.profile.role}
           </div>
-          <div style={{ fontSize: 12, color: '#16a34a', fontWeight: 500 }}>
+          <div style={{ fontSize: 11.5, color: '#166534', fontWeight: 500 }}>
             Full Requisition Access
           </div>
         </div>
@@ -147,39 +146,37 @@ export const SecurityView: React.FC = () => {
         <div
           style={{
             background: '#ffffff',
-            border: '1px solid #e4e4e7',
+            border: '1px solid var(--border-subtle)',
             borderRadius: 8,
-            padding: '18px 20px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+            padding: '16px 18px',
           }}
         >
-          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            Session Timeout
+          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
+            Session timeout
           </span>
-          <div style={{ fontSize: 18, fontWeight: 700, margin: '6px 0 2px', color: '#2563eb' }}>
-            {settings.security.sessionTimeoutMinutes} Minutes
+          <div className="metric-val" style={{ fontSize: 17, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
+            {settings.security.sessionTimeoutMinutes} minutes
           </div>
-          <div style={{ fontSize: 12, color: '#71717a' }}>
-            Configurable in Settings
+          <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
+            Configurable in settings
           </div>
         </div>
 
         <div
           style={{
             background: '#ffffff',
-            border: '1px solid #e4e4e7',
+            border: '1px solid var(--border-subtle)',
             borderRadius: 8,
-            padding: '18px 20px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+            padding: '16px 18px',
           }}
         >
-          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            Audit Log Retention
+          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
+            Audit log retention
           </span>
-          <div style={{ fontSize: 18, fontWeight: 700, margin: '6px 0 2px', color: '#18181b' }}>
-            {settings.security.auditLogRetentionDays} Days
+          <div className="metric-val" style={{ fontSize: 17, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
+            {settings.security.auditLogRetentionDays} days
           </div>
-          <div style={{ fontSize: 12, color: '#71717a' }}>
+          <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
             Tamper-evident cold storage
           </div>
         </div>
@@ -283,13 +280,13 @@ export const SecurityView: React.FC = () => {
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
-              <tr style={{ background: '#fafafa', borderBottom: '1px solid #e4e4e7' }}>
-                <th style={{ padding: '12px 18px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Timestamp</th>
-                <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Actor</th>
-                <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Action</th>
-                <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Target</th>
-                <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>IP Location</th>
-                <th style={{ padding: '12px 18px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', textAlign: 'right' }}>Result</th>
+              <tr style={{ background: '#fafafa', borderBottom: '1px solid var(--border-subtle)' }}>
+                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Timestamp</th>
+                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Actor</th>
+                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Action</th>
+                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Target</th>
+                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>IP location</th>
+                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)', textAlign: 'right' }}>Result</th>
               </tr>
             </thead>
             <tbody>

@@ -136,60 +136,57 @@ export const PrivacyComplianceView: React.FC = () => {
         <div
           style={{
             background: '#ffffff',
-            border: '1px solid #e4e4e7',
+            border: '1px solid var(--border-subtle)',
             borderRadius: 8,
-            padding: '18px 20px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+            padding: '16px 18px',
           }}
         >
-          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            Candidate Records
+          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
+            Candidate records
           </span>
-          <div style={{ fontSize: 24, fontWeight: 700, margin: '6px 0 2px', color: '#18181b' }}>
-            247 Profiles
+          <div className="metric-val" style={{ fontSize: 24, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
+            247 profiles
           </div>
-          <div style={{ fontSize: 12, color: '#71717a' }}>
-            Simulated talent pool database
+          <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
+            Encrypted talent pool database
           </div>
         </div>
 
         <div
           style={{
             background: '#ffffff',
-            border: '1px solid #e4e4e7',
+            border: '1px solid var(--border-subtle)',
             borderRadius: 8,
-            padding: '18px 20px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+            padding: '16px 18px',
           }}
         >
-          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            Retention Target
+          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
+            Retention target
           </span>
-          <div style={{ fontSize: 24, fontWeight: 700, margin: '6px 0 2px', color: '#2563eb' }}>
-            24 Months
+          <div className="metric-val" style={{ fontSize: 24, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
+            24 months
           </div>
-          <div style={{ fontSize: 12, color: '#71717a' }}>
-            Configurable in Settings
+          <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
+            Configurable in settings
           </div>
         </div>
 
         <div
           style={{
             background: '#ffffff',
-            border: '1px solid #e4e4e7',
+            border: '1px solid var(--border-subtle)',
             borderRadius: 8,
-            padding: '18px 20px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+            padding: '16px 18px',
           }}
         >
-          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            Storage Security
+          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
+            Storage security
           </span>
-          <div style={{ fontSize: 24, fontWeight: 700, margin: '6px 0 2px', color: '#16a34a' }}>
+          <div className="metric-val" style={{ fontSize: 24, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
             AES-256
           </div>
-          <div style={{ fontSize: 12, color: '#71717a' }}>
-            Zero external PII leakage
+          <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
+            Zero external PII exposure
           </div>
         </div>
       </div>
@@ -216,13 +213,13 @@ export const PrivacyComplianceView: React.FC = () => {
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
-              <tr style={{ background: '#fafafa', borderBottom: '1px solid #e4e4e7' }}>
-                <th style={{ padding: '12px 18px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Candidate & Email</th>
-                <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Request Type</th>
-                <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Requested Date</th>
-                <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Review Notes</th>
-                <th style={{ padding: '12px 16px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase' }}>Status</th>
-                <th style={{ padding: '12px 18px', fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', textAlign: 'right' }}>Update</th>
+              <tr style={{ background: '#fafafa', borderBottom: '1px solid var(--border-subtle)' }}>
+                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Candidate & email</th>
+                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Request type</th>
+                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Requested date</th>
+                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Review notes</th>
+                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Status</th>
+                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)', textAlign: 'right' }}>Update</th>
               </tr>
             </thead>
             <tbody>

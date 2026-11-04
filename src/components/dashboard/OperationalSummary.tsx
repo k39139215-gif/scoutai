@@ -19,8 +19,8 @@ export const OperationalSummary: React.FC = () => {
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
         background: '#ffffff',
-        border: '1px solid #e4e4e7',
-        borderRadius: 10,
+        border: '1px solid var(--border-subtle)',
+        borderRadius: 8,
         overflow: 'hidden',
       }}
     >
@@ -28,27 +28,27 @@ export const OperationalSummary: React.FC = () => {
       <div
         onClick={() => navigate('jobs')}
         style={{
-          padding: '18px 22px',
-          borderRight: '1px solid #f4f4f5',
+          padding: '16px 20px',
+          borderRight: '1px solid var(--border-subtle)',
           cursor: 'pointer',
-          transition: 'background 0.15s ease',
+          transition: 'background 0.12s ease',
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = '#fafafa')}
+        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
         onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
         role="button"
         tabIndex={0}
         aria-label="View open jobs"
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            Open Roles
+          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
+            Open roles
           </span>
-          <Briefcase size={14} style={{ color: '#71717a' }} />
+          <Briefcase size={14} style={{ color: 'var(--text-muted)' }} />
         </div>
-        <div style={{ fontSize: 24, fontWeight: 600, letterSpacing: '-0.02em', color: '#18181b' }}>
+        <div className="metric-val" style={{ fontSize: 26, fontWeight: 600, color: '#0f172a' }}>
           {openJobsCount}
         </div>
-        <div style={{ fontSize: 12, color: '#71717a', marginTop: 2 }}>
+        <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
           Across {jobs.length} requisitions
         </div>
       </div>
@@ -57,27 +57,27 @@ export const OperationalSummary: React.FC = () => {
       <div
         onClick={() => navigate('candidates')}
         style={{
-          padding: '18px 22px',
-          borderRight: '1px solid #f4f4f5',
+          padding: '16px 20px',
+          borderRight: '1px solid var(--border-subtle)',
           cursor: 'pointer',
-          transition: 'background 0.15s ease',
+          transition: 'background 0.12s ease',
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = '#fafafa')}
+        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
         onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
         role="button"
         tabIndex={0}
         aria-label="View active candidates"
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            Active Candidates
+          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
+            Active candidates
           </span>
-          <Users size={14} style={{ color: '#71717a' }} />
+          <Users size={14} style={{ color: 'var(--text-muted)' }} />
         </div>
-        <div style={{ fontSize: 24, fontWeight: 600, letterSpacing: '-0.02em', color: '#18181b' }}>
+        <div className="metric-val" style={{ fontSize: 26, fontWeight: 600, color: '#0f172a' }}>
           {activeCandidatesCount}
         </div>
-        <div style={{ fontSize: 12, color: '#71717a', marginTop: 2 }}>
+        <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
           247 in talent pool
         </div>
       </div>
@@ -86,28 +86,28 @@ export const OperationalSummary: React.FC = () => {
       <div
         onClick={() => navigate('candidates')}
         style={{
-          padding: '18px 22px',
-          borderRight: '1px solid #f4f4f5',
+          padding: '16px 20px',
+          borderRight: '1px solid var(--border-subtle)',
           cursor: 'pointer',
-          transition: 'background 0.15s ease',
+          transition: 'background 0.12s ease',
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = '#fafafa')}
+        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
         onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
         role="button"
         tabIndex={0}
         aria-label="View shortlisted candidates"
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
             Shortlisted
           </span>
-          <CheckCircle2 size={14} style={{ color: '#16a34a' }} />
+          <CheckCircle2 size={14} style={{ color: 'var(--text-muted)' }} />
         </div>
-        <div style={{ fontSize: 24, fontWeight: 600, letterSpacing: '-0.02em', color: '#16a34a' }}>
+        <div className="metric-val" style={{ fontSize: 26, fontWeight: 600, color: '#0f172a' }}>
           {shortlistedCandidatesCount}
         </div>
-        <div style={{ fontSize: 12, color: '#71717a', marginTop: 2 }}>
-          Ready for client review
+        <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
+          Advancing to rounds
         </div>
       </div>
 
@@ -115,27 +115,27 @@ export const OperationalSummary: React.FC = () => {
       <div
         onClick={() => navigate('interviews')}
         style={{
-          padding: '18px 22px',
+          padding: '16px 20px',
           cursor: 'pointer',
-          transition: 'background 0.15s ease',
+          transition: 'background 0.12s ease',
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = '#fafafa')}
+        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
         onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
         role="button"
         tabIndex={0}
         aria-label="View scheduled interviews"
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            Interviews
+          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
+            Scheduled screens
           </span>
-          <Calendar size={14} style={{ color: '#2563eb' }} />
+          <Calendar size={14} style={{ color: 'var(--text-muted)' }} />
         </div>
-        <div style={{ fontSize: 24, fontWeight: 600, letterSpacing: '-0.02em', color: '#18181b' }}>
+        <div className="metric-val" style={{ fontSize: 26, fontWeight: 600, color: '#0f172a' }}>
           {upcomingInterviewsCount}
         </div>
-        <div style={{ fontSize: 12, color: '#71717a', marginTop: 2 }}>
-          {nextInterview ? `Next: ${nextInterview.time}` : 'None scheduled today'}
+        <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
+          {nextInterview ? `Next: ${nextInterview.time}` : 'None pending'}
         </div>
       </div>
     </div>

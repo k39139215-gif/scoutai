@@ -198,6 +198,7 @@ export type AppView =
   | 'job-workspace'
   | 'candidates'
   | 'candidate-detail'
+  | 'talent-studio'
   | 'sourcing'
   | 'outreach'
   | 'interviews'

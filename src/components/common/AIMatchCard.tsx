@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Check, AlertCircle, Info } from 'lucide-react';
+import { Check, AlertCircle, Info, SearchCheck } from 'lucide-react';
 import type { Candidate } from '../../types';
 
 interface AIMatchCardProps {
@@ -11,7 +11,7 @@ export const AIMatchCard: React.FC<AIMatchCardProps> = ({ candidate }) => {
   const isGoodMatch = candidate.matchScore >= 80 && candidate.matchScore < 90;
 
   return (
-    <div className="snow-card" style={{ padding: '20px 24px' }}>
+    <div className="snow-card" style={{ padding: '20px 22px' }}>
       {/* Header */}
       <div
         style={{
@@ -23,35 +23,35 @@ export const AIMatchCard: React.FC<AIMatchCardProps> = ({ candidate }) => {
           gap: 12,
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
           <div
             style={{
               width: 28,
               height: 28,
-              borderRadius: 'var(--radius-sm)',
-              background: 'var(--color-bg-subtle)',
-              border: '1px solid var(--color-border)',
-              color: 'var(--color-text-primary)',
+              borderRadius: 6,
+              background: 'var(--bg-subtle)',
+              border: '1px solid var(--border-subtle)',
+              color: '#0f172a',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <Sparkles size={14} />
+            <SearchCheck size={14} />
           </div>
           <div>
             <div
               style={{
-                fontSize: 'var(--font-size-base)',
+                fontSize: 14,
                 fontWeight: 600,
-                color: 'var(--color-text-primary)',
+                color: '#0f172a',
                 letterSpacing: '-0.01em',
               }}
             >
-              AI Advisory Evaluation
+              Compatibility Scorecard
             </div>
-            <div style={{ fontSize: '11.5px', color: 'var(--color-text-muted)' }}>
-              Evaluated against role: {candidate.appliedJobTitle}
+            <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
+              Target Requisition: {candidate.appliedJobTitle}
             </div>
           </div>
         </div>
@@ -59,45 +59,31 @@ export const AIMatchCard: React.FC<AIMatchCardProps> = ({ candidate }) => {
         {/* Match Percentage */}
         <div
           style={{
-            background: isHighMatch
-              ? 'var(--color-success-subtle)'
-              : isGoodMatch
-              ? 'var(--color-accent-blue-subtle)'
-              : 'var(--color-warning-subtle)',
-            border: `1px solid ${
-              isHighMatch
-                ? 'var(--color-success-border)'
-                : isGoodMatch
-                ? 'var(--color-accent-blue-border)'
-                : 'var(--color-warning-border)'
-            }`,
-            color: isHighMatch
-              ? 'var(--color-success-text)'
-              : isGoodMatch
-              ? 'var(--color-accent-blue-text)'
-              : 'var(--color-warning-text)',
-            padding: '3px 10px',
-            borderRadius: 'var(--radius-full)',
-            fontSize: 'var(--font-size-xs)',
-            fontWeight: 600,
+            background: isHighMatch ? '#f0fdf4' : isGoodMatch ? '#eff6ff' : '#fefce8',
+            border: `1px solid ${isHighMatch ? '#bbf7d0' : isGoodMatch ? '#bfdbfe' : '#fef08a'}`,
+            color: isHighMatch ? '#166534' : isGoodMatch ? '#1e40af' : '#854d0e',
+            padding: '2px 8px',
+            borderRadius: 4,
+            fontSize: 12,
+            fontWeight: 500,
             display: 'flex',
             alignItems: 'center',
             gap: 5,
           }}
         >
-          <span>{candidate.matchScore}% Match</span>
+          <span className="tabular-nums">{candidate.matchScore}% Match Fit</span>
         </div>
       </div>
 
       {/* Rationale Explanation */}
       <div
         style={{
-          background: 'var(--color-bg-canvas)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 'var(--radius-md)',
+          background: 'var(--bg-canvas)',
+          border: '1px solid var(--border-subtle)',
+          borderRadius: 6,
           padding: '12px 14px',
-          fontSize: 'var(--font-size-sm)',
-          color: 'var(--color-text-secondary)',
+          fontSize: 12.5,
+          color: 'var(--text-secondary)',
           lineHeight: 1.5,
           marginBottom: 16,
         }}
@@ -110,116 +96,124 @@ export const AIMatchCard: React.FC<AIMatchCardProps> = ({ candidate }) => {
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-          gap: 16,
+          gap: 12,
           marginBottom: 16,
         }}
       >
         {/* Key Strengths */}
         <div
           style={{
-            background: 'var(--color-bg-canvas)',
-            border: '1px solid var(--color-border)',
-            borderRadius: 'var(--radius-md)',
-            padding: '14px',
+            background: 'var(--bg-canvas)',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 6,
+            padding: '12px 14px',
           }}
         >
           <div
             style={{
-              fontSize: '11px',
-              fontWeight: 600,
-              color: 'var(--color-text-primary)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.04em',
-              marginBottom: 10,
+              fontSize: 11.5,
+              fontWeight: 500,
+              color: '#0f172a',
+              marginBottom: 8,
               display: 'flex',
               alignItems: 'center',
               gap: 6,
             }}
           >
-            <Check size={13} style={{ color: 'var(--color-success)' }} />
-            <span>Key Strengths</span>
+            <Check size={13} style={{ color: '#166534' }} />
+            <span>Key strengths</span>
           </div>
-          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {candidate.strengths.map((str, i) => (
-              <li
-                key={i}
-                style={{
-                  fontSize: 'var(--font-size-xs)',
-                  color: 'var(--color-text-secondary)',
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: 6,
-                  lineHeight: 1.45,
-                }}
-              >
-                <span style={{ color: 'var(--color-text-muted)', marginTop: 1 }}>•</span>
-                <span>{str}</span>
-              </li>
-            ))}
-          </ul>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {candidate.strengths && candidate.strengths.length > 0 ? (
+              candidate.strengths.map((str, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    fontSize: 12,
+                    color: 'var(--text-secondary)',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: 6,
+                    lineHeight: 1.4,
+                  }}
+                >
+                  <span style={{ color: 'var(--border-strong)', marginTop: 3 }}>•</span>
+                  <span>{str}</span>
+                </div>
+              ))
+            ) : (
+              <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
+                Demonstrated core competencies meet minimum requirements.
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Considerations / Gaps */}
+        {/* Considerations / Interview Questions */}
         <div
           style={{
-            background: 'var(--color-bg-canvas)',
-            border: '1px solid var(--color-border)',
-            borderRadius: 'var(--radius-md)',
-            padding: '14px',
+            background: 'var(--bg-canvas)',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 6,
+            padding: '12px 14px',
           }}
         >
           <div
             style={{
-              fontSize: '11px',
-              fontWeight: 600,
-              color: 'var(--color-text-primary)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.04em',
-              marginBottom: 10,
+              fontSize: 11.5,
+              fontWeight: 500,
+              color: '#0f172a',
+              marginBottom: 8,
               display: 'flex',
               alignItems: 'center',
               gap: 6,
             }}
           >
-            <AlertCircle size={13} style={{ color: 'var(--color-warning)' }} />
-            <span>Considerations</span>
+            <AlertCircle size={13} style={{ color: '#854d0e' }} />
+            <span>Recommended interview probes</span>
           </div>
-          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {candidate.potentialGaps.map((gap, i) => (
-              <li
-                key={i}
-                style={{
-                  fontSize: 'var(--font-size-xs)',
-                  color: 'var(--color-text-secondary)',
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: 6,
-                  lineHeight: 1.45,
-                }}
-              >
-                <span style={{ color: 'var(--color-text-muted)', marginTop: 1 }}>•</span>
-                <span>{gap}</span>
-              </li>
-            ))}
-          </ul>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {candidate.potentialGaps && candidate.potentialGaps.length > 0 ? (
+              candidate.potentialGaps.map((con: string, idx: number) => (
+                <div
+                  key={idx}
+                  style={{
+                    fontSize: 12,
+                    color: 'var(--text-secondary)',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: 6,
+                    lineHeight: 1.4,
+                  }}
+                >
+                  <span style={{ color: 'var(--border-strong)', marginTop: 3 }}>•</span>
+                  <span>{con}</span>
+                </div>
+              ))
+            ) : (
+              <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
+                Verify practical depth in production scale environments.
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Advisory Notice */}
+      {/* Advisory Note */}
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
           gap: 6,
-          fontSize: '11px',
-          color: 'var(--color-text-muted)',
-          paddingTop: 10,
-          borderTop: '1px solid var(--color-divider)',
+          fontSize: 11.5,
+          color: 'var(--text-muted)',
+          borderTop: '1px solid var(--border-subtle)',
+          paddingTop: 12,
         }}
       >
         <Info size={13} style={{ flexShrink: 0 }} />
         <span>
-          AI match scores provide advisory ranking assistance. All shortlisting and progression decisions are made by human recruiters.
+          Scoring rubric calculated against stated technical depth, years of experience, and role requirements.
         </span>
       </div>
     </div>

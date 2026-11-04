@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   Plus,
   MapPin,
-  Sparkles,
+  SearchCheck,
   ArrowRight,
   Search,
   X,
@@ -232,91 +232,77 @@ export const JobsView: React.FC = () => {
         <div style={{ overflowX: 'auto', flex: 1 }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
-              <tr style={{ background: '#fafafa', borderBottom: '1px solid #e4e4e7' }}>
+              <tr style={{ background: '#fafafa', borderBottom: '1px solid var(--border-subtle)' }}>
                 <th
                   style={{
-                    padding: '12px 18px',
+                    padding: '10px 14px',
                     fontSize: 11.5,
-                    fontWeight: 600,
-                    color: '#71717a',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
+                    fontWeight: 500,
+                    color: 'var(--text-secondary)',
                   }}
                 >
-                  Role & Client Requisition
+                  Role & client requisition
                 </th>
                 <th
                   style={{
-                    padding: '12px 16px',
+                    padding: '10px 14px',
                     fontSize: 11.5,
-                    fontWeight: 600,
-                    color: '#71717a',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
+                    fontWeight: 500,
+                    color: 'var(--text-secondary)',
                   }}
                 >
                   Department
                 </th>
                 <th
                   style={{
-                    padding: '12px 16px',
+                    padding: '10px 14px',
                     fontSize: 11.5,
-                    fontWeight: 600,
-                    color: '#71717a',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
+                    fontWeight: 500,
+                    color: 'var(--text-secondary)',
                   }}
                 >
                   Location
                 </th>
                 <th
                   style={{
-                    padding: '12px 16px',
+                    padding: '10px 14px',
                     fontSize: 11.5,
-                    fontWeight: 600,
-                    color: '#71717a',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
+                    fontWeight: 500,
+                    color: 'var(--text-secondary)',
                   }}
                 >
                   Experience
                 </th>
                 <th
                   style={{
-                    padding: '12px 16px',
+                    padding: '10px 14px',
                     fontSize: 11.5,
-                    fontWeight: 600,
-                    color: '#71717a',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
+                    fontWeight: 500,
+                    color: 'var(--text-secondary)',
                   }}
                 >
                   Pipeline
                 </th>
                 <th
                   style={{
-                    padding: '12px 16px',
+                    padding: '10px 14px',
                     fontSize: 11.5,
-                    fontWeight: 600,
-                    color: '#71717a',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
+                    fontWeight: 500,
+                    color: 'var(--text-secondary)',
                   }}
                 >
                   Status
                 </th>
                 <th
                   style={{
-                    padding: '12px 18px',
+                    padding: '10px 14px',
                     fontSize: 11.5,
-                    fontWeight: 600,
-                    color: '#71717a',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
+                    fontWeight: 500,
+                    color: 'var(--text-secondary)',
                     textAlign: 'right',
                   }}
                 >
-                  Actions
+                  Action
                 </th>
               </tr>
             </thead>
@@ -417,22 +403,22 @@ export const JobsView: React.FC = () => {
                         <button
                           className="pill"
                           style={{
-                            height: 30,
-                            padding: '0 10px',
-                            fontSize: 12,
-                            borderRadius: 6,
-                            border: '1px solid #e4e4e7',
+                            height: 28,
+                            padding: '0 8px',
+                            fontSize: 11.5,
+                            borderRadius: 4,
+                            border: '1px solid var(--border-default)',
                             background: '#ffffff',
-                            color: '#18181b',
+                            color: 'var(--text-primary)',
                             cursor: 'pointer',
                             display: 'inline-flex',
                             alignItems: 'center',
-                            gap: 5,
+                            gap: 4,
                           }}
                           onClick={() => navigate('sourcing', { jobId: job.id })}
                         >
-                          <Sparkles size={12} style={{ color: '#7c3aed' }} />
-                          <span>Source</span>
+                          <SearchCheck size={12} style={{ color: 'var(--text-muted)' }} />
+                          <span>Match</span>
                         </button>
 
                         <button

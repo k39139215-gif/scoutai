@@ -15,16 +15,16 @@ export const AttentionRequired: React.FC = () => {
       id: 'candidates',
       title: 'Candidates Awaiting Review',
       count: pendingReviewCandidates.length,
-      description: `${pendingReviewCandidates.length} high-match profiles ready for evaluation`,
-      icon: <Users size={14} style={{ color: '#2563eb' }} />,
+      description: `${pendingReviewCandidates.length} evaluated profiles ready for review`,
+      icon: <Users size={14} style={{ color: 'var(--text-secondary)' }} />,
       onClick: () => navigate('candidates'),
     },
     {
       id: 'outreach',
       title: 'Outreach Drafts Pending Approval',
       count: pendingOutreachDrafts.length,
-      description: `${pendingOutreachDrafts.length} personalized messages drafted by AI`,
-      icon: <Send size={14} style={{ color: '#d97706' }} />,
+      description: `${pendingOutreachDrafts.length} candidate messages drafted for review`,
+      icon: <Send size={14} style={{ color: 'var(--text-secondary)' }} />,
       onClick: () => navigate('outreach'),
     },
     {
@@ -32,7 +32,7 @@ export const AttentionRequired: React.FC = () => {
       title: 'Upcoming Assessment Rounds',
       count: scheduledInterviews.length,
       description: `${scheduledInterviews.length} technical screen sessions booked`,
-      icon: <Calendar size={14} style={{ color: '#16a34a' }} />,
+      icon: <Calendar size={14} style={{ color: 'var(--text-secondary)' }} />,
       onClick: () => navigate('interviews'),
     },
     {
@@ -40,7 +40,7 @@ export const AttentionRequired: React.FC = () => {
       title: 'Recruiter Action Items',
       count: pendingTasks.length,
       description: `${pendingTasks.length} operational follow-ups remaining`,
-      icon: <CheckSquare size={14} style={{ color: '#18181b' }} />,
+      icon: <CheckSquare size={14} style={{ color: 'var(--text-secondary)' }} />,
       onClick: () => navigate('tasks'),
     },
   ];
@@ -51,8 +51,8 @@ export const AttentionRequired: React.FC = () => {
     <div
       style={{
         background: '#ffffff',
-        border: '1px solid #e4e4e7',
-        borderRadius: 10,
+        border: '1px solid var(--border-subtle)',
+        borderRadius: 8,
         padding: '20px 22px',
         display: 'flex',
         flexDirection: 'column',
@@ -61,94 +61,99 @@ export const AttentionRequired: React.FC = () => {
     >
       <div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <h2 style={{ fontSize: 16, fontWeight: 600, color: '#18181b', letterSpacing: '-0.01em' }}>
-            Attention Required
+          <h2 style={{ fontSize: 15, fontWeight: 600, color: '#0f172a', letterSpacing: '-0.01em' }}>
+            Action Items
           </h2>
           <span
             style={{
               fontSize: 11,
-              fontWeight: 600,
-              padding: '2px 8px',
-              borderRadius: 5,
-              background: '#fef3c7',
-              color: '#92400e',
-              border: '1px solid #fde68a',
+              fontWeight: 500,
+              padding: '2px 7px',
+              borderRadius: 4,
+              background: 'var(--bg-subtle)',
+              color: 'var(--text-secondary)',
+              border: '1px solid var(--border-subtle)',
+              fontVariantNumeric: 'tabular-nums',
             }}
           >
-            {totalActions} Action Items
+            {totalActions} pending
           </span>
         </div>
-        <p style={{ fontSize: 12.5, color: '#71717a', marginTop: 2 }}>
+        <p style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 2 }}>
           Items requiring recruiter decision or scheduling today.
         </p>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {items.map((item) => (
           <div
             key={item.id}
             onClick={item.onClick}
             style={{
-              padding: '11px 14px',
-              borderRadius: 8,
-              border: '1px solid #f4f4f5',
-              background: '#fafafa',
+              padding: '10px 12px',
+              borderRadius: 6,
+              border: '1px solid var(--border-subtle)',
+              background: 'var(--bg-canvas)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               gap: 12,
               cursor: 'pointer',
-              transition: 'all 0.15s ease',
+              transition: 'background-color 0.1s ease, border-color 0.1s ease',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = '#e4e4e7';
-              e.currentTarget.style.background = '#f4f4f5';
+              e.currentTarget.style.background = '#ffffff';
+              e.currentTarget.style.borderColor = 'var(--border-default)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = '#f4f4f5';
-              e.currentTarget.style.background = '#fafafa';
+              e.currentTarget.style.background = 'var(--bg-canvas)';
+              e.currentTarget.style.borderColor = 'var(--border-subtle)';
             }}
             role="button"
             tabIndex={0}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
               <div
                 style={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: 6,
+                  width: 28,
+                  height: 28,
+                  borderRadius: 5,
                   background: '#ffffff',
+                  border: '1px solid var(--border-subtle)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   flexShrink: 0,
-                  border: '1px solid #e4e4e7',
                 }}
               >
                 {item.icon}
               </div>
-
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: '#18181b' }}>
+                <div style={{ fontSize: 13, fontWeight: 500, color: '#0f172a' }}>
                   {item.title}
                 </div>
-                <div style={{ fontSize: 12, color: '#71717a', marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <div style={{ fontSize: 11.5, color: 'var(--text-muted)', marginTop: 1 }}>
                   {item.description}
                 </div>
               </div>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
               <span
+                className="tabular-nums"
                 style={{
-                  fontSize: 12.5,
+                  fontSize: 12,
                   fontWeight: 600,
-                  color: item.count > 0 ? '#18181b' : '#a1a1aa',
+                  color: item.count > 0 ? '#0f172a' : 'var(--text-muted)',
+                  background: '#ffffff',
+                  border: '1px solid var(--border-subtle)',
+                  padding: '1px 7px',
+                  borderRadius: 4,
                 }}
               >
                 {item.count}
               </span>
-              <ArrowRight size={13} style={{ color: '#a1a1aa' }} />
+              <ArrowRight size={12} style={{ color: 'var(--text-muted)' }} />
             </div>
           </div>
         ))}

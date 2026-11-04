@@ -8,7 +8,7 @@ import {
   Plus,
   Search,
   SlidersHorizontal,
-  Sparkles,
+  SearchCheck,
   Download,
   Share2,
   FileText,
@@ -17,14 +17,17 @@ import {
   X,
   ChevronLeft,
   Check,
+  Copy,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { useToast } from '../context/ToastContext';
 import { StatusBadge } from '../components/common/Badge';
 import { Drawer } from '../components/common/Drawer';
 import { CustomSelect, CustomMenu } from '../components/common/CustomDropdown';
 
 export const CandidatesView: React.FC = () => {
   const { candidates, shortlistCandidate, navigate } = useApp();
+  const { showToast } = useToast();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [department, setDepartment] = useState<string>('all');
@@ -114,27 +117,27 @@ export const CandidatesView: React.FC = () => {
     setSearchQuery('');
   };
 
-  // AI Research Dropdown Menu Items
+  // Candidate Actions Dropdown Menu Items
   const aiMenuItems = [
     {
       id: 'sourcing',
-      label: 'Scan Candidate Pools',
-      description: 'Run automated AI criteria matching across active requisitions',
-      icon: <Sparkles size={15} />,
+      label: 'Criteria Matching',
+      description: 'Run criteria matching across active requisitions',
+      icon: <SearchCheck size={14} />,
       onClick: () => navigate('sourcing'),
     },
     {
       id: 'outreach',
-      label: 'Generate Outreach Sequences',
-      description: 'Draft personalized email and LinkedIn outreach with AI',
-      icon: <Send size={15} />,
+      label: 'Draft Outreach Sequences',
+      description: 'Prepare candidate correspondence drafts',
+      icon: <Send size={14} />,
       onClick: () => navigate('outreach'),
     },
     {
       id: 'analytics',
-      label: 'Compensation & Diversity Insights',
-      description: 'Benchmark market salary expectations and talent pool ratios',
-      icon: <FileText size={15} />,
+      label: 'Market Salary Insights',
+      description: 'Benchmark compensation and talent pool distributions',
+      icon: <FileText size={14} />,
       onClick: () => navigate('analytics'),
     },
   ];
@@ -189,33 +192,56 @@ export const CandidatesView: React.FC = () => {
 
         {/* Action Controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+          {/* Reference Studio View Switcher Button */}
+          <button
+            type="button"
+            onClick={() => navigate('talent-studio')}
+            style={{
+              height: 32,
+              padding: '0 12px',
+              borderRadius: 6,
+              fontSize: 12.5,
+              fontWeight: 600,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              background: '#0f172a',
+              border: 'none',
+              color: '#ffffff',
+              cursor: 'pointer',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
+            }}
+          >
+            <span style={{ color: '#818cf8' }}>✨</span>
+            <span>Studio Desk (Refs)</span>
+          </button>
           {/* Custom AI Action Menu */}
           <CustomMenu
             align="right"
-            menuWidth={280}
+            menuWidth={260}
             trigger={
               <button
                 type="button"
-                className="pill ai"
+                className="pill"
                 style={{
-                  height: 36,
-                  padding: '0 14px',
-                  borderRadius: 8,
-                  fontSize: 13,
+                  height: 32,
+                  padding: '0 12px',
+                  borderRadius: 6,
+                  fontSize: 12.5,
                   fontWeight: 500,
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: 7,
-                  background: '#f5f3ff',
-                  border: '1px solid #ddd6fe',
-                  color: '#6d28d9',
+                  gap: 6,
+                  background: '#ffffff',
+                  border: '1px solid var(--border-default)',
+                  color: 'var(--text-primary)',
                   cursor: 'pointer',
-                  transition: 'all 0.15s ease',
+                  transition: 'background-color 0.1s ease',
                 }}
               >
-                <Sparkles size={14} style={{ color: '#7c3aed' }} />
-                <span>Research with AI</span>
-                <ChevronDown size={14} style={{ opacity: 0.7 }} />
+                <SearchCheck size={14} style={{ color: 'var(--text-muted)' }} />
+                <span>Talent Actions</span>
+                <ChevronDown size={13} style={{ opacity: 0.7 }} />
               </button>
             }
             items={aiMenuItems}
@@ -792,88 +818,74 @@ export const CandidatesView: React.FC = () => {
                   </th>
                   <th
                     style={{
-                      padding: '12px 16px',
+                      padding: '10px 14px',
                       fontSize: 11.5,
-                      fontWeight: 600,
-                      color: '#71717a',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.04em',
+                      fontWeight: 500,
+                      color: 'var(--text-secondary)',
                     }}
                   >
                     Candidate
                   </th>
                   <th
                     style={{
-                      padding: '12px 16px',
+                      padding: '10px 14px',
                       fontSize: 11.5,
-                      fontWeight: 600,
-                      color: '#71717a',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.04em',
+                      fontWeight: 500,
+                      color: 'var(--text-secondary)',
                     }}
                   >
-                    Target Role
+                    Target role
                   </th>
                   <th
                     style={{
-                      padding: '12px 14px',
+                      padding: '10px 14px',
                       fontSize: 11.5,
-                      fontWeight: 600,
-                      color: '#71717a',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.04em',
+                      fontWeight: 500,
+                      color: 'var(--text-secondary)',
                     }}
                   >
                     Experience
                   </th>
                   <th
                     style={{
-                      padding: '12px 14px',
+                      padding: '10px 14px',
                       fontSize: 11.5,
-                      fontWeight: 600,
-                      color: '#71717a',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.04em',
+                      fontWeight: 500,
+                      color: 'var(--text-secondary)',
                     }}
                   >
                     Location
                   </th>
                   <th
                     style={{
-                      padding: '12px 16px',
+                      padding: '10px 14px',
                       fontSize: 11.5,
-                      fontWeight: 600,
-                      color: '#71717a',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.04em',
+                      fontWeight: 500,
+                      color: 'var(--text-secondary)',
                     }}
                   >
-                    AI Match Fit
+                    Match fit
                   </th>
                   <th
                     style={{
-                      padding: '12px 16px',
+                      padding: '10px 14px',
                       fontSize: 11.5,
-                      fontWeight: 600,
-                      color: '#71717a',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.04em',
+                      fontWeight: 500,
+                      color: 'var(--text-secondary)',
                     }}
                   >
                     Status
                   </th>
                   <th
                     style={{
-                      padding: '12px 18px',
+                      padding: '10px 14px',
                       fontSize: 11.5,
-                      fontWeight: 600,
-                      color: '#71717a',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.04em',
+                      fontWeight: 500,
+                      color: 'var(--text-secondary)',
                       textAlign: 'right',
                     }}
                   >
-                    Actions
+                    Action
                   </th>
                 </tr>
               </thead>
@@ -1226,25 +1238,29 @@ export const CandidatesView: React.FC = () => {
           subtitle={`${activeCandidate.title} • ${activeCandidate.experienceYears} Years Experience`}
           maxWidth={560}
           footer={
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: 12 }}>
               <button
                 onClick={() => shortlistCandidate(activeCandidate.id)}
                 style={{
                   height: 36,
                   padding: '0 14px',
-                  borderRadius: 8,
-                  fontSize: 13,
-                  fontWeight: 500,
-                  background: activeCandidate.status === 'Shortlisted' ? '#dcfce7' : '#ffffff',
-                  border: activeCandidate.status === 'Shortlisted' ? '1px solid #bbf7d0' : '1px solid #e4e4e7',
-                  color: activeCandidate.status === 'Shortlisted' ? '#15803d' : '#18181b',
+                  borderRadius: 6,
+                  fontSize: 12.5,
+                  fontWeight: 600,
+                  background: activeCandidate.status === 'Shortlisted' ? '#f0fdf4' : '#ffffff',
+                  border: activeCandidate.status === 'Shortlisted' ? '1px solid #bbf7d0' : '1px solid #cbd5e1',
+                  color: activeCandidate.status === 'Shortlisted' ? '#166534' : '#334155',
                   cursor: 'pointer',
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 6,
+                  transition: 'all 0.15s ease',
                 }}
               >
-                <CheckCircle2 size={14} />
+                <CheckCircle2
+                  size={14}
+                  style={{ color: activeCandidate.status === 'Shortlisted' ? '#166534' : '#64748b' }}
+                />
                 <span>{activeCandidate.status === 'Shortlisted' ? 'Shortlisted' : 'Shortlist Candidate'}</span>
               </button>
 
@@ -1257,19 +1273,20 @@ export const CandidatesView: React.FC = () => {
                   style={{
                     height: 36,
                     padding: '0 14px',
-                    borderRadius: 8,
-                    fontSize: 13,
-                    fontWeight: 500,
+                    borderRadius: 6,
+                    fontSize: 12.5,
+                    fontWeight: 600,
                     background: '#ffffff',
-                    border: '1px solid #e4e4e7',
-                    color: '#18181b',
+                    border: '1px solid #cbd5e1',
+                    color: '#334155',
                     cursor: 'pointer',
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: 6,
+                    transition: 'all 0.15s ease',
                   }}
                 >
-                  <Send size={14} style={{ color: '#71717a' }} />
+                  <Send size={13} style={{ color: '#64748b' }} />
                   <span>Draft Outreach</span>
                 </button>
 
@@ -1281,26 +1298,28 @@ export const CandidatesView: React.FC = () => {
                   style={{
                     height: 36,
                     padding: '0 14px',
-                    borderRadius: 8,
-                    fontSize: 13,
-                    fontWeight: 500,
-                    background: '#18181b',
+                    borderRadius: 6,
+                    fontSize: 12.5,
+                    fontWeight: 600,
+                    background: '#0f172a',
                     color: '#ffffff',
                     border: 'none',
                     cursor: 'pointer',
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: 6,
+                    boxShadow: '0 1px 2px rgba(15, 23, 42, 0.12)',
+                    transition: 'all 0.15s ease',
                   }}
                 >
-                  <Calendar size={14} />
+                  <Calendar size={13} style={{ color: '#94a3b8' }} />
                   <span>Schedule Interview</span>
                 </button>
               </div>
             </div>
           }
         >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
             {/* Candidate Header Summary Card */}
             <div
               style={{
@@ -1308,9 +1327,9 @@ export const CandidatesView: React.FC = () => {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 padding: '16px 18px',
-                background: '#fafafa',
+                background: '#f8fafc',
                 borderRadius: 8,
-                border: '1px solid #e4e4e7',
+                border: '1px solid #e2e8f0',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -1319,22 +1338,23 @@ export const CandidatesView: React.FC = () => {
                     width: 44,
                     height: 44,
                     borderRadius: '50%',
-                    background: '#18181b',
+                    background: '#0f172a',
                     color: '#ffffff',
                     display: 'grid',
                     placeItems: 'center',
                     fontSize: 15,
-                    fontWeight: 600,
+                    fontWeight: 700,
+                    letterSpacing: '-0.02em',
                   }}
                 >
                   {activeCandidate.name.split(' ').map((n) => n[0]).join('').slice(0, 2)}
                 </div>
                 <div>
-                  <div style={{ fontSize: 15, fontWeight: 600, color: '#18181b' }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', letterSpacing: '-0.01em' }}>
                     {activeCandidate.name}
                   </div>
-                  <div style={{ fontSize: 13, color: '#71717a', marginTop: 2 }}>
-                    Applied for <span style={{ color: '#18181b', fontWeight: 500 }}>{activeCandidate.appliedJobTitle}</span>
+                  <div style={{ fontSize: 12.5, color: '#64748b', marginTop: 2 }}>
+                    Applied for <span style={{ color: '#334155', fontWeight: 600 }}>{activeCandidate.appliedJobTitle}</span>
                   </div>
                 </div>
               </div>
@@ -1342,43 +1362,45 @@ export const CandidatesView: React.FC = () => {
               <div style={{ textAlign: 'right' }}>
                 <div
                   style={{
-                    fontSize: 20,
-                    fontWeight: 700,
-                    color: activeCandidate.matchScore >= 90 ? '#15803d' : '#2563eb',
+                    fontSize: 22,
+                    fontWeight: 800,
+                    fontVariantNumeric: 'tabular-nums',
+                    letterSpacing: '-0.02em',
+                    color: activeCandidate.matchScore >= 90 ? '#166534' : '#4338ca',
                   }}
                 >
                   {activeCandidate.matchScore}%
                 </div>
-                <div style={{ fontSize: 11, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                  AI Match Fit
+                <div style={{ fontSize: 11, fontWeight: 500, color: '#64748b' }}>
+                  Compatibility fit
                 </div>
               </div>
             </div>
 
-            {/* AI Advisory Match Explanation */}
+            {/* Profile Fit Synthesis */}
             <div
               style={{
-                background: '#f5f3ff',
-                border: '1px solid #ddd6fe',
+                background: '#f8fafc',
+                border: '1px solid #e2e8f0',
                 borderRadius: 8,
                 padding: '14px 16px',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 6 }}>
-                <Sparkles size={15} style={{ color: '#7c3aed' }} />
-                <span style={{ fontSize: 13, fontWeight: 600, color: '#6d28d9' }}>
-                  AI Advisory Synthesis
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
+                <SearchCheck size={14} style={{ color: '#4338ca' }} />
+                <span style={{ fontSize: 12, fontWeight: 700, color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  Candidate Profile Synthesis
                 </span>
               </div>
-              <p style={{ fontSize: 13, color: '#4c1d95', lineHeight: 1.5, margin: 0 }}>
+              <p style={{ fontSize: 12.5, color: '#334155', lineHeight: 1.55, margin: 0 }}>
                 {activeCandidate.aiAnalysisExplanation || activeCandidate.summary}
               </p>
             </div>
 
             {/* Skills Badges */}
             <div>
-              <div style={{ fontSize: 12, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 8 }}>
-                Verified Skills & Technologies
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>
+                Verified skills & technologies
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                 {activeCandidate.skills.map((skill) => (
@@ -1386,12 +1408,12 @@ export const CandidatesView: React.FC = () => {
                     key={skill}
                     style={{
                       background: '#ffffff',
-                      border: '1px solid #e4e4e7',
+                      border: '1px solid #e2e8f0',
                       borderRadius: 6,
-                      padding: '4px 9px',
+                      padding: '4px 10px',
                       fontSize: 12,
                       fontWeight: 500,
-                      color: '#18181b',
+                      color: '#334155',
                     }}
                   >
                     {skill}
@@ -1402,7 +1424,7 @@ export const CandidatesView: React.FC = () => {
 
             {/* Work Experience Timeline */}
             <div>
-              <div style={{ fontSize: 12, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 10 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>
                 Career History
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -1410,18 +1432,18 @@ export const CandidatesView: React.FC = () => {
                   <div
                     key={idx}
                     style={{
-                      padding: '12px 14px',
-                      background: '#fafafa',
-                      border: '1px solid #e4e4e7',
-                      borderRadius: 6,
+                      padding: '14px 16px',
+                      background: '#f8fafc',
+                      border: '1px solid #e2e8f0',
+                      borderRadius: 8,
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                      <span style={{ fontSize: 13.5, fontWeight: 600, color: '#18181b' }}>{exp.title}</span>
-                      <span style={{ fontSize: 12, color: '#71717a' }}>{exp.period}</span>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>{exp.title}</span>
+                      <span style={{ fontSize: 11.5, color: '#64748b', fontWeight: 500 }}>{exp.period}</span>
                     </div>
-                    <div style={{ fontSize: 12.5, color: '#52525b', marginTop: 2 }}>{exp.company}</div>
-                    <p style={{ fontSize: 12.5, color: '#71717a', marginTop: 6, lineHeight: 1.4, margin: '6px 0 0' }}>
+                    <div style={{ fontSize: 12, color: '#475569', fontWeight: 500, marginTop: 2 }}>{exp.company}</div>
+                    <p style={{ fontSize: 12, color: '#64748b', marginTop: 6, lineHeight: 1.5, margin: '6px 0 0' }}>
                       {exp.description}
                     </p>
                   </div>
@@ -1432,38 +1454,51 @@ export const CandidatesView: React.FC = () => {
             {/* Resume Transcript */}
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                  Parsed Resume Snippet
-                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <FileText size={13} style={{ color: '#64748b' }} />
+                  <span style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    Parsed Resume Snippet
+                  </span>
+                </div>
                 <button
+                  type="button"
                   onClick={() => {
                     navigator.clipboard.writeText(activeCandidate.resumeText);
-                    alert('Resume text copied to clipboard!');
+                    showToast('Resume snippet copied to clipboard', 'success');
                   }}
                   style={{
-                    fontSize: 12,
-                    color: '#18181b',
-                    background: 'transparent',
-                    border: 'none',
+                    fontSize: 11.5,
+                    fontWeight: 600,
+                    color: '#4338ca',
+                    background: '#eef2ff',
+                    border: '1px solid #e0e7ff',
+                    padding: '3px 8px',
+                    borderRadius: 4,
                     cursor: 'pointer',
-                    textDecoration: 'underline',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 4,
+                    transition: 'background-color 0.15s ease',
                   }}
                 >
-                  Copy Text
+                  <Copy size={11} />
+                  <span>Copy Text</span>
                 </button>
               </div>
               <div
                 style={{
-                  background: '#f4f4f5',
-                  borderRadius: 6,
-                  padding: '12px 14px',
-                  fontSize: 12,
-                  color: '#3f3f46',
-                  lineHeight: 1.5,
-                  maxHeight: 140,
+                  background: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: 8,
+                  padding: '14px 16px',
+                  fontSize: 11.5,
+                  color: '#334155',
+                  lineHeight: 1.65,
+                  maxHeight: 160,
                   overflowY: 'auto',
                   whiteSpace: 'pre-wrap',
-                  fontFamily: 'monospace',
+                  fontFamily: "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+                  letterSpacing: '-0.015em',
                 }}
               >
                 {activeCandidate.resumeText}

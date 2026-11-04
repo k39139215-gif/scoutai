@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   Send,
-  Sparkles,
+  RefreshCw,
   CheckCircle2,
   FileText,
 } from 'lucide-react';
@@ -286,8 +286,8 @@ Lead Talent Advisor, ScoutAI`;
                   e.currentTarget.style.borderColor = '#e4e4e7';
                 }}
               >
-                <Sparkles size={13} style={{ color: '#7c3aed' }} />
-                <span>Regenerate</span>
+                <RefreshCw size={13} style={{ color: 'var(--text-muted)' }} />
+                <span>Rewrite Draft</span>
               </button>
 
               <button

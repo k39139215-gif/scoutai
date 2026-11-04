@@ -14,8 +14,8 @@ export const TopCandidates: React.FC = () => {
     <div
       style={{
         background: '#ffffff',
-        border: '1px solid #e4e4e7',
-        borderRadius: 10,
+        border: '1px solid var(--border-subtle)',
+        borderRadius: 8,
         padding: '20px 22px',
         display: 'flex',
         flexDirection: 'column',
@@ -25,11 +25,11 @@ export const TopCandidates: React.FC = () => {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h2 style={{ fontSize: 16, fontWeight: 600, color: '#18181b', letterSpacing: '-0.01em' }}>
+          <h2 style={{ fontSize: 15, fontWeight: 600, color: '#0f172a', letterSpacing: '-0.01em' }}>
             Top Matched Candidates
           </h2>
-          <p style={{ fontSize: 12.5, color: '#71717a', marginTop: 2 }}>
-            AI-evaluated profiles with highest compatibility scores.
+          <p style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 2 }}>
+            Highest compatibility candidates evaluated against requisition criteria.
           </p>
         </div>
 
@@ -39,81 +39,75 @@ export const TopCandidates: React.FC = () => {
           style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: 6,
-            height: 32,
-            padding: '0 12px',
-            borderRadius: 6,
-            fontSize: 12.5,
+            gap: 5,
+            height: 28,
+            padding: '0 10px',
+            borderRadius: 5,
+            fontSize: 12,
             fontWeight: 500,
             background: '#ffffff',
-            border: '1px solid #e4e4e7',
-            color: '#18181b',
+            border: '1px solid var(--border-default)',
+            color: 'var(--text-primary)',
             cursor: 'pointer',
-            transition: 'all 0.15s ease',
+            transition: 'background-color 0.1s ease',
             whiteSpace: 'nowrap',
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = '#f4f4f5';
-            e.currentTarget.style.borderColor = '#d4d4d8';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = '#ffffff';
-            e.currentTarget.style.borderColor = '#e4e4e7';
-          }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
+          onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
         >
-          <span>View All ({candidates.length})</span>
-          <ArrowRight size={13} style={{ color: '#71717a' }} />
+          <span>All candidates ({candidates.length})</span>
+          <ArrowRight size={12} style={{ color: 'var(--text-muted)' }} />
         </button>
       </div>
 
       {/* Candidates List */}
       {topCandidates.length === 0 ? (
-        <div style={{ padding: 24, textAlign: 'center', color: '#a1a1aa', fontSize: 13 }}>
+        <div style={{ padding: 24, textAlign: 'center', color: 'var(--text-muted)', fontSize: 13 }}>
           No candidate profiles in current pipeline.
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {topCandidates.map((cand) => (
             <div
               key={cand.id}
               onClick={() => navigate('candidate-detail', { candidateId: cand.id })}
               style={{
-                padding: '12px 14px',
-                borderRadius: 8,
-                border: '1px solid #f4f4f5',
-                background: '#fafafa',
+                padding: '10px 12px',
+                borderRadius: 6,
+                border: '1px solid var(--border-subtle)',
+                background: 'var(--bg-canvas)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 gap: 12,
                 cursor: 'pointer',
-                transition: 'all 0.15s ease',
+                transition: 'background-color 0.1s ease, border-color 0.1s ease',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#e4e4e7';
-                e.currentTarget.style.background = '#f4f4f5';
+                e.currentTarget.style.borderColor = 'var(--border-default)';
+                e.currentTarget.style.background = '#ffffff';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = '#f4f4f5';
-                e.currentTarget.style.background = '#fafafa';
+                e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                e.currentTarget.style.background = 'var(--bg-canvas)';
               }}
               role="button"
               tabIndex={0}
             >
               {/* Left: Avatar + Info + Skills */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
                 <div
                   style={{
-                    width: 34,
-                    height: 34,
+                    width: 32,
+                    height: 32,
                     borderRadius: '50%',
-                    background: '#18181b',
-                    color: '#ffffff',
+                    background: '#e2e8f0',
+                    color: '#334155',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     fontWeight: 600,
-                    fontSize: 13,
+                    fontSize: 12,
                     flexShrink: 0,
                   }}
                 >
@@ -122,13 +116,16 @@ export const TopCandidates: React.FC = () => {
 
                 <div style={{ minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                    <span style={{ fontSize: 13.5, fontWeight: 600, color: '#18181b' }}>
+                    <span style={{ fontSize: 13, fontWeight: 500, color: '#0f172a' }}>
                       {cand.name}
                     </span>
-                    <StatusBadge status={cand.status} />
+                    <span className="mono-tag" style={{ color: 'var(--text-muted)' }}>
+                      [CAN-{cand.id.replace('cand-', '')}]
+                    </span>
+                    <StatusBadge status={cand.status} size="sm" />
                   </div>
 
-                  <div style={{ fontSize: 12, color: '#71717a', marginTop: 1 }}>
+                  <div style={{ fontSize: 11.5, color: 'var(--text-muted)', marginTop: 1 }}>
                     {cand.title} • {cand.location}
                   </div>
 
@@ -138,12 +135,12 @@ export const TopCandidates: React.FC = () => {
                       <span
                         key={sk}
                         style={{
-                          fontSize: 11,
+                          fontSize: 10.5,
                           background: '#ffffff',
-                          border: '1px solid #e4e4e7',
-                          padding: '1px 6px',
-                          borderRadius: 4,
-                          color: '#52525b',
+                          border: '1px solid var(--border-subtle)',
+                          padding: '1px 5px',
+                          borderRadius: 3,
+                          color: 'var(--text-secondary)',
                         }}
                       >
                         {sk}
@@ -154,19 +151,20 @@ export const TopCandidates: React.FC = () => {
               </div>
 
               {/* Right: Match Score + Quick Shortlist / Review */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
                 <span
+                  className="tabular-nums"
                   style={{
                     fontSize: 11.5,
-                    fontWeight: 600,
-                    padding: '3px 8px',
-                    borderRadius: 5,
-                    background: '#dcfce7',
-                    color: '#15803d',
+                    fontWeight: 500,
+                    padding: '2px 7px',
+                    borderRadius: 4,
+                    background: '#f0fdf4',
+                    color: '#166534',
                     border: '1px solid #bbf7d0',
                   }}
                 >
-                  {cand.matchScore}% Match
+                  {cand.matchScore}% fit
                 </span>
 
                 <button
@@ -178,22 +176,33 @@ export const TopCandidates: React.FC = () => {
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: 5,
-                    height: 30,
-                    padding: '0 10px',
-                    borderRadius: 6,
-                    fontSize: 12,
+                    gap: 4,
+                    height: 26,
+                    padding: '0 8px',
+                    borderRadius: 4,
+                    fontSize: 11.5,
                     fontWeight: 500,
+                    background: cand.status === 'Shortlisted' ? '#f0fdf4' : '#ffffff',
+                    border: `1px solid ${cand.status === 'Shortlisted' ? '#bbf7d0' : 'var(--border-default)'}`,
+                    color: cand.status === 'Shortlisted' ? '#166534' : 'var(--text-primary)',
                     cursor: 'pointer',
-                    whiteSpace: 'nowrap',
-                    transition: 'all 0.15s ease',
-                    background: cand.status === 'Shortlisted' ? '#dcfce7' : '#ffffff',
-                    border: cand.status === 'Shortlisted' ? '1px solid #86efac' : '1px solid #e4e4e7',
-                    color: cand.status === 'Shortlisted' ? '#15803d' : '#18181b',
+                    transition: 'background-color 0.1s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (cand.status !== 'Shortlisted') e.currentTarget.style.background = 'var(--bg-subtle)';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (cand.status !== 'Shortlisted') e.currentTarget.style.background = '#ffffff';
                   }}
                 >
-                  <CheckCircle2 size={13} />
-                  <span>{cand.status === 'Shortlisted' ? 'Shortlisted' : 'Shortlist'}</span>
+                  {cand.status === 'Shortlisted' ? (
+                    <>
+                      <CheckCircle2 size={12} />
+                      <span>Shortlisted</span>
+                    </>
+                  ) : (
+                    <span>Shortlist</span>
+                  )}
                 </button>
               </div>
             </div>

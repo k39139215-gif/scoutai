@@ -4,23 +4,9 @@ import {
   Bell,
   Menu,
   X,
-  Layers,
-  ChevronDown,
-  LayoutDashboard,
   Briefcase,
   Users,
-  Sparkles,
-  Send,
-  Calendar,
-  CheckSquare,
-  Activity,
-  BarChart3,
-  Building2,
-  ShieldCheck,
-  Lock,
-  Settings as SettingsIcon,
-  Plus,
-  Check,
+  ChevronRight,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import type { AppView } from '../../types';
@@ -30,93 +16,33 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
-  const { currentView, candidates, jobs, aiActivity, navigate, settings } = useApp();
+  const { currentView, candidates, jobs, aiActivity, navigate, settings, interviews } = useApp();
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [localQuery, setLocalQuery] = useState('');
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const [partitionOpen, setPartitionOpen] = useState(false);
+  const [notifTab, setNotifTab] = useState<'activity' | 'events' | 'jobs'>('activity');
 
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const notifContainerRef = useRef<HTMLDivElement>(null);
-  const partitionContainerRef = useRef<HTMLDivElement>(null);
 
-  // Partitions & Multi-page features
-  const partitions = [
-    {
-      id: 'recruitment',
-      label: 'Recruitment Hub',
-      badge: 'Core',
-      views: ['dashboard', 'jobs', 'candidates', 'sourcing', 'outreach', 'candidate-detail', 'job-workspace'],
-      items: [
-        { id: 'dashboard' as AppView, label: 'Dashboard', icon: <LayoutDashboard size={14} />, desc: 'Live operations overview' },
-        { id: 'jobs' as AppView, label: 'Jobs Requisitions', icon: <Briefcase size={14} />, desc: 'Open headcount & criteria' },
-        { id: 'candidates' as AppView, label: 'Candidate Pool', icon: <Users size={14} />, desc: 'Talent roster & fit scoring' },
-        { id: 'sourcing' as AppView, label: 'AI Sourcing Engine', icon: <Sparkles size={14} />, desc: 'Autonomous talent matching' },
-        { id: 'outreach' as AppView, label: 'Candidate Outreach', icon: <Send size={14} />, desc: 'Smart AI messaging drafts' },
-      ],
-    },
-    {
-      id: 'operations',
-      label: 'Operations & Data',
-      badge: 'Active',
-      views: ['interviews', 'tasks', 'ai-activity', 'analytics', 'clients'],
-      items: [
-        { id: 'interviews' as AppView, label: 'Interviews Hub', icon: <Calendar size={14} />, desc: 'Technical screens & schedules' },
-        { id: 'tasks' as AppView, label: 'Recruiter Tasks', icon: <CheckSquare size={14} />, desc: 'Daily operational actions' },
-        { id: 'ai-activity' as AppView, label: 'AI Operations Stream', icon: <Activity size={14} />, desc: 'Real-time autonomous audit' },
-        { id: 'analytics' as AppView, label: 'Hiring Analytics', icon: <BarChart3 size={14} />, desc: 'Velocity & conversion funnels' },
-        { id: 'clients' as AppView, label: 'Client Accounts', icon: <Building2 size={14} />, desc: 'Fulfillment & stakeholders' },
-      ],
-    },
-    {
-      id: 'governance',
-      label: 'Governance & Admin',
-      badge: 'Enterprise',
-      views: ['security', 'privacy', 'settings', 'create-job'],
-      items: [
-        { id: 'security' as AppView, label: 'Security & SOC2 Logs', icon: <ShieldCheck size={14} />, desc: 'Tamper-evident audit trail' },
-        { id: 'privacy' as AppView, label: 'DPDP / GDPR Compliance', icon: <Lock size={14} />, desc: 'Data retention & consent' },
-        { id: 'settings' as AppView, label: 'System Settings', icon: <SettingsIcon size={14} />, desc: 'Recruiter prefs & timeouts' },
-        { id: 'create-job' as AppView, label: 'Create Requisition', icon: <Plus size={14} />, desc: 'New position intake wizard' },
-      ],
-    },
-  ];
-
-  const currentPartition = partitions.find((p) => p.views.includes(currentView)) || partitions[0];
-  const [selectedPartitionTab, setSelectedPartitionTab] = useState(currentPartition.id);
-
-  // Sync selected tab when current view changes
-  useEffect(() => {
-    const matched = partitions.find((p) => p.views.includes(currentView));
-    if (matched) setSelectedPartitionTab(matched.id);
-  }, [currentView]);
-
-  // Close dropdowns on outside click (deferred so target clicks are not dropped)
+  // Close popovers on outside click
   useEffect(() => {
     const handleOutside = (e: MouseEvent) => {
       const target = e.target as Node;
-      setTimeout(() => {
-        if (
-          searchContainerRef.current &&
-          !searchContainerRef.current.contains(target)
-        ) {
-          setSearchOpen(false);
-        }
-        if (
-          notifContainerRef.current &&
-          !notifContainerRef.current.contains(target)
-        ) {
-          setNotificationsOpen(false);
-        }
-        if (
-          partitionContainerRef.current &&
-          !partitionContainerRef.current.contains(target)
-        ) {
-          setPartitionOpen(false);
-        }
-      }, 0);
+      if (
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(target)
+      ) {
+        setSearchOpen(false);
+      }
+      if (
+        notifContainerRef.current &&
+        !notifContainerRef.current.contains(target)
+      ) {
+        setNotificationsOpen(false);
+      }
     };
     document.addEventListener('mousedown', handleOutside);
     return () => document.removeEventListener('mousedown', handleOutside);
@@ -162,9 +88,27 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
         .map((n) => n[0])
         .join('')
         .toUpperCase()
-    : 'AK';
+    : 'RC';
 
-  const activeTabObj = partitions.find((p) => p.id === selectedPartitionTab) || currentPartition;
+  const viewLabels: Record<AppView, string> = {
+    dashboard: 'Dashboard',
+    jobs: 'Requisitions',
+    'create-job': 'New Requisition',
+    'job-workspace': 'Requisition Workspace',
+    candidates: 'Candidates',
+    'talent-studio': 'Talent Operations Studio',
+    'candidate-detail': 'Candidate Dossier',
+    sourcing: 'Candidate Matching',
+    outreach: 'Outreach',
+    interviews: 'Interviews',
+    tasks: 'Recruiter Tasks',
+    'ai-activity': 'Audit Trail',
+    analytics: 'Pipeline Analytics',
+    clients: 'Client Accounts',
+    privacy: 'Data Compliance',
+    security: 'Security & Access',
+    settings: 'Settings',
+  };
 
   return (
     <header
@@ -172,9 +116,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        gap: 14,
-        padding: '0 20px',
-        borderBottom: '1px solid #e4e4e7',
+        gap: 16,
+        padding: '0 24px',
+        borderBottom: '1px solid var(--border-subtle)',
         background: '#ffffff',
         height: 'var(--header-height)',
         position: 'sticky',
@@ -182,15 +126,14 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
         zIndex: 90,
       }}
     >
-      {/* Left controls: Mobile menu + Partition Selector + Command Search */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 0 }}>
-        {/* Mobile Menu Button */}
+      {/* Left: Mobile Toggle + Breadcrumb Location */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
         <button
           onClick={onOpenMobileMenu}
           style={{
             display: 'none',
             padding: 6,
-            color: 'var(--ink)',
+            color: 'var(--text-primary)',
             background: 'transparent',
             border: 'none',
             cursor: 'pointer',
@@ -201,382 +144,317 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
           <Menu size={18} />
         </button>
 
-        {/* Multi-page Feature Partition Dropdown (Matches reference screenshot) */}
-        <div ref={partitionContainerRef} style={{ position: 'relative', flexShrink: 0 }}>
-          <button
-            type="button"
-            onClick={() => setPartitionOpen(!partitionOpen)}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--text-muted)' }}>
+          <span style={{ fontWeight: 500, color: 'var(--text-secondary)' }}>Talent Ops</span>
+          <ChevronRight size={13} style={{ color: 'var(--border-strong)' }} />
+          <span style={{ fontWeight: 600, color: '#0f172a' }}>
+            {viewLabels[currentView] || 'Overview'}
+          </span>
+        </div>
+
+        {(currentView === 'candidates' || currentView === 'talent-studio') && (
+          <div
             style={{
-              height: 36,
-              padding: '0 12px',
-              borderRadius: 8,
-              fontSize: 13,
-              fontWeight: 500,
-              background: partitionOpen ? '#18181b' : '#ffffff',
-              color: partitionOpen ? '#ffffff' : '#18181b',
-              border: partitionOpen ? '1px solid #18181b' : '1px solid #e4e4e7',
               display: 'inline-flex',
               alignItems: 'center',
-              gap: 7,
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-              transition: 'all 0.15s ease',
-            }}
-            onMouseEnter={(e) => {
-              if (!partitionOpen) e.currentTarget.style.borderColor = '#d4d4d8';
-            }}
-            onMouseLeave={(e) => {
-              if (!partitionOpen) e.currentTarget.style.borderColor = '#e4e4e7';
+              background: '#f1f5f9',
+              padding: '2px',
+              borderRadius: 6,
+              marginLeft: 8,
+              border: '1px solid #e2e8f0',
+              fontSize: 11,
+              fontWeight: 500,
             }}
           >
-            <Layers size={14} style={{ color: partitionOpen ? '#ffffff' : '#71717a' }} />
-            <span>{currentPartition.label}</span>
-            <ChevronDown
-              size={13}
+            <button
+              onClick={() => navigate('candidates')}
               style={{
-                color: partitionOpen ? '#ffffff' : '#71717a',
-                transform: partitionOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: 'transform 0.15s ease',
+                padding: '3px 8px',
+                borderRadius: 4,
+                border: 'none',
+                background: currentView === 'candidates' ? '#ffffff' : 'transparent',
+                color: currentView === 'candidates' ? '#0f172a' : '#64748b',
+                boxShadow: currentView === 'candidates' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                fontWeight: currentView === 'candidates' ? 600 : 500,
+                cursor: 'pointer',
               }}
-            />
-          </button>
-
-          {/* Partition Popover Menu */}
-          {partitionOpen && (
-            <div
+            >
+              Live Grid
+            </button>
+            <button
+              onClick={() => navigate('talent-studio')}
               style={{
-                position: 'absolute',
-                top: 'calc(100% + 6px)',
-                left: 0,
-                width: 440,
-                maxWidth: 'calc(100vw - 32px)',
-                background: '#ffffff',
-                border: '1px solid #e4e4e7',
-                borderRadius: 10,
-                boxShadow: '0 16px 36px -4px rgba(0, 0, 0, 0.16), 0 4px 12px -2px rgba(0, 0, 0, 0.06)',
-                padding: 10,
-                zIndex: 9999,
+                padding: '3px 8px',
+                borderRadius: 4,
+                border: 'none',
+                background: currentView === 'talent-studio' ? '#ffffff' : 'transparent',
+                color: currentView === 'talent-studio' ? '#0f172a' : '#64748b',
+                boxShadow: currentView === 'talent-studio' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                fontWeight: currentView === 'talent-studio' ? 600 : 500,
+                cursor: 'pointer',
                 display: 'flex',
-                flexDirection: 'column',
-                gap: 10,
+                alignItems: 'center',
+                gap: 4,
               }}
             >
-              {/* Partition Segmented Tabs */}
-              <div
-                style={{
-                  display: 'flex',
-                  gap: 4,
-                  background: '#f4f4f5',
-                  padding: 3,
-                  borderRadius: 7,
-                }}
-              >
-                {partitions.map((part) => {
-                  const isSelected = selectedPartitionTab === part.id;
-                  return (
-                    <button
-                      key={part.id}
-                      type="button"
-                      onClick={() => setSelectedPartitionTab(part.id)}
-                      style={{
-                        flex: 1,
-                        padding: '6px 8px',
-                        borderRadius: 5,
-                        fontSize: 12,
-                        fontWeight: isSelected ? 600 : 500,
-                        border: 'none',
-                        background: isSelected ? '#ffffff' : 'transparent',
-                        color: isSelected ? '#18181b' : '#71717a',
-                        cursor: 'pointer',
-                        boxShadow: isSelected ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                        transition: 'all 0.1s ease',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {part.label.split(' ')[0]}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Feature List for Selected Partition */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                {activeTabObj.items.map((item) => {
-                  const isActive = currentView === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={() => {
-                        navigate(item.id);
-                        setPartitionOpen(false);
-                      }}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '9px 12px',
-                        borderRadius: 7,
-                        border: 'none',
-                        background: isActive ? '#f4f4f5' : 'transparent',
-                        color: isActive ? '#18181b' : '#3f3f46',
-                        cursor: 'pointer',
-                        textAlign: 'left',
-                        transition: 'background 0.1s ease',
-                        width: '100%',
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!isActive) e.currentTarget.style.background = '#fafafa';
-                      }}
-                      onMouseLeave={(e) => {
-                        if (!isActive) e.currentTarget.style.background = 'transparent';
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <div
-                          style={{
-                            width: 28,
-                            height: 28,
-                            borderRadius: 6,
-                            background: isActive ? '#18181b' : '#f4f4f5',
-                            color: isActive ? '#ffffff' : '#52525b',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexShrink: 0,
-                          }}
-                        >
-                          {item.icon}
-                        </div>
-                        <div>
-                          <div style={{ fontSize: 13, fontWeight: isActive ? 600 : 500 }}>
-                            {item.label}
-                          </div>
-                          <div style={{ fontSize: 11, color: '#71717a', marginTop: 1 }}>
-                            {item.desc}
-                          </div>
-                        </div>
-                      </div>
-
-                      {isActive && <Check size={14} style={{ color: '#18181b' }} />}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Global Command Search */}
-        <div
-          ref={searchContainerRef}
-          style={{ width: 340, maxWidth: '100%', position: 'relative', display: 'flex', alignItems: 'center' }}
-        >
-          <div style={{ position: 'relative', width: '100%', display: 'flex', alignItems: 'center' }}>
-            <Search
-              size={15}
-              style={{
-                position: 'absolute',
-                left: 12,
-                color: '#71717a',
-                pointerEvents: 'none',
-              }}
-            />
-            <input
-              ref={searchInputRef}
-              type="text"
-              value={localQuery}
-              onChange={(e) => {
-                setLocalQuery(e.target.value);
-                setSearchOpen(true);
-              }}
-              onFocus={() => setSearchOpen(true)}
-              placeholder="Search candidates, jobs, skills…"
-              style={{
-                width: '100%',
-                height: 36,
-                border: '1px solid #e4e4e7',
-                borderRadius: 8,
-                padding: '0 44px 0 34px',
-                fontSize: 13,
-                background: '#ffffff',
-                color: 'var(--ink)',
-                outline: 'none',
-                transition: 'border-color 0.15s, box-shadow 0.15s',
-              }}
-              onFocusCapture={(e) => (e.currentTarget.style.borderColor = '#18181b')}
-              onBlurCapture={(e) => (e.currentTarget.style.borderColor = '#e4e4e7')}
-            />
-            {localQuery ? (
-              <button
-                onClick={() => {
-                  setLocalQuery('');
-                  setSearchOpen(false);
-                }}
-                style={{
-                  position: 'absolute',
-                  right: 12,
-                  color: '#71717a',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <X size={13} />
-              </button>
-            ) : (
-              <span
-                style={{
-                  position: 'absolute',
-                  right: 10,
-                  background: '#f4f4f5',
-                  border: '1px solid #e4e4e7',
-                  borderRadius: 4,
-                  padding: '1px 5px',
-                  fontSize: 11,
-                  fontWeight: 600,
-                  color: '#71717a',
-                  lineHeight: 1.2,
-                }}
-              >
-                ⌘K
-              </span>
-            )}
+              <span>Studio Desk</span>
+              <span style={{ fontSize: 9, background: '#e0e7ff', color: '#4338ca', padding: '1px 4px', borderRadius: 3 }}>REF</span>
+            </button>
           </div>
-
-          {/* Search Results Dropdown */}
-          {searchOpen && localQuery.trim().length > 0 && (
-            <div
-              style={{
-                position: 'absolute',
-                top: 'calc(100% + 5px)',
-                left: 0,
-                right: 0,
-                background: '#ffffff',
-                border: '1px solid #e4e4e7',
-                borderRadius: 8,
-                boxShadow: '0 12px 30px -4px rgba(0, 0, 0, 0.12), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-                maxHeight: 380,
-                overflowY: 'auto',
-                zIndex: 9999,
-                padding: '6px 0',
-              }}
-            >
-              {filteredCandidates.length === 0 && filteredJobs.length === 0 ? (
-                <div style={{ padding: '12px 14px', fontSize: 12, color: 'var(--mut)' }}>
-                  No records matching "{localQuery}"
-                </div>
-              ) : (
-                <>
-                  {filteredCandidates.length > 0 && (
-                    <div>
-                      <div style={{ padding: '4px 12px', fontSize: 10, fontWeight: 600, color: 'var(--mut)', textTransform: 'uppercase' }}>
-                        Candidates
-                      </div>
-                      {filteredCandidates.map((c) => (
-                        <div
-                          key={c.id}
-                          onClick={() => {
-                            navigate('candidate-detail', { candidateId: c.id });
-                            setSearchOpen(false);
-                            setLocalQuery('');
-                          }}
-                          style={{
-                            padding: '6px 12px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            cursor: 'pointer',
-                            fontSize: 12,
-                          }}
-                          onMouseEnter={(e) => (e.currentTarget.style.background = '#f4f4f5')}
-                          onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
-                        >
-                          <div>
-                            <span style={{ fontWeight: 600 }}>{c.name}</span>
-                            <span style={{ color: '#71717a', marginLeft: 8 }}>{c.title}</span>
-                          </div>
-                          <span style={{ fontSize: 10, background: '#dcfce7', color: '#15803d', padding: '1px 5px', borderRadius: 4 }}>
-                            {c.matchScore}%
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {filteredJobs.length > 0 && (
-                    <div>
-                      <div style={{ padding: '4px 12px', fontSize: 10, fontWeight: 600, color: 'var(--mut)', textTransform: 'uppercase', marginTop: 4 }}>
-                        Jobs
-                      </div>
-                      {filteredJobs.map((j) => (
-                        <div
-                          key={j.id}
-                          onClick={() => {
-                            navigate('job-workspace', { jobId: j.id });
-                            setSearchOpen(false);
-                            setLocalQuery('');
-                          }}
-                          style={{
-                            padding: '6px 12px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            cursor: 'pointer',
-                            fontSize: 12,
-                          }}
-                          onMouseEnter={(e) => (e.currentTarget.style.background = '#f4f4f5')}
-                          onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
-                        >
-                          <div>
-                            <span style={{ fontWeight: 600 }}>{j.title}</span>
-                            <span style={{ color: '#71717a', marginLeft: 8 }}>{j.client}</span>
-                          </div>
-                          <span style={{ fontSize: 10, color: '#71717a' }}>{j.location}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          )}
-        </div>
+        )}
       </div>
 
-      {/* Right controls: Notifications + AI Execution Button + Avatar */}
+      {/* Center: Clean Quick Search with Command Palette Keycap */}
+      <div
+        ref={searchContainerRef}
+        style={{
+          position: 'relative',
+          maxWidth: 420,
+          width: '100%',
+        }}
+      >
+        <div
+          style={{
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            width: '100%',
+          }}
+        >
+          <Search
+            size={14}
+            style={{
+              position: 'absolute',
+              left: 10,
+              color: 'var(--text-muted)',
+              pointerEvents: 'none',
+            }}
+          />
+          <input
+            ref={searchInputRef}
+            type="text"
+            value={localQuery}
+            onChange={(e) => {
+              setLocalQuery(e.target.value);
+              setSearchOpen(true);
+            }}
+            onFocus={() => setSearchOpen(true)}
+            placeholder="Search candidates, roles, skills..."
+            style={{
+              width: '100%',
+              height: 32,
+              paddingLeft: 32,
+              paddingRight: 48,
+              fontSize: 12.5,
+              borderRadius: 6,
+              border: '1px solid var(--border-subtle)',
+              background: 'var(--bg-canvas)',
+              color: '#0f172a',
+              outline: 'none',
+              transition: 'border-color 0.12s ease, background 0.12s ease',
+            }}
+          />
+          {localQuery ? (
+            <button
+              onClick={() => {
+                setLocalQuery('');
+                setSearchOpen(false);
+              }}
+              style={{
+                position: 'absolute',
+                right: 8,
+                background: 'none',
+                border: 'none',
+                color: 'var(--text-muted)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <X size={13} />
+            </button>
+          ) : (
+            <span
+              className="keycap"
+              style={{
+                position: 'absolute',
+                right: 8,
+                pointerEvents: 'none',
+              }}
+            >
+              ⌘K
+            </span>
+          )}
+        </div>
+
+        {/* Search Results Popover */}
+        {searchOpen && localQuery.trim().length > 0 && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 'calc(100% + 6px)',
+              left: 0,
+              right: 0,
+              background: '#ffffff',
+              border: '1px solid var(--border-default)',
+              borderRadius: 8,
+              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)',
+              maxHeight: 380,
+              overflowY: 'auto',
+              zIndex: 9999,
+              padding: '6px 0',
+            }}
+          >
+            {filteredCandidates.length === 0 && filteredJobs.length === 0 ? (
+              <div style={{ padding: '12px 14px', fontSize: 12, color: 'var(--text-muted)' }}>
+                No records found matching "{localQuery}"
+              </div>
+            ) : (
+              <>
+                {filteredCandidates.length > 0 && (
+                  <div>
+                    <div
+                      style={{
+                        padding: '6px 12px 4px',
+                        fontSize: 11,
+                        fontWeight: 600,
+                        color: 'var(--text-muted)',
+                        letterSpacing: '0.01em',
+                      }}
+                    >
+                      Candidates
+                    </div>
+                    {filteredCandidates.map((c) => (
+                      <div
+                        key={c.id}
+                        onClick={() => {
+                          navigate('candidate-detail', { candidateId: c.id });
+                          setSearchOpen(false);
+                          setLocalQuery('');
+                        }}
+                        style={{
+                          padding: '7px 12px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          cursor: 'pointer',
+                          fontSize: 12.5,
+                          transition: 'background 0.1s ease',
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <Users size={13} style={{ color: 'var(--text-muted)' }} />
+                          <span style={{ fontWeight: 500, color: '#0f172a' }}>{c.name}</span>
+                          <span style={{ color: 'var(--text-muted)' }}>— {c.title}</span>
+                        </div>
+                        <span
+                          style={{
+                            fontSize: 11,
+                            fontVariantNumeric: 'tabular-nums',
+                            fontWeight: 500,
+                            color: '#166534',
+                            background: '#f0fdf4',
+                            border: '1px solid #bbf7d0',
+                            padding: '1px 6px',
+                            borderRadius: 4,
+                          }}
+                        >
+                          {c.matchScore}%
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {filteredJobs.length > 0 && (
+                  <div style={{ marginTop: filteredCandidates.length > 0 ? 6 : 0, borderTop: filteredCandidates.length > 0 ? '1px solid var(--border-subtle)' : 'none', paddingTop: filteredCandidates.length > 0 ? 6 : 0 }}>
+                    <div
+                      style={{
+                        padding: '6px 12px 4px',
+                        fontSize: 11,
+                        fontWeight: 600,
+                        color: 'var(--text-muted)',
+                        letterSpacing: '0.01em',
+                      }}
+                    >
+                      Requisitions
+                    </div>
+                    {filteredJobs.map((j) => (
+                      <div
+                        key={j.id}
+                        onClick={() => {
+                          navigate('job-workspace', { jobId: j.id });
+                          setSearchOpen(false);
+                          setLocalQuery('');
+                        }}
+                        style={{
+                          padding: '7px 12px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          cursor: 'pointer',
+                          fontSize: 12.5,
+                          transition: 'background 0.1s ease',
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                          <Briefcase size={13} style={{ color: 'var(--text-muted)' }} />
+                          <span style={{ fontWeight: 500, color: '#0f172a' }}>{j.title}</span>
+                          <span style={{ color: 'var(--text-muted)' }}>({j.client})</span>
+                        </div>
+                        <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{j.location}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Right Controls: Notifications + Recruiter Badge */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
         {/* Notifications Button */}
         <div ref={notifContainerRef} style={{ position: 'relative' }}>
           <button
             onClick={() => setNotificationsOpen(!notificationsOpen)}
             style={{
-              border: '1px solid #e4e4e7',
-              borderRadius: 8,
-              height: 36,
-              width: 36,
+              border: '1px solid var(--border-subtle)',
+              borderRadius: 6,
+              height: 32,
+              width: 32,
               background: '#ffffff',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#18181b',
+              color: 'var(--text-secondary)',
               position: 'relative',
               cursor: 'pointer',
+              transition: 'background 0.1s ease, color 0.1s ease',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = '#f4f4f5')}
-            onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'var(--bg-subtle)';
+              e.currentTarget.style.color = '#0f172a';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#ffffff';
+              e.currentTarget.style.color = 'var(--text-secondary)';
+            }}
             aria-label="View notifications"
           >
-            <Bell size={15} />
+            <Bell size={14} />
             <span
               style={{
                 position: 'absolute',
-                top: 7,
-                right: 7,
-                width: 6,
-                height: 6,
+                top: 6,
+                right: 6,
+                width: 5,
+                height: 5,
                 borderRadius: '50%',
                 background: '#2563eb',
               }}
@@ -587,90 +465,264 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
             <div
               style={{
                 position: 'absolute',
-                top: 'calc(100% + 5px)',
+                top: 'calc(100% + 6px)',
                 right: 0,
-                width: 300,
+                width: 360,
                 background: '#ffffff',
-                border: '1px solid #e4e4e7',
-                borderRadius: 8,
-                boxShadow: '0 12px 30px -4px rgba(0, 0, 0, 0.12), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                border: '1px solid #e2e8f0',
+                borderRadius: 10,
+                boxShadow: '0 20px 40px -8px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(15, 23, 42, 0.06)',
                 zIndex: 9999,
-                padding: '6px 0',
+                overflow: 'hidden',
               }}
             >
+              {/* Header with Segmented Tabs (Ref 2 & 3: 1a8c1231b71a0d272ee2e6b76af46b31.png) */}
               <div
                 style={{
-                  padding: '6px 12px',
-                  borderBottom: '1px solid #e4e4e7',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  fontSize: 11,
-                  fontWeight: 600,
+                  padding: '12px 14px 8px',
+                  borderBottom: '1px solid #f1f5f9',
+                  backgroundColor: '#ffffff',
                 }}
               >
-                <span>AI Activity Alerts</span>
-                <span style={{ color: '#71717a', cursor: 'pointer' }} onClick={() => navigate('ai-activity')}>
-                  View All
-                </span>
-              </div>
-              {unreadAlerts.map((a) => (
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>Operational Inbox</span>
+                  <span
+                    style={{
+                      color: '#64748b',
+                      fontSize: 11,
+                      fontWeight: 500,
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                      navigate('ai-activity');
+                      setNotificationsOpen(false);
+                    }}
+                  >
+                    View audit trail ›
+                  </span>
+                </div>
+
                 <div
-                  key={a.id}
                   style={{
-                    padding: '8px 12px',
-                    borderBottom: '1px solid #f4f4f5',
-                    fontSize: 11.5,
+                    display: 'flex',
+                    backgroundColor: '#f1f5f9',
+                    padding: 2,
+                    borderRadius: 6,
+                    gap: 2,
                   }}
                 >
-                  <div style={{ fontWeight: 500, color: '#18181b' }}>{a.type}</div>
-                  <div style={{ color: '#71717a', fontSize: 10.5, marginTop: 2 }}>{a.details}</div>
+                  <button
+                    onClick={() => setNotifTab('activity')}
+                    style={{
+                      flex: 1,
+                      padding: '4px 6px',
+                      borderRadius: 4,
+                      fontSize: 11,
+                      fontWeight: notifTab === 'activity' ? 700 : 500,
+                      border: 'none',
+                      backgroundColor: notifTab === 'activity' ? '#ffffff' : 'transparent',
+                      color: notifTab === 'activity' ? '#0f172a' : '#64748b',
+                      boxShadow: notifTab === 'activity' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Activity ({unreadAlerts.length})
+                  </button>
+                  <button
+                    onClick={() => setNotifTab('events')}
+                    style={{
+                      flex: 1,
+                      padding: '4px 6px',
+                      borderRadius: 4,
+                      fontSize: 11,
+                      fontWeight: notifTab === 'events' ? 700 : 500,
+                      border: 'none',
+                      backgroundColor: notifTab === 'events' ? '#ffffff' : 'transparent',
+                      color: notifTab === 'events' ? '#0f172a' : '#64748b',
+                      boxShadow: notifTab === 'events' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Interviews ({interviews.length})
+                  </button>
+                  <button
+                    onClick={() => setNotifTab('jobs')}
+                    style={{
+                      flex: 1,
+                      padding: '4px 6px',
+                      borderRadius: 4,
+                      fontSize: 11,
+                      fontWeight: notifTab === 'jobs' ? 700 : 500,
+                      border: 'none',
+                      backgroundColor: notifTab === 'jobs' ? '#ffffff' : 'transparent',
+                      color: notifTab === 'jobs' ? '#0f172a' : '#64748b',
+                      boxShadow: notifTab === 'jobs' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Requisitions ({jobs.length})
+                  </button>
                 </div>
-              ))}
+              </div>
+
+              {/* Tab 1: Activity Notifications with Colored Accent Strips (Ref 2) */}
+              {notifTab === 'activity' && (
+                <div style={{ maxHeight: 300, overflowY: 'auto' }}>
+                  {unreadAlerts.map((a, i) => {
+                    const stripColor = i % 3 === 0 ? '#10b981' : i % 3 === 1 ? '#6366f1' : '#f59e0b';
+                    return (
+                      <div
+                        key={a.id}
+                        style={{
+                          padding: '10px 14px',
+                          borderBottom: '1px solid #f8fafc',
+                          fontSize: 12,
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          gap: 10,
+                          position: 'relative',
+                        }}
+                        onClick={() => {
+                          navigate('ai-activity');
+                          setNotificationsOpen(false);
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f8fafc')}
+                        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#ffffff')}
+                      >
+                        <span
+                          style={{
+                            width: 3,
+                            height: '100%',
+                            position: 'absolute',
+                            left: 0,
+                            top: 0,
+                            backgroundColor: stripColor,
+                          }}
+                        />
+                        <div style={{ flex: 1, paddingLeft: 4 }}>
+                          <div style={{ fontWeight: 600, color: '#0f172a', display: 'flex', justifyContent: 'space-between' }}>
+                            <span>{a.type}</span>
+                            <span style={{ fontSize: 10, color: '#94a3b8', fontWeight: 400 }}>{a.timestamp}</span>
+                          </div>
+                          <div style={{ color: '#475569', fontSize: 11, marginTop: 2, lineHeight: 1.4 }}>{a.details}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Tab 2: Today's Scheduled Interviews (Ref 2) */}
+              {notifTab === 'events' && (
+                <div style={{ maxHeight: 300, overflowY: 'auto' }}>
+                  {interviews.slice(0, 4).map((inv) => (
+                    <div
+                      key={inv.id}
+                      style={{
+                        padding: '10px 14px',
+                        borderBottom: '1px solid #f8fafc',
+                        fontSize: 12,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: 10,
+                        position: 'relative',
+                      }}
+                      onClick={() => {
+                        navigate('interviews');
+                        setNotificationsOpen(false);
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f8fafc')}
+                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#ffffff')}
+                    >
+                      <span
+                        style={{
+                          width: 3,
+                          height: '100%',
+                          position: 'absolute',
+                          left: 0,
+                          top: 0,
+                          backgroundColor: '#3b82f6',
+                        }}
+                      />
+                      <div style={{ flex: 1, paddingLeft: 4 }}>
+                        <div style={{ fontWeight: 600, color: '#0f172a', display: 'flex', justifyContent: 'space-between' }}>
+                          <span>{inv.candidateName}</span>
+                          <span style={{ fontSize: 10, color: '#3b82f6', fontWeight: 600 }}>{inv.time}</span>
+                        </div>
+                        <div style={{ color: '#64748b', fontSize: 11, marginTop: 2 }}>
+                          {inv.type} • {inv.jobTitle}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Tab 3: Open Requisitions */}
+              {notifTab === 'jobs' && (
+                <div style={{ maxHeight: 300, overflowY: 'auto' }}>
+                  {jobs.slice(0, 4).map((j) => (
+                    <div
+                      key={j.id}
+                      style={{
+                        padding: '10px 14px',
+                        borderBottom: '1px solid #f8fafc',
+                        fontSize: 12,
+                        cursor: 'pointer',
+                        position: 'relative',
+                      }}
+                      onClick={() => {
+                        navigate('job-workspace', { jobId: j.id });
+                        setNotificationsOpen(false);
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f8fafc')}
+                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#ffffff')}
+                    >
+                      <span
+                        style={{
+                          width: 3,
+                          height: '100%',
+                          position: 'absolute',
+                          left: 0,
+                          top: 0,
+                          backgroundColor: '#8b5cf6',
+                        }}
+                      />
+                      <div style={{ paddingLeft: 4 }}>
+                        <div style={{ fontWeight: 600, color: '#0f172a' }}>{j.title}</div>
+                        <div style={{ color: '#64748b', fontSize: 11, marginTop: 2 }}>
+                          {j.client} • {j.applicantsCount} applicants
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
-
-        {/* Primary Action Button */}
-        <button
-          onClick={() => navigate('sourcing')}
-          className="btn-dark"
-          style={{
-            background: '#18181b',
-            color: '#ffffff',
-            height: 36,
-            padding: '0 14px',
-            borderRadius: 8,
-            fontWeight: 500,
-            fontSize: 13,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 7,
-            whiteSpace: 'nowrap',
-            border: 'none',
-            cursor: 'pointer',
-          }}
-        >
-          <span>✳</span>
-          <span>Execute with AI</span>
-        </button>
 
         {/* User Avatar */}
         <div
           onClick={() => navigate('settings')}
           style={{
-            width: 34,
-            height: 34,
+            width: 32,
+            height: 32,
             borderRadius: '50%',
-            background: '#f4f4f5',
-            border: '1px solid #e4e4e7',
+            background: 'var(--bg-subtle)',
+            border: '1px solid var(--border-subtle)',
             display: 'grid',
             placeItems: 'center',
-            fontSize: 12,
+            fontSize: 11.5,
             fontWeight: 600,
-            color: '#18181b',
+            color: '#0f172a',
             cursor: 'pointer',
             flexShrink: 0,
+            transition: 'border-color 0.1s ease',
           }}
+          title={settings.profile.name}
         >
           {initials}
         </div>

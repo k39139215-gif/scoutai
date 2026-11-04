@@ -229,7 +229,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
               width: menuWidth === '100%' ? coords.width : (typeof menuWidth === 'number' ? menuWidth : 'max-content'),
               maxWidth: menuWidth === '100%' ? coords.width : Math.min(Math.max(coords.width, 420), window.innerWidth - 32),
               background: '#ffffff',
-              border: '1px solid #e4e4e7',
+              border: '1px solid var(--border-default)',
               borderRadius: 8,
               boxShadow:
                 '0 12px 32px -4px rgba(0, 0, 0, 0.15), 0 4px 10px -2px rgba(0, 0, 0, 0.06)',
@@ -422,7 +422,7 @@ export const CustomMenu: React.FC<CustomMenuProps> = ({
               width: menuWidth,
               maxWidth: 'calc(100vw - 24px)',
               background: '#ffffff',
-              border: '1px solid #e4e4e7',
+              border: '1px solid var(--border-default)',
               borderRadius: 8,
               boxShadow:
                 '0 12px 32px -4px rgba(0, 0, 0, 0.15), 0 4px 10px -2px rgba(0, 0, 0, 0.06)',
