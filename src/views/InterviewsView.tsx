@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import {
   Calendar,
   User,
@@ -14,6 +14,7 @@ import { StatusBadge } from '../components/common/Badge';
 import { Modal } from '../components/common/Modal';
 import { Input, Textarea } from '../components/common/Input';
 import { CustomSelect } from '../components/common/CustomDropdown';
+import { isDevMode } from '../utils/devMode';
 
 export const InterviewsView: React.FC = () => {
   const {
@@ -94,27 +95,29 @@ export const InterviewsView: React.FC = () => {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <button
-            onClick={() => navigate('talent-studio')}
-            style={{
-              height: 36,
-              padding: '0 14px',
-              borderRadius: 8,
-              fontSize: 13,
-              fontWeight: 600,
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              background: '#eef2ff',
-              border: '1px solid #c7d2fe',
-              color: '#4338ca',
-              cursor: 'pointer',
-              transition: 'all 0.12s ease',
-            }}
-          >
-            <Sparkles size={14} />
-            <span>Studio Desk (Refs)</span>
-          </button>
+          {isDevMode() && (
+            <button
+              onClick={() => navigate('talent-studio')}
+              style={{
+                height: 36,
+                padding: '0 14px',
+                borderRadius: 8,
+                fontSize: 13,
+                fontWeight: 600,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                background: '#eef2ff',
+                border: '1px solid #c7d2fe',
+                color: '#4338ca',
+                cursor: 'pointer',
+                transition: 'all 0.12s ease',
+              }}
+            >
+              <Sparkles size={14} />
+              <span>Studio Desk (Refs)</span>
+            </button>
+          )}
 
           <button
             className="btn-dark"

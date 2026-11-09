@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import {
   Send,
   RefreshCw,
@@ -12,6 +12,7 @@ import { Input } from '../components/common/Input';
 import { CustomSelect } from '../components/common/CustomDropdown';
 import { SegmentedControl, Composer } from '../components/boardui';
 import type { OutreachTone } from '../types';
+import { isDevMode } from '../utils/devMode';
 
 export const OutreachView: React.FC = () => {
   const {
@@ -141,27 +142,29 @@ Lead Talent Advisor, ScoutAI`;
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <button
-            onClick={() => navigate('talent-studio')}
-            style={{
-              height: 32,
-              padding: '0 12px',
-              borderRadius: 6,
-              fontSize: 12,
-              fontWeight: 600,
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 5,
-              background: '#eef2ff',
-              border: '1px solid #c7d2fe',
-              color: '#4338ca',
-              cursor: 'pointer',
-              transition: 'all 0.12s ease',
-            }}
-          >
-            <Sparkles size={13} />
-            <span>Studio Desk (Refs)</span>
-          </button>
+          {isDevMode() && (
+            <button
+              onClick={() => navigate('talent-studio')}
+              style={{
+                height: 32,
+                padding: '0 12px',
+                borderRadius: 6,
+                fontSize: 12,
+                fontWeight: 600,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 5,
+                background: '#eef2ff',
+                border: '1px solid #c7d2fe',
+                color: '#4338ca',
+                cursor: 'pointer',
+                transition: 'all 0.12s ease',
+              }}
+            >
+              <Sparkles size={13} />
+              <span>Studio Desk (Refs)</span>
+            </button>
+          )}
 
           <div
             style={{
