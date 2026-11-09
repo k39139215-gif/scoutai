@@ -16,3 +16,4 @@ export * from './Notifications';
 export * from './Pagination';
 export * from './Tooltip';
 export * from './DatePicker';
+export * from './Switch';

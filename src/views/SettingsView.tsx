@@ -198,21 +198,29 @@ export const SettingsView: React.FC = () => {
           )}
           <button
             onClick={handleSave}
+            type="button"
             style={{
-              height: 'var(--control-height)',
+              height: 36,
               padding: '0 16px',
-              borderRadius: 'var(--radius-md)',
-              fontSize: 'var(--font-size-sm)',
-              fontWeight: 600,
+              borderRadius: 8,
+              fontSize: 13,
+              fontWeight: 500,
               display: 'inline-flex',
               alignItems: 'center',
               gap: 7,
-              background: 'var(--color-primary-button)',
-              color: '#ffffff',
-              border: 'none',
+              background: '#ffffff',
+              color: '#0f172a',
+              border: '1px solid #cbd5e1',
               cursor: 'pointer',
-              boxShadow: '0 1px 2px rgba(15, 23, 42, 0.12)',
-              transition: 'background-color 0.15s ease',
+              transition: 'all 0.12s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#f8fafc';
+              e.currentTarget.style.borderColor = '#94a3b8';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#ffffff';
+              e.currentTarget.style.borderColor = '#cbd5e1';
             }}
           >
             <Save size={14} />
@@ -365,7 +373,7 @@ export const SettingsView: React.FC = () => {
               AI Match & Sourcing Parameters
             </h3>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxWidth: 460 }}>
               <label style={{ fontSize: 13, fontWeight: 600, color: '#0f172a' }}>Advisory Explanation Detail</label>
               <CustomSelect
                 value={advisoryDetail}
@@ -375,7 +383,8 @@ export const SettingsView: React.FC = () => {
                   { value: 'in-depth', label: 'In-Depth Paragraphs & Criteria Mapping' },
                 ]}
                 size="md"
-                menuWidth={320}
+                menuWidth="100%"
+                style={{ width: '100%', justifyContent: 'space-between' }}
               />
               <span style={{ fontSize: 12, color: '#64748b' }}>
                 Controls the verbosity of match explanation cards across the candidate review workspace.
@@ -574,25 +583,35 @@ export const SettingsView: React.FC = () => {
           </span>
           <button
             type="submit"
+            className="snow-btn snow-btn-primary"
             style={{
-              height: 'var(--control-height)',
-              padding: '0 16px',
-              borderRadius: 'var(--radius-md)',
-              fontSize: 'var(--font-size-sm)',
+              height: 38,
+              padding: '0 20px',
+              borderRadius: 8,
+              fontSize: 13.5,
               fontWeight: 600,
               display: 'inline-flex',
               alignItems: 'center',
-              gap: 7,
-              background: isDirty ? 'var(--color-primary-button)' : '#ffffff',
-              color: isDirty ? '#ffffff' : 'var(--color-text-secondary)',
-              border: isDirty ? 'none' : '1px solid var(--color-border)',
+              justifyContent: 'center',
+              gap: 8,
+              background: '#0f172a',
+              color: '#ffffff',
+              border: 'none',
               cursor: 'pointer',
-              boxShadow: isDirty ? '0 1px 2px rgba(15, 23, 42, 0.12)' : 'none',
-              transition: 'all 0.15s ease',
+              boxShadow: '0 1px 3px rgba(15, 23, 42, 0.16)',
+              transition: 'all 0.12s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#1e293b';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#0f172a';
             }}
           >
-            <Save size={14} />
-            <span>Save Settings</span>
+            <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+              <Save size={15} />
+            </span>
+            <span style={{ lineHeight: 1 }}>Save Settings</span>
           </button>
         </div>
       </form>

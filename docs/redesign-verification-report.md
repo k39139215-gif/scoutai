@@ -1,6 +1,6 @@
 # ScoutAI Redesign Verification Report
 
-Generated: 2026-11-09T12:44:30.073Z
+Generated: 2026-11-09T13:43:20.854Z
 
 ## 1. Executive Summary
 
@@ -66,7 +66,7 @@ All redesign phases (0 through 7) have been applied and audited across all 14 ro
 | 11-client-accounts | 0 | None | ✅ Passed |
 | 12-data-compliance-gdpr | 1 | Log Data Request | ✅ Passed |
 | 13-security-access | 0 | None | ✅ Passed |
-| 14-system-settings | 1 | Save Changes | ✅ Passed |
+| 14-system-settings | 1 | Save Settings | ✅ Passed |
 
 ## 6. Axe Accessibility Violations (Serious / Critical)
 

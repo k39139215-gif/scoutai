@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 
 export interface PaginationProps {
   currentPage: number;
@@ -59,60 +59,75 @@ export const Pagination: React.FC<PaginationProps> = ({
         alignItems: 'center',
         justifyContent: 'space-between',
         flexWrap: 'wrap',
-        gap: 12,
-        padding: '12px 16px',
+        gap: 16,
+        padding: '12px 20px',
         background: '#ffffff',
-        borderTop: '1px solid var(--border-subtle, #e2e8f0)',
-        fontSize: 12.5,
+        borderTop: '1px solid #f1f5f9',
+        fontSize: 13,
         userSelect: 'none',
         ...style,
       }}
     >
-      {/* Left: Item Range Count */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: 'var(--text-secondary, #475569)' }}>
+      {/* Left: Item Range Count & Rows Selector */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 16, color: '#475569' }}>
         {totalItems !== undefined ? (
           <span style={{ fontVariantNumeric: 'tabular-nums' }}>
-            Showing <strong style={{ color: '#0f172a' }}>{startItem}–{endItem}</strong> of{' '}
-            <strong style={{ color: '#0f172a' }}>{totalItems}</strong> entries
+            Showing <strong style={{ color: '#0f172a', fontWeight: 600 }}>{startItem}–{endItem}</strong> of{' '}
+            <strong style={{ color: '#0f172a', fontWeight: 600 }}>{totalItems}</strong> entries
           </span>
         ) : (
           <span>
-            Page <strong style={{ color: '#0f172a' }}>{currentPage}</strong> of{' '}
-            <strong style={{ color: '#0f172a' }}>{totalPages}</strong>
+            Page <strong style={{ color: '#0f172a', fontWeight: 600 }}>{currentPage}</strong> of{' '}
+            <strong style={{ color: '#0f172a', fontWeight: 600 }}>{totalPages}</strong>
           </span>
         )}
 
         {onPageSizeChange && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span>Rows:</span>
-            <select
-              aria-label="Rows per page"
-              value={pageSize}
-              onChange={(e) => onPageSizeChange(Number(e.target.value))}
-              style={{
-                height: 28,
-                padding: '0 6px',
-                fontSize: 12,
-                borderRadius: 6,
-                border: '1px solid #cbd5e1',
-                background: '#ffffff',
-                color: '#0f172a',
-                outline: 'none',
-                cursor: 'pointer',
-              }}
-            >
-              {pageSizeOptions.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12.5 }}>
+            <span style={{ color: '#64748b' }}>Rows per page:</span>
+            <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
+              <select
+                aria-label="Rows per page"
+                value={pageSize}
+                onChange={(e) => onPageSizeChange(Number(e.target.value))}
+                style={{
+                  height: 32,
+                  padding: '0 28px 0 10px',
+                  fontSize: 12.5,
+                  fontWeight: 500,
+                  borderRadius: 6,
+                  border: '1px solid #e2e8f0',
+                  background: '#f8fafc',
+                  color: '#0f172a',
+                  outline: 'none',
+                  cursor: 'pointer',
+                  appearance: 'none',
+                  WebkitAppearance: 'none',
+                  transition: 'all 0.12s ease',
+                }}
+              >
+                {pageSizeOptions.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown
+                size={13}
+                style={{
+                  position: 'absolute',
+                  right: 9,
+                  color: '#64748b',
+                  pointerEvents: 'none',
+                }}
+              />
+            </div>
           </div>
         )}
       </div>
 
-      {/* Right: Page Buttons */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+      {/* Right: Page Navigation Controls */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
         <button
           type="button"
           onClick={() => onPageChange(currentPage - 1)}
@@ -122,23 +137,36 @@ export const Pagination: React.FC<PaginationProps> = ({
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: 30,
-            height: 30,
+            width: 32,
+            height: 32,
             borderRadius: 6,
             border: '1px solid #e2e8f0',
             background: '#ffffff',
             color: currentPage <= 1 ? '#cbd5e1' : '#334155',
             cursor: currentPage <= 1 ? 'not-allowed' : 'pointer',
             transition: 'all 0.12s ease',
+            lineHeight: 1,
+          }}
+          onMouseEnter={(e) => {
+            if (currentPage > 1) {
+              e.currentTarget.style.background = '#f8fafc';
+              e.currentTarget.style.borderColor = '#cbd5e1';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (currentPage > 1) {
+              e.currentTarget.style.background = '#ffffff';
+              e.currentTarget.style.borderColor = '#e2e8f0';
+            }
           }}
         >
-          <ChevronLeft size={14} />
+          <ChevronLeft size={15} />
         </button>
 
         {getPageNumbers().map((p, idx) => {
           if (p === '...') {
             return (
-              <span key={`dots-${idx}`} style={{ padding: '0 4px', color: '#94a3b8' }}>
+              <span key={`dots-${idx}`} style={{ padding: '0 4px', color: '#94a3b8', fontSize: 13 }}>
                 …
               </span>
             );
@@ -149,24 +177,39 @@ export const Pagination: React.FC<PaginationProps> = ({
             <button
               key={`page-${p}`}
               type="button"
+              className="pill"
               onClick={() => onPageChange(p as number)}
               aria-current={isCurrent ? 'page' : undefined}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                minWidth: 30,
-                height: 30,
-                padding: '0 8px',
+                minWidth: 32,
+                height: 32,
+                padding: '0 9px',
                 borderRadius: 6,
-                border: isCurrent ? '1px solid #c7d2fe' : '1px solid #e2e8f0',
-                background: isCurrent ? '#eef2ff' : '#ffffff',
-                color: isCurrent ? '#4338ca' : '#334155',
-                fontSize: 12,
+                border: isCurrent ? '1px solid #0f172a' : '1px solid #e2e8f0',
+                background: isCurrent ? '#0f172a' : '#ffffff',
+                color: isCurrent ? '#ffffff' : '#334155',
+                fontSize: 12.5,
                 fontWeight: isCurrent ? 600 : 500,
                 fontVariantNumeric: 'tabular-nums',
                 cursor: 'pointer',
+                boxShadow: isCurrent ? '0 1px 2px rgba(15, 23, 42, 0.08)' : 'none',
                 transition: 'all 0.12s ease',
+                lineHeight: 1,
+              }}
+              onMouseEnter={(e) => {
+                if (!isCurrent) {
+                  e.currentTarget.style.background = '#f8fafc';
+                  e.currentTarget.style.borderColor = '#cbd5e1';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isCurrent) {
+                  e.currentTarget.style.background = '#ffffff';
+                  e.currentTarget.style.borderColor = '#e2e8f0';
+                }
               }}
             >
               {p}
@@ -183,17 +226,30 @@ export const Pagination: React.FC<PaginationProps> = ({
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: 30,
-            height: 30,
+            width: 32,
+            height: 32,
             borderRadius: 6,
             border: '1px solid #e2e8f0',
             background: '#ffffff',
             color: currentPage >= totalPages ? '#cbd5e1' : '#334155',
             cursor: currentPage >= totalPages ? 'not-allowed' : 'pointer',
             transition: 'all 0.12s ease',
+            lineHeight: 1,
+          }}
+          onMouseEnter={(e) => {
+            if (currentPage < totalPages) {
+              e.currentTarget.style.background = '#f8fafc';
+              e.currentTarget.style.borderColor = '#cbd5e1';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (currentPage < totalPages) {
+              e.currentTarget.style.background = '#ffffff';
+              e.currentTarget.style.borderColor = '#e2e8f0';
+            }
           }}
         >
-          <ChevronRight size={14} />
+          <ChevronRight size={15} />
         </button>
       </div>
     </div>

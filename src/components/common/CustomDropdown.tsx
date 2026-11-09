@@ -195,7 +195,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
       >
         {icon && <span style={{ color: '#71717a', display: 'flex' }}>{icon}</span>}
         {prefix && <span style={{ color: '#71717a', fontWeight: 400 }}>{prefix}</span>}
-        <span style={{ color: selectedOption ? '#18181b' : '#a1a1aa' }}>
+        <span style={{ color: selectedOption ? '#18181b' : '#a1a1aa', flex: 1, textAlign: 'left' }}>
           {selectedOption ? selectedOption.label : placeholder}
         </span>
         <ChevronDown

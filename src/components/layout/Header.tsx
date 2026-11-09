@@ -28,7 +28,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const notifContainerRef = useRef<HTMLDivElement>(null);
 
-  // Close popovers on outside click
+  // Close search popover on outside click
   useEffect(() => {
     const handleOutside = (e: MouseEvent) => {
       const target = e.target as Node;
@@ -37,12 +37,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
         !searchContainerRef.current.contains(target)
       ) {
         setSearchOpen(false);
-      }
-      if (
-        notifContainerRef.current &&
-        !notifContainerRef.current.contains(target)
-      ) {
-        setNotificationsOpen(false);
       }
     };
     document.addEventListener('mousedown', handleOutside);

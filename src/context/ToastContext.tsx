@@ -39,21 +39,19 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   return (
     <ToastContext.Provider value={{ showToast, removeToast }}>
       {children}
-      {/* Toast Render Container - ScoutAI Native Light Floating Pill */}
+      {/* Toast Render Container - ScoutAI Native Light Floating Pill (Bottom Left) */}
       <div
         style={{
           position: 'fixed',
           bottom: 24,
-          left: '50%',
-          transform: 'translateX(-50%)',
+          left: 24,
           zIndex: 9999,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           gap: 8,
           pointerEvents: 'none',
-          maxWidth: 480,
-          width: 'calc(100% - 32px)',
+          maxWidth: 440,
         }}
       >
         {toasts.map((toast) => {
@@ -102,7 +100,7 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
                 gap: 10,
                 maxWidth: 460,
                 userSelect: 'none',
-                animation: 'boarduiToastEnter 240ms cubic-bezier(0.34, 1.25, 0.64, 1) forwards',
+                animation: 'boarduiToastEnter 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
               }}
             >
               <div

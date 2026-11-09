@@ -762,22 +762,19 @@ export const CandidatesView: React.FC = () => {
           </aside>
         )}
 
-        {/* Right Data Table Container */}
+        {/* Right Data Table Container - Single Unified Table Card */}
         <div
+          className="table-card-container"
           style={{
             flex: 1,
             minWidth: 0,
-            background: '#ffffff',
-            border: '1px solid #e4e4e7',
-            borderRadius: 12,
-            overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
           }}
         >
-          {/* Table Header & Rows */}
-          <div className="table-card-container" style={{ flex: 1, overflow: 'hidden' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', borderTopLeftRadius: 12, borderTopRightRadius: 12 }}>
+          {/* Table Scroll Area */}
+          <div style={{ flex: 1, overflowX: 'auto', overflowY: 'hidden' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
               <thead>
                 <tr style={{ background: '#fafafa', borderBottom: '1px solid #e4e4e7' }}>
                   <th className="col-sticky-first" style={{ width: 44, padding: '12px 14px', textAlign: 'center' }}>
@@ -923,14 +920,15 @@ export const CandidatesView: React.FC = () => {
                     </td>
                   </tr>
                 ) : (
-                  sortedCandidates.map((c) => {
+                  sortedCandidates.map((c, idx) => {
                     const isSelected = selectedIds.includes(c.id);
+                    const isLastRow = idx === sortedCandidates.length - 1;
                     return (
                       <tr
                         key={c.id}
                         style={{
                           height: 56,
-                          borderBottom: '1px solid #f4f4f5',
+                          borderBottom: isLastRow ? 'none' : '1px solid #f4f4f5',
                           background: isSelected ? '#f4f6ff' : 'transparent',
                           transition: 'background 0.12s ease',
                         }}
@@ -1081,7 +1079,9 @@ export const CandidatesView: React.FC = () => {
                                 cursor: 'pointer',
                                 display: 'inline-flex',
                                 alignItems: 'center',
-                                gap: 4,
+                                justifyContent: 'center',
+                                gap: 5,
+                                lineHeight: 1,
                                 transition: 'all 0.12s ease',
                               }}
                               onMouseEnter={(e) => {
@@ -1099,8 +1099,10 @@ export const CandidatesView: React.FC = () => {
                                 }
                               }}
                             >
-                              <CheckCircle2 size={12} style={{ color: c.status === 'Shortlisted' ? '#10b981' : '#94a3b8' }} />
-                              <span>{c.status === 'Shortlisted' ? 'Saved' : 'Shortlist'}</span>
+                              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <CheckCircle2 size={13} style={{ color: c.status === 'Shortlisted' ? '#10b981' : '#94a3b8' }} />
+                              </span>
+                              <span style={{ lineHeight: 1 }}>{c.status === 'Shortlisted' ? 'Saved' : 'Shortlist'}</span>
                             </button>
 
                             <button
@@ -1108,17 +1110,19 @@ export const CandidatesView: React.FC = () => {
                               onClick={() => setActiveCandidateId(c.id)}
                               style={{
                                 height: 30,
-                                padding: '0 11px',
+                                padding: '0 10px',
                                 borderRadius: 6,
                                 fontSize: 12,
-                                fontWeight: 600,
-                                background: '#f8fafc',
+                                fontWeight: 500,
+                                background: '#ffffff',
                                 border: '1px solid #cbd5e1',
                                 color: '#0f172a',
                                 cursor: 'pointer',
                                 display: 'inline-flex',
                                 alignItems: 'center',
+                                justifyContent: 'center',
                                 gap: 5,
+                                lineHeight: 1,
                                 transition: 'all 0.12s ease',
                               }}
                               onMouseEnter={(e) => {
@@ -1127,14 +1131,16 @@ export const CandidatesView: React.FC = () => {
                                 e.currentTarget.style.borderColor = '#0f172a';
                               }}
                               onMouseLeave={(e) => {
-                                e.currentTarget.style.background = '#f8fafc';
+                                e.currentTarget.style.background = '#ffffff';
                                 e.currentTarget.style.color = '#0f172a';
                                 e.currentTarget.style.borderColor = '#cbd5e1';
                               }}
                             >
-                              <Eye size={12} />
-                              <span>View Profile</span>
-                              <ChevronRight size={11} style={{ opacity: 0.6 }} />
+                              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <Eye size={13} />
+                              </span>
+                              <span style={{ lineHeight: 1 }}>View Profile</span>
+                              <ChevronRight size={12} style={{ opacity: 0.6, marginLeft: -1 }} />
                             </button>
                           </div>
                         </td>

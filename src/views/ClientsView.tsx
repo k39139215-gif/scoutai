@@ -96,7 +96,7 @@ export const ClientsView: React.FC = () => {
             style={{
               background: '#ffffff',
               border: '1px solid #e4e4e7',
-              borderRadius: 8,
+              borderRadius: 14,
               padding: '20px 22px',
               display: 'flex',
               flexDirection: 'column',

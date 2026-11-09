@@ -195,10 +195,10 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
             />
 
             {/* Search */}
-            <div style={{ position: 'relative', width: 260 }}>
+            <div style={{ position: 'relative', width: 280, display: 'flex', alignItems: 'center' }}>
               <Search
-                size={13}
-                style={{ position: 'absolute', left: 9, top: 9, color: 'var(--text-muted)', pointerEvents: 'none' }}
+                size={14}
+                style={{ position: 'absolute', left: 11, color: 'var(--text-muted)', pointerEvents: 'none' }}
               />
               <input
                 type="text"
@@ -207,14 +207,16 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
                 placeholder="Filter operations entries..."
                 style={{
                   width: '100%',
-                  height: 32,
-                  paddingLeft: 28,
-                  paddingRight: 26,
-                  fontSize: 12.5,
-                  borderRadius: 6,
+                  height: 36,
+                  boxSizing: 'border-box',
+                  paddingLeft: 32,
+                  paddingRight: 28,
+                  fontSize: 13,
+                  borderRadius: 8,
                   border: '1px solid var(--border-subtle)',
                   background: 'var(--bg-canvas)',
                   color: '#0f172a',
+                  outline: 'none',
                 }}
               />
               {opsSearchQuery && (
@@ -461,11 +463,12 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
                     value={secSearchQuery}
                     onChange={(e) => setSecSearchQuery(e.target.value)}
                     style={{
-                      height: 32,
-                      width: 220,
-                      padding: '0 28px 0 32px',
-                      fontSize: 12.5,
-                      borderRadius: 6,
+                      height: 36,
+                      boxSizing: 'border-box',
+                      width: 240,
+                      padding: '0 28px 0 34px',
+                      fontSize: 13,
+                      borderRadius: 8,
                       border: '1px solid #cbd5e1',
                       background: '#ffffff',
                       color: '#0f172a',

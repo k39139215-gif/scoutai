@@ -109,7 +109,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
             borderRadius: isSmall ? 6 : 7,
             background: '#ffffff',
             boxShadow: '0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04)',
-            transition: 'transform 240ms cubic-bezier(0.34, 1.25, 0.64, 1), width 200ms ease, height 200ms ease',
+            transition: 'transform 200ms cubic-bezier(0.16, 1, 0.3, 1), width 180ms ease, height 180ms ease',
             pointerEvents: 'none',
             zIndex: 1,
           }}

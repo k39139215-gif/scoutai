@@ -83,7 +83,7 @@ export const Drawer: React.FC<DrawerProps> = ({
           display: 'flex',
           flexDirection: 'column',
           zIndex: 1,
-          animation: 'boarduiDrawerSlide 260ms cubic-bezier(0.34, 1.25, 0.64, 1) forwards',
+          animation: 'boarduiDrawerSlide 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
         }}
       >
         {/* Header */}
