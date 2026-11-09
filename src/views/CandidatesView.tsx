@@ -27,6 +27,7 @@ import { isDevMode } from '../utils/devMode';
 import { CustomCheckbox } from '../components/common/CustomCheckbox';
 import { CustomSelect, CustomMenu } from '../components/common/CustomDropdown';
 import { SegmentedControl } from '../components/boardui';
+import { Tooltip } from '../components/common/Tooltip';
 
 export const CandidatesView: React.FC = () => {
   const { candidates, shortlistCandidate, navigate } = useApp();
@@ -775,11 +776,11 @@ export const CandidatesView: React.FC = () => {
           }}
         >
           {/* Table Header & Rows */}
-          <div style={{ overflowX: 'auto', flex: 1 }}>
+          <div className="table-card-container" style={{ flex: 1 }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
               <thead>
                 <tr style={{ background: '#fafafa', borderBottom: '1px solid #e4e4e7' }}>
-                  <th style={{ width: 44, padding: '12px 14px', textAlign: 'center' }}>
+                  <th className="col-sticky-first" style={{ width: 44, padding: '12px 14px', textAlign: 'center' }}>
                     <CustomCheckbox
                       checked={
                         sortedCandidates.length > 0 &&
@@ -791,16 +792,19 @@ export const CandidatesView: React.FC = () => {
                     />
                   </th>
                   <th
+                    className="col-sticky-first"
                     style={{
                       padding: '10px 16px',
                       fontSize: 11.5,
                       fontWeight: 500,
                       color: 'var(--text-secondary)',
+                      minWidth: 200,
                     }}
                   >
                     Candidate
                   </th>
                   <th
+                    className="col-hide-xs"
                     style={{
                       padding: '10px 16px',
                       fontSize: 11.5,
@@ -811,6 +815,7 @@ export const CandidatesView: React.FC = () => {
                     Target Role
                   </th>
                   <th
+                    className="col-hide-sm"
                     style={{
                       padding: '10px 14px',
                       fontSize: 11.5,
@@ -822,6 +827,7 @@ export const CandidatesView: React.FC = () => {
                     Experience
                   </th>
                   <th
+                    className="col-hide-md"
                     style={{
                       padding: '10px 14px',
                       fontSize: 11.5,
@@ -855,6 +861,7 @@ export const CandidatesView: React.FC = () => {
                     Status
                   </th>
                   <th
+                    className="col-sticky-action"
                     style={{
                       padding: '10px 18px',
                       fontSize: 11.5,
@@ -935,7 +942,7 @@ export const CandidatesView: React.FC = () => {
                         }}
                       >
                         {/* Checkbox */}
-                        <td style={{ padding: '0 14px', textAlign: 'center' }}>
+                        <td className="col-sticky-first" style={{ padding: '0 14px', textAlign: 'center' }}>
                           <CustomCheckbox
                             checked={isSelected}
                             onChange={() => handleToggleSelect(c.id)}
@@ -946,6 +953,7 @@ export const CandidatesView: React.FC = () => {
 
                         {/* Candidate Identity (36px Avatar, 14px Semi-bold Name, Muted current company) */}
                         <td
+                          className="col-sticky-first"
                           style={{ padding: '0 16px', cursor: 'pointer' }}
                           onClick={() => setActiveCandidateId(c.id)}
                         >
@@ -967,18 +975,21 @@ export const CandidatesView: React.FC = () => {
                               {c.name.split(' ').map((n) => n[0]).join('').slice(0, 2)}
                             </div>
                             <div style={{ minWidth: 0 }}>
-                              <div
-                                style={{
-                                  fontSize: 13.5,
-                                  fontWeight: 600,
-                                  color: '#18181b',
-                                  whiteSpace: 'nowrap',
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                }}
-                              >
-                                {c.name}
-                              </div>
+                              <Tooltip content={c.name}>
+                                <div
+                                  style={{
+                                    fontSize: 13.5,
+                                    fontWeight: 600,
+                                    color: '#18181b',
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    maxWidth: 160,
+                                  }}
+                                >
+                                  {c.name}
+                                </div>
+                              </Tooltip>
                               <div
                                 style={{
                                   fontSize: 12,
@@ -986,6 +997,7 @@ export const CandidatesView: React.FC = () => {
                                   whiteSpace: 'nowrap',
                                   overflow: 'hidden',
                                   textOverflow: 'ellipsis',
+                                  maxWidth: 160,
                                   marginTop: 1,
                                 }}
                               >
@@ -996,19 +1008,21 @@ export const CandidatesView: React.FC = () => {
                         </td>
 
                         {/* Role Applied */}
-                        <td style={{ padding: '0 16px', fontSize: 13, color: '#3f3f46' }}>
-                          <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 190 }}>
-                            {c.appliedJobTitle}
-                          </div>
+                        <td className="col-hide-xs" style={{ padding: '0 16px', fontSize: 13, color: '#3f3f46' }}>
+                          <Tooltip content={c.appliedJobTitle}>
+                            <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 180 }}>
+                              {c.appliedJobTitle}
+                            </div>
+                          </Tooltip>
                         </td>
 
                         {/* Experience */}
-                        <td style={{ padding: '0 14px', fontSize: 13, color: '#3f3f46', whiteSpace: 'nowrap' }}>
+                        <td className="col-hide-sm" style={{ padding: '0 14px', fontSize: 13, color: '#3f3f46', whiteSpace: 'nowrap', fontVariantNumeric: 'tabular-nums' }}>
                           {c.experienceYears} Yrs
                         </td>
 
                         {/* Location */}
-                        <td style={{ padding: '0 14px', fontSize: 13, color: '#71717a', whiteSpace: 'nowrap' }}>
+                        <td className="col-hide-md" style={{ padding: '0 14px', fontSize: 13, color: '#71717a', whiteSpace: 'nowrap' }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                             <MapPin size={12} style={{ color: '#a1a1aa' }} />
                             <span>{c.location}</span>
@@ -1029,6 +1043,7 @@ export const CandidatesView: React.FC = () => {
                               background: c.matchScore >= 90 ? '#ecfdf5' : '#eff6ff',
                               border: c.matchScore >= 90 ? '1px solid #a7f3d0' : '1px solid #bfdbfe',
                               color: c.matchScore >= 90 ? '#065f46' : '#1e40af',
+                              fontVariantNumeric: 'tabular-nums',
                             }}
                           >
                             <span
@@ -1049,7 +1064,7 @@ export const CandidatesView: React.FC = () => {
                         </td>
 
                         {/* Actions (Shortlist & View Profile buttons) */}
-                        <td style={{ padding: '0 18px', textAlign: 'right', whiteSpace: 'nowrap' }}>
+                        <td className="col-sticky-action" style={{ padding: '0 18px', textAlign: 'right', whiteSpace: 'nowrap' }}>
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 6 }}>
                             <button
                               type="button"

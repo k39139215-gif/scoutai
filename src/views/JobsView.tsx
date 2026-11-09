@@ -13,6 +13,7 @@ import type { JobStatus } from '../types';
 import { CustomSelect } from '../components/common/CustomDropdown';
 import { SegmentedControl, StatusSelect } from '../components/boardui';
 import { isDevMode } from '../utils/devMode';
+import { Tooltip } from '../components/common/Tooltip';
 
 export const JobsView: React.FC = () => {
   const { jobs, updateJobStatus, navigate } = useApp();
@@ -209,34 +210,26 @@ export const JobsView: React.FC = () => {
       </div>
 
       {/* 3. Requisitions Data Table */}
-      <div
-        style={{
-          background: '#ffffff',
-          border: '1px solid #e2e8f0',
-          borderRadius: 8,
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
-        }}
-      >
+      <div className="table-card-container">
         <div style={{ overflowX: 'auto', flex: 1 }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
               <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
                 <th
+                  className="col-sticky-first"
                   style={{
                     padding: '12px 16px',
                     fontSize: 12,
                     fontWeight: 600,
                     color: '#64748b',
                     letterSpacing: '0.01em',
-                    minWidth: 240,
+                    minWidth: 260,
                   }}
                 >
                   Role & client requisition
                 </th>
                 <th
+                  className="col-hide-sm"
                   style={{
                     padding: '12px 16px',
                     fontSize: 12,
@@ -262,6 +255,7 @@ export const JobsView: React.FC = () => {
                   </div>
                 </th>
                 <th
+                  className="col-hide-md"
                   style={{
                     padding: '12px 16px',
                     fontSize: 12,
@@ -295,6 +289,7 @@ export const JobsView: React.FC = () => {
                   Status
                 </th>
                 <th
+                  className="col-sticky-action"
                   style={{
                     padding: '12px 16px',
                     fontSize: 12,
@@ -302,6 +297,7 @@ export const JobsView: React.FC = () => {
                     color: '#64748b',
                     letterSpacing: '0.01em',
                     textAlign: 'right',
+                    minWidth: 170,
                   }}
                 >
                   Action
@@ -334,21 +330,23 @@ export const JobsView: React.FC = () => {
                     onMouseEnter={(e) => (e.currentTarget.style.background = '#f8fafc')}
                     onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                   >
-                    <td style={{ padding: '12px 16px' }}>
+                    <td className="col-sticky-first" style={{ padding: '12px 16px' }}>
                       <div>
-                        <span
-                          onClick={() => navigate('job-workspace', { jobId: job.id })}
-                          style={{
-                            fontSize: 13.5,
-                            fontWeight: 600,
-                            color: '#0f172a',
-                            cursor: 'pointer',
-                          }}
-                          onMouseEnter={(e) => (e.currentTarget.style.color = '#4338ca')}
-                          onMouseLeave={(e) => (e.currentTarget.style.color = '#0f172a')}
-                        >
-                          {job.title}
-                        </span>
+                        <Tooltip content={job.title}>
+                          <span
+                            onClick={() => navigate('job-workspace', { jobId: job.id })}
+                            style={{
+                              fontSize: 13.5,
+                              fontWeight: 600,
+                              color: '#0f172a',
+                              cursor: 'pointer',
+                            }}
+                            onMouseEnter={(e) => (e.currentTarget.style.color = '#4338ca')}
+                            onMouseLeave={(e) => (e.currentTarget.style.color = '#0f172a')}
+                          >
+                            {job.title}
+                          </span>
+                        </Tooltip>
                         <div style={{ fontSize: 12, color: '#64748b', marginTop: 3, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                           <span>{job.client}</span>
                           <span style={{ color: '#cbd5e1' }}>•</span>
@@ -357,7 +355,7 @@ export const JobsView: React.FC = () => {
                       </div>
                     </td>
 
-                    <td style={{ padding: '12px 16px', fontSize: 13, color: '#334155' }}>
+                    <td className="col-hide-sm" style={{ padding: '12px 16px', fontSize: 13, color: '#334155' }}>
                       {job.department}
                     </td>
 
@@ -368,7 +366,7 @@ export const JobsView: React.FC = () => {
                       </div>
                     </td>
 
-                    <td style={{ padding: '12px 16px', fontSize: 13, color: '#334155' }}>
+                    <td className="col-hide-md" style={{ padding: '12px 16px', fontSize: 13, color: '#334155' }}>
                       {job.experienceLevel}
                     </td>
 
@@ -403,7 +401,7 @@ export const JobsView: React.FC = () => {
                       />
                     </td>
 
-                    <td style={{ padding: '12px 16px', textAlign: 'right' }}>
+                    <td className="col-sticky-action" style={{ padding: '12px 16px', textAlign: 'right' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 8 }}>
                         <button
                           type="button"

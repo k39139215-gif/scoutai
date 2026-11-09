@@ -129,8 +129,20 @@ export const TalentStudioView: React.FC = () => {
     }
   }, [selectedCandidateId, candidates]);
 
-  // AI Copilot Panel state
-  const [copilotOpen, setCopilotOpen] = useState(true);
+  // AI Copilot Panel state: collapse automatically below 1280px
+  const [copilotOpen, setCopilotOpen] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth >= 1280 : false
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1280) {
+        setCopilotOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const [copilotTab, setCopilotTab] = useState<'overview' | 'metrics' | 'traces'>('overview');
   const [copilotInput, setCopilotInput] = useState('');
   interface CopilotAction {
@@ -2284,7 +2296,7 @@ export const TalentStudioView: React.FC = () => {
                                 borderBottom: '1px solid #e2e8f0',
                               }}
                             >
-                              <td colSpan={7} style={{ padding: '12px 16px 16px 48px' }}>
+                              <td colSpan={10} style={{ padding: '12px 16px 16px 48px', maxWidth: '100%' }}>
                                 <div
                                   style={{
                                     backgroundColor: '#ffffff',
@@ -2292,6 +2304,9 @@ export const TalentStudioView: React.FC = () => {
                                     border: '1px solid #e2e8f0',
                                     padding: 14,
                                     boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+                                    maxWidth: '100%',
+                                    overflowWrap: 'break-word',
+                                    wordBreak: 'break-word',
                                   }}
                                 >
                                   {/* Sub-row header */}
@@ -2303,6 +2318,8 @@ export const TalentStudioView: React.FC = () => {
                                       marginBottom: 10,
                                       borderBottom: '1px solid #f1f5f9',
                                       paddingBottom: 8,
+                                      flexWrap: 'wrap',
+                                      gap: 8,
                                     }}
                                   >
                                     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -2322,12 +2339,12 @@ export const TalentStudioView: React.FC = () => {
                                     </span>
                                   </div>
 
-                                  <div style={{ fontSize: 12, color: '#334155', lineHeight: 1.5, marginBottom: 12 }}>
+                                  <div style={{ fontSize: 12, color: '#334155', lineHeight: 1.5, marginBottom: 12, wordBreak: 'break-word', overflowWrap: 'break-word' }}>
                                     {candidate.aiAnalysisExplanation}
                                   </div>
 
                                   {/* Strengths & Potential Gaps Pills */}
-                                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12 }}>
                                     <div
                                       style={{
                                         backgroundColor: '#f0fdf4',

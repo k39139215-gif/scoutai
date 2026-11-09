@@ -7,12 +7,13 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Button } from '../components/common/Button';
-import { StatusBadge } from '../components/common/Badge';
 import { Modal } from '../components/common/Modal';
 import { Input, Textarea } from '../components/common/Input';
 import { CustomSelect } from '../components/common/CustomDropdown';
 import type { PrivacyRequest } from '../types';
 import { isDevMode } from '../utils/devMode';
+import { formatDate } from '../utils/formatters';
+import { Tooltip } from '../components/common/Tooltip';
 
 export const PrivacyComplianceView: React.FC = () => {
   const { privacyRequests, updatePrivacyRequestStatus, createPrivacyRequest, navigate } = useApp();
@@ -219,15 +220,7 @@ export const PrivacyComplianceView: React.FC = () => {
       </div>
 
       {/* 4. Data Subject Requests Queue */}
-      <div
-        style={{
-          background: '#ffffff',
-          border: '1px solid #e4e4e7',
-          borderRadius: 8,
-          overflow: 'hidden',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
-        }}
-      >
+      <div className="table-card-container">
         <div style={{ padding: '16px 20px', borderBottom: '1px solid #e4e4e7' }}>
           <h3 style={{ fontSize: 15, fontWeight: 600, color: '#18181b', margin: 0 }}>
             Subject Access & Deletion Requests ({privacyRequests.length})
@@ -241,12 +234,11 @@ export const PrivacyComplianceView: React.FC = () => {
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
               <tr style={{ background: '#fafafa', borderBottom: '1px solid var(--border-subtle)' }}>
-                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Candidate & email</th>
+                <th className="col-sticky-first" style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)', minWidth: 220 }}>Candidate & email</th>
                 <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Request type</th>
-                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Requested date</th>
-                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Review notes</th>
-                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Status</th>
-                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)', textAlign: 'right' }}>Update</th>
+                <th className="col-hide-sm" style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Requested date</th>
+                <th className="col-hide-md" style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Review notes</th>
+                <th className="col-sticky-action" style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)', textAlign: 'right', minWidth: 150 }}>Status & Action</th>
               </tr>
             </thead>
             <tbody>
@@ -261,7 +253,7 @@ export const PrivacyComplianceView: React.FC = () => {
                   onMouseEnter={(e) => (e.currentTarget.style.background = '#fafafa')}
                   onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                 >
-                  <td style={{ padding: '0 18px' }}>
+                  <td className="col-sticky-first" style={{ padding: '0 18px' }}>
                     <div style={{ fontSize: 13.5, fontWeight: 600, color: '#18181b' }}>{req.candidateName}</div>
                     <div style={{ fontSize: 12, color: '#71717a', marginTop: 1 }}>
                       {req.email}
@@ -281,16 +273,17 @@ export const PrivacyComplianceView: React.FC = () => {
                       {req.requestType}
                     </span>
                   </td>
-                  <td style={{ padding: '0 16px', fontSize: 12.5, color: '#71717a' }}>
-                    {req.requestedAt}
+                  <td className="col-hide-sm" style={{ padding: '0 16px', fontSize: 12.5, color: '#71717a', fontVariantNumeric: 'tabular-nums' }}>
+                    {formatDate(req.requestedAt)}
                   </td>
-                  <td style={{ padding: '0 16px', fontSize: 13, color: '#52525b' }}>
-                    {req.reviewNotes}
+                  <td className="col-hide-md" style={{ padding: '0 16px', fontSize: 13, color: '#52525b', maxWidth: 260 }}>
+                    <Tooltip content={req.reviewNotes}>
+                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'block' }}>
+                        {req.reviewNotes}
+                      </span>
+                    </Tooltip>
                   </td>
-                  <td style={{ padding: '0 16px' }}>
-                    <StatusBadge status={req.status} />
-                  </td>
-                  <td style={{ padding: '0 18px', textAlign: 'right' }}>
+                  <td className="col-sticky-action" style={{ padding: '0 18px', textAlign: 'right' }}>
                     <CustomSelect
                       value={req.status}
                       onChange={(val) => updatePrivacyRequestStatus(req.id, val as any)}

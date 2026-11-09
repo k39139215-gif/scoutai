@@ -45,6 +45,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           className="main-workspace-scroll"
         >
           <div
+            className="layout-content-container"
             style={{
               maxWidth: 1600,
               width: '100%',
