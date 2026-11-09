@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Briefcase, Users, CheckCircle2, Calendar } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { StatCard } from '../boardui/StatCard';

@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { ArrowDown, Clock } from 'lucide-react';
 
 export interface FunnelStage {

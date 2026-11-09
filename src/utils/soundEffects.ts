@@ -1,4 +1,4 @@
-﻿// Subtle tactile Web Audio API synthesizer for high-craft keyboard navigation & interactions
+// Subtle tactile Web Audio API synthesizer for high-craft keyboard navigation & interactions
 // Zero external asset dependencies (synthesized via browser AudioContext)
 
 let audioCtx: AudioContext | null = null;

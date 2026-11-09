@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { X, UserCheck, Mail, Download, Sparkles, Check } from 'lucide-react';
 import type { Candidate } from '../../types';
 import { getCandidateCompetencies } from './CompetencyRadarChart';

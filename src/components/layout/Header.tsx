@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Search,
   Bell,
@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import type { AppView } from '../../types';
+import { isDevMode } from '../../utils/devMode';
 
 interface HeaderProps {
   onOpenMobileMenu: () => void;
@@ -152,56 +153,78 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
           </span>
         </div>
 
-        <div
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            background: '#f1f5f9',
-            padding: '2px',
-            borderRadius: 6,
-            marginLeft: 8,
-            border: '1px solid #e2e8f0',
-            fontSize: 11,
-            fontWeight: 500,
-          }}
-        >
-          <button
-            onClick={() => navigate(currentView === 'talent-studio' ? 'candidates' : currentView)}
+        {isDevMode() ? (
+          <div
             style={{
-              padding: '3px 9px',
-              borderRadius: 4,
-              border: 'none',
-              background: currentView !== 'talent-studio' ? '#ffffff' : 'transparent',
-              color: currentView !== 'talent-studio' ? '#0f172a' : '#64748b',
-              boxShadow: currentView !== 'talent-studio' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-              fontWeight: currentView !== 'talent-studio' ? 600 : 500,
-              cursor: 'pointer',
-              transition: 'all 0.1s ease',
-            }}
-          >
-            {currentView === 'talent-studio' ? 'Live Ops View' : 'Live Mode'}
-          </button>
-          <button
-            onClick={() => navigate('talent-studio')}
-            style={{
-              padding: '3px 9px',
-              borderRadius: 4,
-              border: 'none',
-              background: currentView === 'talent-studio' ? '#ffffff' : 'transparent',
-              color: currentView === 'talent-studio' ? '#0f172a' : '#64748b',
-              boxShadow: currentView === 'talent-studio' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-              fontWeight: currentView === 'talent-studio' ? 600 : 500,
-              cursor: 'pointer',
-              display: 'flex',
+              display: 'inline-flex',
               alignItems: 'center',
-              gap: 4,
-              transition: 'all 0.1s ease',
+              background: '#f1f5f9',
+              padding: '2px',
+              borderRadius: 6,
+              marginLeft: 8,
+              border: '1px solid #e2e8f0',
+              fontSize: 11,
+              fontWeight: 500,
             }}
           >
-            <span>✨ Studio Desk</span>
-            <span style={{ fontSize: 9, background: currentView === 'talent-studio' ? '#4338ca' : '#e0e7ff', color: currentView === 'talent-studio' ? '#ffffff' : '#4338ca', padding: '1px 4px', borderRadius: 3, fontWeight: 700 }}>REF</span>
-          </button>
-        </div>
+            <button
+              onClick={() => navigate(currentView === 'talent-studio' ? 'candidates' : currentView)}
+              style={{
+                padding: '3px 9px',
+                borderRadius: 4,
+                border: 'none',
+                background: currentView !== 'talent-studio' ? '#ffffff' : 'transparent',
+                color: currentView !== 'talent-studio' ? '#0f172a' : '#64748b',
+                boxShadow: currentView !== 'talent-studio' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                fontWeight: currentView !== 'talent-studio' ? 600 : 500,
+                cursor: 'pointer',
+                transition: 'all 0.1s ease',
+              }}
+            >
+              {currentView === 'talent-studio' ? 'Live Ops View' : 'Live Mode'}
+            </button>
+            <button
+              onClick={() => navigate('talent-studio')}
+              style={{
+                padding: '3px 9px',
+                borderRadius: 4,
+                border: 'none',
+                background: currentView === 'talent-studio' ? '#ffffff' : 'transparent',
+                color: currentView === 'talent-studio' ? '#0f172a' : '#64748b',
+                boxShadow: currentView === 'talent-studio' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                fontWeight: currentView === 'talent-studio' ? 600 : 500,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 4,
+                transition: 'all 0.1s ease',
+              }}
+            >
+              <span>✨ Studio Desk</span>
+              <span style={{ fontSize: 9, background: currentView === 'talent-studio' ? '#4338ca' : '#e0e7ff', color: currentView === 'talent-studio' ? '#ffffff' : '#4338ca', padding: '1px 4px', borderRadius: 3, fontWeight: 700 }}>REF</span>
+            </button>
+          </div>
+        ) : (
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '2px 8px',
+              borderRadius: 12,
+              background: '#f1f5f9',
+              color: '#475569',
+              fontSize: 11,
+              fontWeight: 500,
+              marginLeft: 8,
+              border: '1px solid #e2e8f0',
+            }}
+            title="Simulated recruitment workspace — no live external communications"
+          >
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#94a3b8' }} />
+            Demo data
+          </span>
+        )}
       </div>
 
       {/* Center: Clean Quick Search with Command Palette Keycap */}

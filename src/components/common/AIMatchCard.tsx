@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Check, AlertCircle, Info, SearchCheck } from 'lucide-react';
 import type { Candidate } from '../../types';
 

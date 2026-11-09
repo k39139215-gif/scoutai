@@ -10,6 +10,7 @@ import { useApp } from '../context/AppContext';
 import { StatusBadge } from '../components/common/Badge';
 import { StatusSelect, SegmentedControl } from '../components/boardui';
 import type { JobStatus } from '../types';
+import { isDevMode } from '../utils/devMode';
 
 export const JobWorkspaceView: React.FC = () => {
   const {
@@ -91,26 +92,28 @@ export const JobWorkspaceView: React.FC = () => {
             size="sm"
           />
 
-          <button
-            onClick={() => navigate('talent-studio', { jobId: currentJob.id })}
-            style={{
-              height: 32,
-              padding: '0 12px',
-              borderRadius: 6,
-              fontSize: 12,
-              fontWeight: 600,
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 5,
-              background: '#eef2ff',
-              color: '#4338ca',
-              border: '1px solid #c7d2fe',
-              cursor: 'pointer',
-            }}
-          >
-            <Sparkles size={13} />
-            <span>Studio Desk (Refs)</span>
-          </button>
+          {isDevMode() && (
+            <button
+              onClick={() => navigate('talent-studio', { jobId: currentJob.id })}
+              style={{
+                height: 32,
+                padding: '0 12px',
+                borderRadius: 6,
+                fontSize: 12,
+                fontWeight: 600,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 5,
+                background: '#eef2ff',
+                color: '#4338ca',
+                border: '1px solid #c7d2fe',
+                cursor: 'pointer',
+              }}
+            >
+              <Sparkles size={13} />
+              <span>Studio Desk (Refs)</span>
+            </button>
+          )}
 
           <button
             className="btn-dark"
@@ -470,26 +473,28 @@ export const JobWorkspaceView: React.FC = () => {
             </div>
           </div>
 
-          <button
-            onClick={() => navigate('talent-studio', { jobId: currentJob.id })}
-            style={{
-              height: 32,
-              padding: '0 12px',
-              borderRadius: 6,
-              fontSize: 12,
-              fontWeight: 600,
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 5,
-              background: '#eef2ff',
-              color: '#4338ca',
-              border: '1px solid #c7d2fe',
-              cursor: 'pointer',
-            }}
-          >
-            <Sparkles size={13} />
-            <span>Studio Desk (Refs)</span>
-          </button>
+          {isDevMode() && (
+            <button
+              onClick={() => navigate('talent-studio', { jobId: currentJob.id })}
+              style={{
+                height: 32,
+                padding: '0 12px',
+                borderRadius: 6,
+                fontSize: 12,
+                fontWeight: 600,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 5,
+                background: '#eef2ff',
+                color: '#4338ca',
+                border: '1px solid #c7d2fe',
+                cursor: 'pointer',
+              }}
+            >
+              <Sparkles size={13} />
+              <span>Studio Desk (Refs)</span>
+            </button>
+          )}
 
           <button
             className="btn-dark"

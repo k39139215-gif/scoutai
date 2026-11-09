@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import {
   Shield,
   Search,
@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { CustomSelect } from '../components/common/CustomDropdown';
+import { isDevMode } from '../utils/devMode';
 
 export const SecurityView: React.FC = () => {
   const { securityAudit, settings, navigate } = useApp();
@@ -83,27 +84,29 @@ export const SecurityView: React.FC = () => {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <button
-            onClick={() => navigate('talent-studio')}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              height: 36,
-              padding: '0 13px',
-              fontSize: 12.5,
-              fontWeight: 600,
-              color: '#3b82f6',
-              background: '#eff6ff',
-              border: '1px solid #bfdbfe',
-              borderRadius: 8,
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            <Sparkles size={14} />
-            Studio Desk (Refs)
-          </button>
+          {isDevMode() && (
+            <button
+              onClick={() => navigate('talent-studio')}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                height: 36,
+                padding: '0 13px',
+                fontSize: 12.5,
+                fontWeight: 600,
+                color: '#3b82f6',
+                background: '#eff6ff',
+                border: '1px solid #bfdbfe',
+                borderRadius: 8,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <Sparkles size={14} />
+              Studio Desk (Refs)
+            </button>
+          )}
           <div
             style={{
               fontSize: 12.5,

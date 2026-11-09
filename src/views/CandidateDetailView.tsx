@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import {
   MapPin,
   Mail,
@@ -23,6 +23,7 @@ import { Drawer } from '../components/common/Drawer';
 import { Input, Textarea } from '../components/common/Input';
 import { CustomSelect } from '../components/common/CustomDropdown';
 import type { OutreachTone } from '../types';
+import { isDevMode } from '../utils/devMode';
 
 export const CandidateDetailView: React.FC = () => {
   const {
@@ -619,14 +620,16 @@ Lead Technical Recruiter, ScoutAI`);
                 Algorithmic 5-vector evaluation model benchmarked against {candidate.appliedJobTitle} requirements.
               </p>
             </div>
-            <Button
-              variant="secondary"
-              size="sm"
-              icon={<Sparkles size={13} />}
-              onClick={() => navigate('talent-studio', { candidateId: candidate.id })}
-            >
-              Open in Studio Desk (Dossier Mode)
-            </Button>
+            {isDevMode() && (
+              <Button
+                variant="secondary"
+                size="sm"
+                icon={<Sparkles size={13} />}
+                onClick={() => navigate('talent-studio', { candidateId: candidate.id })}
+              >
+                Open in Studio Desk (Dossier Mode)
+              </Button>
+            )}
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'center', padding: '20px 0' }}>

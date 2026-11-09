@@ -2,6 +2,7 @@ import React from 'react';
 import { Sparkles } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { StatCard, FunnelBarList } from '../components/boardui';
+import { isDevMode } from '../utils/devMode';
 
 export const AnalyticsView: React.FC = () => {
   const { jobs, candidates, navigate } = useApp();
@@ -64,27 +65,29 @@ export const AnalyticsView: React.FC = () => {
             Hiring conversion metrics, candidate competency distributions, and operational velocity.
           </p>
         </div>
-        <button
-          onClick={() => navigate('talent-studio')}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 6,
-            height: 36,
-            padding: '0 13px',
-            fontSize: 12.5,
-            fontWeight: 600,
-            color: '#3b82f6',
-            background: '#eff6ff',
-            border: '1px solid #bfdbfe',
-            borderRadius: 6,
-            cursor: 'pointer',
-            transition: 'all 0.15s ease',
-          }}
-        >
-          <Sparkles size={14} />
-          Studio Desk (Refs)
-        </button>
+        {isDevMode() && (
+          <button
+            onClick={() => navigate('talent-studio')}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              height: 36,
+              padding: '0 13px',
+              fontSize: 12.5,
+              fontWeight: 600,
+              color: '#3b82f6',
+              background: '#eff6ff',
+              border: '1px solid #bfdbfe',
+              borderRadius: 6,
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            <Sparkles size={14} />
+            Studio Desk (Refs)
+          </button>
+        )}
       </div>
 
       {/* 2. Top-Level Metric Summary Cards (BoardUI StatCard) */}

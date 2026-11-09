@@ -1,4 +1,4 @@
-﻿export type JobStatus = 'Draft' | 'Open' | 'Paused' | 'Closed';
+export type JobStatus = 'Draft' | 'Open' | 'Paused' | 'Closed';
 export type JobPriority = 'High' | 'Medium' | 'Low';
 export type CandidateStatus = 'Qualified' | 'Shortlisted' | 'Interviewing' | 'Review' | 'Archived';
 export type OutreachStatus = 'Draft' | 'Approved' | 'Sent — Demo';

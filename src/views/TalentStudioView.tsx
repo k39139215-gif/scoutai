@@ -1,4 +1,4 @@
-﻿import React, { useState, useMemo, useRef, useEffect } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import {
   Search,
   SlidersHorizontal,
@@ -43,6 +43,7 @@ import {
   isSoundEnabled,
   setSoundEnabled,
 } from '../utils/soundEffects';
+import { isDevMode } from '../utils/devMode';
 import { useApp } from '../context/AppContext';
 import { useToast } from '../context/ToastContext';
 import type { CandidateStatus } from '../types';
@@ -761,25 +762,27 @@ export const TalentStudioView: React.FC = () => {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <button
-            onClick={() => setShowReferenceModal(true)}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: '4px 10px',
-              backgroundColor: '#eef2ff',
-              border: '1px solid #c7d2fe',
-              borderRadius: 9999,
-              fontSize: 11,
-              fontWeight: 600,
-              color: '#4338ca',
-              cursor: 'pointer',
-              transition: 'background-color 0.15s ease',
-            }}
-          >
-            <span>📷 20 Reference Designs</span>
-          </button>
+          {isDevMode() && (
+            <button
+              onClick={() => setShowReferenceModal(true)}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '4px 10px',
+                backgroundColor: '#eef2ff',
+                border: '1px solid #c7d2fe',
+                borderRadius: 9999,
+                fontSize: 11,
+                fontWeight: 600,
+                color: '#4338ca',
+                cursor: 'pointer',
+                transition: 'background-color 0.15s ease',
+              }}
+            >
+              <span>📷 20 Reference Designs</span>
+            </button>
+          )}
 
           {selectedIds.length >= 2 && (
             <button
@@ -827,27 +830,29 @@ export const TalentStudioView: React.FC = () => {
             <span>Private Tenant DB</span>
           </div>
 
-          <button
-            onClick={handleToggleSound}
-            title={soundOn ? 'Mute Tactile Audio Haptics' : 'Enable Tactile Audio Haptics'}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 5,
-              padding: '3px 8px',
-              backgroundColor: soundOn ? '#f1f5f9' : '#ffffff',
-              border: '1px solid #cbd5e1',
-              borderRadius: 9999,
-              fontSize: 10.5,
-              fontWeight: 600,
-              color: soundOn ? '#0f172a' : '#94a3b8',
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            {soundOn ? <Volume2 size={12} style={{ color: '#10b981' }} /> : <VolumeX size={12} />}
-            <span>{soundOn ? 'Audio ON' : 'Audio Muted'}</span>
-          </button>
+          {isDevMode() && (
+            <button
+              onClick={handleToggleSound}
+              title={soundOn ? 'Mute Tactile Audio Haptics' : 'Enable Tactile Audio Haptics'}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 5,
+                padding: '3px 8px',
+                backgroundColor: soundOn ? '#f1f5f9' : '#ffffff',
+                border: '1px solid #cbd5e1',
+                borderRadius: 9999,
+                fontSize: 10.5,
+                fontWeight: 600,
+                color: soundOn ? '#0f172a' : '#94a3b8',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              {soundOn ? <Volume2 size={12} style={{ color: '#10b981' }} /> : <VolumeX size={12} />}
+              <span>{soundOn ? 'Audio ON' : 'Audio Muted'}</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -3385,7 +3390,7 @@ export const TalentStudioView: React.FC = () => {
                   <div>
                     <div style={{ fontSize: 10, color: '#94a3b8' }}>EVALUATOR ENDORSEMENT</div>
                     <div style={{ fontSize: 12, fontWeight: 700, color: '#0f172a' }}>
-                      Talent Acquisition Lead (Demo)
+                      Talent Acquisition Lead
                     </div>
                   </div>
                   <div
@@ -4409,7 +4414,7 @@ export const TalentStudioView: React.FC = () => {
       {/* =========================================================================
           6. DESIGN REFERENCE SHOWCASE LIGHTBOX MODAL (All 20 References Mapped)
           ========================================================================= */}
-      {showReferenceModal && (
+      {isDevMode() && showReferenceModal && (
         <div
           style={{
             position: 'fixed',
