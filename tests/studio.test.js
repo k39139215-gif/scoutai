@@ -61,6 +61,21 @@ const evaluateCandidate = (c, filterRules, filterLogic) => {
   }
 };
 
+// 3. Predicted Neural Match Fit Logic (Mirrors NewCandidateModal)
+const calculatePredictedMatchScore = (experienceYears, skillsArray) => {
+  return Math.min(
+    98,
+    Math.max(72, Math.round(75 + experienceYears * 2 + Math.min(skillsArray.length * 2.5, 12)))
+  );
+};
+
+// 4. Column Layout Preset Definition
+const columnPresets = {
+  all: { code: true, candidate: true, department: true, matchScore: true, experience: true, status: true, actions: true },
+  techFocus: { code: true, candidate: true, department: true, matchScore: true, experience: true, status: false, actions: true },
+  recruiter: { code: false, candidate: true, department: false, matchScore: true, experience: false, status: true, actions: true },
+};
+
 describe('Talent Studio Competency Radar Logic', () => {
   const mockCandidate = {
     id: 'cand-1',
@@ -134,5 +149,24 @@ describe('Talent Studio Filter Conjunction / Disjunction Logic (Ref 01)', () => 
   it('handles empty rules gracefully as open pass', () => {
     assert.equal(evaluateCandidate(candidate2, [], 'AND'), true);
     assert.equal(evaluateCandidate(candidate2, [], 'OR'), true);
+  });
+});
+
+describe('Talent Studio Ingestion & Column Layout Presets (Refs 14 & 16)', () => {
+  it('correctly predicts neural match score clamped between 72 and 98', () => {
+    const scoreJunior = calculatePredictedMatchScore(1, ['HTML']);
+    const scoreSenior = calculatePredictedMatchScore(12, ['Go', 'Kubernetes', 'Raft', 'Kafka', 'Rust']);
+
+    assert.ok(scoreJunior >= 72 && scoreJunior <= 98, `Junior score ${scoreJunior} clamped`);
+    assert.ok(scoreSenior >= 72 && scoreSenior <= 98, `Senior score ${scoreSenior} clamped`);
+    assert.ok(scoreSenior > scoreJunior, 'Senior candidate score should exceed junior candidate');
+  });
+
+  it('verifies column presets isolate technical vs recruiter focus', () => {
+    assert.equal(columnPresets.techFocus.status, false);
+    assert.equal(columnPresets.techFocus.matchScore, true);
+
+    assert.equal(columnPresets.recruiter.code, false);
+    assert.equal(columnPresets.recruiter.status, true);
   });
 });

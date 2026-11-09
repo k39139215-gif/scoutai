@@ -2448,6 +2448,57 @@ export const TalentStudioView: React.FC = () => {
                                       +7% DELTA RECALIBRATED
                                     </span>
                                   </div>
+
+                                  {/* Drawer Quick Actions & Stage Transition (Refs 11 & 17) */}
+                                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 12, paddingTop: 10, borderTop: '1px solid #f1f5f9' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                      <span style={{ fontSize: 11, color: '#64748b', fontWeight: 600 }}>Set Pipeline Stage:</span>
+                                      {(['Qualified', 'Shortlisted', 'Interviewing', 'Review'] as CandidateStatus[]).map((st) => (
+                                        <button
+                                          key={st}
+                                          onClick={() => {
+                                            playSelectSound();
+                                            updateCandidateStatus(candidate.id, st);
+                                            showToast(`Updated ${candidate.name} status to ${st}`, 'success');
+                                          }}
+                                          style={{
+                                            padding: '2px 8px',
+                                            borderRadius: 4,
+                                            fontSize: 10,
+                                            fontWeight: 600,
+                                            border: candidate.status === st ? '1px solid #0f172a' : '1px solid #e2e8f0',
+                                            backgroundColor: candidate.status === st ? '#0f172a' : '#ffffff',
+                                            color: candidate.status === st ? '#ffffff' : '#64748b',
+                                            cursor: 'pointer',
+                                          }}
+                                        >
+                                          {st}
+                                        </button>
+                                      ))}
+                                    </div>
+                                    <button
+                                      onClick={() => {
+                                        setActiveCandidateId(candidate.id);
+                                        handleSelectViewMode('dossier');
+                                      }}
+                                      style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 4,
+                                        padding: '4px 10px',
+                                        borderRadius: 4,
+                                        border: '1px solid #cbd5e1',
+                                        backgroundColor: '#f8fafc',
+                                        color: '#0f172a',
+                                        fontSize: 11,
+                                        fontWeight: 600,
+                                        cursor: 'pointer',
+                                      }}
+                                    >
+                                      <FileText size={12} />
+                                      <span>Open Full Dossier & Radar ›</span>
+                                    </button>
+                                  </div>
                                 </div>
                               </td>
                             </tr>
