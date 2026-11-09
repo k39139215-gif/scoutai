@@ -220,31 +220,31 @@ export const SourcingView: React.FC = () => {
           }}
         >
           <div>
-            <div style={{ fontSize: 11.5, color: 'var(--text-muted)', fontWeight: 500 }}>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 500 }}>
               Talent pool analyzed
             </div>
             <div className="metric-val" style={{ fontSize: 24, fontWeight: 600, margin: '4px 0', color: '#0f172a' }}>247</div>
-            <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>Registered talent profiles</div>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>Registered talent profiles</div>
           </div>
 
           <div>
-            <div style={{ fontSize: 11.5, color: 'var(--text-muted)', fontWeight: 500 }}>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 500 }}>
               Qualified matches
             </div>
             <div className="metric-val" style={{ fontSize: 24, fontWeight: 600, margin: '4px 0', color: '#0f172a' }}>
               42
             </div>
-            <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>Core requirements met</div>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>Core requirements met</div>
           </div>
 
           <div>
-            <div style={{ fontSize: 11.5, color: 'var(--text-muted)', fontWeight: 500 }}>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 500 }}>
               High compatibility (85%+)
             </div>
             <div className="metric-val" style={{ fontSize: 24, fontWeight: 600, margin: '4px 0', color: '#166534' }}>
               12
             </div>
-            <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>Ready for shortlist review</div>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>Ready for shortlist review</div>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start' }}>
@@ -329,7 +329,7 @@ export const SourcingView: React.FC = () => {
                     <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 2 }}>
                       {cand.title} • {cand.experienceYears} yrs exp
                     </div>
-                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 1 }}>
+                    <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 1 }}>
                       {cand.location}
                     </div>
                   </div>
@@ -337,7 +337,7 @@ export const SourcingView: React.FC = () => {
                   <span
                     className="tabular-nums"
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 500,
                       padding: '2px 7px',
                       borderRadius: 4,
@@ -357,7 +357,7 @@ export const SourcingView: React.FC = () => {
                     <span
                       key={sk}
                       style={{
-                        fontSize: 10.5,
+                        fontSize: 12,
                         background: 'var(--bg-canvas)',
                         border: '1px solid var(--border-subtle)',
                         padding: '1px 5px',

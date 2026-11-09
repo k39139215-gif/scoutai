@@ -375,7 +375,7 @@ export const JobsView: React.FC = () => {
                         style={{
                           fontWeight: 500,
                           fontSize: 12,
-                          color: job.shortlistedCount > 0 ? '#166534' : '#64748b',
+                          color: job.shortlistedCount > 0 ? '#166534' : '#475569',
                           background: job.shortlistedCount > 0 ? '#dcfce7' : '#f1f5f9',
                           border: job.shortlistedCount > 0 ? '1px solid #bbf7d0' : '1px solid #e2e8f0',
                           padding: '3px 8px',

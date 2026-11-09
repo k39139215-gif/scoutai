@@ -87,13 +87,13 @@ export const HiringPipeline: React.FC = () => {
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: 13 }}>
             <thead>
               <tr style={{ background: '#fafafa', borderBottom: '1px solid var(--border-subtle)' }}>
-                <th style={{ padding: '9px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Role & client</th>
-                <th style={{ padding: '9px 14px', textAlign: 'center', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Applied</th>
-                <th style={{ padding: '9px 14px', textAlign: 'center', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Qualified</th>
-                <th style={{ padding: '9px 14px', textAlign: 'center', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Shortlisted</th>
-                <th style={{ padding: '9px 14px', textAlign: 'center', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Interviewing</th>
-                <th style={{ padding: '9px 14px', textAlign: 'center', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Status</th>
-                <th style={{ padding: '9px 14px', textAlign: 'right', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Action</th>
+                <th style={{ padding: '9px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Role & client</th>
+                <th style={{ padding: '9px 14px', textAlign: 'center', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Applied</th>
+                <th style={{ padding: '9px 14px', textAlign: 'center', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Qualified</th>
+                <th style={{ padding: '9px 14px', textAlign: 'center', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Shortlisted</th>
+                <th style={{ padding: '9px 14px', textAlign: 'center', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Interviewing</th>
+                <th style={{ padding: '9px 14px', textAlign: 'center', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Status</th>
+                <th style={{ padding: '9px 14px', textAlign: 'right', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -125,7 +125,7 @@ export const HiringPipeline: React.FC = () => {
                       <div style={{ fontWeight: 500, color: '#0f172a', fontSize: 13 }}>
                         {job.title}
                       </div>
-                      <div style={{ fontSize: 11.5, color: 'var(--text-muted)', marginTop: 1 }}>
+                      <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 1 }}>
                         {job.client} • {job.location}
                       </div>
                     </td>
@@ -164,7 +164,7 @@ export const HiringPipeline: React.FC = () => {
                           height: 26,
                           padding: '0 8px',
                           borderRadius: 4,
-                          fontSize: 11.5,
+                          fontSize: 12,
                           fontWeight: 500,
                           background: '#ffffff',
                           border: '1px solid var(--border-default)',

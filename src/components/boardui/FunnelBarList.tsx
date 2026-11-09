@@ -55,9 +55,9 @@ export const FunnelBarList: React.FC<FunnelBarListProps> = ({
               <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                 <span
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontFamily: 'inherit',
-                    color: '#94a3b8',
+                    color: '#475569',
                     fontWeight: 600,
                   }}
                 >
@@ -71,7 +71,7 @@ export const FunnelBarList: React.FC<FunnelBarListProps> = ({
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: 2,
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 600,
                       color: '#166534',
                       background: '#dcfce7',
@@ -86,7 +86,7 @@ export const FunnelBarList: React.FC<FunnelBarListProps> = ({
                 )}
 
                 {stage.baseLabel && (
-                  <span style={{ fontSize: 11, color: '#64748b' }}>
+                  <span style={{ fontSize: 12, color: '#64748b' }}>
                     ({stage.baseLabel})
                   </span>
                 )}
@@ -96,8 +96,8 @@ export const FunnelBarList: React.FC<FunnelBarListProps> = ({
                 {stage.avgDays !== undefined && (
                   <span
                     style={{
-                      fontSize: 11,
-                      color: '#94a3b8',
+                      fontSize: 12,
+                      color: '#475569',
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: 3,
@@ -117,7 +117,7 @@ export const FunnelBarList: React.FC<FunnelBarListProps> = ({
                   }}
                 >
                   {stage.count}{' '}
-                  <span style={{ fontWeight: 400, color: '#64748b', fontSize: 11 }}>
+                  <span style={{ fontWeight: 400, color: '#64748b', fontSize: 12 }}>
                     ({percentOfTotal}% of pool)
                   </span>
                 </span>

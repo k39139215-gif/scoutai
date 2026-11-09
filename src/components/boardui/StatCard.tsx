@@ -150,7 +150,7 @@ export const StatCard: React.FC<StatCardProps> = ({
 
           {/* Subtitle / Context */}
           {subtitle && (
-            <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 4, letterSpacing: '-0.01em' }}>
+            <div style={{ fontSize: 12, color: '#64748b', marginTop: 4, letterSpacing: '-0.01em' }}>
               {subtitle}
             </div>
           )}
@@ -166,28 +166,28 @@ export const StatCard: React.FC<StatCardProps> = ({
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 2,
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 600,
                 padding: '1.5px 6px',
                 borderRadius: 4,
                 fontVariantNumeric: 'tabular-nums',
                 background:
                   deltaType === 'positive'
-                    ? 'rgba(16, 185, 129, 0.1)'
+                    ? '#dcfce7'
                     : deltaType === 'negative'
-                    ? 'rgba(239, 68, 68, 0.1)'
+                    ? '#fee2e2'
                     : '#f1f5f9',
                 color:
                   deltaType === 'positive'
-                    ? '#059669'
+                    ? '#166534'
                     : deltaType === 'negative'
-                    ? '#dc2626'
-                    : '#64748b',
+                    ? '#991b1b'
+                    : '#475569',
                 border: `1px solid ${
                   deltaType === 'positive'
-                    ? 'rgba(16, 185, 129, 0.2)'
+                    ? '#bbf7d0'
                     : deltaType === 'negative'
-                    ? 'rgba(239, 68, 68, 0.2)'
+                    ? '#fecaca'
                     : '#e2e8f0'
                 }`,
               }}

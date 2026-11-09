@@ -281,7 +281,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                     <div>
                       <div>{option.label}</div>
                       {option.description && (
-                        <div style={{ fontSize: 11, color: '#71717a', marginTop: 1 }}>
+                        <div style={{ fontSize: 12, color: '#71717a', marginTop: 1 }}>
                           {option.description}
                         </div>
                       )}
@@ -292,7 +292,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
                     {option.badge && (
                       <span
                         style={{
-                          fontSize: 10.5,
+                          fontSize: 12,
                           fontWeight: 600,
                           padding: '1px 6px',
                           borderRadius: 4,
@@ -470,7 +470,7 @@ export const CustomMenu: React.FC<CustomMenuProps> = ({
                   <div>
                     <div>{item.label}</div>
                     {item.description && (
-                      <div style={{ fontSize: 11, color: '#71717a', marginTop: 1 }}>
+                      <div style={{ fontSize: 12, color: '#71717a', marginTop: 1 }}>
                         {item.description}
                       </div>
                     )}
@@ -480,7 +480,7 @@ export const CustomMenu: React.FC<CustomMenuProps> = ({
                 {item.badge && (
                   <span
                     style={{
-                      fontSize: 10.5,
+                      fontSize: 12,
                       fontWeight: 600,
                       padding: '1px 6px',
                       borderRadius: 4,

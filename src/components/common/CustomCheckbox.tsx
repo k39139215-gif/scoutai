@@ -21,7 +21,7 @@ export const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
       type="button"
       role="checkbox"
       aria-checked={checked}
-      aria-label={ariaLabel}
+      aria-label={ariaLabel || 'Select item'}
       disabled={disabled}
       onClick={(e) => {
         e.stopPropagation();

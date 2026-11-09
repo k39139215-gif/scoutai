@@ -4,6 +4,31 @@
  */
 
 :root {
+  /* Aliases for semantic interoperability */
+  --color-primary-button: #0f172a;
+  --color-primary-hover: #1e293b;
+  --color-accent: #4338ca;
+  --color-accent-hover: #3730a3;
+  --color-accent-subtle: #eef2ff;
+  --color-accent-border: #c7d2fe;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #475569;
+  --color-border: #cbd5e1;
+  --color-warning: #b45309;
+  --color-warning-subtle: #fef3c7;
+  --font-size-xs: 12px;
+  --font-size-sm: 13px;
+  --font-size-base: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 28px;
+  --font-size-hero: 36px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --control-height: 36px;
+
   /* Typography Scale */
   --text-min: 12px;
   --text-xs: 12px;
@@ -38,7 +63,7 @@
   /* Text Roles */
   --text-primary: #0f172a;
   --text-secondary: #475569;
-  --text-muted: #64748b;
+  --text-muted: #475569;
 
   /* Unified Status Colors (borderless, 24px high, 12px text) */
   --status-success-bg: #dcfce7;
@@ -125,7 +150,7 @@
   height: 22px;
   padding: 0 8px;
   border-radius: 4px;
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 600;
   line-height: 1;
 }

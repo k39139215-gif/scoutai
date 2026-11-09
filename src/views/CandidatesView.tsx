@@ -342,22 +342,22 @@ export const CandidatesView: React.FC = () => {
           onClick={() => setFiltersOpen(!filtersOpen)}
           type="button"
           style={{
-            height: 36,
+            height: 'var(--control-height)',
             padding: '0 12px',
-            borderRadius: 8,
-            fontSize: 13,
+            borderRadius: 'var(--radius-md)',
+            fontSize: 'var(--font-size-sm)',
             fontWeight: 500,
             display: 'inline-flex',
             alignItems: 'center',
             gap: 7,
-            background: filtersOpen ? '#18181b' : '#ffffff',
-            color: filtersOpen ? '#ffffff' : '#18181b',
-            border: filtersOpen ? '1px solid #18181b' : '1px solid #e4e4e7',
+            background: filtersOpen ? 'var(--color-accent-subtle)' : '#ffffff',
+            color: filtersOpen ? 'var(--color-accent)' : 'var(--color-text-secondary)',
+            border: filtersOpen ? '1px solid var(--color-accent-border)' : '1px solid var(--color-border)',
             cursor: 'pointer',
             transition: 'all 0.15s ease',
           }}
         >
-          <SlidersHorizontal size={14} style={{ color: filtersOpen ? '#ffffff' : '#71717a' }} />
+          <SlidersHorizontal size={14} style={{ color: filtersOpen ? 'var(--color-accent)' : 'var(--color-text-muted)' }} />
           <span>{filtersOpen ? 'Hide Filters' : 'Show Filters'}</span>
           {activeFiltersCount > 0 && (
             <span
@@ -365,9 +365,9 @@ export const CandidatesView: React.FC = () => {
                 marginLeft: 2,
                 padding: '1px 6px',
                 borderRadius: 9999,
-                background: filtersOpen ? '#3f3f46' : '#f4f4f5',
-                color: filtersOpen ? '#ffffff' : '#18181b',
-                fontSize: 11,
+                background: filtersOpen ? '#e0e7ff' : '#f1f5f9',
+                color: filtersOpen ? 'var(--color-accent)' : 'var(--color-text-secondary)',
+                fontSize: 'var(--font-size-xs)',
                 fontWeight: 600,
               }}
             >
@@ -795,7 +795,7 @@ export const CandidatesView: React.FC = () => {
                     className="col-sticky-first"
                     style={{
                       padding: '10px 16px',
-                      fontSize: 11.5,
+                      fontSize: 12,
                       fontWeight: 500,
                       color: 'var(--text-secondary)',
                       minWidth: 200,
@@ -807,7 +807,7 @@ export const CandidatesView: React.FC = () => {
                     className="col-hide-xs"
                     style={{
                       padding: '10px 16px',
-                      fontSize: 11.5,
+                      fontSize: 12,
                       fontWeight: 500,
                       color: 'var(--text-secondary)',
                     }}
@@ -818,7 +818,7 @@ export const CandidatesView: React.FC = () => {
                     className="col-hide-sm"
                     style={{
                       padding: '10px 14px',
-                      fontSize: 11.5,
+                      fontSize: 12,
                       fontWeight: 500,
                       color: 'var(--text-secondary)',
                       width: 95,
@@ -830,7 +830,7 @@ export const CandidatesView: React.FC = () => {
                     className="col-hide-md"
                     style={{
                       padding: '10px 14px',
-                      fontSize: 11.5,
+                      fontSize: 12,
                       fontWeight: 500,
                       color: 'var(--text-secondary)',
                       width: 130,
@@ -841,7 +841,7 @@ export const CandidatesView: React.FC = () => {
                   <th
                     style={{
                       padding: '10px 16px',
-                      fontSize: 11.5,
+                      fontSize: 12,
                       fontWeight: 500,
                       color: 'var(--text-secondary)',
                       width: 135,
@@ -852,7 +852,7 @@ export const CandidatesView: React.FC = () => {
                   <th
                     style={{
                       padding: '10px 16px',
-                      fontSize: 11.5,
+                      fontSize: 12,
                       fontWeight: 500,
                       color: 'var(--text-secondary)',
                       width: 115,
@@ -864,7 +864,7 @@ export const CandidatesView: React.FC = () => {
                     className="col-sticky-action"
                     style={{
                       padding: '10px 18px',
-                      fontSize: 11.5,
+                      fontSize: 12,
                       fontWeight: 500,
                       color: 'var(--text-secondary)',
                       textAlign: 'right',
@@ -1384,7 +1384,7 @@ export const CandidatesView: React.FC = () => {
                 >
                   {activeCandidate.matchScore}%
                 </div>
-                <div style={{ fontSize: 11, fontWeight: 500, color: '#64748b' }}>
+                <div style={{ fontSize: 12, fontWeight: 500, color: '#64748b' }}>
                   Compatibility fit
                 </div>
               </div>
@@ -1412,7 +1412,7 @@ export const CandidatesView: React.FC = () => {
 
             {/* Skills Badges */}
             <div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>
                 Verified skills & technologies
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
@@ -1437,7 +1437,7 @@ export const CandidatesView: React.FC = () => {
 
             {/* Work Experience Timeline */}
             <div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>
                 Career History
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -1453,7 +1453,7 @@ export const CandidatesView: React.FC = () => {
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                       <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>{exp.title}</span>
-                      <span style={{ fontSize: 11.5, color: '#64748b', fontWeight: 500 }}>{exp.period}</span>
+                      <span style={{ fontSize: 12, color: '#64748b', fontWeight: 500 }}>{exp.period}</span>
                     </div>
                     <div style={{ fontSize: 12, color: '#475569', fontWeight: 500, marginTop: 2 }}>{exp.company}</div>
                     <p style={{ fontSize: 12, color: '#64748b', marginTop: 6, lineHeight: 1.5, margin: '6px 0 0' }}>
@@ -1469,7 +1469,7 @@ export const CandidatesView: React.FC = () => {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <FileText size={13} style={{ color: '#64748b' }} />
-                  <span style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     Parsed Resume Snippet
                   </span>
                 </div>
@@ -1480,7 +1480,7 @@ export const CandidatesView: React.FC = () => {
                     showToast('Resume snippet copied to clipboard', 'success');
                   }}
                   style={{
-                    fontSize: 11.5,
+                    fontSize: 12,
                     fontWeight: 600,
                     color: '#4338ca',
                     background: '#eef2ff',
@@ -1504,7 +1504,7 @@ export const CandidatesView: React.FC = () => {
                   border: '1px solid #e2e8f0',
                   borderRadius: 8,
                   padding: '14px 16px',
-                  fontSize: 11.5,
+                  fontSize: 12,
                   color: '#334155',
                   lineHeight: 1.65,
                   maxHeight: 160,

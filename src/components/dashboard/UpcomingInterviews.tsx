@@ -127,7 +127,7 @@ export const UpcomingInterviews: React.FC = () => {
                       {isNextUp && (
                         <span
                           style={{
-                            fontSize: 10.5,
+                            fontSize: 12,
                             fontWeight: 500,
                             padding: '1px 5px',
                             borderRadius: 3,
@@ -141,7 +141,7 @@ export const UpcomingInterviews: React.FC = () => {
                       )}
                     </div>
 
-                    <div style={{ fontSize: 11.5, color: 'var(--text-muted)', marginTop: 1 }}>
+                    <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 1 }}>
                       {item.jobTitle} • Interviewer: {item.interviewer}
                     </div>
                   </div>
@@ -152,7 +152,7 @@ export const UpcomingInterviews: React.FC = () => {
                   <div className="tabular-nums" style={{ fontSize: 12.5, fontWeight: 600, color: '#0f172a' }}>
                     {formatTime(item.time)}
                   </div>
-                  <div className="tabular-nums" style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 1 }}>
+                  <div className="tabular-nums" style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 1 }}>
                     {getRelativeDateLabel(item.date) === 'Today' || getRelativeDateLabel(item.date) === 'Tomorrow'
                       ? `${getRelativeDateLabel(item.date)} (${formatDate(item.date)})`
                       : formatDate(item.date)}

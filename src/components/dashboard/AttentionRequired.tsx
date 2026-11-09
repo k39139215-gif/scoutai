@@ -66,7 +66,7 @@ export const AttentionRequired: React.FC = () => {
           </h2>
           <span
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 500,
               padding: '2px 7px',
               borderRadius: 4,
@@ -132,7 +132,7 @@ export const AttentionRequired: React.FC = () => {
                 <div style={{ fontSize: 13, fontWeight: 500, color: '#0f172a' }}>
                   {item.title}
                 </div>
-                <div style={{ fontSize: 11.5, color: 'var(--text-muted)', marginTop: 1 }}>
+                <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 1 }}>
                   {item.description}
                 </div>
               </div>

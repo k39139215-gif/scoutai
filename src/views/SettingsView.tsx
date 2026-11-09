@@ -238,7 +238,7 @@ export const SettingsView: React.FC = () => {
                 fontWeight: isSelected ? 600 : 500,
                 border: isSelected ? '1px solid #c7d2fe' : '1px solid transparent',
                 background: isSelected ? '#eef2ff' : 'transparent',
-                color: isSelected ? '#4338ca' : '#64748b',
+                color: isSelected ? '#4338ca' : '#475569',
                 cursor: 'pointer',
                 boxShadow: isSelected ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
                 transition: 'all 0.12s ease',

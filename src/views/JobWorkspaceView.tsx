@@ -158,7 +158,7 @@ export const JobWorkspaceView: React.FC = () => {
               <StatusBadge status={currentJob.status} />
               <span
                 style={{
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: 600,
                   padding: '2px 8px',
                   borderRadius: 9999,
@@ -188,13 +188,13 @@ export const JobWorkspaceView: React.FC = () => {
           <div style={{ display: 'flex', gap: 10 }}>
             <div style={{ textAlign: 'center', padding: '8px 16px', background: '#f8fafc', borderRadius: 8, border: '1px solid #f1f5f9' }}>
               <div style={{ fontSize: 18, fontWeight: 700, color: '#18181b' }}>{jobCandidates.length}</div>
-              <div style={{ fontSize: 11.5, color: '#71717a' }}>In Pipeline</div>
+              <div style={{ fontSize: 12, color: '#71717a' }}>In Pipeline</div>
             </div>
             <div style={{ textAlign: 'center', padding: '8px 16px', background: '#f0fdf4', borderRadius: 8, border: '1px solid #dcfce7' }}>
               <div style={{ fontSize: 18, fontWeight: 700, color: '#16a34a' }}>
                 {currentJob.shortlistedCount}
               </div>
-              <div style={{ fontSize: 11.5, color: '#15803d' }}>Shortlisted</div>
+              <div style={{ fontSize: 12, color: '#15803d' }}>Shortlisted</div>
             </div>
           </div>
         </div>
@@ -235,14 +235,14 @@ export const JobWorkspaceView: React.FC = () => {
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 10, fontWeight: 700, color: '#4338ca', backgroundColor: '#e0e7ff', padding: '2px 6px', borderRadius: 4 }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: '#4338ca', backgroundColor: '#e0e7ff', padding: '2px 6px', borderRadius: 4 }}>
               REF 04
             </span>
             <span style={{ fontSize: 12.5, fontWeight: 600, color: '#18181b' }}>
               Requisition Pipeline Velocity Distribution
             </span>
           </div>
-          <span style={{ fontSize: 11.5, color: '#71717a' }}>
+          <span style={{ fontSize: 12, color: '#71717a' }}>
             {jobCandidates.length} candidate profiles in flow • 14-day median conversion
           </span>
         </div>
@@ -256,7 +256,7 @@ export const JobWorkspaceView: React.FC = () => {
         </div>
 
         {/* Stage Legend */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 10, flexWrap: 'wrap', fontSize: 11.5 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 10, flexWrap: 'wrap', fontSize: 12 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
             <span style={{ width: 8, height: 8, borderRadius: 2, backgroundColor: '#38bdf8' }} />
             <span style={{ color: '#71717a' }}>Ingested:</span>
@@ -338,12 +338,12 @@ export const JobWorkspaceView: React.FC = () => {
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                 <thead>
                   <tr style={{ background: '#fafafa', borderBottom: '1px solid var(--border-subtle)' }}>
-                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Candidate</th>
-                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Experience</th>
-                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Location</th>
-                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Match fit</th>
-                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Status</th>
-                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)', textAlign: 'right' }}>Action</th>
+                    <th style={{ padding: '10px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Candidate</th>
+                    <th style={{ padding: '10px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Experience</th>
+                    <th style={{ padding: '10px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Location</th>
+                    <th style={{ padding: '10px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Match fit</th>
+                    <th style={{ padding: '10px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Status</th>
+                    <th style={{ padding: '10px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)', textAlign: 'right' }}>Action</th>
                   </tr>
                 </thead>
                 <tbody>

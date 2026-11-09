@@ -91,8 +91,6 @@ export const TopCandidates: React.FC = () => {
                 e.currentTarget.style.borderColor = 'var(--border-subtle)';
                 e.currentTarget.style.background = 'var(--bg-canvas)';
               }}
-              role="button"
-              tabIndex={0}
             >
               {/* Left: Avatar + Info + Skills */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
@@ -125,7 +123,7 @@ export const TopCandidates: React.FC = () => {
                     <StatusBadge status={cand.status} size="sm" />
                   </div>
 
-                  <div style={{ fontSize: 11.5, color: 'var(--text-muted)', marginTop: 1 }}>
+                  <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 1 }}>
                     {cand.title} • {cand.location}
                   </div>
 
@@ -135,7 +133,7 @@ export const TopCandidates: React.FC = () => {
                       <span
                         key={sk}
                         style={{
-                          fontSize: 10.5,
+                          fontSize: 12,
                           background: '#ffffff',
                           border: '1px solid var(--border-subtle)',
                           padding: '1px 5px',
@@ -155,7 +153,7 @@ export const TopCandidates: React.FC = () => {
                 <span
                   className="tabular-nums"
                   style={{
-                    fontSize: 11.5,
+                    fontSize: 12,
                     fontWeight: 500,
                     padding: '2px 7px',
                     borderRadius: 4,
@@ -180,7 +178,7 @@ export const TopCandidates: React.FC = () => {
                     height: 26,
                     padding: '0 8px',
                     borderRadius: 4,
-                    fontSize: 11.5,
+                    fontSize: 12,
                     fontWeight: 500,
                     background: cand.status === 'Shortlisted' ? '#f0fdf4' : '#ffffff',
                     border: `1px solid ${cand.status === 'Shortlisted' ? '#bbf7d0' : 'var(--border-default)'}`,

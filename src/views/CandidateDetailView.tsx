@@ -227,7 +227,7 @@ Lead Technical Recruiter, ScoutAI`);
                 {candidate.title} • {candidate.experienceYears} Years Experience
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', fontSize: '11.5px', color: 'var(--color-text-muted)', marginTop: 6 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', fontSize: '12px', color: 'var(--color-text-muted)', marginTop: 6 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                   <MapPin size={11} />
                   <span>{candidate.location}</span>
@@ -259,7 +259,7 @@ Lead Technical Recruiter, ScoutAI`);
             >
               {candidate.matchScore}%
             </div>
-            <div style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>
+            <div style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>
               Criteria Fit
             </div>
           </div>
@@ -267,14 +267,14 @@ Lead Technical Recruiter, ScoutAI`);
 
         {/* Candidate Skills Chips */}
         <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginTop: 14, paddingTop: 14, borderTop: '1px solid var(--color-divider)' }}>
-          <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-text-muted)', alignSelf: 'center', marginRight: 4 }}>
+          <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-text-muted)', alignSelf: 'center', marginRight: 4 }}>
             Candidate Skills:
           </span>
           {candidate.skills.map((s) => (
             <span
               key={s}
               style={{
-                fontSize: '11px',
+                fontSize: '12px',
                 background: 'var(--color-bg-canvas)',
                 border: '1px solid var(--color-border)',
                 padding: '2px 7px',
@@ -410,7 +410,7 @@ Lead Technical Recruiter, ScoutAI`);
                   <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text-primary)' }}>
                     {exp.title}
                   </div>
-                  <div style={{ fontSize: '11.5px', color: 'var(--color-text-secondary)', margin: '1px 0 4px' }}>
+                  <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)', margin: '1px 0 4px' }}>
                     {exp.company} • {exp.period}
                   </div>
                   <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', lineHeight: 1.5 }}>
@@ -430,7 +430,7 @@ Lead Technical Recruiter, ScoutAI`);
               {candidate.educationList.map((edu, i) => (
                 <div key={i}>
                   <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600 }}>{edu.degree}</div>
-                  <div style={{ fontSize: '11.5px', color: 'var(--color-text-secondary)', marginTop: 1 }}>
+                  <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginTop: 1 }}>
                     {edu.institution} • Graduated {edu.year}
                   </div>
                 </div>
@@ -463,7 +463,7 @@ Lead Technical Recruiter, ScoutAI`);
               border: '1px solid #e2e8f0',
               borderRadius: 8,
               padding: '16px 18px',
-              fontSize: '11.5px',
+              fontSize: '12px',
               lineHeight: 1.65,
               fontFamily: 'inherit',
               letterSpacing: '-0.015em',
@@ -510,7 +510,7 @@ Lead Technical Recruiter, ScoutAI`);
                       <div style={{ fontWeight: 600, fontSize: 'var(--font-size-xs)' }}>{msg.subject}</div>
                       <StatusBadge status={msg.status} />
                     </div>
-                    <div style={{ fontSize: '11.5px', color: 'var(--color-text-secondary)', whiteSpace: 'pre-line', lineHeight: 1.4 }}>
+                    <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)', whiteSpace: 'pre-line', lineHeight: 1.4 }}>
                       {msg.body}
                     </div>
                   </div>
@@ -553,7 +553,7 @@ Lead Technical Recruiter, ScoutAI`);
                       <div style={{ fontWeight: 600, fontSize: 'var(--font-size-xs)' }}>
                         {int.type} • {int.interviewer}
                       </div>
-                      <div style={{ fontSize: '11px', color: 'var(--color-text-secondary)', marginTop: 2 }}>
+                      <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginTop: 2 }}>
                         {int.date} at {int.time} ({int.durationMinutes} mins)
                       </div>
                     </div>
@@ -593,11 +593,11 @@ Lead Technical Recruiter, ScoutAI`);
                     <div style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600 }}>
                       {act.type} • <span style={{ fontWeight: 400, color: 'var(--color-text-secondary)' }}>{act.actor}</span>
                     </div>
-                    <div style={{ fontSize: '11.5px', color: 'var(--color-text-secondary)', marginTop: 2 }}>
+                    <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)', marginTop: 2 }}>
                       {act.details}
                     </div>
                   </div>
-                  <span style={{ fontSize: '10.5px', color: 'var(--color-text-muted)' }}>{act.timestamp}</span>
+                  <span style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>{act.timestamp}</span>
                 </div>
               ))}
             </div>
@@ -610,7 +610,7 @@ Lead Technical Recruiter, ScoutAI`);
         <div className="snow-card" style={{ padding: '24px 32px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, marginBottom: 20 }}>
             <div>
-              <span style={{ fontSize: 10.5, fontWeight: 700, color: '#4338ca', backgroundColor: '#eef2ff', padding: '2px 8px', borderRadius: 4 }}>
+              <span style={{ fontSize: 12, fontWeight: 700, color: '#4338ca', backgroundColor: '#eef2ff', padding: '2px 8px', borderRadius: 4 }}>
                 REFERENCE 20 IMPLEMENTATION
               </span>
               <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--color-text-primary)', marginTop: 4 }}>

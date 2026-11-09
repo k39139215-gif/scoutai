@@ -612,18 +612,18 @@ export const TalentStudioView: React.FC = () => {
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8fafc; color: #0f172a; margin: 0; padding: 40px 20px; }
     .card { max-width: 760px; margin: 0 auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 40px; box-shadow: 0 10px 25px rgba(0,0,0,0.06); }
     .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #0f172a; padding-bottom: 20px; margin-bottom: 24px; }
-    .sub { font-size: 11px; color: #64748b; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; }
+    .sub { font-size: 12px; color: #64748b; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; }
     h1 { margin: 4px 0; font-size: 26px; }
     .score-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 18px; text-align: right; }
     .score-val { font-size: 28px; font-weight: 900; color: #0f172a; }
     .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; background: #f8fafc; border-radius: 8px; padding: 16px; margin-bottom: 24px; }
-    .meta-label { font-size: 11px; color: #64748b; display: block; margin-bottom: 2px; }
+    .meta-label { font-size: 12px; color: #64748b; display: block; margin-bottom: 2px; }
     .meta-val { font-size: 13px; font-weight: 700; color: #0f172a; }
     .section-title { font-size: 14px; font-weight: 700; color: #0f172a; margin: 20px 0 8px; }
     .p-text { font-size: 13px; line-height: 1.6; color: #334155; margin: 0; }
     .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-    .tag { font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; color: #0f172a; padding: 4px 10px; border-radius: 4px; font-weight: 500; }
-    .footer { border-top: 1px dashed #cbd5e1; padding-top: 16px; margin-top: 32px; display: flex; justify-content: space-between; font-size: 11px; color: #64748b; }
+    .tag { font-size: 12px; background: #f1f5f9; border: 1px solid #cbd5e1; color: #0f172a; padding: 4px 10px; border-radius: 4px; font-weight: 500; }
+    .footer { border-top: 1px dashed #cbd5e1; padding-top: 16px; margin-top: 32px; display: flex; justify-content: space-between; font-size: 12px; color: #64748b; }
   </style>
 </head>
 <body>
@@ -635,9 +635,9 @@ export const TalentStudioView: React.FC = () => {
         <div style="color: #475569; font-size: 14px; font-weight: 500;">Target Requisition: ${candidate.title}</div>
       </div>
       <div class="score-box">
-        <div style="font-size: 11px; color: #64748b; font-weight: 600;">MATCH ACCURACY</div>
+        <div style="font-size: 12px; color: #64748b; font-weight: 600;">MATCH ACCURACY</div>
         <div class="score-val">${candidate.matchScore}%</div>
-        <div style="font-size: 11px; color: #10b981; font-weight: 700;">GRADE A VERIFIED</div>
+        <div style="font-size: 12px; color: #10b981; font-weight: 700;">GRADE A VERIFIED</div>
       </div>
     </div>
     <div class="meta-grid">
@@ -710,7 +710,7 @@ export const TalentStudioView: React.FC = () => {
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
           <span
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontFamily: 'var(--font-family-base)',
               color: '#475569',
               background: '#f1f5f9',
@@ -735,7 +735,7 @@ export const TalentStudioView: React.FC = () => {
                 backgroundColor: '#eef2ff',
                 border: '1px solid #c7d2fe',
                 borderRadius: 9999,
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 600,
                 color: '#4338ca',
                 cursor: 'pointer',
@@ -757,7 +757,7 @@ export const TalentStudioView: React.FC = () => {
                 backgroundColor: '#eff6ff',
                 border: '1px solid #bfdbfe',
                 borderRadius: 9999,
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 600,
                 color: '#2563eb',
                 cursor: 'pointer',
@@ -769,9 +769,9 @@ export const TalentStudioView: React.FC = () => {
           )}
           <span
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontFamily: 'var(--font-family-base)',
-              color: '#64748b',
+              color: '#334155',
               background: '#f1f5f9',
               padding: '2px 8px',
               borderRadius: 4,
@@ -785,7 +785,7 @@ export const TalentStudioView: React.FC = () => {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 4,
-              fontSize: 11,
+              fontSize: 12,
               color: '#64748b',
             }}
           >
@@ -805,7 +805,7 @@ export const TalentStudioView: React.FC = () => {
                 backgroundColor: soundOn ? '#f1f5f9' : '#ffffff',
                 border: '1px solid #cbd5e1',
                 borderRadius: 9999,
-                fontSize: 10.5,
+                fontSize: 12,
                 fontWeight: 600,
                 color: soundOn ? '#0f172a' : '#94a3b8',
                 cursor: 'pointer',
@@ -858,13 +858,13 @@ export const TalentStudioView: React.FC = () => {
                 gap: 6,
                 padding: '5px 12px',
                 borderRadius: 6,
-                border: 'none',
-                backgroundColor: viewMode === 'table' ? '#ffffff' : 'transparent',
-                color: viewMode === 'table' ? '#0f172a' : '#64748b',
+                border: viewMode === 'table' ? '1px solid #c7d2fe' : '1px solid transparent',
+                backgroundColor: viewMode === 'table' ? '#eef2ff' : 'transparent',
+                color: viewMode === 'table' ? '#4338ca' : '#475569',
                 fontWeight: viewMode === 'table' ? 600 : 500,
                 fontSize: 12,
                 cursor: 'pointer',
-                boxShadow: viewMode === 'table' ? '0 1px 3px rgba(0,0,0,0.06)' : 'none',
+                boxShadow: viewMode === 'table' ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
               }}
             >
               <Columns3 size={14} />
@@ -879,13 +879,13 @@ export const TalentStudioView: React.FC = () => {
                 gap: 6,
                 padding: '5px 12px',
                 borderRadius: 6,
-                border: 'none',
-                backgroundColor: viewMode === 'kanban' ? '#ffffff' : 'transparent',
-                color: viewMode === 'kanban' ? '#0f172a' : '#64748b',
+                border: viewMode === 'kanban' ? '1px solid #c7d2fe' : '1px solid transparent',
+                backgroundColor: viewMode === 'kanban' ? '#eef2ff' : 'transparent',
+                color: viewMode === 'kanban' ? '#4338ca' : '#475569',
                 fontWeight: viewMode === 'kanban' ? 600 : 500,
                 fontSize: 12,
                 cursor: 'pointer',
-                boxShadow: viewMode === 'kanban' ? '0 1px 3px rgba(0,0,0,0.06)' : 'none',
+                boxShadow: viewMode === 'kanban' ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
               }}
             >
               <LayoutGrid size={14} />
@@ -900,13 +900,13 @@ export const TalentStudioView: React.FC = () => {
                 gap: 6,
                 padding: '5px 12px',
                 borderRadius: 6,
-                border: 'none',
-                backgroundColor: viewMode === 'dossier' ? '#ffffff' : 'transparent',
-                color: viewMode === 'dossier' ? '#0f172a' : '#64748b',
+                border: viewMode === 'dossier' ? '1px solid #c7d2fe' : '1px solid transparent',
+                backgroundColor: viewMode === 'dossier' ? '#eef2ff' : 'transparent',
+                color: viewMode === 'dossier' ? '#4338ca' : '#475569',
                 fontWeight: viewMode === 'dossier' ? 600 : 500,
                 fontSize: 12,
                 cursor: 'pointer',
-                boxShadow: viewMode === 'dossier' ? '0 1px 3px rgba(0,0,0,0.06)' : 'none',
+                boxShadow: viewMode === 'dossier' ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
               }}
             >
               <FileText size={14} />
@@ -921,13 +921,13 @@ export const TalentStudioView: React.FC = () => {
                 gap: 6,
                 padding: '5px 12px',
                 borderRadius: 6,
-                border: 'none',
-                backgroundColor: viewMode === 'pipeline' ? '#ffffff' : 'transparent',
-                color: viewMode === 'pipeline' ? '#0f172a' : '#64748b',
+                border: viewMode === 'pipeline' ? '1px solid #c7d2fe' : '1px solid transparent',
+                backgroundColor: viewMode === 'pipeline' ? '#eef2ff' : 'transparent',
+                color: viewMode === 'pipeline' ? '#4338ca' : '#475569',
                 fontWeight: viewMode === 'pipeline' ? 600 : 500,
                 fontSize: 12,
                 cursor: 'pointer',
-                boxShadow: viewMode === 'pipeline' ? '0 1px 3px rgba(0,0,0,0.06)' : 'none',
+                boxShadow: viewMode === 'pipeline' ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
               }}
             >
               <Workflow size={14} />
@@ -975,7 +975,7 @@ export const TalentStudioView: React.FC = () => {
               style={{
                 position: 'absolute',
                 right: 6,
-                fontSize: 10,
+                fontSize: 12,
                 color: '#64748b',
                 fontFamily: 'monospace',
                 backgroundColor: '#ffffff',
@@ -1018,7 +1018,7 @@ export const TalentStudioView: React.FC = () => {
                   style={{
                     backgroundColor: '#0f172a',
                     color: '#ffffff',
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: 700,
                     padding: '1px 5px',
                     borderRadius: 9999,
@@ -1059,7 +1059,7 @@ export const TalentStudioView: React.FC = () => {
                   <button
                     onClick={() => setFilterRules([])}
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       color: '#ef4444',
                       background: 'none',
                       border: 'none',
@@ -1083,13 +1083,13 @@ export const TalentStudioView: React.FC = () => {
                     marginBottom: 12,
                   }}
                 >
-                  <span style={{ fontSize: 11, color: '#64748b', fontWeight: 600 }}>Evaluation Logic:</span>
+                  <span style={{ fontSize: 12, color: '#64748b', fontWeight: 600 }}>Evaluation Logic:</span>
                   <div style={{ display: 'flex', gap: 4 }}>
                     <button
                       onClick={() => setFilterLogic('AND')}
                       style={{
                         padding: '2px 8px',
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: 700,
                         borderRadius: 4,
                         border: 'none',
@@ -1104,7 +1104,7 @@ export const TalentStudioView: React.FC = () => {
                       onClick={() => setFilterLogic('OR')}
                       style={{
                         padding: '2px 8px',
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: 700,
                         borderRadius: 4,
                         border: 'none',
@@ -1133,7 +1133,7 @@ export const TalentStudioView: React.FC = () => {
                         border: '1px solid #e2e8f0',
                       }}
                     >
-                      <span style={{ fontSize: 11, color: '#64748b', fontWeight: 700, minWidth: 38 }}>
+                      <span style={{ fontSize: 12, color: '#64748b', fontWeight: 700, minWidth: 38 }}>
                         {idx === 0 ? 'Where' : filterLogic}
                       </span>
                       <select
@@ -1144,7 +1144,7 @@ export const TalentStudioView: React.FC = () => {
                           setFilterRules(updated);
                         }}
                         style={{
-                          fontSize: 11,
+                          fontSize: 12,
                           padding: '3px 6px',
                           borderRadius: 4,
                           border: '1px solid #cbd5e1',
@@ -1165,7 +1165,7 @@ export const TalentStudioView: React.FC = () => {
                           setFilterRules(updated);
                         }}
                         style={{
-                          fontSize: 11,
+                          fontSize: 12,
                           padding: '3px 6px',
                           borderRadius: 4,
                           border: '1px solid #cbd5e1',
@@ -1187,7 +1187,7 @@ export const TalentStudioView: React.FC = () => {
                           setFilterRules(updated);
                         }}
                         style={{
-                          fontSize: 11,
+                          fontSize: 12,
                           padding: '3px 6px',
                           borderRadius: 4,
                           border: '1px solid #cbd5e1',
@@ -1228,7 +1228,7 @@ export const TalentStudioView: React.FC = () => {
                       display: 'flex',
                       alignItems: 'center',
                       gap: 4,
-                      fontSize: 11,
+                      fontSize: 12,
                       color: '#2563eb',
                       background: 'none',
                       border: 'none',
@@ -1244,7 +1244,7 @@ export const TalentStudioView: React.FC = () => {
 
                 {/* Quick Checklists (Ref 1: bc56f35e8ee29a4d525fddf2b30ae4b0.jpg) */}
                 <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: 10 }}>
-                  <div style={{ fontSize: 11, fontWeight: 600, color: '#64748b', marginBottom: 6 }}>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 6 }}>
                     Seniority Level
                   </div>
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
@@ -1255,7 +1255,7 @@ export const TalentStudioView: React.FC = () => {
                         style={{
                           padding: '3px 8px',
                           borderRadius: 4,
-                          fontSize: 11,
+                          fontSize: 12,
                           border: quickExpFilter === lvl ? '1px solid #0f172a' : '1px solid #e2e8f0',
                           backgroundColor: quickExpFilter === lvl ? '#0f172a' : '#ffffff',
                           color: quickExpFilter === lvl ? '#ffffff' : '#475569',
@@ -1276,7 +1276,7 @@ export const TalentStudioView: React.FC = () => {
                     marginTop: 14,
                     paddingTop: 8,
                     borderTop: '1px solid #e2e8f0',
-                    fontSize: 10,
+                    fontSize: 12,
                     color: '#94a3b8',
                   }}
                 >
@@ -1328,7 +1328,7 @@ export const TalentStudioView: React.FC = () => {
               >
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: '#0f172a',
                     padding: '4px 8px',
@@ -1350,7 +1350,7 @@ export const TalentStudioView: React.FC = () => {
                         code: true, candidate: true, department: true, matchScore: true, experience: true, status: true, actions: true
                       });
                     }}
-                    style={{ flex: 1, padding: '3px 4px', fontSize: 10, fontWeight: 600, borderRadius: 4, border: '1px solid #cbd5e1', backgroundColor: '#ffffff', cursor: 'pointer' }}
+                    style={{ flex: 1, padding: '3px 4px', fontSize: 12, fontWeight: 600, borderRadius: 4, border: '1px solid #cbd5e1', backgroundColor: '#ffffff', cursor: 'pointer' }}
                   >
                     All
                   </button>
@@ -1361,7 +1361,7 @@ export const TalentStudioView: React.FC = () => {
                         code: true, candidate: true, department: true, matchScore: true, experience: true, status: false, actions: true
                       });
                     }}
-                    style={{ flex: 1, padding: '3px 4px', fontSize: 10, fontWeight: 600, borderRadius: 4, border: '1px solid #cbd5e1', backgroundColor: '#ffffff', cursor: 'pointer' }}
+                    style={{ flex: 1, padding: '3px 4px', fontSize: 12, fontWeight: 600, borderRadius: 4, border: '1px solid #cbd5e1', backgroundColor: '#ffffff', cursor: 'pointer' }}
                   >
                     Tech Focus
                   </button>
@@ -1372,7 +1372,7 @@ export const TalentStudioView: React.FC = () => {
                         code: false, candidate: true, department: false, matchScore: true, experience: false, status: true, actions: true
                       });
                     }}
-                    style={{ flex: 1, padding: '3px 4px', fontSize: 10, fontWeight: 600, borderRadius: 4, border: '1px solid #cbd5e1', backgroundColor: '#ffffff', cursor: 'pointer' }}
+                    style={{ flex: 1, padding: '3px 4px', fontSize: 12, fontWeight: 600, borderRadius: 4, border: '1px solid #cbd5e1', backgroundColor: '#ffffff', cursor: 'pointer' }}
                   >
                     Recruiter
                   </button>
@@ -1398,6 +1398,7 @@ export const TalentStudioView: React.FC = () => {
                           [colKey]: checked,
                         }))
                       }
+                      ariaLabel={`Toggle ${colKey} column`}
                       size={14}
                     />
                     <span>{colKey}</span>
@@ -1455,7 +1456,7 @@ export const TalentStudioView: React.FC = () => {
             }}
           >
             <UserPlus size={14} />
-            <span>+ Candidate <kbd style={{ fontSize: 10, opacity: 0.6, backgroundColor: '#f1f5f9', padding: '1px 4px', borderRadius: 3, border: '1px solid #cbd5e1' }}>N</kbd></span>
+            <span>+ Candidate <kbd style={{ fontSize: 12, opacity: 0.6, backgroundColor: '#f1f5f9', padding: '1px 4px', borderRadius: 3, border: '1px solid #cbd5e1' }}>N</kbd></span>
           </button>
 
           {/* Primary Action Button */}
@@ -1523,7 +1524,7 @@ export const TalentStudioView: React.FC = () => {
                   </span>
                   <span
                     style={{
-                      fontSize: 11,
+                      fontSize: 12,
                       backgroundColor: '#f1f5f9',
                       color: '#475569',
                       padding: '2px 8px',
@@ -1595,7 +1596,7 @@ export const TalentStudioView: React.FC = () => {
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6, flexWrap: 'wrap', gap: 8 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 11 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 12 }}>
                     <span style={{ fontWeight: 600, color: '#334155' }}>Pipeline Distribution:</span>
                     <span style={{ color: '#166534', display: 'flex', alignItems: 'center', gap: 4 }}>
                       <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#22c55e' }} />
@@ -1614,7 +1615,7 @@ export const TalentStudioView: React.FC = () => {
                       Review ({candidates.filter((c) => c.status === 'Review').length})
                     </span>
                   </div>
-                  <span style={{ fontSize: 10, color: '#94a3b8', fontFamily: 'var(--font-family-base)' }}>
+                  <span style={{ fontSize: 12, color: '#475569', fontFamily: 'var(--font-family-base)' }}>
                     VELOCITY: 3.8 DAYS / STAGE
                   </span>
                 </div>
@@ -1676,7 +1677,7 @@ export const TalentStudioView: React.FC = () => {
                         backgroundColor: '#f8fafc',
                         borderBottom: '1px solid #e2e8f0',
                         color: '#64748b',
-                        fontSize: 11,
+                        fontSize: 12,
                         textTransform: 'uppercase',
                         letterSpacing: '0.04em',
                       }}
@@ -1688,6 +1689,7 @@ export const TalentStudioView: React.FC = () => {
                             selectedIds.length === sortedCandidates.length
                           }
                           onChange={() => handleToggleSelectAll()}
+                          ariaLabel="Select all candidates"
                           size={15}
                         />
                       </th>
@@ -1908,6 +1910,7 @@ export const TalentStudioView: React.FC = () => {
                               <CustomCheckbox
                                 checked={isSelected}
                                 onChange={() => handleToggleSelectRow(candidate.id)}
+                                ariaLabel={`Select ${candidate.name}`}
                                 size={15}
                               />
                             </td>
@@ -1918,10 +1921,11 @@ export const TalentStudioView: React.FC = () => {
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                                   <button
                                     onClick={() => handleToggleExpandRow(candidate.id)}
+                                    aria-label={isExpanded ? `Collapse details for ${candidate.name}` : `Expand details for ${candidate.name}`}
                                     style={{
                                       background: 'none',
                                       border: 'none',
-                                      color: '#94a3b8',
+                                      color: '#64748b',
                                       cursor: 'pointer',
                                       padding: 0,
                                       display: 'flex',
@@ -1936,7 +1940,7 @@ export const TalentStudioView: React.FC = () => {
                                   <span
                                     style={{
                                       fontFamily: 'var(--font-family-base)',
-                                      fontSize: 11,
+                                      fontSize: 12,
                                       color: '#475569',
                                       fontWeight: 600,
                                       backgroundColor: '#f1f5f9',
@@ -1964,7 +1968,7 @@ export const TalentStudioView: React.FC = () => {
                                       display: 'flex',
                                       alignItems: 'center',
                                       justifyContent: 'center',
-                                      fontSize: 11,
+                                      fontSize: 12,
                                       fontWeight: 700,
                                       flexShrink: 0,
                                     }}
@@ -1987,7 +1991,7 @@ export const TalentStudioView: React.FC = () => {
                                       <span>{candidate.name}</span>
                                       <CheckCircle2 size={12} style={{ color: '#10b981' }} />
                                     </div>
-                                    <div style={{ fontSize: 11, color: '#64748b' }}>
+                                    <div style={{ fontSize: 12, color: '#475569' }}>
                                       {candidate.title} • {candidate.location}
                                     </div>
                                   </div>
@@ -2008,7 +2012,7 @@ export const TalentStudioView: React.FC = () => {
                                     backgroundColor: deptStyle.bg,
                                     color: deptStyle.text,
                                     border: `1px solid ${deptStyle.border}`,
-                                    fontSize: 11,
+                                    fontSize: 12,
                                     fontWeight: 500,
                                   }}
                                 >
@@ -2046,7 +2050,7 @@ export const TalentStudioView: React.FC = () => {
                                   </span>
                                   <span
                                     style={{
-                                      fontSize: 10,
+                                      fontSize: 12,
                                       color: '#10b981',
                                       backgroundColor: '#f0fdf4',
                                       padding: '1px 5px',
@@ -2069,7 +2073,7 @@ export const TalentStudioView: React.FC = () => {
                                   </span>
                                   <span
                                     style={{
-                                      fontSize: 10,
+                                      fontSize: 12,
                                       backgroundColor: '#f1f5f9',
                                       color: '#64748b',
                                       padding: '1px 4px',
@@ -2106,7 +2110,7 @@ export const TalentStudioView: React.FC = () => {
                                         : candidate.status === 'Shortlisted'
                                         ? '#6b21a8'
                                         : '#1e40af',
-                                    fontSize: 11,
+                                    fontSize: 12,
                                     fontWeight: 600,
                                   }}
                                 >
@@ -2140,6 +2144,7 @@ export const TalentStudioView: React.FC = () => {
                                     onClick={() =>
                                       setRowMenuId(rowMenuId === candidate.id ? null : candidate.id)
                                     }
+                                    aria-label={`Actions for ${candidate.name}`}
                                     style={{
                                       background: 'none',
                                       border: 'none',
@@ -2330,7 +2335,7 @@ export const TalentStudioView: React.FC = () => {
                                     </div>
                                     <span
                                       style={{
-                                        fontSize: 10,
+                                        fontSize: 12,
                                         fontFamily: 'var(--font-family-base)',
                                         color: '#64748b',
                                       }}
@@ -2355,7 +2360,7 @@ export const TalentStudioView: React.FC = () => {
                                     >
                                       <span
                                         style={{
-                                          fontSize: 11,
+                                          fontSize: 12,
                                           fontWeight: 700,
                                           color: '#166534',
                                           display: 'block',
@@ -2364,7 +2369,7 @@ export const TalentStudioView: React.FC = () => {
                                       >
                                         Key Strengths ({candidate.strengths.length})
                                       </span>
-                                      <ul style={{ margin: 0, paddingLeft: 16, fontSize: 11, color: '#166534' }}>
+                                      <ul style={{ margin: 0, paddingLeft: 16, fontSize: 12, color: '#166534' }}>
                                         {candidate.strengths.map((str, sIdx) => (
                                           <li key={sIdx}>{str}</li>
                                         ))}
@@ -2381,7 +2386,7 @@ export const TalentStudioView: React.FC = () => {
                                     >
                                       <span
                                         style={{
-                                          fontSize: 11,
+                                          fontSize: 12,
                                           fontWeight: 700,
                                           color: '#92400e',
                                           display: 'block',
@@ -2390,7 +2395,7 @@ export const TalentStudioView: React.FC = () => {
                                       >
                                         Areas for Recruiter Follow-Up ({candidate.potentialGaps.length})
                                       </span>
-                                      <ul style={{ margin: 0, paddingLeft: 16, fontSize: 11, color: '#92400e' }}>
+                                      <ul style={{ margin: 0, paddingLeft: 16, fontSize: 12, color: '#92400e' }}>
                                         {candidate.potentialGaps.map((gap, gIdx) => (
                                           <li key={gIdx}>{gap}</li>
                                         ))}
@@ -2409,7 +2414,7 @@ export const TalentStudioView: React.FC = () => {
                                       display: 'flex',
                                       alignItems: 'center',
                                       justifyContent: 'space-between',
-                                      fontSize: 11,
+                                      fontSize: 12,
                                       color: '#64748b',
                                     }}
                                   >
@@ -2417,7 +2422,7 @@ export const TalentStudioView: React.FC = () => {
                                       <span style={{ fontWeight: 600, color: '#475569' }}>Historical Version v1.0:</span>
                                       <span>Initial ingestion match was 84% prior to rubric calibration.</span>
                                     </div>
-                                    <span style={{ fontFamily: 'var(--font-family-base)', fontSize: 10, color: '#10b981', fontWeight: 600 }}>
+                                    <span style={{ fontFamily: 'var(--font-family-base)', fontSize: 12, color: '#10b981', fontWeight: 600 }}>
                                       +7% DELTA RECALIBRATED
                                     </span>
                                   </div>
@@ -2462,21 +2467,21 @@ export const TalentStudioView: React.FC = () => {
                 </button>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                   {/* Keyboard Shortcuts Hint (Ref 6: 920dba95d421aa4879c1b70e83f29021.png) */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#64748b' }}>
-                    <span style={{ backgroundColor: '#e2e8f0', color: '#1e293b', padding: '1px 5px', borderRadius: 3, fontFamily: 'var(--font-family-base)', fontSize: 10, fontWeight: 700 }}>J / K</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#64748b' }}>
+                    <span style={{ backgroundColor: '#e2e8f0', color: '#1e293b', padding: '1px 5px', borderRadius: 3, fontFamily: 'var(--font-family-base)', fontSize: 12, fontWeight: 700 }}>J / K</span>
                     <span>Navigate</span>
                     <span style={{ color: '#cbd5e1' }}>•</span>
-                    <span style={{ backgroundColor: '#e2e8f0', color: '#1e293b', padding: '1px 5px', borderRadius: 3, fontFamily: 'var(--font-family-base)', fontSize: 10, fontWeight: 700 }}>X</span>
+                    <span style={{ backgroundColor: '#e2e8f0', color: '#1e293b', padding: '1px 5px', borderRadius: 3, fontFamily: 'var(--font-family-base)', fontSize: 12, fontWeight: 700 }}>X</span>
                     <span>Select</span>
                     <span style={{ color: '#cbd5e1' }}>•</span>
-                    <span style={{ backgroundColor: '#e2e8f0', color: '#1e293b', padding: '1px 5px', borderRadius: 3, fontFamily: 'var(--font-family-base)', fontSize: 10, fontWeight: 700 }}>↵</span>
+                    <span style={{ backgroundColor: '#e2e8f0', color: '#1e293b', padding: '1px 5px', borderRadius: 3, fontFamily: 'var(--font-family-base)', fontSize: 12, fontWeight: 700 }}>↵</span>
                     <span>Expand</span>
                     <span style={{ color: '#cbd5e1' }}>•</span>
-                    <span style={{ backgroundColor: '#e2e8f0', color: '#1e293b', padding: '1px 5px', borderRadius: 3, fontFamily: 'var(--font-family-base)', fontSize: 10, fontWeight: 700 }}>1–4</span>
+                    <span style={{ backgroundColor: '#e2e8f0', color: '#1e293b', padding: '1px 5px', borderRadius: 3, fontFamily: 'var(--font-family-base)', fontSize: 12, fontWeight: 700 }}>1–4</span>
                     <span>Views</span>
                   </div>
 
-                  <span style={{ fontSize: 11, color: '#94a3b8' }}>
+                  <span style={{ fontSize: 12, color: '#94a3b8' }}>
                     Showing {sortedCandidates.length} of {candidates.length} records
                   </span>
                 </div>
@@ -2507,7 +2512,7 @@ export const TalentStudioView: React.FC = () => {
                     </span>
                     <span
                       style={{
-                        fontSize: 10,
+                        fontSize: 12,
                         backgroundColor: '#f1f5f9',
                         color: '#475569',
                         padding: '1px 6px',
@@ -2530,7 +2535,7 @@ export const TalentStudioView: React.FC = () => {
                             borderRadius: '50%',
                             backgroundColor: i === 0 ? '#3b82f6' : i === 1 ? '#10b981' : '#8b5cf6',
                             color: '#ffffff',
-                            fontSize: 9,
+                            fontSize: 12,
                             fontWeight: 700,
                             display: 'flex',
                             alignItems: 'center',
@@ -2543,9 +2548,10 @@ export const TalentStudioView: React.FC = () => {
                         </div>
                       ))}
                     </div>
-                    <span style={{ fontSize: 11, color: '#64748b' }}>Hiring Squad Connected</span>
+                    <span style={{ fontSize: 12, color: '#64748b' }}>Hiring Squad Connected</span>
                     <button
                       onClick={() => setCollaborationNotesOpen(!collaborationNotesOpen)}
+                      aria-label={collaborationNotesOpen ? 'Collapse hiring squad notes' : 'Expand hiring squad notes'}
                       style={{
                         background: 'none',
                         border: 'none',
@@ -2582,10 +2588,10 @@ export const TalentStudioView: React.FC = () => {
                           }}
                         >
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                            <span style={{ fontSize: 11, fontWeight: 700, color: '#0f172a' }}>{note.author}</span>
+                            <span style={{ fontSize: 12, fontWeight: 700, color: '#0f172a' }}>{note.author}</span>
                             <span
                               style={{
-                                fontSize: 9,
+                                fontSize: 12,
                                 fontWeight: 600,
                                 padding: '1px 5px',
                                 borderRadius: 4,
@@ -2599,7 +2605,7 @@ export const TalentStudioView: React.FC = () => {
                           <p style={{ fontSize: 12, color: '#334155', margin: '0 0 6px 0', lineHeight: 1.4 }}>
                             {note.text}
                           </p>
-                          <span style={{ fontSize: 10, color: '#94a3b8' }}>{note.time} • {note.role}</span>
+                          <span style={{ fontSize: 12, color: '#94a3b8' }}>{note.time} • {note.role}</span>
                         </div>
                       ))}
                     </div>
@@ -2655,10 +2661,10 @@ export const TalentStudioView: React.FC = () => {
                         }}
                         style={{
                           padding: '8px 14px',
-                          borderRadius: 6,
-                          border: 'none',
-                          backgroundColor: '#0f172a',
-                          color: '#ffffff',
+                          borderRadius: 'var(--radius-md)',
+                          border: '1px solid var(--color-border)',
+                          backgroundColor: '#ffffff',
+                          color: 'var(--color-text-secondary)',
                           fontSize: 12,
                           fontWeight: 600,
                           cursor: 'pointer',
@@ -2715,7 +2721,7 @@ export const TalentStudioView: React.FC = () => {
                           </span>
                           <span
                             style={{
-                              fontSize: 11,
+                              fontSize: 12,
                               backgroundColor: '#ffffff',
                               color: '#475569',
                               padding: '1px 6px',
@@ -2759,7 +2765,7 @@ export const TalentStudioView: React.FC = () => {
                             >
                               <span
                                 style={{
-                                  fontSize: 10,
+                                  fontSize: 12,
                                   fontFamily: 'var(--font-family-base)',
                                   color: '#64748b',
                                   fontWeight: 600,
@@ -2772,7 +2778,7 @@ export const TalentStudioView: React.FC = () => {
                               </span>
                               <span
                                 style={{
-                                  fontSize: 11,
+                                  fontSize: 12,
                                   fontWeight: 700,
                                   color: '#10b981',
                                 }}
@@ -2786,7 +2792,7 @@ export const TalentStudioView: React.FC = () => {
                             </div>
                             <div
                               style={{
-                                fontSize: 11,
+                                fontSize: 12,
                                 color: '#64748b',
                                 marginBottom: 8,
                               }}
@@ -2800,7 +2806,7 @@ export const TalentStudioView: React.FC = () => {
                                 <span
                                   key={sIdx}
                                   style={{
-                                    fontSize: 10,
+                                    fontSize: 12,
                                     backgroundColor: '#f8fafc',
                                     border: '1px solid #e2e8f0',
                                     color: '#475569',
@@ -2821,7 +2827,7 @@ export const TalentStudioView: React.FC = () => {
                                 justifyContent: 'space-between',
                                 borderTop: '1px solid #f1f5f9',
                                 paddingTop: 8,
-                                fontSize: 11,
+                                fontSize: 12,
                                 color: '#64748b',
                               }}
                             >
@@ -2848,7 +2854,7 @@ export const TalentStudioView: React.FC = () => {
                                       border: '1px solid #cbd5e1',
                                       backgroundColor: '#ffffff',
                                       color: '#64748b',
-                                      fontSize: 10,
+                                      fontSize: 12,
                                       fontWeight: 600,
                                       cursor: 'pointer',
                                     }}
@@ -2880,7 +2886,7 @@ export const TalentStudioView: React.FC = () => {
                                       border: '1px solid #bfdbfe',
                                       borderRadius: 4,
                                       color: '#2563eb',
-                                      fontSize: 10,
+                                      fontSize: 12,
                                       fontWeight: 600,
                                       cursor: 'pointer',
                                     }}
@@ -2923,7 +2929,7 @@ export const TalentStudioView: React.FC = () => {
                 }}
               >
                 <div style={{ marginBottom: 16 }}>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>
                     Evaluation Parameters
                   </span>
                   <h3 style={{ fontSize: 18, fontWeight: 700, color: '#0f172a', marginTop: 4 }}>
@@ -3012,7 +3018,7 @@ export const TalentStudioView: React.FC = () => {
                     >
                       <span
                         style={{
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: 700,
                           color: '#334155',
                           textTransform: 'uppercase',
@@ -3029,7 +3035,7 @@ export const TalentStudioView: React.FC = () => {
                           background: 'none',
                           border: 'none',
                           color: '#2563eb',
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: 600,
                           cursor: 'pointer',
                         }}
@@ -3051,7 +3057,7 @@ export const TalentStudioView: React.FC = () => {
                             style={{
                               display: 'flex',
                               justifyContent: 'space-between',
-                              fontSize: 11,
+                              fontSize: 12,
                               color: '#475569',
                               marginBottom: 3,
                             }}
@@ -3172,7 +3178,7 @@ export const TalentStudioView: React.FC = () => {
                   <div>
                     <span
                       style={{
-                        fontSize: 10,
+                        fontSize: 12,
                         fontFamily: 'var(--font-family-base)',
                         color: '#64748b',
                         letterSpacing: '0.08em',
@@ -3197,11 +3203,11 @@ export const TalentStudioView: React.FC = () => {
                       padding: '10px 14px',
                     }}
                   >
-                    <div style={{ fontSize: 11, color: '#64748b', fontWeight: 600 }}>MATCH ACCURACY</div>
+                    <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600 }}>MATCH ACCURACY</div>
                     <div style={{ fontSize: 24, fontWeight: 900, color: '#0f172a' }}>
                       {activeCandidate.matchScore}%
                     </div>
-                    <div style={{ fontSize: 10, color: '#10b981', fontWeight: 700 }}>
+                    <div style={{ fontSize: 12, color: '#10b981', fontWeight: 700 }}>
                       GRADE A VERIFIED
                     </div>
                     <div style={{ display: 'flex', gap: 4, marginTop: 6 }}>
@@ -3215,7 +3221,7 @@ export const TalentStudioView: React.FC = () => {
                           borderRadius: 4,
                           border: '1px solid #cbd5e1',
                           backgroundColor: '#ffffff',
-                          fontSize: 10,
+                          fontSize: 12,
                           fontWeight: 600,
                           color: '#334155',
                           cursor: 'pointer',
@@ -3234,7 +3240,7 @@ export const TalentStudioView: React.FC = () => {
                           borderRadius: 4,
                           border: '1px solid #bfdbfe',
                           backgroundColor: '#eff6ff',
-                          fontSize: 10,
+                          fontSize: 12,
                           fontWeight: 600,
                           color: '#2563eb',
                           cursor: 'pointer',
@@ -3260,19 +3266,19 @@ export const TalentStudioView: React.FC = () => {
                   }}
                 >
                   <div>
-                    <span style={{ fontSize: 11, color: '#64748b', display: 'block' }}>Total Experience</span>
+                    <span style={{ fontSize: 12, color: '#64748b', display: 'block' }}>Total Experience</span>
                     <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>
                       {activeCandidate.experienceYears} Years Production
                     </span>
                   </div>
                   <div>
-                    <span style={{ fontSize: 11, color: '#64748b', display: 'block' }}>Location & Visa</span>
+                    <span style={{ fontSize: 12, color: '#64748b', display: 'block' }}>Location & Visa</span>
                     <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>
                       {activeCandidate.location} (Authorized)
                     </span>
                   </div>
                   <div>
-                    <span style={{ fontSize: 11, color: '#64748b', display: 'block' }}>Compensation Target</span>
+                    <span style={{ fontSize: 12, color: '#64748b', display: 'block' }}>Compensation Target</span>
                     <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>
                       {dossierComp}
                     </span>
@@ -3301,14 +3307,14 @@ export const TalentStudioView: React.FC = () => {
                 >
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
                     <div>
-                      <span style={{ fontSize: 10, fontWeight: 700, color: '#4338ca', letterSpacing: '0.04em' }}>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: '#4338ca', letterSpacing: '0.04em' }}>
                         REFERENCE 20 IMPLEMENTATION
                       </span>
                       <h4 style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', margin: '2px 0 0' }}>
                         Multidimensional Evaluation Radar
                       </h4>
                     </div>
-                    <span style={{ fontSize: 11, color: '#64748b' }}>
+                    <span style={{ fontSize: 12, color: '#64748b' }}>
                       5-Vector Assessment
                     </span>
                   </div>
@@ -3330,7 +3336,7 @@ export const TalentStudioView: React.FC = () => {
                       <span
                         key={skIdx}
                         style={{
-                          fontSize: 11,
+                          fontSize: 12,
                           backgroundColor: '#ffffff',
                           border: '1px solid #cbd5e1',
                           color: '#0f172a',
@@ -3356,7 +3362,7 @@ export const TalentStudioView: React.FC = () => {
                   }}
                 >
                   <div>
-                    <div style={{ fontSize: 10, color: '#94a3b8' }}>EVALUATOR ENDORSEMENT</div>
+                    <div style={{ fontSize: 12, color: '#94a3b8' }}>EVALUATOR ENDORSEMENT</div>
                     <div style={{ fontSize: 12, fontWeight: 700, color: '#0f172a' }}>
                       Talent Acquisition Lead
                     </div>
@@ -3444,7 +3450,7 @@ export const TalentStudioView: React.FC = () => {
                   borderRadius: 8,
                   padding: '8px 16px',
                   marginBottom: 16,
-                  fontSize: 11,
+                  fontSize: 12,
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -3492,12 +3498,12 @@ export const TalentStudioView: React.FC = () => {
                       marginBottom: 6,
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 700, color: '#d97706' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, fontWeight: 700, color: '#d97706' }}>
                       <Zap size={12} />
                       <span>TRIGGER</span>
                     </div>
                     {selectedLogicNode === 'node-1' && (
-                      <span style={{ fontSize: 9, fontWeight: 700, color: '#2563eb', backgroundColor: '#eff6ff', padding: '1px 5px', borderRadius: 3 }}>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: '#2563eb', backgroundColor: '#eff6ff', padding: '1px 5px', borderRadius: 3 }}>
                         SELECTED
                       </span>
                     )}
@@ -3505,15 +3511,15 @@ export const TalentStudioView: React.FC = () => {
                   <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', marginBottom: 4 }}>
                     Candidate Ingest
                   </div>
-                  <div style={{ fontSize: 11, color: '#64748b', marginBottom: 8 }}>
+                  <div style={{ fontSize: 12, color: '#64748b', marginBottom: 8 }}>
                     POST /api/webhooks/talent-inbound
                   </div>
-                  <div style={{ fontSize: 10, color: '#10b981', fontWeight: 600 }}>0.0 sec latency</div>
+                  <div style={{ fontSize: 12, color: '#10b981', fontWeight: 600 }}>0.0 sec latency</div>
                 </div>
 
                 {/* Connector 1 -> 2 */}
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, padding: '0 2px' }}>
-                  <span style={{ fontSize: 9, fontFamily: 'monospace', color: simulatingPipeline && (simulationStep === 0 || simulationStep === 1) ? '#2563eb' : '#64748b', fontWeight: 700, backgroundColor: '#f1f5f9', padding: '1px 5px', borderRadius: 3, border: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
+                  <span style={{ fontSize: 12, fontFamily: 'monospace', color: simulatingPipeline && (simulationStep === 0 || simulationStep === 1) ? '#2563eb' : '#64748b', fontWeight: 700, backgroundColor: '#f1f5f9', padding: '1px 5px', borderRadius: 3, border: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
                     JSON Ingest
                   </span>
                   <svg width="28" height="12" viewBox="0 0 28 12" fill="none">
@@ -3549,12 +3555,12 @@ export const TalentStudioView: React.FC = () => {
                       marginBottom: 6,
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 700, color: '#2563eb' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, fontWeight: 700, color: '#2563eb' }}>
                       <Workflow size={12} />
                       <span>ACTION</span>
                     </div>
                     {selectedLogicNode === 'node-2' && (
-                      <span style={{ fontSize: 9, fontWeight: 700, color: '#2563eb', backgroundColor: '#eff6ff', padding: '1px 5px', borderRadius: 3 }}>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: '#2563eb', backgroundColor: '#eff6ff', padding: '1px 5px', borderRadius: 3 }}>
                         SELECTED
                       </span>
                     )}
@@ -3562,15 +3568,15 @@ export const TalentStudioView: React.FC = () => {
                   <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', marginBottom: 4 }}>
                     Resume Extraction
                   </div>
-                  <div style={{ fontSize: 11, color: '#64748b', marginBottom: 8 }}>
+                  <div style={{ fontSize: 12, color: '#64748b', marginBottom: 8 }}>
                     Parse PDF, sanitize PII, vector tokenization
                   </div>
-                  <div style={{ fontSize: 10, color: '#10b981', fontWeight: 600 }}>0.2 sec latency</div>
+                  <div style={{ fontSize: 12, color: '#10b981', fontWeight: 600 }}>0.2 sec latency</div>
                 </div>
 
                 {/* Connector 2 -> 3 */}
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, padding: '0 2px' }}>
-                  <span style={{ fontSize: 9, fontFamily: 'monospace', color: simulatingPipeline && (simulationStep === 1 || simulationStep === 2) ? '#4f46e5' : '#64748b', fontWeight: 700, backgroundColor: '#f1f5f9', padding: '1px 5px', borderRadius: 3, border: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
+                  <span style={{ fontSize: 12, fontFamily: 'monospace', color: simulatingPipeline && (simulationStep === 1 || simulationStep === 2) ? '#4f46e5' : '#64748b', fontWeight: 700, backgroundColor: '#f1f5f9', padding: '1px 5px', borderRadius: 3, border: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
                     1536d Vectors
                   </span>
                   <svg width="28" height="12" viewBox="0 0 28 12" fill="none">
@@ -3606,12 +3612,12 @@ export const TalentStudioView: React.FC = () => {
                       marginBottom: 6,
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 700, color: '#4f46e5' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, fontWeight: 700, color: '#4f46e5' }}>
                       <Sparkles size={12} />
                       <span>AI INFERENCE</span>
                     </div>
                     {selectedLogicNode === 'node-3' && (
-                      <span style={{ fontSize: 9, fontWeight: 700, color: '#4f46e5', backgroundColor: '#eef2ff', padding: '1px 5px', borderRadius: 3 }}>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: '#4f46e5', backgroundColor: '#eef2ff', padding: '1px 5px', borderRadius: 3 }}>
                         SELECTED
                       </span>
                     )}
@@ -3619,17 +3625,17 @@ export const TalentStudioView: React.FC = () => {
                   <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', marginBottom: 4 }}>
                     Claude 3.5 Scoring
                   </div>
-                  <div style={{ fontSize: 11, color: '#64748b', marginBottom: 8 }}>
+                  <div style={{ fontSize: 12, color: '#64748b', marginBottom: 8 }}>
                     Compare against 6 role rubric vectors
                   </div>
-                  <div style={{ fontSize: 10, color: '#4f46e5', fontWeight: 600 }}>
+                  <div style={{ fontSize: 12, color: '#4f46e5', fontWeight: 600 }}>
                     1,240 tokens consumed
                   </div>
                 </div>
 
                 {/* Connector 3 -> 4 */}
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, padding: '0 2px' }}>
-                  <span style={{ fontSize: 9, fontFamily: 'monospace', color: simulatingPipeline && (simulationStep === 2 || simulationStep === 3) ? '#16a34a' : '#64748b', fontWeight: 700, backgroundColor: '#f1f5f9', padding: '1px 5px', borderRadius: 3, border: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
+                  <span style={{ fontSize: 12, fontFamily: 'monospace', color: simulatingPipeline && (simulationStep === 2 || simulationStep === 3) ? '#16a34a' : '#64748b', fontWeight: 700, backgroundColor: '#f1f5f9', padding: '1px 5px', borderRadius: 3, border: '1px solid #e2e8f0', whiteSpace: 'nowrap' }}>
                     Rubric Match
                   </span>
                   <svg width="28" height="12" viewBox="0 0 28 12" fill="none">
@@ -3665,12 +3671,12 @@ export const TalentStudioView: React.FC = () => {
                       marginBottom: 6,
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 700, color: '#16a34a' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, fontWeight: 700, color: '#16a34a' }}>
                       <CheckCircle2 size={12} />
                       <span>OUTPUT</span>
                     </div>
                     {selectedLogicNode === 'node-4' && (
-                      <span style={{ fontSize: 9, fontWeight: 700, color: '#16a34a', backgroundColor: '#f0fdf4', padding: '1px 5px', borderRadius: 3 }}>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: '#16a34a', backgroundColor: '#f0fdf4', padding: '1px 5px', borderRadius: 3 }}>
                         SELECTED
                       </span>
                     )}
@@ -3678,10 +3684,10 @@ export const TalentStudioView: React.FC = () => {
                   <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', marginBottom: 4 }}>
                     Dossier & Audit Trail
                   </div>
-                  <div style={{ fontSize: 11, color: '#64748b', marginBottom: 8 }}>
+                  <div style={{ fontSize: 12, color: '#64748b', marginBottom: 8 }}>
                     Bias check verified, push to candidate roster
                   </div>
-                  <div style={{ fontSize: 10, color: '#16a34a', fontWeight: 600 }}>Status: Ready</div>
+                  <div style={{ fontSize: 12, color: '#16a34a', fontWeight: 600 }}>Status: Ready</div>
                 </div>
               </div>
 
@@ -3697,7 +3703,7 @@ export const TalentStudioView: React.FC = () => {
               >
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: '#334155', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: '#334155', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                       NODE INSPECTOR (REFS 13 & 15):
                     </span>
                     <span style={{ fontSize: 12, fontWeight: 700, color: '#0f172a' }}>
@@ -3707,13 +3713,13 @@ export const TalentStudioView: React.FC = () => {
                       {selectedLogicNode === 'node-4' && 'Node 4 — Verified Output & SOC 2 Ledger'}
                     </span>
                   </div>
-                  <span style={{ fontSize: 10, fontFamily: 'monospace', color: '#64748b', backgroundColor: '#ffffff', padding: '2px 6px', borderRadius: 4, border: '1px solid #cbd5e1' }}>
+                  <span style={{ fontSize: 12, fontFamily: 'monospace', color: '#64748b', backgroundColor: '#ffffff', padding: '2px 6px', borderRadius: 4, border: '1px solid #cbd5e1' }}>
                     CONFIG SCHEMA: v3.4.2
                   </span>
                 </div>
 
                 {selectedLogicNode === 'node-1' && (
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, fontSize: 11 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, fontSize: 12 }}>
                     <div style={{ backgroundColor: '#ffffff', padding: '8px 12px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
                       <span style={{ color: '#64748b', display: 'block' }}>Endpoint URL</span>
                       <code style={{ color: '#0f172a', fontWeight: 600 }}>/api/v1/intake/webhook</code>
@@ -3730,7 +3736,7 @@ export const TalentStudioView: React.FC = () => {
                 )}
 
                 {selectedLogicNode === 'node-2' && (
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, fontSize: 11 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, fontSize: 12 }}>
                     <div style={{ backgroundColor: '#ffffff', padding: '8px 12px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
                       <span style={{ color: '#64748b', display: 'block' }}>OCR Parser</span>
                       <code style={{ color: '#0f172a', fontWeight: 600 }}>Tesseract v5.3 + PDFMiner</code>
@@ -3747,7 +3753,7 @@ export const TalentStudioView: React.FC = () => {
                 )}
 
                 {selectedLogicNode === 'node-3' && (
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, fontSize: 11 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, fontSize: 12 }}>
                     <div style={{ backgroundColor: '#ffffff', padding: '8px 12px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
                       <span style={{ color: '#64748b', display: 'block' }}>LLM Core Engine</span>
                       <code style={{ color: '#4f46e5', fontWeight: 700 }}>claude-3-5-sonnet-20241022</code>
@@ -3764,7 +3770,7 @@ export const TalentStudioView: React.FC = () => {
                 )}
 
                 {selectedLogicNode === 'node-4' && (
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, fontSize: 11 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, fontSize: 12 }}>
                     <div style={{ backgroundColor: '#ffffff', padding: '8px 12px', borderRadius: 6, border: '1px solid #e2e8f0' }}>
                       <span style={{ color: '#64748b', display: 'block' }}>Primary Database</span>
                       <code style={{ color: '#0f172a', fontWeight: 600 }}>PostgreSQL (Encrypted-at-Rest)</code>
@@ -3789,7 +3795,7 @@ export const TalentStudioView: React.FC = () => {
                   borderRadius: 8,
                   padding: 16,
                   fontFamily: 'var(--font-family-base)',
-                  fontSize: 11,
+                  fontSize: 12,
                   lineHeight: 1.6,
                 }}
               >
@@ -3853,7 +3859,7 @@ export const TalentStudioView: React.FC = () => {
                 </div>
                 <span
                   style={{
-                    fontSize: 10,
+                    fontSize: 12,
                     backgroundColor: '#f0fdf4',
                     color: '#166534',
                     border: '1px solid #bbf7d0',
@@ -3865,7 +3871,7 @@ export const TalentStudioView: React.FC = () => {
                   Active • v3.4
                 </span>
               </div>
-              <p style={{ fontSize: 11, color: '#64748b', margin: 0 }}>
+              <p style={{ fontSize: 12, color: '#64748b', margin: 0 }}>
                 Synthesize match anomalies, summarize top candidates, or batch-draft executive outreach.
               </p>
 
@@ -3921,9 +3927,9 @@ export const TalentStudioView: React.FC = () => {
                       padding: 10,
                     }}
                   >
-                    <div style={{ fontSize: 10, color: '#64748b', fontWeight: 600 }}>LATENCY</div>
+                    <div style={{ fontSize: 12, color: '#475569', fontWeight: 600 }}>LATENCY (Sample)</div>
                     <div style={{ fontSize: 16, fontWeight: 800, color: '#0f172a' }}>245ms</div>
-                    <div style={{ fontSize: 10, color: '#10b981' }}>↓ 18ms speedup</div>
+                    <div style={{ fontSize: 12, color: '#166534' }}>↓ 18ms speedup</div>
                   </div>
                   <div
                     style={{
@@ -3933,15 +3939,15 @@ export const TalentStudioView: React.FC = () => {
                       padding: 10,
                     }}
                   >
-                    <div style={{ fontSize: 10, color: '#64748b', fontWeight: 600 }}>CONFIDENCE</div>
+                    <div style={{ fontSize: 12, color: '#475569', fontWeight: 600 }}>CONFIDENCE (Sample)</div>
                     <div style={{ fontSize: 16, fontWeight: 800, color: '#0f172a' }}>99.4%</div>
-                    <div style={{ fontSize: 10, color: '#10b981' }}>↑ 0.6% precision</div>
+                    <div style={{ fontSize: 12, color: '#166534' }}>↑ 0.6% precision</div>
                   </div>
                 </div>
 
                 {/* Suggestion Prompts Chips (Ref 10: 2edeb9efff5103e50fe694a0ce49bcf3.jpg) */}
                 <div style={{ marginBottom: 16 }}>
-                  <div style={{ fontSize: 11, fontWeight: 600, color: '#64748b', marginBottom: 6 }}>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: '#64748b', marginBottom: 6 }}>
                     Suggested Actions
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -3955,7 +3961,7 @@ export const TalentStudioView: React.FC = () => {
                         onClick={() => handleSendCopilotMessage(prompt)}
                         style={{
                           textAlign: 'left',
-                          fontSize: 11,
+                          fontSize: 12,
                           padding: '6px 10px',
                           borderRadius: 6,
                           backgroundColor: '#f1f5f9',
@@ -4017,7 +4023,7 @@ export const TalentStudioView: React.FC = () => {
                                 border: '1px solid #c7d2fe',
                                 backgroundColor: '#eef2ff',
                                 color: '#4338ca',
-                                fontSize: 10,
+                                fontSize: 12,
                                 fontWeight: 700,
                                 cursor: 'pointer',
                               }}
@@ -4052,6 +4058,7 @@ export const TalentStudioView: React.FC = () => {
                   />
                   <button
                     onClick={() => handleSendCopilotMessage()}
+                    aria-label="Send copilot message"
                     style={{
                       position: 'absolute',
                       right: 6,
@@ -4077,7 +4084,7 @@ export const TalentStudioView: React.FC = () => {
                   <div style={{ fontSize: 12, fontWeight: 700, color: '#0f172a' }}>
                     Neural Engine Telemetry
                   </div>
-                  <span style={{ fontSize: 10, color: '#2563eb', fontWeight: 600, backgroundColor: '#eff6ff', padding: '1px 6px', borderRadius: 4, border: '1px solid #bfdbfe' }}>
+                  <span style={{ fontSize: 12, color: '#2563eb', fontWeight: 600, backgroundColor: '#eff6ff', padding: '1px 6px', borderRadius: 4, border: '1px solid #bfdbfe' }}>
                     REF 03 ACTIVE
                   </span>
                 </div>
@@ -4085,8 +4092,8 @@ export const TalentStudioView: React.FC = () => {
                   {/* Metric 1: Hourly Ingestion Rate with SVG Sparkline */}
                   <div style={{ padding: 12, border: '1px solid #e2e8f0', borderRadius: 8, backgroundColor: '#ffffff' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                      <span style={{ fontSize: 11, color: '#64748b' }}>Hourly Ingestion Rate</span>
-                      <span style={{ fontSize: 10, color: '#10b981', fontWeight: 600 }}>↑ 12.4% vs avg</span>
+                      <span style={{ fontSize: 12, color: '#64748b' }}>Hourly Ingestion Rate</span>
+                      <span style={{ fontSize: 12, color: '#10b981', fontWeight: 600 }}>↑ 12.4% vs avg</span>
                     </div>
                     <div style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', margin: '2px 0 4px' }}>
                       14.2k / hour
@@ -4116,13 +4123,13 @@ export const TalentStudioView: React.FC = () => {
                   {/* Metric 2: Latency Percentiles */}
                   <div style={{ padding: 12, border: '1px solid #e2e8f0', borderRadius: 8, backgroundColor: '#ffffff' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                      <span style={{ fontSize: 11, color: '#64748b' }}>Inference Latency Profile</span>
-                      <span style={{ fontSize: 10, color: '#10b981', fontWeight: 600 }}>Sub-400ms SLA</span>
+                      <span style={{ fontSize: 12, color: '#64748b' }}>Inference Latency Profile</span>
+                      <span style={{ fontSize: 12, color: '#10b981', fontWeight: 600 }}>Sub-400ms SLA</span>
                     </div>
                     <div style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', margin: '2px 0 6px' }}>
-                      245ms <span style={{ fontSize: 11, fontWeight: 500, color: '#64748b' }}>mean</span>
+                      245ms <span style={{ fontSize: 12, fontWeight: 500, color: '#64748b' }}>mean</span>
                     </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, fontSize: 10 }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, fontSize: 12 }}>
                       <div style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', padding: '4px 6px', borderRadius: 4, textAlign: 'center' }}>
                         <span style={{ color: '#64748b', display: 'block' }}>p50</span>
                         <span style={{ fontWeight: 700, color: '#0f172a' }}>180ms</span>
@@ -4141,8 +4148,8 @@ export const TalentStudioView: React.FC = () => {
                   {/* Metric 3: Vector Tokens Consumed with Histogram */}
                   <div style={{ padding: 12, border: '1px solid #e2e8f0', borderRadius: 8, backgroundColor: '#ffffff' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                      <span style={{ fontSize: 11, color: '#64748b' }}>Vector Tokens Consumed</span>
-                      <span style={{ fontSize: 10, color: '#4f46e5', fontWeight: 600 }}>12-Hour Bin</span>
+                      <span style={{ fontSize: 12, color: '#64748b' }}>Vector Tokens Consumed</span>
+                      <span style={{ fontSize: 12, color: '#4f46e5', fontWeight: 600 }}>12-Hour Bin</span>
                     </div>
                     <div style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', margin: '2px 0 6px' }}>
                       2,410,920
@@ -4167,7 +4174,7 @@ export const TalentStudioView: React.FC = () => {
                       ))}
                     </div>
                     {hoveredBin !== null && (
-                      <div style={{ fontSize: 10, color: '#4338ca', fontWeight: 600, marginTop: 4, textAlign: 'center', backgroundColor: '#eef2ff', padding: '2px 6px', borderRadius: 4 }}>
+                      <div style={{ fontSize: 12, color: '#4338ca', fontWeight: 600, marginTop: 4, textAlign: 'center', backgroundColor: '#eef2ff', padding: '2px 6px', borderRadius: 4 }}>
                         Hour {hoveredBin + 1}: {Math.round([40, 58, 48, 72, 60, 85, 80, 65, 92, 84, 70, 95][hoveredBin] * 24.1)}k tokens • {160 + [40, 58, 48, 72, 60, 85, 80, 65, 92, 84, 70, 95][hoveredBin]}ms avg latency
                       </div>
                     )}
@@ -4178,12 +4185,12 @@ export const TalentStudioView: React.FC = () => {
 
             {/* Tab: Traces & SOC 2 Audit Ledger (Ref 18) */}
             {copilotTab === 'traces' && (
-              <div style={{ padding: 16, fontSize: 11, display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <div style={{ padding: 16, fontSize: 12, display: 'flex', flexDirection: 'column', gap: 12 }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <div style={{ fontSize: 12, fontWeight: 700, color: '#0f172a' }}>
                     Live Neural Audit Trail
                   </div>
-                  <span style={{ fontSize: 9, fontWeight: 700, color: '#16a34a', backgroundColor: '#f0fdf4', padding: '1px 6px', borderRadius: 4, border: '1px solid #bbf7d0' }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: '#16a34a', backgroundColor: '#f0fdf4', padding: '1px 6px', borderRadius: 4, border: '1px solid #bbf7d0' }}>
                     SOC 2 TYPE II VERIFIED
                   </span>
                 </div>
@@ -4202,29 +4209,29 @@ export const TalentStudioView: React.FC = () => {
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 }}>
-                        <span style={{ fontWeight: 700, color: '#0f172a', fontSize: 11 }}>{act.type}</span>
-                        <span style={{ fontSize: 9, color: '#94a3b8' }}>{act.timestamp}</span>
+                        <span style={{ fontWeight: 700, color: '#0f172a', fontSize: 12 }}>{act.type}</span>
+                        <span style={{ fontSize: 12, color: '#94a3b8' }}>{act.timestamp}</span>
                       </div>
-                      <div style={{ color: '#475569', fontSize: 11, marginBottom: 4 }}>
+                      <div style={{ color: '#475569', fontSize: 12, marginBottom: 4 }}>
                         <strong>{act.target}</strong>: {act.details}
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                         <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: act.isHumanAction ? '#10b981' : '#6366f1' }} />
-                        <span style={{ fontSize: 9, color: '#64748b' }}>{act.isHumanAction ? 'Human Verified' : 'Autonomous AI Trace'}</span>
+                        <span style={{ fontSize: 12, color: '#64748b' }}>{act.isHumanAction ? 'Human Verified' : 'Autonomous AI Trace'}</span>
                       </div>
                     </div>
                   ))}
 
                   {/* Execution Logs */}
                   <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: 8, marginTop: 4 }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: 6 }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: 6 }}>
                       Pipeline Execution Console
                     </div>
                     {pipelineLogs.map((log, lIdx) => (
                       <div
                         key={lIdx}
                         style={{
-                          fontSize: 10,
+                          fontSize: 12,
                           fontFamily: 'monospace',
                           color: '#475569',
                           padding: '2px 0',
@@ -4273,7 +4280,7 @@ export const TalentStudioView: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 10,
+                fontSize: 12,
               }}
             >
               ✓
@@ -4430,6 +4437,7 @@ export const TalentStudioView: React.FC = () => {
               </div>
               <button
                 onClick={() => setShowReferenceModal(false)}
+                aria-label="Close reference modal"
                 style={{
                   background: 'none',
                   border: 'none',
@@ -4485,7 +4493,7 @@ export const TalentStudioView: React.FC = () => {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <span
                       style={{
-                        fontSize: 11,
+                        fontSize: 12,
                         backgroundColor: '#0f172a',
                         color: '#ffffff',
                         padding: '2px 6px',
@@ -4516,7 +4524,7 @@ export const TalentStudioView: React.FC = () => {
                       <div style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>
                         {ref.title}
                       </div>
-                      <div style={{ fontSize: 11, color: '#64748b' }}>
+                      <div style={{ fontSize: 12, color: '#64748b' }}>
                         {ref.desc}
                       </div>
                     </div>
@@ -4525,7 +4533,7 @@ export const TalentStudioView: React.FC = () => {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
                     <span
                       style={{
-                        fontSize: 11,
+                        fontSize: 12,
                         fontWeight: 600,
                         backgroundColor: '#eef2ff',
                         color: '#4338ca',
@@ -4536,7 +4544,7 @@ export const TalentStudioView: React.FC = () => {
                     >
                       {ref.location}
                     </span>
-                    <span style={{ fontSize: 11, color: '#2563eb', fontWeight: 600 }}>
+                    <span style={{ fontSize: 12, color: '#2563eb', fontWeight: 600 }}>
                       Inspect ›
                     </span>
                   </div>
@@ -4618,7 +4626,7 @@ export const TalentStudioView: React.FC = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span
                     style={{
-                      fontSize: 10.5,
+                      fontSize: 12,
                       fontWeight: 700,
                       backgroundColor: '#0f172a',
                       color: '#ffffff',
@@ -4779,7 +4787,7 @@ export const TalentStudioView: React.FC = () => {
               }}
             >
               <div>
-                <span style={{ fontSize: 11, fontWeight: 700, color: '#4338ca', display: 'block' }}>
+                <span style={{ fontSize: 12, fontWeight: 700, color: '#4338ca', display: 'block' }}>
                   IMPLEMENTATION LOCATION: {selectedPreviewRef.location.toUpperCase()}
                 </span>
                 <span style={{ fontSize: 12.5, color: '#334155', marginTop: 2, display: 'block' }}>

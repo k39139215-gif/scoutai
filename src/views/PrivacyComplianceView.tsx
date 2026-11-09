@@ -67,7 +67,7 @@ export const PrivacyComplianceView: React.FC = () => {
             </h1>
             <span
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 500,
                 padding: '2px 8px',
                 borderRadius: 9999,
@@ -175,7 +175,7 @@ export const PrivacyComplianceView: React.FC = () => {
           <div className="metric-val" style={{ fontSize: 24, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
             247 profiles
           </div>
-          <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
+          <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
             Encrypted talent pool database
           </div>
         </div>
@@ -194,7 +194,7 @@ export const PrivacyComplianceView: React.FC = () => {
           <div className="metric-val" style={{ fontSize: 24, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
             24 months
           </div>
-          <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
+          <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
             Configurable in settings
           </div>
         </div>
@@ -213,7 +213,7 @@ export const PrivacyComplianceView: React.FC = () => {
           <div className="metric-val" style={{ fontSize: 24, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
             Enforced
           </div>
-          <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
+          <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
             Role-scoped candidate privacy
           </div>
         </div>
@@ -234,11 +234,11 @@ export const PrivacyComplianceView: React.FC = () => {
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
               <tr style={{ background: '#fafafa', borderBottom: '1px solid var(--border-subtle)' }}>
-                <th className="col-sticky-first" style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)', minWidth: 220 }}>Candidate & email</th>
-                <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Request type</th>
-                <th className="col-hide-sm" style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Requested date</th>
-                <th className="col-hide-md" style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Review notes</th>
-                <th className="col-sticky-action" style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)', textAlign: 'right', minWidth: 150 }}>Status & Action</th>
+                <th className="col-sticky-first" style={{ padding: '10px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)', minWidth: 220 }}>Candidate & email</th>
+                <th style={{ padding: '10px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Request type</th>
+                <th className="col-hide-sm" style={{ padding: '10px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Requested date</th>
+                <th className="col-hide-md" style={{ padding: '10px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Review notes</th>
+                <th className="col-sticky-action" style={{ padding: '10px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)', textAlign: 'right', minWidth: 150 }}>Status & Action</th>
               </tr>
             </thead>
             <tbody>
@@ -262,7 +262,7 @@ export const PrivacyComplianceView: React.FC = () => {
                   <td style={{ padding: '0 16px' }}>
                     <span
                       style={{
-                        fontSize: 11.5,
+                        fontSize: 12,
                         fontWeight: 500,
                         padding: '3px 8px',
                         borderRadius: 4,

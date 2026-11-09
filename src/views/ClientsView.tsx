@@ -217,7 +217,6 @@ export const ClientsView: React.FC = () => {
 
               <button
                 type="button"
-                className="btn-dark"
                 onClick={() => navigate('jobs')}
                 style={{
                   height: 'var(--control-height)',
@@ -228,12 +227,21 @@ export const ClientsView: React.FC = () => {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 6,
-                  background: 'var(--color-primary-button)',
-                  color: '#ffffff',
-                  border: 'none',
+                  background: '#ffffff',
+                  color: 'var(--color-text-secondary)',
+                  border: '1px solid var(--color-border)',
                   cursor: 'pointer',
                   whiteSpace: 'nowrap',
                   flexShrink: 0,
+                  transition: 'all 0.12s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#f8fafc';
+                  e.currentTarget.style.borderColor = '#94a3b8';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#ffffff';
+                  e.currentTarget.style.borderColor = 'var(--color-border)';
                 }}
               >
                 <span>View Jobs</span>

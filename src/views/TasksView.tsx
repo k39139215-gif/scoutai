@@ -141,7 +141,7 @@ export const TasksView: React.FC = () => {
           <div className="metric-val" style={{ fontSize: 20, fontWeight: 700, color: '#0f172a', margin: '2px 0' }}>
             {tasks.filter((t) => t.status !== 'Completed').length}
           </div>
-          <div style={{ fontSize: 11, color: '#64748b' }}>Awaiting recruiter determination</div>
+          <div style={{ fontSize: 12, color: '#64748b' }}>Awaiting recruiter determination</div>
         </div>
 
         <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8, padding: '12px 16px' }}>
@@ -149,7 +149,7 @@ export const TasksView: React.FC = () => {
           <div className="metric-val" style={{ fontSize: 20, fontWeight: 700, color: '#991b1b', margin: '2px 0' }}>
             {tasks.filter((t) => t.priority === 'High' && t.status !== 'Completed').length}
           </div>
-          <div style={{ fontSize: 11, color: '#991b1b' }}>Requires urgent turnaround</div>
+          <div style={{ fontSize: 12, color: '#991b1b' }}>Requires urgent turnaround</div>
         </div>
 
         <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8, padding: '12px 16px' }}>
@@ -157,7 +157,7 @@ export const TasksView: React.FC = () => {
           <div className="metric-val" style={{ fontSize: 20, fontWeight: 700, color: '#166534', margin: '2px 0' }}>
             {tasks.filter((t) => t.status === 'Completed').length}
           </div>
-          <div style={{ fontSize: 11, color: '#166534' }}>Verified and archived</div>
+          <div style={{ fontSize: 12, color: '#166534' }}>Verified and archived</div>
         </div>
       </div>
 
@@ -190,7 +190,7 @@ export const TasksView: React.FC = () => {
                   fontWeight: isSelected ? 600 : 500,
                   border: isSelected ? '1px solid #c7d2fe' : '1px solid transparent',
                   background: isSelected ? '#ffffff' : 'transparent',
-                  color: isSelected ? '#4338ca' : '#64748b',
+                  color: isSelected ? '#4338ca' : '#475569',
                   cursor: 'pointer',
                   boxShadow: isSelected ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
                   transition: 'all 0.12s ease',
@@ -202,7 +202,7 @@ export const TasksView: React.FC = () => {
                 <span>{st}</span>
                 <span
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     padding: '0 5px',
                     borderRadius: 9999,
                     background: isSelected ? '#e0e7ff' : 'transparent',
@@ -274,7 +274,7 @@ export const TasksView: React.FC = () => {
                         style={{
                           fontSize: 13.5,
                           fontWeight: 500,
-                          color: isCompleted ? '#94a3b8' : '#0f172a',
+                          color: isCompleted ? '#475569' : '#0f172a',
                           textDecoration: isCompleted ? 'line-through' : 'none',
                         }}
                       >
@@ -284,7 +284,7 @@ export const TasksView: React.FC = () => {
                       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 4, flexWrap: 'wrap' }}>
                         <span
                           style={{
-                            fontSize: 11,
+                            fontSize: 12,
                             background: '#f1f5f9',
                             padding: '2px 7px',
                             borderRadius: 4,

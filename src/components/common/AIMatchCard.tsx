@@ -50,7 +50,7 @@ export const AIMatchCard: React.FC<AIMatchCardProps> = ({ candidate }) => {
             >
               Compatibility Scorecard
             </div>
-            <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
               Target Requisition: {candidate.appliedJobTitle}
             </div>
           </div>
@@ -111,7 +111,7 @@ export const AIMatchCard: React.FC<AIMatchCardProps> = ({ candidate }) => {
         >
           <div
             style={{
-              fontSize: 11.5,
+              fontSize: 12,
               fontWeight: 500,
               color: '#0f172a',
               marginBottom: 8,
@@ -142,7 +142,7 @@ export const AIMatchCard: React.FC<AIMatchCardProps> = ({ candidate }) => {
                 </div>
               ))
             ) : (
-              <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
                 Demonstrated core competencies meet minimum requirements.
               </div>
             )}
@@ -160,7 +160,7 @@ export const AIMatchCard: React.FC<AIMatchCardProps> = ({ candidate }) => {
         >
           <div
             style={{
-              fontSize: 11.5,
+              fontSize: 12,
               fontWeight: 500,
               color: '#0f172a',
               marginBottom: 8,
@@ -191,7 +191,7 @@ export const AIMatchCard: React.FC<AIMatchCardProps> = ({ candidate }) => {
                 </div>
               ))
             ) : (
-              <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
                 Verify practical depth in production scale environments.
               </div>
             )}
@@ -205,7 +205,7 @@ export const AIMatchCard: React.FC<AIMatchCardProps> = ({ candidate }) => {
           display: 'flex',
           alignItems: 'center',
           gap: 6,
-          fontSize: 11.5,
+          fontSize: 12,
           color: 'var(--text-muted)',
           borderTop: '1px solid var(--border-subtle)',
           paddingTop: 12,

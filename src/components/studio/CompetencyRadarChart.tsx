@@ -196,7 +196,7 @@ export const CompetencyRadarChart: React.FC<CompetencyRadarChartProps> = ({
       {showLegend && (
         <div style={{ width: '100%', marginTop: 12, display: 'flex', flexDirection: 'column', gap: 6 }}>
           {competencies.map((comp) => (
-            <div key={comp.label} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11 }}>
+            <div key={comp.label} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12 }}>
               <span style={{ width: 130, color: '#475569', fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {comp.label}
               </span>

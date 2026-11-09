@@ -160,7 +160,7 @@ export const Composer: React.FC<ComposerProps> = ({
       >
         {/* Token Chips */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-          <span style={{ fontSize: 11, color: '#94a3b8', display: 'flex', alignItems: 'center', gap: 3 }}>
+          <span style={{ fontSize: 12, color: '#475569', display: 'flex', alignItems: 'center', gap: 3 }}>
             <Tag size={10} />
             <span>Tokens:</span>
           </span>
@@ -170,7 +170,7 @@ export const Composer: React.FC<ComposerProps> = ({
               type="button"
               onClick={() => insertToken(tok)}
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontFamily: 'monospace',
                 background: '#ffffff',
                 border: '1px solid #e2e8f0',
@@ -198,15 +198,15 @@ export const Composer: React.FC<ComposerProps> = ({
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span
             style={{
-              fontSize: 11,
+              fontSize: 12,
               color: '#94a3b8',
               display: 'inline-flex',
               alignItems: 'center',
               gap: 2,
             }}
           >
-            <kbd style={{ fontSize: 10, background: '#f1f5f9', padding: '1px 4px', borderRadius: 3, border: '1px solid #e2e8f0' }}>⌘</kbd>
-            <kbd style={{ fontSize: 10, background: '#f1f5f9', padding: '1px 4px', borderRadius: 3, border: '1px solid #e2e8f0' }}>↵</kbd>
+            <kbd style={{ fontSize: 12, background: '#f1f5f9', padding: '1px 4px', borderRadius: 3, border: '1px solid #e2e8f0' }}>⌘</kbd>
+            <kbd style={{ fontSize: 12, background: '#f1f5f9', padding: '1px 4px', borderRadius: 3, border: '1px solid #e2e8f0' }}>↵</kbd>
           </span>
 
           {onSend && (

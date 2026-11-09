@@ -374,7 +374,7 @@ Lead Talent Advisor, ScoutAI`;
                       fontWeight: statusFilter === st ? 600 : 500,
                       border: statusFilter === st ? '1px solid #c7d2fe' : '1px solid transparent',
                       background: statusFilter === st ? '#ffffff' : 'transparent',
-                      color: statusFilter === st ? '#4338ca' : '#64748b',
+                      color: statusFilter === st ? '#4338ca' : '#475569',
                       boxShadow: statusFilter === st ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
                       cursor: 'pointer',
                       transition: 'all 0.1s ease',
@@ -422,6 +422,9 @@ Lead Talent Advisor, ScoutAI`;
                     </div>
 
                     <p
+                      tabIndex={0}
+                      role="region"
+                      aria-label="Message preview content"
                       style={{
                         fontSize: 12,
                         color: '#52525b',
@@ -439,7 +442,7 @@ Lead Talent Advisor, ScoutAI`;
                     </p>
 
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 4 }}>
-                      <span style={{ fontSize: 11, color: '#a1a1aa' }}>
+                      <span style={{ fontSize: 12, color: '#475569' }}>
                         Created {msg.createdAt}
                       </span>
 
@@ -494,7 +497,7 @@ Lead Talent Advisor, ScoutAI`;
                         )}
 
                         {msg.status === 'Sent — Demo' && (
-                          <span style={{ fontSize: 12, color: '#16a34a', fontWeight: 600 }}>
+                          <span style={{ fontSize: 12, color: '#166534', fontWeight: 600 }}>
                             Dispatched
                           </span>
                         )}

@@ -279,7 +279,7 @@ export const StudioCommandPalette: React.FC<StudioCommandPaletteProps> = ({
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <span
               style={{
-                fontSize: 10,
+                fontSize: 12,
                 color: '#94a3b8',
                 backgroundColor: 'rgba(255, 255, 255, 0.06)',
                 padding: '2px 6px',
@@ -372,7 +372,7 @@ export const StudioCommandPalette: React.FC<StudioCommandPaletteProps> = ({
                       >
                         {cmd.title}
                       </div>
-                      <div style={{ fontSize: 11, color: '#94a3b8' }}>
+                      <div style={{ fontSize: 12, color: '#94a3b8' }}>
                         {cmd.subtitle}
                       </div>
                     </div>
@@ -381,7 +381,7 @@ export const StudioCommandPalette: React.FC<StudioCommandPaletteProps> = ({
                   {cmd.shortcut && (
                     <span
                       style={{
-                        fontSize: 10,
+                        fontSize: 12,
                         fontFamily: 'monospace',
                         color: isSelected ? '#93c5fd' : '#64748b',
                         backgroundColor: 'rgba(255, 255, 255, 0.06)',
@@ -408,7 +408,7 @@ export const StudioCommandPalette: React.FC<StudioCommandPaletteProps> = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            fontSize: 11,
+            fontSize: 12,
             color: '#64748b',
           }}
         >

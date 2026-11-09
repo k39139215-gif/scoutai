@@ -179,7 +179,7 @@ export const InterviewsView: React.FC = () => {
               <Calendar size={18} />
             </div>
             <div>
-              <div style={{ fontSize: 11.5, fontWeight: 600, color: '#4338ca', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: '#4338ca', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 Next Scheduled Session ({nextInterview.relativeDateLabel})
               </div>
               <div style={{ fontSize: 14, fontWeight: 600, color: '#0f172a', marginTop: 1 }}>
@@ -245,7 +245,7 @@ export const InterviewsView: React.FC = () => {
                   fontWeight: isSelected ? 600 : 500,
                   border: isSelected ? '1px solid #c7d2fe' : '1px solid transparent',
                   background: isSelected ? '#ffffff' : 'transparent',
-                  color: isSelected ? '#4338ca' : '#64748b',
+                  color: isSelected ? '#4338ca' : '#475569',
                   cursor: 'pointer',
                   boxShadow: isSelected ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
                   transition: 'all 0.12s ease',
@@ -257,7 +257,7 @@ export const InterviewsView: React.FC = () => {
                 <span>{st}</span>
                 <span
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     padding: '0 5px',
                     borderRadius: 9999,
                     background: isSelected ? '#e0e7ff' : '#e2e8f0',

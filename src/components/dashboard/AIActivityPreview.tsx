@@ -113,7 +113,7 @@ export const AIActivityPreview: React.FC = () => {
                   </span>
                   <span
                     style={{
-                      fontSize: 10.5,
+                      fontSize: 12,
                       fontWeight: 500,
                       padding: '1px 5px',
                       borderRadius: 3,
@@ -132,7 +132,7 @@ export const AIActivityPreview: React.FC = () => {
               </div>
             </div>
 
-            <span style={{ fontSize: 11.5, fontWeight: 500, color: '#64748b', fontVariantNumeric: 'tabular-nums', flexShrink: 0, whiteSpace: 'nowrap' }}>
+            <span style={{ fontSize: 12, fontWeight: 500, color: '#64748b', fontVariantNumeric: 'tabular-nums', flexShrink: 0, whiteSpace: 'nowrap' }}>
               {formatDateTime(evt.timestamp)}
             </span>
           </div>

@@ -87,7 +87,7 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
             </h1>
             <span
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 500,
                 padding: '2px 8px',
                 borderRadius: 4,
@@ -168,24 +168,24 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
             borderRadius: 6,
             fontSize: 13,
             fontWeight: activeTab === 'operations' ? 600 : 500,
-            border: activeTab === 'operations' ? '1px solid #cbd5e1' : '1px solid transparent',
-            background: activeTab === 'operations' ? '#ffffff' : 'transparent',
-            color: activeTab === 'operations' ? '#0f172a' : '#64748b',
+            border: activeTab === 'operations' ? '1px solid #c7d2fe' : '1px solid transparent',
+            background: activeTab === 'operations' ? '#eef2ff' : 'transparent',
+            color: activeTab === 'operations' ? '#4338ca' : '#475569',
             cursor: 'pointer',
-            boxShadow: activeTab === 'operations' ? '0 1px 2px rgba(15, 23, 42, 0.08)' : 'none',
+            boxShadow: activeTab === 'operations' ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
             transition: 'all 0.15s ease',
           }}
         >
-          <Activity size={14} style={{ color: activeTab === 'operations' ? '#2563eb' : '#94a3b8' }} />
+          <Activity size={14} style={{ color: activeTab === 'operations' ? '#4338ca' : '#64748b' }} />
           <span>Operations Activity</span>
           <span
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontVariantNumeric: 'tabular-nums',
               padding: '1px 6px',
               borderRadius: 4,
-              background: activeTab === 'operations' ? '#eff6ff' : '#e2e8f0',
-              color: activeTab === 'operations' ? '#1e40af' : '#475569',
+              background: activeTab === 'operations' ? '#e0e7ff' : '#e2e8f0',
+              color: activeTab === 'operations' ? '#3730a3' : '#475569',
             }}
           >
             {aiActivity.length}
@@ -204,24 +204,24 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
             borderRadius: 6,
             fontSize: 13,
             fontWeight: activeTab === 'security' ? 600 : 500,
-            border: activeTab === 'security' ? '1px solid #cbd5e1' : '1px solid transparent',
-            background: activeTab === 'security' ? '#ffffff' : 'transparent',
-            color: activeTab === 'security' ? '#0f172a' : '#64748b',
+            border: activeTab === 'security' ? '1px solid #c7d2fe' : '1px solid transparent',
+            background: activeTab === 'security' ? '#eef2ff' : 'transparent',
+            color: activeTab === 'security' ? '#4338ca' : '#475569',
             cursor: 'pointer',
-            boxShadow: activeTab === 'security' ? '0 1px 2px rgba(15, 23, 42, 0.08)' : 'none',
+            boxShadow: activeTab === 'security' ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
             transition: 'all 0.15s ease',
           }}
         >
-          <Lock size={14} style={{ color: activeTab === 'security' ? '#2563eb' : '#94a3b8' }} />
+          <Lock size={14} style={{ color: activeTab === 'security' ? '#4338ca' : '#64748b' }} />
           <span>Security & Access</span>
           <span
             style={{
-              fontSize: 11,
+              fontSize: 12,
               fontVariantNumeric: 'tabular-nums',
               padding: '1px 6px',
               borderRadius: 4,
-              background: activeTab === 'security' ? '#eff6ff' : '#e2e8f0',
-              color: activeTab === 'security' ? '#1e40af' : '#475569',
+              background: activeTab === 'security' ? '#e0e7ff' : '#e2e8f0',
+              color: activeTab === 'security' ? '#3730a3' : '#475569',
             }}
           >
             {securityAudit.length}
@@ -404,7 +404,7 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
                           </span>
                           <span
                             style={{
-                              fontSize: 11,
+                              fontSize: 12,
                               fontWeight: 500,
                               padding: '1px 6px',
                               borderRadius: 4,
@@ -417,7 +417,7 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
                           </span>
                         </div>
 
-                        <span style={{ fontSize: 11.5, fontWeight: 500, color: '#64748b', fontVariantNumeric: 'tabular-nums' }}>
+                        <span style={{ fontSize: 12, fontWeight: 500, color: '#64748b', fontVariantNumeric: 'tabular-nums' }}>
                           {formatDateTime(evt.timestamp)}
                         </span>
                       </div>
@@ -483,7 +483,7 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
               <div style={{ fontSize: 17, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
                 {settings.profile.role}
               </div>
-              <div style={{ fontSize: 11.5, color: '#166534', fontWeight: 500 }}>
+              <div style={{ fontSize: 12, color: '#166534', fontWeight: 500 }}>
                 Full Requisition Access
               </div>
             </div>
@@ -502,7 +502,7 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
               <div className="metric-val" style={{ fontSize: 17, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
                 {settings.security.sessionTimeoutMinutes} minutes
               </div>
-              <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
                 Configurable in settings
               </div>
             </div>
@@ -521,7 +521,7 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
               <div className="metric-val" style={{ fontSize: 17, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
                 {settings.security.auditLogRetentionDays} days
               </div>
-              <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
                 Configured log retention schedule
               </div>
             </div>
@@ -622,12 +622,12 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: 13 }}>
                 <thead>
                   <tr style={{ background: '#fafafa', borderBottom: '1px solid var(--border-subtle)' }}>
-                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Timestamp</th>
-                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Actor</th>
-                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Action</th>
-                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>Target</th>
-                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)' }}>IP location</th>
-                    <th style={{ padding: '10px 14px', fontSize: 11.5, fontWeight: 500, color: 'var(--text-secondary)', textAlign: 'right' }}>Result</th>
+                    <th style={{ padding: '10px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Timestamp</th>
+                    <th style={{ padding: '10px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Actor</th>
+                    <th style={{ padding: '10px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Action</th>
+                    <th style={{ padding: '10px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>Target</th>
+                    <th style={{ padding: '10px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)' }}>IP location</th>
+                    <th style={{ padding: '10px 14px', fontSize: 12, fontWeight: 500, color: 'var(--text-secondary)', textAlign: 'right' }}>Result</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -646,7 +646,7 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
                         <div style={{ fontSize: 12.5, fontWeight: 500, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>
                           {formatDateTime(aud.timestamp)}
                         </div>
-                        <div style={{ fontSize: 11, color: '#64748b', marginTop: 1 }}>
+                        <div style={{ fontSize: 12, color: '#64748b', marginTop: 1 }}>
                           Verified System Log
                         </div>
                       </td>
@@ -665,7 +665,7 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
                       <td style={{ padding: '0 14px', textAlign: 'right' }}>
                         <span
                           style={{
-                            fontSize: 11.5,
+                            fontSize: 12,
                             fontWeight: 600,
                             padding: '2px 8px',
                             borderRadius: 4,

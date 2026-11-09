@@ -109,7 +109,7 @@ export const CandidateComparisonModal: React.FC<CandidateComparisonModalProps> =
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <span
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: 700,
                   color: '#4338ca',
                   backgroundColor: '#e0e7ff',
@@ -189,7 +189,7 @@ export const CandidateComparisonModal: React.FC<CandidateComparisonModalProps> =
               <strong>Algorithmic Differential:</strong> Candidate #{1} ({topCandidate.name}) leads in distributed system architecture with a <strong>{topCandidate.matchScore}%</strong> baseline fit.
             </span>
           </div>
-          <span style={{ fontSize: 11, color: '#3b82f6', fontWeight: 600 }}>
+          <span style={{ fontSize: 12, color: '#3b82f6', fontWeight: 600 }}>
             Fair-Hiring AI v3.4 Verified
           </span>
         </div>
@@ -231,7 +231,7 @@ export const CandidateComparisonModal: React.FC<CandidateComparisonModalProps> =
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
                     <span
                       style={{
-                        fontSize: 10.5,
+                        fontSize: 12,
                         fontWeight: 700,
                         padding: '2px 8px',
                         borderRadius: 9999,
@@ -250,7 +250,7 @@ export const CandidateComparisonModal: React.FC<CandidateComparisonModalProps> =
                           border: 'none',
                           color: '#94a3b8',
                           cursor: 'pointer',
-                          fontSize: 11,
+                          fontSize: 12,
                           padding: 2,
                         }}
                         title="Remove candidate from comparison"
@@ -290,7 +290,7 @@ export const CandidateComparisonModal: React.FC<CandidateComparisonModalProps> =
                       <div style={{ fontSize: 18, fontWeight: 800, color: isLeader ? '#2563eb' : '#0f172a', fontVariantNumeric: 'tabular-nums' }}>
                         {c.matchScore}%
                       </div>
-                      <div style={{ fontSize: 10, color: '#64748b' }}>Match Fit</div>
+                      <div style={{ fontSize: 12, color: '#64748b' }}>Match Fit</div>
                     </div>
                   </div>
                 </div>
@@ -306,7 +306,7 @@ export const CandidateComparisonModal: React.FC<CandidateComparisonModalProps> =
                       border: 'none',
                       backgroundColor: c.status === 'Shortlisted' ? '#10b981' : '#0f172a',
                       color: '#ffffff',
-                      fontSize: 11.5,
+                      fontSize: 12,
                       fontWeight: 600,
                       cursor: 'pointer',
                       display: 'flex',
@@ -327,7 +327,7 @@ export const CandidateComparisonModal: React.FC<CandidateComparisonModalProps> =
                       border: '1px solid #cbd5e1',
                       backgroundColor: '#ffffff',
                       color: '#334155',
-                      fontSize: 11.5,
+                      fontSize: 12,
                       fontWeight: 600,
                       cursor: 'pointer',
                       display: 'flex',
@@ -374,12 +374,12 @@ export const CandidateComparisonModal: React.FC<CandidateComparisonModalProps> =
 
                 {/* Section 2: Technical Competencies */}
                 <div>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: '#475569', textTransform: 'uppercase', marginBottom: 8 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#475569', textTransform: 'uppercase', marginBottom: 8 }}>
                     Competency Breakdown
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                     {comps.map((comp) => (
-                      <div key={comp.label} style={{ fontSize: 11 }}>
+                      <div key={comp.label} style={{ fontSize: 12 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 2 }}>
                           <span style={{ color: '#475569' }}>{comp.shortLabel}</span>
                           <span style={{ fontWeight: 700, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>
@@ -403,7 +403,7 @@ export const CandidateComparisonModal: React.FC<CandidateComparisonModalProps> =
 
                 {/* Section 3: Verified Skills */}
                 <div>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: '#475569', textTransform: 'uppercase', marginBottom: 6 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#475569', textTransform: 'uppercase', marginBottom: 6 }}>
                     Verified Skills ({c.skills.length})
                   </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
@@ -411,7 +411,7 @@ export const CandidateComparisonModal: React.FC<CandidateComparisonModalProps> =
                       <span
                         key={skIdx}
                         style={{
-                          fontSize: 10.5,
+                          fontSize: 12,
                           backgroundColor: '#f1f5f9',
                           border: '1px solid #e2e8f0',
                           borderRadius: 4,
@@ -432,10 +432,10 @@ export const CandidateComparisonModal: React.FC<CandidateComparisonModalProps> =
 
                 {/* Section 4: AI Analysis Notes */}
                 <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: 10 }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: '#475569', textTransform: 'uppercase', marginBottom: 4 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#475569', textTransform: 'uppercase', marginBottom: 4 }}>
                     Evaluator Summary
                   </div>
-                  <p style={{ fontSize: 11.5, color: '#334155', lineHeight: 1.5, margin: 0 }}>
+                  <p style={{ fontSize: 12, color: '#334155', lineHeight: 1.5, margin: 0 }}>
                     {c.aiAnalysisExplanation}
                   </p>
                 </div>

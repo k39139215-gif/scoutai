@@ -201,7 +201,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
               }}
             >
               <span>✨ Studio Desk</span>
-              <span style={{ fontSize: 9, background: currentView === 'talent-studio' ? '#4338ca' : '#e0e7ff', color: currentView === 'talent-studio' ? '#ffffff' : '#4338ca', padding: '1px 4px', borderRadius: 3, fontWeight: 700 }}>REF</span>
+              <span style={{ fontSize: 12, background: currentView === 'talent-studio' ? '#4338ca' : '#e0e7ff', color: currentView === 'talent-studio' ? '#ffffff' : '#4338ca', padding: '1px 4px', borderRadius: 3, fontWeight: 700 }}>REF</span>
             </button>
           </div>
         ) : (
@@ -339,7 +339,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
                     <div
                       style={{
                         padding: '6px 12px 4px',
-                        fontSize: 11,
+                        fontSize: 12,
                         fontWeight: 600,
                         color: 'var(--text-muted)',
                         letterSpacing: '0.01em',
@@ -374,7 +374,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
                         </div>
                         <span
                           style={{
-                            fontSize: 11,
+                            fontSize: 12,
                             fontVariantNumeric: 'tabular-nums',
                             fontWeight: 500,
                             color: '#166534',
@@ -396,7 +396,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
                     <div
                       style={{
                         padding: '6px 12px 4px',
-                        fontSize: 11,
+                        fontSize: 12,
                         fontWeight: 600,
                         color: 'var(--text-muted)',
                         letterSpacing: '0.01em',
@@ -429,7 +429,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
                           <span style={{ fontWeight: 500, color: '#0f172a' }}>{j.title}</span>
                           <span style={{ color: 'var(--text-muted)' }}>({j.client})</span>
                         </div>
-                        <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{j.location}</span>
+                        <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{j.location}</span>
                       </div>
                     ))}
                   </div>
@@ -512,7 +512,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
                   <span
                     style={{
                       color: '#64748b',
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: 500,
                       cursor: 'pointer',
                     }}
@@ -540,7 +540,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
                       flex: 1,
                       padding: '4px 6px',
                       borderRadius: 4,
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: notifTab === 'activity' ? 700 : 500,
                       border: 'none',
                       backgroundColor: notifTab === 'activity' ? '#ffffff' : 'transparent',
@@ -557,7 +557,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
                       flex: 1,
                       padding: '4px 6px',
                       borderRadius: 4,
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: notifTab === 'events' ? 700 : 500,
                       border: 'none',
                       backgroundColor: notifTab === 'events' ? '#ffffff' : 'transparent',
@@ -574,7 +574,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
                       flex: 1,
                       padding: '4px 6px',
                       borderRadius: 4,
-                      fontSize: 11,
+                      fontSize: 12,
                       fontWeight: notifTab === 'jobs' ? 700 : 500,
                       border: 'none',
                       backgroundColor: notifTab === 'jobs' ? '#ffffff' : 'transparent',
@@ -626,9 +626,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
                         <div style={{ flex: 1, paddingLeft: 4 }}>
                           <div style={{ fontWeight: 600, color: '#0f172a', display: 'flex', justifyContent: 'space-between' }}>
                             <span>{a.type}</span>
-                            <span style={{ fontSize: 10, color: '#94a3b8', fontWeight: 400 }}>{a.timestamp}</span>
+                            <span style={{ fontSize: 12, color: '#94a3b8', fontWeight: 400 }}>{a.timestamp}</span>
                           </div>
-                          <div style={{ color: '#475569', fontSize: 11, marginTop: 2, lineHeight: 1.4 }}>{a.details}</div>
+                          <div style={{ color: '#475569', fontSize: 12, marginTop: 2, lineHeight: 1.4 }}>{a.details}</div>
                         </div>
                       </div>
                     );
@@ -672,9 +672,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
                       <div style={{ flex: 1, paddingLeft: 4 }}>
                         <div style={{ fontWeight: 600, color: '#0f172a', display: 'flex', justifyContent: 'space-between' }}>
                           <span>{inv.candidateName}</span>
-                          <span style={{ fontSize: 10, color: '#3b82f6', fontWeight: 600 }}>{inv.time}</span>
+                          <span style={{ fontSize: 12, color: '#3b82f6', fontWeight: 600 }}>{inv.time}</span>
                         </div>
-                        <div style={{ color: '#64748b', fontSize: 11, marginTop: 2 }}>
+                        <div style={{ color: '#64748b', fontSize: 12, marginTop: 2 }}>
                           {inv.type} • {inv.jobTitle}
                         </div>
                       </div>
@@ -715,7 +715,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
                       />
                       <div style={{ paddingLeft: 4 }}>
                         <div style={{ fontWeight: 600, color: '#0f172a' }}>{j.title}</div>
-                        <div style={{ color: '#64748b', fontSize: 11, marginTop: 2 }}>
+                        <div style={{ color: '#64748b', fontSize: 12, marginTop: 2 }}>
                           {j.client} • {j.applicantsCount} applicants
                         </div>
                       </div>
@@ -738,7 +738,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
             border: '1px solid var(--border-subtle)',
             display: 'grid',
             placeItems: 'center',
-            fontSize: 11.5,
+            fontSize: 12,
             fontWeight: 600,
             color: '#0f172a',
             cursor: 'pointer',

@@ -62,10 +62,10 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
               gap: 5,
               padding: isSmall ? '3px 8px' : '5px 12px',
               borderRadius: isSmall ? 4 : 6,
-              fontSize: isSmall ? 11.5 : 12.5,
+              fontSize: isSmall ? 12 : 13,
               fontWeight: isActive ? 600 : 500,
               background: isActive ? '#ffffff' : 'transparent',
-              color: isActive ? '#4338ca' : '#64748b',
+              color: isActive ? '#4338ca' : '#475569',
               border: isActive ? '1px solid #c7d2fe' : '1px solid transparent',
               cursor: 'pointer',
               boxShadow: isActive ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
@@ -91,7 +91,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
             {opt.count !== undefined && (
               <span
                 style={{
-                  fontSize: 10,
+                  fontSize: 12,
                   fontFamily: 'inherit',
                   fontVariantNumeric: 'tabular-nums',
                   padding: '1px 5px',

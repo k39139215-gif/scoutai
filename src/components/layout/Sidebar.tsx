@@ -148,7 +148,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
               <span style={{ fontWeight: 600, fontSize: 14, color: '#0f172a', letterSpacing: '-0.015em' }}>
                 ScoutAI
               </span>
-              <span style={{ fontSize: 11, color: '#94a3b8', fontWeight: 500 }}>
+              <span style={{ fontSize: 12, color: '#64748b', fontWeight: 500 }}>
                 ops
               </span>
             </div>
@@ -173,7 +173,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
                 style={{
                   padding: '4px 8px 6px',
                   fontWeight: 500,
-                  fontSize: 11,
+                  fontSize: 12,
                   color: 'var(--text-muted)',
                   letterSpacing: '0.01em',
                 }}
@@ -252,7 +252,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
                           style={{
                             borderRadius: 4,
                             padding: '1px 5px',
-                            fontSize: 11,
+                            fontSize: 12,
                             fontWeight: 500,
                             color: isActive ? '#0f172a' : 'var(--text-muted)',
                             background: isActive ? '#ffffff' : 'var(--bg-subtle)',
@@ -303,7 +303,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
                 borderRadius: '50%',
                 background: '#e2e8f0',
                 color: '#334155',
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 600,
                 display: 'flex',
                 alignItems: 'center',
@@ -325,7 +325,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
               >
                 {settings.profile.name}
               </div>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
                 {settings.profile.role}
               </div>
             </div>
@@ -342,7 +342,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
                 width: '100%',
                 padding: '5px 8px',
                 borderRadius: 5,
-                fontSize: 11.5,
+                fontSize: 12,
                 color: 'var(--text-muted)',
                 cursor: 'pointer',
                 transition: 'color 0.1s ease',

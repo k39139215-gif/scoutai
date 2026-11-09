@@ -118,7 +118,7 @@ export const NewCandidateModal: React.FC<NewCandidateModalProps> = ({
               <h3 style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', margin: 0 }}>
                 Direct Candidate Ingestion
               </h3>
-              <p style={{ fontSize: 11, color: '#64748b', margin: '2px 0 0 0' }}>
+              <p style={{ fontSize: 12, color: '#64748b', margin: '2px 0 0 0' }}>
                 Add verified talent profile with automated vector match scoring
               </p>
             </div>
@@ -143,7 +143,7 @@ export const NewCandidateModal: React.FC<NewCandidateModalProps> = ({
             {/* Candidate Name & Title */}
             <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 12 }}>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>
                   Full Candidate Name *
                 </label>
                 <input
@@ -164,7 +164,7 @@ export const NewCandidateModal: React.FC<NewCandidateModalProps> = ({
               </div>
 
               <div>
-                <label style={{ fontSize: 11, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>
                   Target Title / Specialization *
                 </label>
                 <input
@@ -188,7 +188,7 @@ export const NewCandidateModal: React.FC<NewCandidateModalProps> = ({
             {/* Experience & Location */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>
                   Experience (Years): {experienceYears} yrs
                 </label>
                 <input
@@ -205,7 +205,7 @@ export const NewCandidateModal: React.FC<NewCandidateModalProps> = ({
               </div>
 
               <div>
-                <label style={{ fontSize: 11, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>
+                <label style={{ fontSize: 12, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>
                   Location
                 </label>
                 <input
@@ -227,7 +227,7 @@ export const NewCandidateModal: React.FC<NewCandidateModalProps> = ({
 
             {/* Technical Skills */}
             <div>
-              <label style={{ fontSize: 11, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>
+              <label style={{ fontSize: 12, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>
                 Key Technical Competencies (comma separated)
               </label>
               <input
@@ -248,7 +248,7 @@ export const NewCandidateModal: React.FC<NewCandidateModalProps> = ({
 
             {/* Stage Status */}
             <div>
-              <label style={{ fontSize: 11, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>
+              <label style={{ fontSize: 12, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>
                 Initial Pipeline Stage
               </label>
               <select
