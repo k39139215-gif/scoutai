@@ -290,11 +290,28 @@ export const SettingsView: React.FC = () => {
                 value={region}
                 onChange={(e) => setRegion(e.target.value)}
               />
-              <Input
-                label="Default Timezone"
-                value={timezone}
-                onChange={(e) => setTimezone(e.target.value)}
-              />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <label style={{ fontSize: 13, fontWeight: 500, color: '#334155' }}>
+                  Default Timezone
+                </label>
+                <CustomSelect
+                  value={timezone}
+                  onChange={setTimezone}
+                  options={[
+                    { value: 'Asia/Kolkata', label: 'Asia/Kolkata (IST, UTC+5:30)', badge: 'IST' },
+                    { value: 'Asia/Singapore', label: 'Asia/Singapore (SGT, UTC+8:00)', badge: 'SGT' },
+                    { value: 'Asia/Dubai', label: 'Asia/Dubai (GST, UTC+4:00)', badge: 'GST' },
+                    { value: 'Europe/London', label: 'Europe/London (GMT/BST, UTC+0:00)', badge: 'GMT' },
+                    { value: 'Europe/Berlin', label: 'Europe/Berlin (CET, UTC+1:00)', badge: 'CET' },
+                    { value: 'America/New_York', label: 'America/New_York (EST, UTC-5:00)', badge: 'EST' },
+                    { value: 'America/Chicago', label: 'America/Chicago (CST, UTC-6:00)', badge: 'CST' },
+                    { value: 'America/Los_Angeles', label: 'America/Los_Angeles (PST, UTC-8:00)', badge: 'PST' },
+                    { value: 'UTC', label: 'UTC (Coordinated Universal Time)', badge: 'UTC' },
+                  ]}
+                  size="md"
+                  menuWidth="100%"
+                />
+              </div>
             </div>
           </div>
         )}

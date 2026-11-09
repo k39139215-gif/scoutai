@@ -29,7 +29,8 @@ import {
   Volume2,
   VolumeX,
 } from 'lucide-react';
-import { CustomCheckbox } from '../components/common/CustomCheckbox';
+import { Checkbox } from '../components/boardui';
+import { CustomSelect } from '../components/common/CustomDropdown';
 import { CompetencyRadarChart } from '../components/studio/CompetencyRadarChart';
 import { CandidateComparisonModal } from '../components/studio/CandidateComparisonModal';
 import { StudioCommandPalette } from '../components/studio/StudioCommandPalette';
@@ -1136,47 +1137,39 @@ export const TalentStudioView: React.FC = () => {
                       <span style={{ fontSize: 12, color: '#64748b', fontWeight: 700, minWidth: 38 }}>
                         {idx === 0 ? 'Where' : filterLogic}
                       </span>
-                      <select
+                      <CustomSelect
                         value={rule.field}
-                        onChange={(e) => {
+                        onChange={(val) => {
                           const updated = [...filterRules];
-                          updated[idx].field = e.target.value as any;
+                          updated[idx].field = val as any;
                           setFilterRules(updated);
                         }}
-                        style={{
-                          fontSize: 12,
-                          padding: '3px 6px',
-                          borderRadius: 4,
-                          border: '1px solid #cbd5e1',
-                          backgroundColor: '#ffffff',
-                        }}
-                      >
-                        <option value="matchScore">Match Score</option>
-                        <option value="experienceYears">Experience</option>
-                        <option value="location">Location</option>
-                        <option value="status">Status</option>
-                      </select>
+                        options={[
+                          { value: 'matchScore', label: 'Match Score' },
+                          { value: 'experienceYears', label: 'Experience' },
+                          { value: 'location', label: 'Location' },
+                          { value: 'status', label: 'Status' },
+                        ]}
+                        size="sm"
+                        menuWidth={130}
+                      />
 
-                      <select
+                      <CustomSelect
                         value={rule.operator}
-                        onChange={(e) => {
+                        onChange={(val) => {
                           const updated = [...filterRules];
-                          updated[idx].operator = e.target.value as any;
+                          updated[idx].operator = val as any;
                           setFilterRules(updated);
                         }}
-                        style={{
-                          fontSize: 12,
-                          padding: '3px 6px',
-                          borderRadius: 4,
-                          border: '1px solid #cbd5e1',
-                          backgroundColor: '#ffffff',
-                        }}
-                      >
-                        <option value="gte">≥</option>
-                        <option value="lte">≤</option>
-                        <option value="contains">contains</option>
-                        <option value="equals">=</option>
-                      </select>
+                        options={[
+                          { value: 'gte', label: '≥' },
+                          { value: 'lte', label: '≤' },
+                          { value: 'contains', label: 'contains' },
+                          { value: 'equals', label: '=' },
+                        ]}
+                        size="sm"
+                        menuWidth={100}
+                      />
 
                       <input
                         type="text"
@@ -1390,7 +1383,7 @@ export const TalentStudioView: React.FC = () => {
                       textTransform: 'capitalize',
                     }}
                   >
-                    <CustomCheckbox
+                    <Checkbox
                       checked={Boolean((visibleColumns as any)[colKey])}
                       onChange={(checked: boolean) =>
                         setVisibleColumns((prev) => ({
@@ -1399,7 +1392,7 @@ export const TalentStudioView: React.FC = () => {
                         }))
                       }
                       ariaLabel={`Toggle ${colKey} column`}
-                      size={14}
+                      size="sm"
                     />
                     <span>{colKey}</span>
                   </label>
@@ -1683,14 +1676,18 @@ export const TalentStudioView: React.FC = () => {
                       }}
                     >
                       <th style={{ width: 40, padding: '10px 12px', textAlign: 'center' }}>
-                        <CustomCheckbox
+                        <Checkbox
                           checked={
                             sortedCandidates.length > 0 &&
                             selectedIds.length === sortedCandidates.length
                           }
+                          indeterminate={
+                            selectedIds.length > 0 &&
+                            selectedIds.length < sortedCandidates.length
+                          }
                           onChange={() => handleToggleSelectAll()}
                           ariaLabel="Select all candidates"
-                          size={15}
+                          size="sm"
                         />
                       </th>
                       {visibleColumns.code && (
@@ -1907,11 +1904,11 @@ export const TalentStudioView: React.FC = () => {
                           >
                             {/* Checkbox */}
                             <td style={{ padding: '12px', textAlign: 'center' }}>
-                              <CustomCheckbox
+                              <Checkbox
                                 checked={isSelected}
                                 onChange={() => handleToggleSelectRow(candidate.id)}
                                 ariaLabel={`Select ${candidate.name}`}
-                                size={15}
+                                size="sm"
                               />
                             </td>
 
@@ -2939,27 +2936,20 @@ export const TalentStudioView: React.FC = () => {
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   <div>
-                    <label style={{ fontSize: 12, fontWeight: 600, color: '#334155', display: 'block', marginBottom: 4 }}>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: '#334155', display: 'block', marginBottom: 6 }}>
                       Active Candidate
                     </label>
-                    <select
+                    <CustomSelect
                       value={activeCandidateId}
-                      onChange={(e) => setActiveCandidateId(e.target.value)}
-                      style={{
-                        width: '100%',
-                        padding: '8px 12px',
-                        borderRadius: 6,
-                        border: '1px solid #cbd5e1',
-                        fontSize: 13,
-                        backgroundColor: '#ffffff',
-                      }}
-                    >
-                      {candidates.map((c) => (
-                        <option key={c.id} value={c.id}>
-                          {c.name} — {c.title} ({c.matchScore}%)
-                        </option>
-                      ))}
-                    </select>
+                      onChange={(val) => setActiveCandidateId(val)}
+                      options={candidates.map((c) => ({
+                        value: c.id,
+                        label: `${c.name} — ${c.title}`,
+                        badge: `${c.matchScore}%`,
+                      }))}
+                      style={{ width: '100%' }}
+                      size="md"
+                    />
                   </div>
 
                   <div>

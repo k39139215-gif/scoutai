@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { ChevronDown, Check } from 'lucide-react';
 
 export interface StatusSelectOption {
@@ -30,10 +31,8 @@ const DEFAULT_STATUS_COLORS: Record<string, string> = {
 };
 
 /**
- * Official BoardUI Status Select Component
+ * Official BoardUI Status Select Component (Portaled to prevent container clipping)
  * Figma source: Board UI -> Dashboard 1 -> Table status dropdown (node 3731:3264)
- * Features tactile trigger button with status dot, rotating chevron glyph,
- * and 150ms scale/fade/blur entry motion popover.
  */
 export const StatusSelect: React.FC<StatusSelectProps> = ({
   value,
@@ -44,7 +43,14 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({
   style = {},
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  const [coords, setCoords] = useState<{ top: number; left: number; width: number }>({
+    top: 0,
+    left: 0,
+    width: 0,
+  });
 
   const selectedOption = options.find((o) => o.value === value) || options[0];
   const isSmall = size === 'sm';
@@ -52,30 +58,68 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({
   const dotColor =
     selectedOption?.dotColor || DEFAULT_STATUS_COLORS[selectedOption?.value] || '#94a3b8';
 
+  const updatePosition = useCallback(() => {
+    if (!triggerRef.current) return;
+    const rect = triggerRef.current.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const dropUp = spaceBelow < 180 && rect.top > spaceBelow;
+
+    setCoords({
+      top: dropUp ? rect.top - 4 : rect.bottom + 4,
+      left: Math.min(rect.left, window.innerWidth - 170),
+      width: Math.max(150, rect.width),
+    });
+  }, []);
+
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleOutsideClick = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      if (
+        triggerRef.current &&
+        !triggerRef.current.contains(target) &&
+        menuRef.current &&
+        !menuRef.current.contains(target)
+      ) {
         setIsOpen(false);
       }
     };
-    if (isOpen) {
-      document.addEventListener('mousedown', handleOutsideClick);
+
+    const handleScrollOrResize = () => {
+      updatePosition();
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+    window.addEventListener('scroll', handleScrollOrResize, true);
+    window.addEventListener('resize', handleScrollOrResize);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      window.removeEventListener('scroll', handleScrollOrResize, true);
+      window.removeEventListener('resize', handleScrollOrResize);
+    };
+  }, [isOpen, updatePosition]);
+
+  const toggleOpen = () => {
+    if (!isOpen) {
+      updatePosition();
     }
-    return () => document.removeEventListener('mousedown', handleOutsideClick);
-  }, [isOpen]);
+    setIsOpen((prev) => !prev);
+  };
 
   return (
     <div
-      ref={containerRef}
       className={`boardui-status-select-wrapper ${className}`}
       style={{ position: 'relative', display: 'inline-block', ...style }}
     >
-      {/* Trigger Button matching BoardUI Figma specs */}
+      {/* Trigger Button */}
       <button
+        ref={triggerRef}
         type="button"
         aria-haspopup="listbox"
         aria-expanded={isOpen}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={toggleOpen}
         style={{
           display: 'inline-flex',
           alignItems: 'center',
@@ -103,7 +147,6 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({
           if (!isOpen) e.currentTarget.style.borderColor = 'var(--border-subtle, #e2e8f0)';
         }}
       >
-        {/* BoardUI Colored Status Dot */}
         <span
           style={{
             width: 7,
@@ -117,7 +160,6 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({
 
         <span>{selectedOption?.label || value}</span>
 
-        {/* BoardUI 180deg Rotating Chevron */}
         <ChevronDown
           size={13}
           style={{
@@ -128,80 +170,83 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({
         />
       </button>
 
-      {/* BoardUI Animated Popover Menu with Blur/Scale Motion */}
-      {isOpen && (
-        <div
-          role="listbox"
-          style={{
-            position: 'absolute',
-            top: 'calc(100% + 5px)',
-            left: 0,
-            zIndex: 110,
-            minWidth: 160,
-            background: '#ffffff',
-            border: '1px solid var(--border-subtle, #e2e8f0)',
-            borderRadius: 12,
-            boxShadow: '0 12px 32px -4px rgba(15, 23, 42, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.06)',
-            padding: 5,
-            animation: 'boarduiSelectEnter 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
-          }}
-        >
-          {options.map((opt) => {
-            const isSelected = opt.value === value;
-            const optColor = opt.dotColor || DEFAULT_STATUS_COLORS[opt.value] || '#94a3b8';
+      {/* Portaled Popover Menu (Never clipped by table overflow) */}
+      {isOpen &&
+        createPortal(
+          <div
+            ref={menuRef}
+            role="listbox"
+            style={{
+              position: 'fixed',
+              top: coords.top,
+              left: coords.left,
+              zIndex: 99999,
+              minWidth: coords.width,
+              background: '#ffffff',
+              border: '1px solid var(--border-subtle, #e2e8f0)',
+              borderRadius: 12,
+              boxShadow: '0 12px 32px -4px rgba(15, 23, 42, 0.15), 0 4px 12px -2px rgba(15, 23, 42, 0.06)',
+              padding: 5,
+              animation: 'boarduiSelectEnter 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            }}
+          >
+            {options.map((opt) => {
+              const isSelected = opt.value === value;
+              const optColor = opt.dotColor || DEFAULT_STATUS_COLORS[opt.value] || '#94a3b8';
 
-            return (
-              <button
-                key={opt.value}
-                type="button"
-                role="option"
-                aria-selected={isSelected}
-                onClick={() => {
-                  onChange(opt.value);
-                  setIsOpen(false);
-                }}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  width: '100%',
-                  padding: '7px 10px',
-                  borderRadius: 7,
-                  fontSize: 12.5,
-                  fontWeight: isSelected ? 600 : 500,
-                  color: isSelected ? '#0f172a' : '#475569',
-                  background: isSelected ? '#f8fafc' : 'transparent',
-                  border: 'none',
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  transition: 'background-color 0.12s ease',
-                  outline: 'none',
-                }}
-                onMouseEnter={(e) => {
-                  if (!isSelected) e.currentTarget.style.background = '#f1f5f9';
-                }}
-                onMouseLeave={(e) => {
-                  if (!isSelected) e.currentTarget.style.background = 'transparent';
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span
-                    style={{
-                      width: 6.5,
-                      height: 6.5,
-                      borderRadius: '50%',
-                      background: optColor,
-                    }}
-                  />
-                  <span>{opt.label}</span>
-                </div>
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  role="option"
+                  aria-selected={isSelected}
+                  onClick={() => {
+                    onChange(opt.value);
+                    setIsOpen(false);
+                  }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    width: '100%',
+                    padding: '7px 10px',
+                    borderRadius: 7,
+                    fontSize: 12.5,
+                    fontWeight: isSelected ? 600 : 500,
+                    color: isSelected ? '#0f172a' : '#475569',
+                    background: isSelected ? '#f8fafc' : 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    transition: 'background-color 0.12s ease',
+                    outline: 'none',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isSelected) e.currentTarget.style.background = '#f1f5f9';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isSelected) e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span
+                      style={{
+                        width: 6.5,
+                        height: 6.5,
+                        borderRadius: '50%',
+                        background: optColor,
+                      }}
+                    />
+                    <span>{opt.label}</span>
+                  </div>
 
-                {isSelected && <Check size={13} style={{ color: '#4338ca' }} />}
-              </button>
-            );
-          })}
-        </div>
-      )}
+                  {isSelected && <Check size={13} style={{ color: '#4338ca' }} />}
+                </button>
+              );
+            })}
+          </div>,
+          document.body
+        )}
 
       <style>{`
         @keyframes boarduiSelectEnter {

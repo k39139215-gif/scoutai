@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Sparkles, UserPlus } from 'lucide-react';
+import { CustomSelect } from '../common/CustomDropdown';
 import { playTickSound, playSuccessSound } from '../../utils/soundEffects';
 import type { CandidateStatus } from '../../types';
 
@@ -248,27 +249,21 @@ export const NewCandidateModal: React.FC<NewCandidateModalProps> = ({
 
             {/* Stage Status */}
             <div>
-              <label style={{ fontSize: 12, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 4 }}>
+              <label style={{ fontSize: 12, fontWeight: 700, color: '#334155', display: 'block', marginBottom: 6 }}>
                 Initial Pipeline Stage
               </label>
-              <select
+              <CustomSelect
                 value={status}
-                onChange={(e) => setStatus(e.target.value as CandidateStatus)}
-                style={{
-                  width: '100%',
-                  padding: '8px 10px',
-                  borderRadius: 6,
-                  border: '1px solid #cbd5e1',
-                  fontSize: 12,
-                  backgroundColor: '#ffffff',
-                  boxSizing: 'border-box',
-                }}
-              >
-                <option value="Qualified">Qualified</option>
-                <option value="Shortlisted">Shortlisted</option>
-                <option value="Interviewing">Interviewing</option>
-                <option value="Offer Extended">Offer Extended</option>
-              </select>
+                onChange={(val) => setStatus(val as CandidateStatus)}
+                options={[
+                  { value: 'Qualified', label: 'Qualified', badge: 'Tier 1' },
+                  { value: 'Shortlisted', label: 'Shortlisted', badge: 'Active' },
+                  { value: 'Interviewing', label: 'Interviewing', badge: 'In Progress' },
+                  { value: 'Offer Extended', label: 'Offer Extended', badge: 'Final' },
+                ]}
+                style={{ width: '100%' }}
+                size="md"
+              />
             </div>
 
             {/* AI Predicted Match Banner */}

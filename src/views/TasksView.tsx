@@ -12,7 +12,7 @@ import { StatusBadge } from '../components/common/Badge';
 import { Modal } from '../components/common/Modal';
 import { Input } from '../components/common/Input';
 import { CustomSelect } from '../components/common/CustomDropdown';
-import { CustomCheckbox } from '../components/common/CustomCheckbox';
+import { Checkbox } from '../components/boardui';
 import type { TaskCategory, JobPriority } from '../types';
 import { isDevMode } from '../utils/devMode';
 import { formatDate, getRelativeDateLabel } from '../utils/formatters';
@@ -263,9 +263,10 @@ export const TasksView: React.FC = () => {
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: 14, flex: 1, minWidth: 0 }}>
                     {/* Checkbox Toggle with Custom Checkbox component (zero bounding box) */}
-                    <CustomCheckbox
+                    <Checkbox
                       checked={isCompleted}
                       onChange={() => toggleTaskStatus(t.id)}
+                      size="sm"
                       ariaLabel={t.title}
                     />
 

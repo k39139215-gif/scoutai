@@ -4,20 +4,23 @@ import {
   User,
   Plus,
   CheckCircle2,
-  XCircle,
   Video,
+  Copy,
+  Check,
+  Clock,
+  ExternalLink,
   Sparkles,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Button } from '../components/common/Button';
-import { StatusBadge } from '../components/common/Badge';
 import { Modal } from '../components/common/Modal';
 import { Input, Textarea } from '../components/common/Input';
 import { CustomSelect } from '../components/common/CustomDropdown';
-import { DatePicker } from '../components/boardui';
+import { DatePicker, SegmentedControl } from '../components/boardui';
 import { isDevMode } from '../utils/devMode';
 import { formatDate, formatTime, getRelativeDateLabel } from '../utils/formatters';
 import { getNearestUpcomingInterview } from '../data/recruitmentData';
+import { useToast } from '../context/ToastContext';
 
 export const InterviewsView: React.FC = () => {
   const {
@@ -25,20 +28,25 @@ export const InterviewsView: React.FC = () => {
     candidates,
     scheduleInterview,
     cancelInterview,
-    completeInterview,
     navigate,
   } = useApp();
 
+  const { showToast } = useToast();
+
   const [statusFilter, setStatusFilter] = useState<string>('All');
   const [modalOpen, setModalOpen] = useState(false);
+  const [cancelModalId, setCancelModalId] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   // New interview form state
   const [candidateId, setCandidateId] = useState(candidates[0]?.id || 'cand-1');
-  const [interviewer, setInterviewer] = useState('Sameer Kulkarni (VP Engineering)');
+  const [interviewer, setInterviewer] = useState('Dr. Sameer Kulkarni (VP of AI)');
   const [date, setDate] = useState('2026-08-22');
   const [time, setTime] = useState('16:00 IST');
   const [durationMinutes, setDurationMinutes] = useState(45);
-  const [type, setType] = useState<'Technical Screen' | 'System Architecture' | 'Hiring Manager Round' | 'Culture & Alignment'>('Technical Screen');
+  const [type, setType] = useState<
+    'Technical Screen' | 'System Architecture' | 'Hiring Manager Round' | 'Culture & Alignment'
+  >('Technical Screen');
   const [notes, setNotes] = useState('Evaluate distributed concurrency patterns and system design.');
 
   const selectedCandidate = candidates.find((c) => c.id === candidateId) || candidates[0];
@@ -60,6 +68,25 @@ export const InterviewsView: React.FC = () => {
       notes,
     });
     setModalOpen(false);
+    showToast('Interview session scheduled successfully', 'success');
+  };
+
+  const handleCopyLink = (interviewId: string, url: string) => {
+    navigator.clipboard.writeText(url).then(() => {
+      setCopiedId(interviewId);
+      showToast('Meeting link copied to clipboard', 'info');
+      setTimeout(() => setCopiedId(null), 2000);
+    }).catch(() => {
+      setCopiedId(interviewId);
+      setTimeout(() => setCopiedId(null), 2000);
+    });
+  };
+
+  const handleConfirmCancel = () => {
+    if (!cancelModalId) return;
+    cancelInterview(cancelModalId);
+    setCancelModalId(null);
+    showToast('Interview cancelled successfully', 'info');
   };
 
   const filteredInterviews = interviews.filter((i) => {
@@ -68,10 +95,15 @@ export const InterviewsView: React.FC = () => {
   });
 
   const nextInterview = getNearestUpcomingInterview(interviews);
+  const scheduledCount = interviews.filter((i) => i.status === 'Scheduled').length;
+  const completedCount = interviews.filter((i) => i.status === 'Completed').length;
+  const cancelledCount = interviews.filter((i) => i.status === 'Cancelled').length;
+
+  const interviewToCancel = interviews.find((i) => i.id === cancelModalId);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-      {/* Header */}
+      {/* 1. Header with Title & Action */}
       <div
         style={{
           display: 'flex',
@@ -127,347 +159,575 @@ export const InterviewsView: React.FC = () => {
           <button
             className="btn-dark"
             onClick={() => setModalOpen(true)}
-          style={{
-            height: 36,
-            padding: '0 16px',
-            borderRadius: 8,
-            fontSize: 13,
-            fontWeight: 500,
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 7,
-            background: '#18181b',
-            color: '#ffffff',
-            border: 'none',
-            cursor: 'pointer',
-          }}
-        >
-          <Plus size={15} />
-          <span>Schedule Interview</span>
-        </button>
+            style={{
+              height: 36,
+              padding: '0 16px',
+              borderRadius: 8,
+              fontSize: 13,
+              fontWeight: 500,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 7,
+              background: '#0f172a',
+              color: '#ffffff',
+              border: 'none',
+              cursor: 'pointer',
+            }}
+          >
+            <Plus size={15} />
+            <span>Schedule Interview</span>
+          </button>
         </div>
       </div>
 
-      {/* Nearest Upcoming Interview Hero Card */}
-      {nextInterview && (
-        <div
-          style={{
-            padding: '14px 18px',
-            background: '#ffffff',
-            border: '1px solid #c7d2fe',
-            borderRadius: 8,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: 12,
-            boxShadow: '0 1px 3px rgba(67, 56, 202, 0.05)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div
-              style={{
-                width: 38,
-                height: 38,
-                borderRadius: 8,
-                background: '#eef2ff',
-                color: '#4338ca',
-                display: 'grid',
-                placeItems: 'center',
-                flexShrink: 0,
-              }}
-            >
-              <Calendar size={18} />
-            </div>
-            <div>
-              <div style={{ fontSize: 12, fontWeight: 600, color: '#4338ca', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                Next Scheduled Session ({nextInterview.relativeDateLabel})
-              </div>
-              <div style={{ fontSize: 14, fontWeight: 600, color: '#0f172a', marginTop: 1 }}>
-                {nextInterview.interview.candidateName} • {nextInterview.interview.jobTitle}
-              </div>
-              <div style={{ fontSize: 12, color: '#64748b' }}>
-                {nextInterview.dateFormatted} • {nextInterview.timeFormatted} ({nextInterview.interview.durationMinutes} min) with {nextInterview.interview.interviewer}
-              </div>
-            </div>
-          </div>
-
-          <a
-            href={nextInterview.interview.locationOrLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              height: 32,
-              padding: '0 12px',
-              borderRadius: 6,
-              fontSize: 12.5,
-              fontWeight: 500,
-              background: '#0f172a',
-              color: '#ffffff',
-              textDecoration: 'none',
-              boxShadow: '0 1px 2px rgba(15, 23, 42, 0.12)',
-            }}
-          >
-            <Video size={13} />
-            <span>Join Video Room</span>
-          </a>
-        </div>
-      )}
-
-      {/* Filter Row */}
+      {/* 2. Top Summary Stat Cards (Clean 3-metric overview instead of duplicating 1st card) */}
       <div
         style={{
-          padding: '12px 16px',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: 14,
+        }}
+      >
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e4e4e7',
+            borderRadius: 12,
+            padding: '16px 20px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 14,
+            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.02)',
+          }}
+        >
+          <div
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 10,
+              background: '#eef2ff',
+              color: '#4338ca',
+              display: 'grid',
+              placeItems: 'center',
+              flexShrink: 0,
+            }}
+          >
+            <Calendar size={18} />
+          </div>
+          <div>
+            <div style={{ fontSize: 12.5, fontWeight: 500, color: '#64748b' }}>Scheduled Sessions</div>
+            <div style={{ fontSize: 22, fontWeight: 700, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>
+              {scheduledCount}
+            </div>
+          </div>
+        </div>
+
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e4e4e7',
+            borderRadius: 12,
+            padding: '16px 20px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 14,
+            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.02)',
+          }}
+        >
+          <div
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 10,
+              background: '#f0fdf4',
+              color: '#16a34a',
+              display: 'grid',
+              placeItems: 'center',
+              flexShrink: 0,
+            }}
+          >
+            <Clock size={18} />
+          </div>
+          <div>
+            <div style={{ fontSize: 12.5, fontWeight: 500, color: '#64748b' }}>Upcoming This Week</div>
+            <div style={{ fontSize: 22, fontWeight: 700, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>
+              {interviews.length}
+            </div>
+          </div>
+        </div>
+
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e4e4e7',
+            borderRadius: 12,
+            padding: '16px 20px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 14,
+            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.02)',
+          }}
+        >
+          <div
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 10,
+              background: '#f8fafc',
+              color: '#64748b',
+              display: 'grid',
+              placeItems: 'center',
+              flexShrink: 0,
+            }}
+          >
+            <CheckCircle2 size={18} />
+          </div>
+          <div>
+            <div style={{ fontSize: 12.5, fontWeight: 500, color: '#64748b' }}>Awaiting Feedback</div>
+            <div style={{ fontSize: 22, fontWeight: 700, color: '#0f172a', fontVariantNumeric: 'tabular-nums' }}>
+              0
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 3. Filter Toolbar (BoardUI Segmented Control - Flat without heavy multi-layer boxes) */}
+      <div
+        style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: 12,
-          background: '#ffffff',
-          border: '1px solid #e4e4e7',
-          borderRadius: 8,
+          padding: '10px 0',
         }}
       >
-        <div style={{ display: 'flex', gap: 3, background: '#f4f4f5', padding: 3, borderRadius: 7 }}>
-          {['All', 'Scheduled', 'Completed', 'Cancelled'].map((st) => {
-            const isSelected = statusFilter === st;
-            const count = st === 'All' ? interviews.length : interviews.filter((i) => i.status === st).length;
-            return (
-              <button
-                key={st}
-                onClick={() => setStatusFilter(st)}
-                style={{
-                  padding: '5px 12px',
-                  borderRadius: 6,
-                  fontSize: 12.5,
-                  fontWeight: isSelected ? 600 : 500,
-                  border: isSelected ? '1px solid #c7d2fe' : '1px solid transparent',
-                  background: isSelected ? '#ffffff' : 'transparent',
-                  color: isSelected ? '#4338ca' : '#475569',
-                  cursor: 'pointer',
-                  boxShadow: isSelected ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
-                  transition: 'all 0.12s ease',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 6,
-                }}
-              >
-                <span>{st}</span>
-                <span
-                  style={{
-                    fontSize: 12,
-                    padding: '0 5px',
-                    borderRadius: 9999,
-                    background: isSelected ? '#e0e7ff' : '#e2e8f0',
-                    color: isSelected ? '#3730a3' : '#64748b',
-                    fontVariantNumeric: 'tabular-nums',
-                  }}
-                >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+        <SegmentedControl
+          value={statusFilter}
+          onChange={setStatusFilter}
+          options={[
+            { value: 'All', label: 'All', count: interviews.length },
+            { value: 'Scheduled', label: 'Scheduled', count: scheduledCount },
+            { value: 'Completed', label: 'Completed', count: completedCount },
+            { value: 'Cancelled', label: 'Cancelled', count: cancelledCount },
+          ]}
+          size="md"
+        />
 
         <span style={{ fontSize: 13, color: '#71717a' }}>
-          Showing <strong style={{ color: '#18181b' }}>{filteredInterviews.length}</strong> of {interviews.length} interviews
+          Showing <strong style={{ color: '#0f172a' }}>{filteredInterviews.length}</strong> of{' '}
+          {interviews.length} sessions
         </span>
       </div>
 
-      {/* Interviews Grid */}
+      {/* 4. Interviews Grid - Flat clean cards without nested border boxes */}
       {filteredInterviews.length === 0 ? (
-        <div className="snow-card" style={{ padding: '36px', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: 'var(--font-size-xs)' }}>
-          No interviews found with status "{statusFilter}".
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e4e4e7',
+            borderRadius: 12,
+            padding: '48px 24px',
+            textAlign: 'center',
+            color: '#71717a',
+            fontSize: 13,
+          }}
+        >
+          No interview sessions found with status "{statusFilter}".
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 16 }}>
-          {filteredInterviews.map((item) => (
-            <div
-              key={item.id}
-              style={{
-                background: '#ffffff',
-                border: '1px solid #e4e4e7',
-                borderRadius: 8,
-                padding: '18px 20px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                gap: 16,
-                boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
-              }}
-            >
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                  <div>
-                    <div
-                      onClick={() => navigate('candidate-detail', { candidateId: item.candidateId })}
-                      style={{
-                        fontSize: 14.5,
-                        fontWeight: 600,
-                        color: '#18181b',
-                        cursor: 'pointer',
-                      }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = '#2563eb')}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = '#18181b')}
-                    >
-                      {item.candidateName}
-                    </div>
-                    <div style={{ fontSize: 12.5, color: '#71717a', marginTop: 2 }}>
-                      {item.jobTitle}
-                    </div>
-                  </div>
-                  <StatusBadge status={item.status} />
-                </div>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
+            gap: 16,
+          }}
+        >
+          {filteredInterviews.map((item) => {
+            const isNext = item.id === nextInterview?.interview.id;
+            const cand = candidates.find((c) => c.id === item.candidateId);
+            const relativeDate = getRelativeDateLabel(item.date);
+            const dateStr = formatDate(item.date);
+            const timeStr = formatTime(item.time);
 
-                <div
-                  style={{
-                    background: '#f8fafc',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: 6,
-                    padding: '12px 14px',
-                    margin: '14px 0',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 8,
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 13, fontWeight: 600, color: '#1e293b' }}>
-                    <Calendar size={14} style={{ color: '#2563eb' }} />
-                    <span style={{ fontVariantNumeric: 'tabular-nums' }}>
-                      {getRelativeDateLabel(item.date) === 'Today' || getRelativeDateLabel(item.date) === 'Tomorrow'
-                        ? `${getRelativeDateLabel(item.date)} (${formatDate(item.date)}) • ${formatTime(item.time)}`
-                        : `${formatDate(item.date)} • ${formatTime(item.time)}`}{' '}
-                      ({item.durationMinutes} min)
-                    </span>
-                  </div>
+            // Clean sanitized notes to eliminate any double "Focus" copy bug
+            const cleanNotes = item.notes
+              ? item.notes.replace(/^(focus:\s*|focus\s+on\s*)/i, '').trim()
+              : '';
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 12.5, color: '#64748b' }}>
-                    <User size={13} style={{ color: '#94a3b8' }} />
-                    <span>Interviewer: {item.interviewer}</span>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 12.5, color: '#64748b' }}>
-                    <Video size={13} style={{ color: '#2563eb', flexShrink: 0 }} />
-                    <span style={{ fontSize: 12, color: '#334155', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {item.locationOrLink}
-                    </span>
-                  </div>
-                </div>
-
-                {item.notes && (
-                  <p style={{ fontSize: 12.5, color: '#52525b', lineHeight: 1.5, margin: 0, wordBreak: 'break-word' }}>
-                    <strong style={{ color: '#18181b' }}>Focus:</strong> {item.notes}
-                  </p>
-                )}
-              </div>
-
-              {/* Action Buttons */}
+            return (
               <div
+                key={item.id}
                 style={{
+                  background: '#ffffff',
+                  border: isNext ? '1.5px solid #c7d2fe' : '1px solid #e4e4e7',
+                  borderRadius: 12,
+                  padding: '20px',
                   display: 'flex',
-                  alignItems: 'center',
+                  flexDirection: 'column',
                   justifyContent: 'space-between',
-                  paddingTop: 12,
-                  borderTop: '1px solid #f4f4f5',
-                  gap: 8,
+                  gap: 16,
+                  boxShadow: isNext
+                    ? '0 4px 12px -2px rgba(67, 56, 202, 0.08), 0 2px 4px -1px rgba(67, 56, 202, 0.04)'
+                    : '0 1px 3px rgba(0, 0, 0, 0.02)',
+                  position: 'relative',
+                  transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
                 }}
               >
-                <button
-                  type="button"
-                  onClick={() => navigate('candidate-detail', { candidateId: item.candidateId })}
+                {/* Top Section: Avatar, Candidate Name, Match Score, Badges */}
+                <div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      justifyContent: 'space-between',
+                      gap: 12,
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
+                      <div
+                        style={{
+                          width: 40,
+                          height: 40,
+                          borderRadius: '50%',
+                          background: isNext ? '#1e1b4b' : '#0f172a',
+                          color: '#ffffff',
+                          display: 'grid',
+                          placeItems: 'center',
+                          fontSize: 13,
+                          fontWeight: 600,
+                          flexShrink: 0,
+                          letterSpacing: '0.02em',
+                        }}
+                      >
+                        {item.candidateName
+                          .split(' ')
+                          .map((n) => n[0])
+                          .join('')
+                          .slice(0, 2)}
+                      </div>
+
+                      <div style={{ minWidth: 0 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                          <span
+                            onClick={() => navigate('candidate-detail', { candidateId: item.candidateId })}
+                            style={{
+                              fontSize: 14.5,
+                              fontWeight: 600,
+                              color: '#0f172a',
+                              cursor: 'pointer',
+                              letterSpacing: '-0.01em',
+                            }}
+                            onMouseEnter={(e) => (e.currentTarget.style.color = '#4338ca')}
+                            onMouseLeave={(e) => (e.currentTarget.style.color = '#0f172a')}
+                          >
+                            {item.candidateName}
+                          </span>
+                          {cand && (
+                            <span
+                              style={{
+                                fontSize: 12,
+                                fontWeight: 600,
+                                padding: '1px 6px',
+                                borderRadius: 9999,
+                                background: '#f0fdf4',
+                                color: '#166534',
+                                border: '1px solid #bbf7d0',
+                                fontVariantNumeric: 'tabular-nums',
+                              }}
+                            >
+                              {cand.matchScore}% fit
+                            </span>
+                          )}
+                        </div>
+                        <div
+                          style={{
+                            fontSize: 12.5,
+                            color: '#64748b',
+                            marginTop: 2,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {item.jobTitle}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+                      {isNext && (
+                        <span
+                          style={{
+                            fontSize: 12,
+                            fontWeight: 600,
+                            padding: '2px 8px',
+                            borderRadius: 9999,
+                            background: '#eef2ff',
+                            color: '#4338ca',
+                            border: '1px solid #c7d2fe',
+                          }}
+                        >
+                          Next Session
+                        </span>
+                      )}
+                      <span
+                        style={{
+                          fontSize: 12,
+                          fontWeight: 500,
+                          padding: '2px 8px',
+                          borderRadius: 6,
+                          background:
+                            item.status === 'Scheduled'
+                              ? '#eff6ff'
+                              : item.status === 'Completed'
+                              ? '#f0fdf4'
+                              : '#fef2f2',
+                          color:
+                            item.status === 'Scheduled'
+                              ? '#1d4ed8'
+                              : item.status === 'Completed'
+                              ? '#15803d'
+                              : '#b91c1c',
+                          border: `1px solid ${
+                            item.status === 'Scheduled'
+                              ? '#bfdbfe'
+                              : item.status === 'Completed'
+                              ? '#bbf7d0'
+                              : '#fecaca'
+                          }`,
+                        }}
+                      >
+                        {item.status}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Clean detail rows directly inside card (no nested gray boxed panels) */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 16 }}>
+                    {/* Date, Time & Round Type */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 13, fontWeight: 600, color: '#0f172a' }}>
+                        <Calendar size={14} style={{ color: '#4338ca', flexShrink: 0 }} />
+                        <span style={{ fontVariantNumeric: 'tabular-nums' }}>
+                          {relativeDate === 'Today' || relativeDate === 'Tomorrow'
+                            ? `${relativeDate} (${dateStr}) • ${timeStr}`
+                            : `${dateStr} • ${timeStr}`}{' '}
+                          <span style={{ color: '#64748b', fontWeight: 400 }}>({item.durationMinutes} min)</span>
+                        </span>
+                      </div>
+
+                      <span
+                        style={{
+                          fontSize: 12,
+                          fontWeight: 500,
+                          padding: '2px 8px',
+                          borderRadius: 6,
+                          background: '#f1f5f9',
+                          color: '#334155',
+                          border: '1px solid #e2e8f0',
+                        }}
+                      >
+                        {item.type}
+                      </span>
+                    </div>
+
+                    {/* Interviewer */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 12.5, color: '#475569' }}>
+                      <User size={13} style={{ color: '#94a3b8', flexShrink: 0 }} />
+                      <span>
+                        Interviewer: <strong style={{ color: '#0f172a', fontWeight: 500 }}>{item.interviewer}</strong>
+                      </span>
+                    </div>
+
+                    {/* Meeting Link Pill with Copy Icon */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 6,
+                          background: '#f8fafc',
+                          border: '1px solid #e2e8f0',
+                          borderRadius: 6,
+                          padding: '4px 10px',
+                          fontSize: 12,
+                          color: '#334155',
+                          maxWidth: '100%',
+                        }}
+                      >
+                        <Video size={13} style={{ color: '#4338ca', flexShrink: 0 }} />
+                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 220 }}>
+                          {item.locationOrLink.replace(/^https?:\/\//, '')}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => handleCopyLink(item.id, item.locationOrLink)}
+                          aria-label="Copy meeting link"
+                          style={{
+                            background: 'transparent',
+                            border: 'none',
+                            color: copiedId === item.id ? '#16a34a' : '#64748b',
+                            cursor: 'pointer',
+                            padding: '2px 4px',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            marginLeft: 4,
+                          }}
+                        >
+                          {copiedId === item.id ? <Check size={12} /> : <Copy size={12} />}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Focus Summary */}
+                    {cleanNotes && (
+                      <div
+                        style={{
+                          fontSize: 12.5,
+                          lineHeight: 1.5,
+                          color: '#475569',
+                          background: '#f8fafc',
+                          borderLeft: '3px solid #6366f1',
+                          padding: '6px 12px',
+                          borderRadius: '0 6px 6px 0',
+                          marginTop: 4,
+                        }}
+                      >
+                        <strong style={{ color: '#0f172a' }}>Focus:</strong> {cleanNotes}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Bottom Action Row */}
+                <div
                   style={{
-                    display: 'inline-flex',
+                    display: 'flex',
                     alignItems: 'center',
-                    height: 30,
-                    padding: '0 12px',
-                    borderRadius: 6,
-                    fontSize: 12,
-                    fontWeight: 500,
-                    background: '#ffffff',
-                    border: '1px solid #e4e4e7',
-                    color: '#18181b',
-                    cursor: 'pointer',
-                    whiteSpace: 'nowrap',
-                    transition: 'all 0.15s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = '#f4f4f5';
-                    e.currentTarget.style.borderColor = '#d4d4d8';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = '#ffffff';
-                    e.currentTarget.style.borderColor = '#e4e4e7';
+                    justifyContent: 'space-between',
+                    paddingTop: 14,
+                    borderTop: '1px solid #f1f5f9',
+                    gap: 10,
+                    flexWrap: 'wrap',
                   }}
                 >
-                  Profile
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate('candidate-detail', { candidateId: item.candidateId })}
+                    style={{
+                      height: 32,
+                      padding: '0 12px',
+                      borderRadius: 6,
+                      fontSize: 12.5,
+                      fontWeight: 500,
+                      background: '#ffffff',
+                      border: '1px solid #e4e4e7',
+                      color: '#0f172a',
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap',
+                      transition: 'all 0.12s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#f8fafc';
+                      e.currentTarget.style.borderColor = '#cbd5e1';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = '#ffffff';
+                      e.currentTarget.style.borderColor = '#e4e4e7';
+                    }}
+                  >
+                    View Profile
+                  </button>
 
-                <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                  {item.status === 'Scheduled' && (
-                    <>
-                      <button
-                        type="button"
-                        onClick={() => cancelInterview(item.id)}
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    {item.status === 'Scheduled' && (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => setCancelModalId(item.id)}
+                          style={{
+                            height: 32,
+                            padding: '0 10px',
+                            borderRadius: 6,
+                            fontSize: 12.5,
+                            fontWeight: 500,
+                            background: 'transparent',
+                            border: '1px solid transparent',
+                            color: '#94a3b8',
+                            cursor: 'pointer',
+                            whiteSpace: 'nowrap',
+                            transition: 'color 0.12s ease, background 0.12s ease',
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.color = '#dc2626';
+                            e.currentTarget.style.background = '#fef2f2';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.color = '#94a3b8';
+                            e.currentTarget.style.background = 'transparent';
+                          }}
+                        >
+                          Cancel
+                        </button>
+
+                        <a
+                          href={item.locationOrLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 6,
+                            height: 32,
+                            padding: '0 14px',
+                            borderRadius: 6,
+                            fontSize: 12.5,
+                            fontWeight: 500,
+                            background: '#0f172a',
+                            color: '#ffffff',
+                            textDecoration: 'none',
+                            boxShadow: '0 1px 2px rgba(15, 23, 42, 0.08)',
+                            transition: 'background 0.12s ease',
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.background = '#1e293b')}
+                          onMouseLeave={(e) => (e.currentTarget.style.background = '#0f172a')}
+                        >
+                          <Video size={13} />
+                          <span>Join Room</span>
+                          <ExternalLink size={11} style={{ opacity: 0.7 }} />
+                        </a>
+                      </>
+                    )}
+
+                    {item.status === 'Completed' && (
+                      <span
                         style={{
                           display: 'inline-flex',
                           alignItems: 'center',
-                          gap: 5,
-                          height: 30,
-                          padding: '0 10px',
-                          borderRadius: 6,
-                          fontSize: 12,
+                          gap: 6,
+                          fontSize: 12.5,
                           fontWeight: 500,
-                          background: '#ffffff',
-                          border: '1px solid #e4e4e7',
-                          color: '#dc2626',
-                          cursor: 'pointer',
-                          whiteSpace: 'nowrap',
-                        }}
-                        onMouseEnter={(e) => (e.currentTarget.style.background = '#fef2f2')}
-                        onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
-                      >
-                        <XCircle size={12} />
-                        <span>Cancel</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => completeInterview(item.id)}
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: 5,
-                          height: 30,
-                          padding: '0 10px',
-                          borderRadius: 6,
-                          fontSize: 12,
-                          fontWeight: 500,
-                          background: '#dcfce7',
-                          border: '1px solid #86efac',
                           color: '#15803d',
-                          cursor: 'pointer',
-                          whiteSpace: 'nowrap',
                         }}
-                        onMouseEnter={(e) => (e.currentTarget.style.background = '#bbf7d0')}
-                        onMouseLeave={(e) => (e.currentTarget.style.background = '#dcfce7')}
                       >
-                        <CheckCircle2 size={12} />
-                        <span>Complete</span>
-                      </button>
-                    </>
-                  )}
+                        <CheckCircle2 size={14} />
+                        <span>Completed</span>
+                      </span>
+                    )}
+
+                    {item.status === 'Cancelled' && (
+                      <span style={{ fontSize: 12.5, color: '#94a3b8' }}>Cancelled</span>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
-      {/* Schedule Interview Modal */}
+      {/* 5. Schedule Interview Modal */}
       <Modal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
@@ -566,6 +826,36 @@ export const InterviewsView: React.FC = () => {
             onChange={(e) => setNotes(e.target.value)}
           />
         </form>
+      </Modal>
+
+      {/* 6. Cancel Confirmation Modal (Prevents accidental one-click cancellation) */}
+      <Modal
+        isOpen={!!cancelModalId}
+        onClose={() => setCancelModalId(null)}
+        title="Cancel Interview Session?"
+        description={
+          interviewToCancel
+            ? `Are you sure you want to cancel the ${interviewToCancel.type} with ${interviewToCancel.candidateName}?`
+            : 'Are you sure you want to cancel this interview?'
+        }
+        footer={
+          <>
+            <Button variant="secondary" onClick={() => setCancelModalId(null)}>
+              Keep Session
+            </Button>
+            <Button
+              variant="danger"
+              onClick={handleConfirmCancel}
+            >
+              Yes, Cancel Session
+            </Button>
+          </>
+        }
+      >
+        <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5, margin: 0 }}>
+          This will update the interview status to <strong>Cancelled</strong> and log an event in the audit trail.
+          The candidate and interviewer ({interviewToCancel?.interviewer}) can be rescheduled at any time.
+        </p>
       </Modal>
     </div>
   );

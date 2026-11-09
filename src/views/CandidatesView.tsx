@@ -23,9 +23,8 @@ import { useToast } from '../context/ToastContext';
 import { StatusBadge } from '../components/common/Badge';
 import { Drawer } from '../components/common/Drawer';
 import { isDevMode } from '../utils/devMode';
-import { CustomCheckbox } from '../components/common/CustomCheckbox';
 import { CustomSelect, CustomMenu } from '../components/common/CustomDropdown';
-import { SegmentedControl, Pagination, Chip } from '../components/boardui';
+import { SegmentedControl, Pagination, Chip, Checkbox } from '../components/boardui';
 import { Tooltip } from '../components/common/Tooltip';
 
 export const CandidatesView: React.FC = () => {
@@ -341,22 +340,23 @@ export const CandidatesView: React.FC = () => {
           onClick={() => setFiltersOpen(!filtersOpen)}
           type="button"
           style={{
-            height: 'var(--control-height)',
+            height: 36,
             padding: '0 12px',
-            borderRadius: 'var(--radius-md)',
-            fontSize: 'var(--font-size-sm)',
+            borderRadius: 8,
+            fontSize: 13,
             fontWeight: 500,
             display: 'inline-flex',
             alignItems: 'center',
             gap: 7,
-            background: filtersOpen ? 'var(--color-accent-subtle)' : '#ffffff',
-            color: filtersOpen ? 'var(--color-accent)' : 'var(--color-text-secondary)',
-            border: filtersOpen ? '1px solid var(--color-accent-border)' : '1px solid var(--color-border)',
+            background: filtersOpen ? '#eef2ff' : '#ffffff',
+            color: filtersOpen ? '#4338ca' : '#334155',
+            border: filtersOpen ? '1px solid #c7d2fe' : '1px solid #e4e4e7',
             cursor: 'pointer',
             transition: 'all 0.15s ease',
+            whiteSpace: 'nowrap',
           }}
         >
-          <SlidersHorizontal size={14} style={{ color: filtersOpen ? 'var(--color-accent)' : 'var(--color-text-muted)' }} />
+          <SlidersHorizontal size={14} style={{ color: filtersOpen ? '#4338ca' : '#64748b' }} />
           <span>{filtersOpen ? 'Hide Filters' : 'Show Filters'}</span>
           {activeFiltersCount > 0 && (
             <span
@@ -365,8 +365,8 @@ export const CandidatesView: React.FC = () => {
                 padding: '1px 6px',
                 borderRadius: 9999,
                 background: filtersOpen ? '#e0e7ff' : '#f1f5f9',
-                color: filtersOpen ? 'var(--color-accent)' : 'var(--color-text-secondary)',
-                fontSize: 'var(--font-size-xs)',
+                color: filtersOpen ? '#3730a3' : '#64748b',
+                fontSize: 11.5,
                 fontWeight: 600,
               }}
             >
@@ -441,37 +441,51 @@ export const CandidatesView: React.FC = () => {
 
         <div style={{ flex: 1 }} />
 
-        {/* Custom Sort Select Dropdown */}
-        <CustomSelect
-          value={sortBy}
-          onChange={(val) => setSortBy(val as any)}
-          options={[
-            { value: 'match', label: 'Sort: Highest Match Score' },
-            { value: 'experience', label: 'Sort: Most Experience' },
-            { value: 'name', label: 'Sort: Candidate Name (A-Z)' },
-          ]}
-          size="md"
-          menuWidth={230}
-        />
+        {/* Right Action Group with zoom protection */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', flexShrink: 0 }}>
+          {/* Custom Sort Select Dropdown */}
+          <CustomSelect
+            value={sortBy}
+            onChange={(val) => setSortBy(val as any)}
+            options={[
+              { value: 'match', label: 'Sort: Highest Match Score' },
+              { value: 'experience', label: 'Sort: Most Experience' },
+              { value: 'name', label: 'Sort: Candidate Name (A-Z)' },
+            ]}
+            size="md"
+            menuWidth={230}
+          />
 
-        {/* Save View Action */}
-        <button
-          type="button"
-          className="pill"
-          style={{
-            height: 36,
-            padding: '0 12px',
-            fontSize: 13,
-            borderRadius: 8,
-            background: '#ffffff',
-            border: '1px solid #e4e4e7',
-            color: '#71717a',
-            cursor: 'pointer',
-          }}
-          onClick={() => alert('Current view configuration saved to presets!')}
-        >
-          Save View
-        </button>
+          {/* Save View Action */}
+          <button
+            type="button"
+            className="pill"
+            style={{
+              height: 36,
+              padding: '0 14px',
+              fontSize: 13,
+              fontWeight: 500,
+              borderRadius: 8,
+              background: '#ffffff',
+              border: '1px solid #e4e4e7',
+              color: '#334155',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              transition: 'all 0.12s ease',
+            }}
+            onClick={() => showToast('Current view configuration saved to presets', 'info')}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#f8fafc';
+              e.currentTarget.style.borderColor = '#cbd5e1';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#ffffff';
+              e.currentTarget.style.borderColor = '#e4e4e7';
+            }}
+          >
+            Save View
+          </button>
+        </div>
       </div>
 
       {/* 3. Main Workspace: Two-Panel Filter Sidebar + Candidate Data Table */}
@@ -778,18 +792,21 @@ export const CandidatesView: React.FC = () => {
               <thead>
                 <tr style={{ background: '#fafafa', borderBottom: '1px solid #e4e4e7' }}>
                   <th className="col-sticky-first" style={{ width: 44, padding: '12px 14px', textAlign: 'center' }}>
-                    <CustomCheckbox
+                    <Checkbox
                       checked={
                         sortedCandidates.length > 0 &&
                         selectedIds.length === sortedCandidates.length
                       }
+                      indeterminate={
+                        selectedIds.length > 0 &&
+                        selectedIds.length < sortedCandidates.length
+                      }
                       onChange={(checked: boolean) => handleSelectAll(checked)}
-                      size={15}
+                      size="sm"
                       ariaLabel="Select all candidates"
                     />
                   </th>
                   <th
-                    className="col-sticky-first"
                     style={{
                       padding: '10px 16px',
                       fontSize: 12,
@@ -941,17 +958,16 @@ export const CandidatesView: React.FC = () => {
                       >
                         {/* Checkbox */}
                         <td className="col-sticky-first" style={{ padding: '0 14px', textAlign: 'center' }}>
-                          <CustomCheckbox
+                          <Checkbox
                             checked={isSelected}
                             onChange={() => handleToggleSelect(c.id)}
-                            size={15}
+                            size="sm"
                             ariaLabel={`Select ${c.name}`}
                           />
                         </td>
 
                         {/* Candidate Identity (36px Avatar, 14px Semi-bold Name, Muted current company) */}
                         <td
-                          className="col-sticky-first"
                           style={{ padding: '0 16px', cursor: 'pointer' }}
                           onClick={() => setActiveCandidateId(c.id)}
                         >

@@ -518,7 +518,7 @@ export const initialInterviews: Interview[] = [
     type: 'System Architecture',
     status: 'Scheduled',
     locationOrLink: 'https://meet.scoutai.internal/demo-room-301',
-    notes: 'Focus on multi-agent evaluation pipelines and embedding retrieval optimization.',
+    notes: 'Multi-agent evaluation pipelines and embedding retrieval optimization.',
   },
   {
     id: 'int-2',

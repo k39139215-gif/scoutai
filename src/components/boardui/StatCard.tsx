@@ -206,45 +206,52 @@ export const StatCard: React.FC<StatCardProps> = ({
             {subtitle}
           </span>
 
-          {delta && (
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 3,
-                fontSize: 12,
-                fontWeight: 600,
-                padding: '2px 7px',
-                borderRadius: 9999,
-                fontVariantNumeric: 'tabular-nums',
-                flexShrink: 0,
-                background:
-                  deltaType === 'positive'
-                    ? '#dcfce7'
-                    : deltaType === 'negative'
-                    ? '#fee2e2'
-                    : '#e2e8f0',
-                color:
-                  deltaType === 'positive'
-                    ? '#166534'
-                    : deltaType === 'negative'
-                    ? '#991b1b'
-                    : '#334155',
-                border: `1px solid ${
-                  deltaType === 'positive'
-                    ? '#bbf7d0'
-                    : deltaType === 'negative'
-                    ? '#fecaca'
-                    : '#cbd5e1'
-                }`,
-              }}
-            >
-              {deltaType === 'positive' && <ArrowUpRight size={11} />}
-              {deltaType === 'negative' && <ArrowDownRight size={11} />}
-              {deltaType === 'neutral' && <Minus size={10} />}
-              <span>{delta}</span>
-            </span>
-          )}
+          {delta && (() => {
+            const isNegativeVal = delta.trim().startsWith('-');
+            const isPositiveVal = delta.trim().startsWith('+');
+            const isDownward = isNegativeVal || (deltaType === 'negative' && !isPositiveVal);
+            const isUpward = isPositiveVal || (deltaType === 'positive' && !isNegativeVal);
+
+            return (
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 3,
+                  fontSize: 12,
+                  fontWeight: 600,
+                  padding: '2px 7px',
+                  borderRadius: 9999,
+                  fontVariantNumeric: 'tabular-nums',
+                  flexShrink: 0,
+                  background:
+                    deltaType === 'positive'
+                      ? '#dcfce7'
+                      : deltaType === 'negative'
+                      ? '#fee2e2'
+                      : '#e2e8f0',
+                  color:
+                    deltaType === 'positive'
+                      ? '#166534'
+                      : deltaType === 'negative'
+                      ? '#991b1b'
+                      : '#334155',
+                  border: `1px solid ${
+                    deltaType === 'positive'
+                      ? '#bbf7d0'
+                      : deltaType === 'negative'
+                      ? '#fecaca'
+                      : '#cbd5e1'
+                  }`,
+                }}
+              >
+                {isDownward && <ArrowDownRight size={11} />}
+                {isUpward && <ArrowUpRight size={11} />}
+                {!isDownward && !isUpward && <Minus size={10} />}
+                <span>{delta}</span>
+              </span>
+            );
+          })()}
         </div>
       )}
     </section>

@@ -93,52 +93,51 @@ export const TopCandidates: React.FC = () => {
               }}
             >
               {/* Left: Avatar + Info + Skills */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
                 <div
                   style={{
-                    width: 32,
-                    height: 32,
+                    width: 36,
+                    height: 36,
                     borderRadius: '50%',
-                    background: '#e2e8f0',
-                    color: '#334155',
+                    background: '#0f172a',
+                    color: '#ffffff',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     fontWeight: 600,
-                    fontSize: 12,
+                    fontSize: 13,
                     flexShrink: 0,
+                    letterSpacing: '0.02em',
                   }}
                 >
                   {cand.name.charAt(0)}
                 </div>
 
                 <div style={{ minWidth: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                    <span style={{ fontSize: 13, fontWeight: 500, color: '#0f172a' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, flexWrap: 'wrap' }}>
+                    <span style={{ fontSize: 13.5, fontWeight: 600, color: '#0f172a' }}>
                       {cand.name}
-                    </span>
-                    <span className="mono-tag" style={{ color: 'var(--text-muted)' }}>
-                      [CAN-{cand.id.replace('cand-', '')}]
                     </span>
                     <StatusBadge status={cand.status} size="sm" />
                   </div>
 
-                  <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 1 }}>
+                  <div style={{ fontSize: 12, color: '#64748b', marginTop: 1 }}>
                     {cand.title} • {cand.location}
                   </div>
 
                   {/* Skills tags */}
-                  <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginTop: 4 }}>
+                  <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginTop: 5 }}>
                     {cand.skills.slice(0, 3).map((sk) => (
                       <span
                         key={sk}
                         style={{
                           fontSize: 12,
+                          fontWeight: 500,
                           background: '#ffffff',
-                          border: '1px solid var(--border-subtle)',
-                          padding: '1px 5px',
-                          borderRadius: 3,
-                          color: 'var(--text-secondary)',
+                          border: '1px solid #e2e8f0',
+                          padding: '2px 7px',
+                          borderRadius: 4,
+                          color: '#475569',
                         }}
                       >
                         {sk}
@@ -149,13 +148,13 @@ export const TopCandidates: React.FC = () => {
               </div>
 
               {/* Right: Match Score + Quick Shortlist / Review */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
                 <span
                   className="tabular-nums"
                   style={{
                     fontSize: 12,
                     fontWeight: 600,
-                    padding: '2px 8px',
+                    padding: '3px 9px',
                     borderRadius: 6,
                     background: '#f0fdf4',
                     color: '#166534',
@@ -175,27 +174,33 @@ export const TopCandidates: React.FC = () => {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: 5,
-                    height: 28,
-                    padding: '0 10px',
+                    height: 30,
+                    padding: '0 12px',
                     borderRadius: 6,
-                    fontSize: 12,
+                    fontSize: 12.5,
                     fontWeight: 500,
                     background: cand.status === 'Shortlisted' ? '#f0fdf4' : '#ffffff',
-                    border: `1px solid ${cand.status === 'Shortlisted' ? '#bbf7d0' : 'var(--border-default)'}`,
-                    color: cand.status === 'Shortlisted' ? '#166534' : 'var(--text-primary)',
+                    border: `1px solid ${cand.status === 'Shortlisted' ? '#bbf7d0' : '#cbd5e1'}`,
+                    color: cand.status === 'Shortlisted' ? '#166534' : '#0f172a',
                     cursor: 'pointer',
-                    transition: 'background-color 0.1s ease',
+                    transition: 'all 0.12s ease',
                   }}
                   onMouseEnter={(e) => {
-                    if (cand.status !== 'Shortlisted') e.currentTarget.style.background = 'var(--bg-subtle)';
+                    if (cand.status !== 'Shortlisted') {
+                      e.currentTarget.style.background = '#f8fafc';
+                      e.currentTarget.style.borderColor = '#94a3b8';
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    if (cand.status !== 'Shortlisted') e.currentTarget.style.background = '#ffffff';
+                    if (cand.status !== 'Shortlisted') {
+                      e.currentTarget.style.background = '#ffffff';
+                      e.currentTarget.style.borderColor = '#cbd5e1';
+                    }
                   }}
                 >
                   {cand.status === 'Shortlisted' ? (
                     <>
-                      <CheckCircle2 size={12} />
+                      <CheckCircle2 size={13} />
                       <span>Shortlisted</span>
                     </>
                   ) : (
