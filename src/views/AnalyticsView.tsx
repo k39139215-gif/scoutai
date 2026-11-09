@@ -103,7 +103,7 @@ export const AnalyticsView: React.FC = () => {
           value="94.8%"
           delta="+2.4%"
           deltaType="positive"
-          subtitle="Based on 247 evaluations"
+          subtitle="Sample metric • 247 evaluations"
           sparklineData={[88, 89, 91, 92, 93, 94.8]}
         />
 
@@ -112,7 +112,7 @@ export const AnalyticsView: React.FC = () => {
           value="1.8s"
           delta="-0.4s"
           deltaType="positive"
-          subtitle="Per candidate profile"
+          subtitle="Sample metric • Per profile"
           sparklineData={[2.4, 2.2, 2.1, 1.9, 1.8]}
         />
 
@@ -121,17 +121,17 @@ export const AnalyticsView: React.FC = () => {
           value="14.2h"
           delta="+3.1h"
           deltaType="positive"
-          subtitle="Automated ranking vs manual"
+          subtitle="Sample metric • Estimated saving"
           sparklineData={[9.5, 11.0, 12.4, 13.5, 14.2]}
         />
 
         <StatCard
           title="Outreach draft acceptance"
           value="92.5%"
-          delta="+5.1%"
+          delta="+4.1%"
           deltaType="positive"
-          subtitle="Recruiter draft approval rate"
-          sparklineData={[82, 85, 88, 90, 92.5]}
+          subtitle="Sample metric • Recruiter approved"
+          sparklineData={[82, 85, 87, 90, 92.5]}
         />
       </div>
 

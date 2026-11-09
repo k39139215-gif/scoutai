@@ -67,15 +67,15 @@ export const PrivacyComplianceView: React.FC = () => {
             <span
               style={{
                 fontSize: 11,
-                fontWeight: 600,
+                fontWeight: 500,
                 padding: '2px 8px',
                 borderRadius: 9999,
-                background: '#fef3c7',
-                color: '#b45309',
-                border: '1px solid #fde68a',
+                background: '#f1f5f9',
+                color: '#475569',
+                border: '1px solid #e2e8f0',
               }}
             >
-              DPDP Act Compliance
+              DPDP-aligned workflows (not legal advice)
             </span>
           </div>
           <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
@@ -207,13 +207,13 @@ export const PrivacyComplianceView: React.FC = () => {
           }}
         >
           <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
-            Storage security
+            Access policy
           </span>
           <div className="metric-val" style={{ fontSize: 24, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
-            AES-256
+            Enforced
           </div>
           <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
-            Zero external PII exposure
+            Role-scoped candidate privacy
           </div>
         </div>
       </div>

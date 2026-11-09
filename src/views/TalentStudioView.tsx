@@ -11,7 +11,6 @@ import {
   ArrowUpDown,
   Download,
   Mail,
-  ShieldCheck,
   Lock,
   LayoutGrid,
   FileText,
@@ -697,68 +696,19 @@ export const TalentStudioView: React.FC = () => {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-          <div
+          <span
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: '4px 10px',
-              backgroundColor: '#f1f5f9',
-              border: '1px solid #cbd5e1',
-              borderRadius: 9999,
               fontSize: 11,
-              fontWeight: 600,
-              color: '#334155',
-            }}
-          >
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: '50%',
-                backgroundColor: '#10b981',
-                display: 'inline-block',
-              }}
-            />
-            <span>#1 Ranked Match Precision (99.4%)</span>
-            <ChevronRight size={12} style={{ color: '#64748b' }} />
-          </div>
-
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: '4px 10px',
-              backgroundColor: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: 9999,
-              fontSize: 11,
-              fontWeight: 500,
+              fontFamily: 'var(--font-family-base)',
               color: '#475569',
-            }}
-          >
-            <ShieldCheck size={12} style={{ color: '#10b981' }} />
-            <span>SOC 2 Type II Certified</span>
-          </div>
-
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: '4px 10px',
-              backgroundColor: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: 9999,
-              fontSize: 11,
+              background: '#f1f5f9',
+              padding: '2px 8px',
+              borderRadius: 4,
               fontWeight: 500,
-              color: '#475569',
             }}
           >
-            <Zap size={12} style={{ color: '#6366f1' }} />
-            <span>Fair-Hiring AI v3.4 Active</span>
-          </div>
+            Candidate Operations Roster
+          </span>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -2367,7 +2317,7 @@ export const TalentStudioView: React.FC = () => {
                                         color: '#64748b',
                                       }}
                                     >
-                                      INFERENCE LATENCY: 245ms • CONFIDENCE: 99.4%
+                                      SAMPLE METRIC • EVALUATION CONFIDENCE: {candidate.matchScore}%
                                     </span>
                                   </div>
 
@@ -4480,7 +4430,7 @@ export const TalentStudioView: React.FC = () => {
                 { id: 2, file: '1a8c1231b71a0d272ee2e6b76af46b31.png', title: 'Operational Header Drawer', location: 'Top Header Bell Notification Icon', desc: 'Segmented tabs (Activity | Interviews | Requisitions) with colored vertical accent ribbons.' },
                 { id: 3, file: '3b2da56d0f98673d03f2d8662018b627.png', title: 'Top Action Header Bar', location: 'Global App Header', desc: 'Capsule widgets, circular icon pills, and date filter segments.' },
                 { id: 4, file: '243b991bb2eaea65723c3504c08a2057.png', title: 'Multi-Segment Pipeline Rail', location: 'Top of Candidate Table', desc: 'Multi-colored distribution bar breaking down Qualified, Shortlisted, and Interviewing stages.' },
-                { id: 5, file: 'ad4635c44bfa9071f067030de7fde1fe.jpg', title: 'Capability & Trust Badges', location: 'Top Trust Pill Rail', desc: 'Capsule announcement pills for SOC 2 Type II, 99.4% Match Accuracy, and Fair-Hiring AI v3.4.' },
+                { id: 5, file: 'ad4635c44bfa9071f067030de7fde1fe.jpg', title: 'Capability & Trust Badges', location: 'Top Trust Pill Rail', desc: 'Capsule announcement pills for operational status and roster metrics.' },
                 { id: 6, file: '920dba95d421aa4879c1b70e83f29021.png', title: 'Condition Tag System', location: 'Filter Popover & Quick Chips', desc: 'Filter chips with remove [×] buttons and keyboard navigation cues.' },
                 { id: 7, file: 'f54bcf618ae2ce1b7f05a76f83df5b34.jpg', title: 'Squad Working Notes Card', location: 'Beneath Candidate Table', desc: 'Collaborative notes container with squad avatar stack, priority tags, and quick-add input.' },
                 { id: 8, file: '4fb29d17d43b522da270c54951a8f683.png', title: 'Floating Multi-Select Action Dock', location: 'Bottom Center Viewport', desc: 'Pill dock that slides up when rows are selected (Shortlist | AI Outreach | Export CSV).' },

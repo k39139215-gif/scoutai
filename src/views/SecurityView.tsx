@@ -68,14 +68,14 @@ export const SecurityView: React.FC = () => {
             <span
               style={{
                 fontSize: 11,
-                fontWeight: 600,
+                fontWeight: 500,
                 padding: '2px 8px',
                 borderRadius: 9999,
-                background: '#f4f4f5',
-                color: '#52525b',
+                background: '#f1f5f9',
+                color: '#475569',
               }}
             >
-              SOC2 Type II Controls
+              Access Controls (Demo)
             </span>
           </div>
           <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
@@ -139,7 +139,7 @@ export const SecurityView: React.FC = () => {
       >
         <Shield size={16} style={{ color: '#2563eb', flexShrink: 0 }} />
         <span>
-          <strong>Enterprise Security Protocol:</strong> Zero-trust role based access active. Session activity, client IPs, and modifications are verified and tamper-evident.
+          <strong>Access Governance Notice:</strong> Role-based access controls active. Session activity, client IPs, and workspace actions are logged in the audit trail.
         </span>
       </div>
 
@@ -204,7 +204,7 @@ export const SecurityView: React.FC = () => {
             {settings.security.auditLogRetentionDays} days
           </div>
           <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
-            Tamper-evident cold storage
+            Configured log retention schedule
           </div>
         </div>
       </div>
