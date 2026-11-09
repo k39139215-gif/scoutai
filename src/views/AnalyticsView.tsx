@@ -3,21 +3,13 @@ import { Sparkles } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { StatCard, FunnelBarList } from '../components/boardui';
 import { isDevMode } from '../utils/devMode';
+import { computeFunnelStages } from '../data/recruitmentData';
 
 export const AnalyticsView: React.FC = () => {
   const { jobs, candidates, navigate } = useApp();
 
-  const totalShortlisted = candidates.filter((c) => c.status === 'Shortlisted').length;
-  const totalInterviewing = candidates.filter((c) => c.status === 'Interviewing').length;
-
-  // BoardUI Funnel stages with velocity and drop-off metrics
-  const funnelStages = [
-    { name: 'Talent Pool Evaluated', count: 247, avgDays: 1, color: '#0f172a' },
-    { name: 'Qualified on Core Stack', count: 42, avgDays: 2, color: '#1e293b' },
-    { name: 'Recruiter Shortlisted', count: totalShortlisted > 0 ? totalShortlisted + 10 : 14, avgDays: 4, color: '#2563eb' },
-    { name: 'Technical Screening', count: totalInterviewing > 0 ? totalInterviewing + 4 : 6, avgDays: 7, color: '#7c3aed' },
-    { name: 'Final Offer Stage', count: 2, avgDays: 12, color: '#16a34a' },
-  ];
+  // Unified Funnel stages with stated bases and verified drop-off metrics
+  const funnelStages = computeFunnelStages(candidates);
 
   // Top skill distribution in demo pool
   const skillsDistribution = [

@@ -15,6 +15,7 @@ import { Modal } from '../components/common/Modal';
 import { Input, Textarea } from '../components/common/Input';
 import { CustomSelect } from '../components/common/CustomDropdown';
 import { isDevMode } from '../utils/devMode';
+import { formatDate, formatTime, getRelativeDateLabel } from '../utils/formatters';
 
 export const InterviewsView: React.FC = () => {
   const {
@@ -262,7 +263,12 @@ export const InterviewsView: React.FC = () => {
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 13, fontWeight: 600, color: '#1e293b' }}>
                     <Calendar size={14} style={{ color: '#2563eb' }} />
-                    <span>{item.date} • {item.time} ({item.durationMinutes} min)</span>
+                    <span style={{ fontVariantNumeric: 'tabular-nums' }}>
+                      {getRelativeDateLabel(item.date) === 'Today' || getRelativeDateLabel(item.date) === 'Tomorrow'
+                        ? `${getRelativeDateLabel(item.date)} (${formatDate(item.date)}) • ${formatTime(item.time)}`
+                        : `${formatDate(item.date)} • ${formatTime(item.time)}`}{' '}
+                      ({item.durationMinutes} min)
+                    </span>
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 12.5, color: '#64748b' }}>

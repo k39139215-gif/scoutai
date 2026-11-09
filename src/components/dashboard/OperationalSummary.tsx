@@ -2,6 +2,7 @@ import React from 'react';
 import { Briefcase, Users, CheckCircle2, Calendar } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { StatCard } from '../boardui/StatCard';
+import { getNearestUpcomingInterview, TALENT_POOL_TOTAL } from '../../data/recruitmentData';
 
 export const OperationalSummary: React.FC = () => {
   const { jobs, candidates, interviews, navigate } = useApp();
@@ -11,6 +12,8 @@ export const OperationalSummary: React.FC = () => {
   const shortlistedCandidatesCount = candidates.filter((c) => c.status === 'Shortlisted').length;
   const upcomingInterviews = interviews.filter((i) => i.status === 'Scheduled');
   const upcomingInterviewsCount = upcomingInterviews.length;
+  const nextInterview = getNearestUpcomingInterview(interviews);
+  const interviewSubtitle = nextInterview ? nextInterview.displaySubtitle : 'No pending rounds';
 
   return (
     <div
@@ -36,8 +39,8 @@ export const OperationalSummary: React.FC = () => {
       <StatCard
         title="Active Pipeline"
         value={activeCandidatesCount}
-        subtitle="247 total talent pool"
-        delta="+14.2%"
+        subtitle={`${TALENT_POOL_TOTAL} profiles in passive pool`}
+        delta="6 dossiers in review"
         deltaType="positive"
         icon={<Users size={15} />}
         sparklineData={[4, 5, 5, 7, 6, 6]}
@@ -60,7 +63,7 @@ export const OperationalSummary: React.FC = () => {
       <StatCard
         title="Scheduled Interviews"
         value={upcomingInterviewsCount}
-        subtitle={upcomingInterviewsCount > 0 ? "Next: 14:30 IST today" : "No pending rounds"}
+        subtitle={interviewSubtitle}
         delta="On track"
         deltaType="neutral"
         icon={<Calendar size={15} />}

@@ -14,11 +14,10 @@ import { SourcingView } from './views/SourcingView';
 import { OutreachView } from './views/OutreachView';
 import { InterviewsView } from './views/InterviewsView';
 import { TasksView } from './views/TasksView';
-import { AIActivityView } from './views/AIActivityView';
+import { AuditTrailView } from './views/AuditTrailView';
 import { AnalyticsView } from './views/AnalyticsView';
 import { ClientsView } from './views/ClientsView';
 import { PrivacyComplianceView } from './views/PrivacyComplianceView';
-import { SecurityView } from './views/SecurityView';
 import { SettingsView } from './views/SettingsView';
 import { TalentStudioView } from './views/TalentStudioView';
 
@@ -50,7 +49,7 @@ const MainViewRouter: React.FC = () => {
       case 'tasks':
         return <TasksView />;
       case 'ai-activity':
-        return <AIActivityView />;
+        return <AuditTrailView initialTab="operations" />;
       case 'analytics':
         return <AnalyticsView />;
       case 'clients':
@@ -58,7 +57,7 @@ const MainViewRouter: React.FC = () => {
       case 'privacy':
         return <PrivacyComplianceView />;
       case 'security':
-        return <SecurityView />;
+        return <AuditTrailView initialTab="security" />;
       case 'settings':
         return <SettingsView />;
       default:

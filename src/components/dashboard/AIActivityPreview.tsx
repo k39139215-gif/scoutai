@@ -1,6 +1,7 @@
 import React from 'react';
 import { Activity, User, ArrowRight } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { formatDateTime } from '../../utils/formatters';
 
 export const AIActivityPreview: React.FC = () => {
   const { aiActivity, navigate } = useApp();
@@ -131,8 +132,8 @@ export const AIActivityPreview: React.FC = () => {
               </div>
             </div>
 
-            <span style={{ fontSize: 12, fontWeight: 500, color: '#64748b', fontVariantNumeric: 'tabular-nums', flexShrink: 0, whiteSpace: 'nowrap' }}>
-              {evt.timestamp.split(' ')[1] || evt.timestamp}
+            <span style={{ fontSize: 11.5, fontWeight: 500, color: '#64748b', fontVariantNumeric: 'tabular-nums', flexShrink: 0, whiteSpace: 'nowrap' }}>
+              {formatDateTime(evt.timestamp)}
             </span>
           </div>
         ))}

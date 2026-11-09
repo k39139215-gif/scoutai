@@ -150,7 +150,7 @@ export const StudioCommandPalette: React.FC<StudioCommandPaletteProps> = ({
     {
       id: 'filter-all',
       title: 'Reset All Roster Filters',
-      subtitle: 'Show all 18 evaluated candidates across all experience bands',
+      subtitle: 'Show all evaluated candidates across all experience bands',
       category: 'Filters',
       icon: <Filter size={15} style={{ color: '#64748b' }} />,
       run: () => onQuickFilter('All'),

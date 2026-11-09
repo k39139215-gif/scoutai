@@ -15,6 +15,7 @@ import { CustomSelect } from '../components/common/CustomDropdown';
 import { CustomCheckbox } from '../components/common/CustomCheckbox';
 import type { TaskCategory, JobPriority } from '../types';
 import { isDevMode } from '../utils/devMode';
+import { formatDate, getRelativeDateLabel } from '../utils/formatters';
 
 export const TasksView: React.FC = () => {
   const { tasks, toggleTaskStatus, createTask, navigate } = useApp();
@@ -262,7 +263,11 @@ export const TasksView: React.FC = () => {
 
                         <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 12, color: '#64748b' }}>
                           <Clock size={12} />
-                          <span style={{ fontVariantNumeric: 'tabular-nums' }}>Due {t.dueDate}</span>
+                          <span style={{ fontVariantNumeric: 'tabular-nums' }}>
+                            {getRelativeDateLabel(t.dueDate) === 'Today' || getRelativeDateLabel(t.dueDate) === 'Tomorrow' || getRelativeDateLabel(t.dueDate) === 'Yesterday'
+                              ? `Due ${getRelativeDateLabel(t.dueDate)} (${formatDate(t.dueDate)})`
+                              : `Due ${formatDate(t.dueDate)}`}
+                          </span>
                         </div>
 
                         {t.relatedCandidateName && (

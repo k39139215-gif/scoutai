@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight, Video } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { StatusBadge } from '../common/Badge';
+import { formatDate, formatTime, getRelativeDateLabel } from '../../utils/formatters';
 
 export const UpcomingInterviews: React.FC = () => {
   const { interviews, navigate } = useApp();
@@ -148,11 +149,13 @@ export const UpcomingInterviews: React.FC = () => {
 
                 {/* Right: Date & Time in tabular figures */}
                 <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                  <div className="tabular-nums" style={{ fontSize: 12.5, fontWeight: 500, color: '#0f172a' }}>
-                    {item.time}
+                  <div className="tabular-nums" style={{ fontSize: 12.5, fontWeight: 600, color: '#0f172a' }}>
+                    {formatTime(item.time)}
                   </div>
                   <div className="tabular-nums" style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 1 }}>
-                    {item.date}
+                    {getRelativeDateLabel(item.date) === 'Today' || getRelativeDateLabel(item.date) === 'Tomorrow'
+                      ? `${getRelativeDateLabel(item.date)} (${formatDate(item.date)})`
+                      : formatDate(item.date)}
                   </div>
                 </div>
               </div>

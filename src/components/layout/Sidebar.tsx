@@ -11,7 +11,6 @@ import {
   BarChart3,
   Building2,
   ShieldCheck,
-  Lock,
   Settings,
   RotateCcw,
   Sparkles,
@@ -69,7 +68,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
       section: 'Governance & Settings',
       items: [
         { id: 'privacy', label: 'Data Compliance', icon: <ShieldCheck size={15} /> },
-        { id: 'security', label: 'Security & Access', icon: <Lock size={15} /> },
         { id: 'settings', label: 'Settings', icon: <Settings size={15} /> },
       ],
     },

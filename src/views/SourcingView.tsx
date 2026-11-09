@@ -43,9 +43,9 @@ export const SourcingView: React.FC = () => {
     }, 400);
   };
 
-  const matchingCandidates = candidates.filter(
-    (c) => !targetJobId || c.appliedJobId === targetJobId || c.matchScore >= 85
-  );
+  const matchingCandidates = [...candidates]
+    .filter((c) => !targetJobId || c.appliedJobId === targetJobId || c.matchScore >= 85)
+    .sort((a, b) => b.matchScore - a.matchScore);
 
   const handleBatchShortlist = () => {
     matchingCandidates

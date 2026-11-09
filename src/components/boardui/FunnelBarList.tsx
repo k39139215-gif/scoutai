@@ -2,10 +2,14 @@ import React from 'react';
 import { ArrowDown, Clock } from 'lucide-react';
 
 export interface FunnelStage {
+  id?: string;
   name: string;
   count: number;
   avgDays?: number;
   color?: string;
+  baseLabel?: string;
+  percentOfPool?: number;
+  conversionFromPrev?: number | null;
 }
 
 export interface FunnelBarListProps {
@@ -33,22 +37,26 @@ export const FunnelBarList: React.FC<FunnelBarListProps> = ({
       style={{ display: 'flex', flexDirection: 'column', gap: 14, ...style }}
     >
       {stages.map((stage, idx) => {
-        const percentOfTotal = ((stage.count / maxCount) * 100).toFixed(1);
+        const percentOfTotal = stage.percentOfPool !== undefined 
+          ? stage.percentOfPool 
+          : parseFloat(((stage.count / maxCount) * 100).toFixed(1));
         const prevCount = idx > 0 ? stages[idx - 1].count : null;
-        const conversionFromPrev = prevCount
-          ? ((stage.count / prevCount) * 100).toFixed(1)
+        const conversionFromPrev = stage.conversionFromPrev !== undefined
+          ? stage.conversionFromPrev
+          : prevCount
+          ? parseFloat(((stage.count / prevCount) * 100).toFixed(1))
           : null;
         const color = stage.color || defaultColors[idx % defaultColors.length];
 
         return (
           <div key={stage.name} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {/* Stage Label & Metrics */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12.5 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12.5, flexWrap: 'wrap', gap: 6 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                 <span
                   style={{
                     fontSize: 11,
-                    fontFamily: 'monospace',
+                    fontFamily: 'inherit',
                     color: '#94a3b8',
                     fontWeight: 600,
                   }}
@@ -57,23 +65,29 @@ export const FunnelBarList: React.FC<FunnelBarListProps> = ({
                 </span>
                 <span style={{ fontWeight: 600, color: '#1e293b' }}>{stage.name}</span>
 
-                {conversionFromPrev && (
+                {conversionFromPrev !== null && (
                   <span
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: 2,
-                      fontSize: 10.5,
+                      fontSize: 11,
                       fontWeight: 600,
-                      color: '#059669',
-                      background: 'rgba(16, 185, 129, 0.08)',
-                      padding: '1px 5px',
+                      color: '#166534',
+                      background: '#dcfce7',
+                      padding: '1px 6px',
                       borderRadius: 4,
-                      border: '1px solid rgba(16, 185, 129, 0.2)',
+                      fontVariantNumeric: 'tabular-nums',
                     }}
                   >
                     <ArrowDown size={10} />
-                    <span>{conversionFromPrev}% conv.</span>
+                    <span>{conversionFromPrev}% pass-through</span>
+                  </span>
+                )}
+
+                {stage.baseLabel && (
+                  <span style={{ fontSize: 11, color: '#64748b' }}>
+                    ({stage.baseLabel})
                   </span>
                 )}
               </div>
@@ -96,13 +110,16 @@ export const FunnelBarList: React.FC<FunnelBarListProps> = ({
 
                 <span
                   style={{
-                    fontWeight: 700,
+                    fontWeight: 600,
                     color: '#0f172a',
                     fontFamily: 'inherit',
                     fontVariantNumeric: 'tabular-nums',
                   }}
                 >
-                  {stage.count} <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: 11 }}>candidates</span>
+                  {stage.count}{' '}
+                  <span style={{ fontWeight: 400, color: '#64748b', fontSize: 11 }}>
+                    ({percentOfTotal}% of pool)
+                  </span>
                 </span>
               </div>
             </div>

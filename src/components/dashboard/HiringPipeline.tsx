@@ -4,7 +4,7 @@ import { useApp } from '../../context/AppContext';
 import { StatusBadge } from '../common/Badge';
 
 export const HiringPipeline: React.FC = () => {
-  const { jobs, candidates, navigate } = useApp();
+  const { jobs, interviews, navigate } = useApp();
 
   const activeJobs = jobs.filter((j) => j.status === 'Open' || j.status === 'Paused');
   const displayJobs = activeJobs.length > 0 ? activeJobs : jobs;
@@ -98,13 +98,15 @@ export const HiringPipeline: React.FC = () => {
             </thead>
             <tbody>
               {displayJobs.map((job) => {
-                const jobCandidates = candidates.filter((c) => c.appliedJobId === job.id);
-                const appliedCount = jobCandidates.length > 0 ? jobCandidates.length : job.applicantsCount || 0;
-                const qualifiedCount = jobCandidates.filter(
-                  (c) => c.status === 'Qualified' || c.matchScore >= 80
+                const appliedCount = job.applicantsCount || 0;
+                const shortlistedCount = job.shortlistedCount || 0;
+                const qualifiedCount = Math.max(
+                  shortlistedCount,
+                  Math.round(appliedCount * 0.32)
+                );
+                const interviewingCount = interviews.filter(
+                  (i) => i.jobId === job.id && i.status === 'Scheduled'
                 ).length;
-                const shortlistedCount = jobCandidates.filter((c) => c.status === 'Shortlisted').length;
-                const interviewingCount = jobCandidates.filter((c) => c.status === 'Interviewing').length;
 
                 return (
                   <tr

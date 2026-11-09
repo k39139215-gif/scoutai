@@ -763,9 +763,10 @@ export const TalentStudioView: React.FC = () => {
               background: '#f1f5f9',
               padding: '2px 8px',
               borderRadius: 4,
+              fontVariantNumeric: 'tabular-nums',
             }}
           >
-            18 PROFILES SYNCHRONIZED
+            {candidates.length} CANDIDATES SYNCHRONIZED
           </span>
           <div
             style={{

@@ -22,7 +22,7 @@ export const initialJobs: Job[] = [
     skills: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS', 'State Management', 'Web Performance'],
     description:
       'We are looking for a Senior Frontend Engineer to build high-performance, accessible, and resilient client-facing applications for our core operations suite. You will lead UI architecture, mentor junior developers, and collaborate closely with product and design.',
-    client: 'HyperScale Fintech (Demo)',
+    client: 'HyperScale Fintech',
     priority: 'High',
     status: 'Open',
     createdAt: '2026-08-01',
@@ -40,7 +40,7 @@ export const initialJobs: Job[] = [
     skills: ['Go', 'Kafka', 'PostgreSQL', 'Kubernetes', 'gRPC', 'Distributed Systems'],
     description:
       'Seeking an experienced Backend Architect to design and scale high-throughput transaction processing pipelines capable of processing millions of events per minute with sub-50ms latency.',
-    client: 'FinFlow Global (Demo)',
+    client: 'FinFlow Global',
     priority: 'High',
     status: 'Open',
     createdAt: '2026-08-04',
@@ -58,7 +58,7 @@ export const initialJobs: Job[] = [
     skills: ['Python', 'PyTorch', 'LangChain', 'RAG Pipelines', 'Vector Databases', 'Model Fine-tuning'],
     description:
       'Lead the development and deployment of generative AI workflows, context retrieval systems, and prompt evaluation frameworks for enterprise workflows.',
-    client: 'CognitiveCore AI (Demo)',
+    client: 'CognitiveCore AI',
     priority: 'High',
     status: 'Open',
     createdAt: '2026-08-08',
@@ -76,7 +76,7 @@ export const initialJobs: Job[] = [
     skills: ['Figma', 'Design Systems', 'Micro-interactions', 'User Research', 'Accessibility (WCAG)', 'Prototyping'],
     description:
       'Lead the evolution of our enterprise design system, establishing cohesive component standards, interaction patterns, and design-to-code pipelines across web and mobile surfaces.',
-    client: 'DesignKraft Studio (Demo)',
+    client: 'DesignKraft Studio',
     priority: 'Medium',
     status: 'Open',
     createdAt: '2026-08-10',
@@ -94,7 +94,7 @@ export const initialJobs: Job[] = [
     skills: ['AWS', 'Terraform', 'CI/CD', 'Docker', 'Zero Trust', 'SOC2 Compliance'],
     description:
       'Own infrastructure security automation, CI/CD reliability, container orchestration, and cloud governance frameworks.',
-    client: 'CloudArmor Systems (Demo)',
+    client: 'CloudArmor Systems',
     priority: 'Medium',
     status: 'Paused',
     createdAt: '2026-07-25',
@@ -112,7 +112,7 @@ export const initialJobs: Job[] = [
     skills: ['Product Analytics', 'SQL', 'User Stories', 'A/B Testing', 'Roadmapping'],
     description:
       'Work with cross-functional engineering and design squads to execute product sprints, analyze user behavior funnels, and optimize conversion metrics.',
-    client: 'Nexus Commerce (Demo)',
+    client: 'Nexus Commerce',
     priority: 'Low',
     status: 'Draft',
     createdAt: '2026-08-12',
@@ -141,14 +141,14 @@ export const initialCandidates: Candidate[] = [
     experienceList: [
       {
         title: 'Senior Frontend Engineer',
-        company: 'NovaStack Solutions (Demo)',
+        company: 'NovaStack Solutions',
         period: '2022 - Present (2.5 yrs)',
         description:
           'Spearheaded the migration of the flagship dashboard to Next.js and TypeScript, reducing load time by 42% and implementing an internal design system used by 35 engineers.',
       },
       {
         title: 'Frontend Developer',
-        company: 'AppScale India (Demo)',
+        company: 'AppScale India',
         period: '2020 - 2022 (2 yrs)',
         description:
           'Built core client-facing features using React and Redux Toolkit. Integrated real-time WebSocket feeds for financial analytics dashboard.',
@@ -157,7 +157,7 @@ export const initialCandidates: Candidate[] = [
     educationList: [
       {
         degree: 'B.Tech in Computer Science and Engineering',
-        institution: 'NIT Karnataka, Surathkal (Demo)',
+        institution: 'NIT Karnataka, Surathkal',
         year: '2020',
       },
     ],
@@ -173,7 +173,7 @@ export const initialCandidates: Candidate[] = [
     aiAnalysisExplanation:
       'Sarah Chen presents an exceptional match (91%) for the Senior Frontend Engineer role. Her deep background in React, TypeScript, and design systems directly matches 5/6 required role skills. Her previous achievements in performance optimization align with our scalability requirements.',
     resumeText: `SARAH CHEN — SENIOR FRONTEND ENGINEER
-Email: sarah.chen.demo@example.com | Bengaluru, India | LinkedIn (Demo)
+Email: sarah.chen.demo@example.com | Bengaluru, India | LinkedIn
 
 SUMMARY:
 Results-driven Senior Frontend Engineer with 6 years of experience building high-traffic, reactive web applications and design systems. Deep expertise in React, TypeScript, Next.js, and browser performance.
@@ -213,14 +213,14 @@ B.Tech in Computer Science — NIT Karnataka, Surathkal (2016-2020)`,
     experienceList: [
       {
         title: 'Principal Backend Engineer',
-        company: 'ZetaScale Cloud (Demo)',
+        company: 'ZetaScale Cloud',
         period: '2021 - Present (3 yrs)',
         description:
           'Architected an asynchronous messaging engine handling 45,000 req/sec with Apache Kafka and Go. Reduced cloud infrastructure spend by 28% through memory optimization.',
       },
       {
         title: 'Lead Systems Engineer',
-        company: 'PayMatrix Labs (Demo)',
+        company: 'PayMatrix Labs',
         period: '2017 - 2021 (4 yrs)',
         description:
           'Designed high-availability PostgreSQL clusters and gRPC microservice communication layer for financial transaction routing.',
@@ -229,7 +229,7 @@ B.Tech in Computer Science — NIT Karnataka, Surathkal (2016-2020)`,
     educationList: [
       {
         degree: 'M.Tech in Computer Science',
-        institution: 'IIT Madras (Demo)',
+        institution: 'IIT Madras',
         year: '2016',
       },
     ],
@@ -279,7 +279,7 @@ M.Tech in Computer Science — IIT Madras (2014 - 2016)`,
     experienceList: [
       {
         title: 'Senior AI Engineer',
-        company: 'CortexAI Labs (Demo)',
+        company: 'CortexAI Labs',
         period: '2022 - Present (2 yrs)',
         description:
           'Built multi-agent LLM systems with LangGraph and ChromaDB. Deployed low-latency embedding search serving 200+ enterprise queries/sec.',
@@ -288,7 +288,7 @@ M.Tech in Computer Science — IIT Madras (2014 - 2016)`,
     educationList: [
       {
         degree: 'B.Tech in Artificial Intelligence',
-        institution: 'IIIT Hyderabad (Demo)',
+        institution: 'IIIT Hyderabad',
         year: '2018',
       },
     ],
@@ -328,7 +328,7 @@ CortexAI Labs — Senior AI Engineer (2022 - Present)
     experienceList: [
       {
         title: 'Lead UI/UX Designer',
-        company: 'PixelCraft Systems (Demo)',
+        company: 'PixelCraft Systems',
         period: '2021 - Present (3 yrs)',
         description:
           'Created multi-brand Figma token library synchronized with React token repositories via GitHub Actions.',
@@ -337,7 +337,7 @@ CortexAI Labs — Senior AI Engineer (2022 - Present)
     educationList: [
       {
         degree: 'Bachelor of Design (B.Des)',
-        institution: 'NID Ahmedabad (Demo)',
+        institution: 'NID Ahmedabad',
         year: '2019',
       },
     ],
@@ -376,7 +376,7 @@ PixelCraft Systems — Lead UI/UX Designer (2021 - Present)
     experienceList: [
       {
         title: 'Frontend Engineer',
-        company: 'FinTrack Tech (Demo)',
+        company: 'FinTrack Tech',
         period: '2021 - Present (3 yrs)',
         description:
           'Built accessible dashboards complying with WCAG 2.1 AA standards. Optimized client bundle size by 30%.',
@@ -385,7 +385,7 @@ PixelCraft Systems — Lead UI/UX Designer (2021 - Present)
     educationList: [
       {
         degree: 'B.E. in Information Technology',
-        institution: 'BITS Pilani (Demo)',
+        institution: 'BITS Pilani',
         year: '2021',
       },
     ],
@@ -424,7 +424,7 @@ FinTrack Tech — Frontend Engineer (2021 - Present)
     experienceList: [
       {
         title: 'DevOps Engineer',
-        company: 'SecureCloud India (Demo)',
+        company: 'SecureCloud India',
         period: '2020 - Present (4 yrs)',
         description:
           'Maintained multi-account AWS architectures, configured EKS clusters, and automated security vulnerability scanning.',
@@ -433,7 +433,7 @@ FinTrack Tech — Frontend Engineer (2021 - Present)
     educationList: [
       {
         degree: 'B.Tech in Computer Engineering',
-        institution: 'Delhi Technological University (Demo)',
+        institution: 'Delhi Technological University',
         year: '2020',
       },
     ],
@@ -643,7 +643,7 @@ export const initialAIActivity: AIActivityEvent[] = [
 export const initialClients: ClientAccount[] = [
   {
     id: 'client-1',
-    name: 'HyperScale Fintech (Demo)',
+    name: 'HyperScale Fintech',
     industry: 'Financial Technology / Payments',
     openJobsCount: 2,
     activeCandidatesCount: 14,
@@ -655,7 +655,7 @@ export const initialClients: ClientAccount[] = [
   },
   {
     id: 'client-2',
-    name: 'FinFlow Global (Demo)',
+    name: 'FinFlow Global',
     industry: 'Enterprise Banking Software',
     openJobsCount: 1,
     activeCandidatesCount: 8,
@@ -667,7 +667,7 @@ export const initialClients: ClientAccount[] = [
   },
   {
     id: 'client-3',
-    name: 'CognitiveCore AI (Demo)',
+    name: 'CognitiveCore AI',
     industry: 'Applied Artificial Intelligence',
     openJobsCount: 2,
     activeCandidatesCount: 11,
@@ -679,7 +679,7 @@ export const initialClients: ClientAccount[] = [
   },
   {
     id: 'client-4',
-    name: 'DesignKraft Studio (Demo)',
+    name: 'DesignKraft Studio',
     industry: 'Digital Product Design',
     openJobsCount: 1,
     activeCandidatesCount: 5,
