@@ -56,14 +56,14 @@ export const PrivacyComplianceView: React.FC = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <h1
               style={{
-                fontSize: 22,
+                fontSize: 'var(--font-size-2xl)',
                 fontWeight: 600,
-                color: '#18181b',
+                color: 'var(--color-text-primary)',
                 letterSpacing: '-0.02em',
                 lineHeight: 1.2,
               }}
             >
-              Privacy & Data Governance
+              Data Compliance
             </h1>
             <span
               style={{

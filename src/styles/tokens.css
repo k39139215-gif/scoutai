@@ -1,0 +1,159 @@
+/**
+ * ScoutAI Unified Design Tokens (Phase 6)
+ * Strict token architecture: single accent, tabular numerics, 12px min font, 24px pills, 36px controls.
+ */
+
+:root {
+  /* Typography Scale */
+  --text-min: 12px;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-lg: 16px;
+  --text-xl: 20px;
+  --text-2xl: 28px;
+  --text-hero: 36px;
+
+  /* Font Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* Brand Accent: Deep Indigo */
+  --accent: #4338ca;
+  --accent-hover: #3730a3;
+  --accent-subtle: #eef2ff;
+  --accent-border: #c7d2fe;
+  --accent-focus-ring: rgba(67, 56, 202, 0.35);
+
+  /* Surfaces & Grays */
+  --bg-canvas: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f1f5f9;
+  --border-subtle: #e2e8f0;
+  --border-default: #cbd5e1;
+  --border-strong: #94a3b8;
+
+  /* Text Roles */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+
+  /* Unified Status Colors (borderless, 24px high, 12px text) */
+  --status-success-bg: #dcfce7;
+  --status-success-text: #166534;
+
+  --status-info-bg: #eff6ff;
+  --status-info-text: #1e40af;
+
+  --status-warning-bg: #fef9c3;
+  --status-warning-text: #854d0e;
+
+  --status-danger-bg: #fee2e2;
+  --status-danger-text: #991b1b;
+
+  /* Priority Tags */
+  --priority-high-bg: #fee2e2;
+  --priority-high-text: #991b1b;
+  --priority-medium-bg: #f1f5f9;
+  --priority-medium-text: #334155;
+  --priority-low-bg: #f8fafc;
+  --priority-low-text: #64748b;
+
+  /* Controls Geometry */
+  --control-height: 36px;
+  --control-height-sm: 32px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-pill: 9999px;
+
+  /* Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+}
+
+/* Tabular Numerics across the entire app */
+.tabular-nums, .metric-val, [data-tabular] {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Unified 24px high, 12px text borderless status pills */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 24px;
+  padding: 0 9px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.status-pill-success {
+  background-color: var(--status-success-bg);
+  color: var(--status-success-text);
+}
+
+.status-pill-info {
+  background-color: var(--status-info-bg);
+  color: var(--status-info-text);
+}
+
+.status-pill-warning {
+  background-color: var(--status-warning-bg);
+  color: var(--status-warning-text);
+}
+
+.status-pill-danger {
+  background-color: var(--status-danger-bg);
+  color: var(--status-danger-text);
+}
+
+/* Priority Pills */
+.priority-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.priority-high {
+  background-color: var(--priority-high-bg);
+  color: var(--priority-high-text);
+}
+
+.priority-medium {
+  background-color: var(--priority-medium-bg);
+  color: var(--priority-medium-text);
+}
+
+.priority-low {
+  background-color: var(--priority-low-bg);
+  color: var(--priority-low-text);
+}
+
+/* Selected states for segmented controls / tabs (light tint + accent border/text, NOT solid black) */
+.selected-state-accent {
+  background-color: var(--accent-subtle) !important;
+  color: var(--accent) !important;
+  border-color: var(--accent-border) !important;
+}
+
+/* Standardized focus-visible rings */
+*:focus-visible {
+  outline: 2px solid var(--accent) !important;
+  outline-offset: 2px !important;
+}

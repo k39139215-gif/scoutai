@@ -9,7 +9,7 @@ import type {
 } from '../../types';
 
 interface BadgeProps {
-  variant?: 'default' | 'success' | 'warning' | 'danger' | 'blue' | 'purple' | 'ai';
+  variant?: 'default' | 'success' | 'warning' | 'danger' | 'info' | 'ai' | 'neutral';
   children: React.ReactNode;
   icon?: React.ReactNode;
   className?: string;
@@ -27,41 +27,42 @@ export const Badge: React.FC<BadgeProps> = ({
 }) => {
   const isSmall = size === 'sm';
 
+  // Phase 6 Unified Status Palette: Tinted background, borderless, 24px height, 12px font
   const variantStyles: Record<string, React.CSSProperties> = {
     default: {
-      background: '#f1f5f9',
-      border: '1px solid #e2e8f0',
-      color: '#475569',
+      background: 'var(--status-info-bg, #eff6ff)',
+      color: 'var(--status-info-text, #1e40af)',
+      border: 'none',
     },
     success: {
-      background: '#f0fdf4',
-      border: '1px solid #bbf7d0',
-      color: '#15803d',
+      background: 'var(--status-success-bg, #dcfce7)',
+      color: 'var(--status-success-text, #166534)',
+      border: 'none',
     },
-    blue: {
-      background: '#eff6ff',
-      border: '1px solid #bfdbfe',
-      color: '#1d4ed8',
-    },
-    purple: {
-      background: '#faf5ff',
-      border: '1px solid #e9d5ff',
-      color: '#7e22ce',
+    info: {
+      background: 'var(--status-info-bg, #eff6ff)',
+      color: 'var(--status-info-text, #1e40af)',
+      border: 'none',
     },
     warning: {
-      background: '#fefce8',
-      border: '1px solid #fef08a',
-      color: '#854d0e',
+      background: 'var(--status-warning-bg, #fef9c3)',
+      color: 'var(--status-warning-text, #854d0e)',
+      border: 'none',
     },
     danger: {
-      background: '#fef2f2',
-      border: '1px solid #fecaca',
-      color: '#991b1b',
+      background: 'var(--status-danger-bg, #fee2e2)',
+      color: 'var(--status-danger-text, #991b1b)',
+      border: 'none',
+    },
+    neutral: {
+      background: 'var(--bg-subtle, #f1f5f9)',
+      color: 'var(--text-secondary, #475569)',
+      border: 'none',
     },
     ai: {
-      background: 'linear-gradient(135deg, #eef2ff, #f5f3ff)',
-      border: '1px solid #c7d2fe',
-      color: '#4338ca',
+      background: 'var(--accent-subtle, #eef2ff)',
+      color: 'var(--accent, #4338ca)',
+      border: 'none',
     },
   };
 
@@ -69,17 +70,18 @@ export const Badge: React.FC<BadgeProps> = ({
 
   return (
     <span
-      className={`boardui-badge ${className}`}
+      className={`status-pill ${className}`}
       style={{
         display: 'inline-flex',
         alignItems: 'center',
-        gap: 4,
-        padding: isSmall ? '1px 6px' : '2px 8px',
-        borderRadius: 5,
-        fontSize: isSmall ? 11 : 12,
-        fontWeight: 600,
+        gap: 5,
+        height: isSmall ? 22 : 24,
+        padding: isSmall ? '0 8px' : '0 10px',
+        borderRadius: 9999,
+        fontSize: 12,
+        fontWeight: 500,
         fontVariantNumeric: 'tabular-nums',
-        lineHeight: 1.3,
+        lineHeight: 1,
         userSelect: 'none',
         ...currentStyle,
         ...style,
@@ -103,49 +105,106 @@ export const StatusBadge: React.FC<{
   size?: 'sm' | 'md';
 }> = ({ status, size = 'md' }) => {
   switch (status) {
-    case 'Shortlisted':
+    // Open / Active / Completed / Approved = Success
+    case 'Open':
+    case 'Active':
     case 'Completed':
     case 'Approved':
+    case 'Shortlisted':
     case 'Success':
       return <Badge variant="success" size={size}>{status}</Badge>;
 
-    case 'Qualified':
-      return <Badge variant="blue" size={size}>{status}</Badge>;
-
-    case 'Open':
-      return <Badge variant="success" size={size}>Open</Badge>;
-
-    case 'Interviewing':
-    case 'In Progress':
-    case 'Scheduled':
-      return <Badge variant="purple" size={size}>{status}</Badge>;
-
-    case 'High':
-      return <Badge variant="danger" size={size}>High Priority</Badge>;
-
-    case 'Review':
+    // Pending / Scheduled / Draft / Qualified = Info / Neutral
     case 'Pending':
     case 'Pending Review':
-    case 'Medium':
+    case 'Scheduled':
     case 'Draft':
+    case 'Qualified':
+    case 'Sent — Demo':
+    case 'Sent':
+      return <Badge variant="info" size={size}>{status}</Badge>;
+
+    // Paused / Review / In Progress = Warning
     case 'Paused':
+    case 'Review':
+    case 'In Progress':
+    case 'Interviewing':
     case 'Warning':
       return <Badge variant="warning" size={size}>{status}</Badge>;
 
-    case 'Closed':
+    // Cancelled / Failed / Closed / Blocked = Danger
     case 'Cancelled':
+    case 'Closed':
     case 'Archived':
-    case 'Low':
-      return <Badge variant="default" size={size}>{status}</Badge>;
-
-    case 'Error':
     case 'Blocked':
+    case 'Error':
       return <Badge variant="danger" size={size}>{status}</Badge>;
 
-    case 'Sent — Demo':
-      return <Badge variant="blue" size={size}>{status}</Badge>;
+    // Priority Tags
+    case 'High':
+      return (
+        <span
+          className="priority-pill priority-high"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            height: size === 'sm' ? 20 : 22,
+            padding: '0 8px',
+            borderRadius: 4,
+            fontSize: 11.5,
+            fontWeight: 600,
+            background: '#fee2e2',
+            color: '#991b1b',
+            border: 'none',
+          }}
+        >
+          High Priority
+        </span>
+      );
+
+    case 'Medium':
+      return (
+        <span
+          className="priority-pill priority-medium"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            height: size === 'sm' ? 20 : 22,
+            padding: '0 8px',
+            borderRadius: 4,
+            fontSize: 11.5,
+            fontWeight: 600,
+            background: '#f1f5f9',
+            color: '#334155',
+            border: 'none',
+          }}
+        >
+          Medium
+        </span>
+      );
+
+    case 'Low':
+      return (
+        <span
+          className="priority-pill priority-low"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            height: size === 'sm' ? 20 : 22,
+            padding: '0 8px',
+            borderRadius: 4,
+            fontSize: 11.5,
+            fontWeight: 500,
+            background: '#f8fafc',
+            color: '#64748b',
+            border: 'none',
+          }}
+        >
+          Low
+        </span>
+      );
 
     default:
-      return <Badge variant="default" size={size}>{status}</Badge>;
+      return <Badge variant="neutral" size={size}>{status}</Badge>;
   }
 };

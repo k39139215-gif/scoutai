@@ -69,9 +69,9 @@ export const SourcingView: React.FC = () => {
         <div>
           <h1
             style={{
-              fontSize: 20,
+              fontSize: 'var(--font-size-2xl)',
               fontWeight: 600,
-              color: '#0f172a',
+              color: 'var(--color-text-primary)',
               letterSpacing: '-0.02em',
               lineHeight: 1.25,
             }}
@@ -124,23 +124,24 @@ export const SourcingView: React.FC = () => {
             disabled={isScanning}
             onClick={handleRunSourcing}
             style={{
-              height: 32,
-              padding: '0 14px',
-              borderRadius: 6,
-              fontSize: 12.5,
-              fontWeight: 500,
+              height: 'var(--control-height)',
+              padding: '0 16px',
+              borderRadius: 'var(--radius-md)',
+              fontSize: 'var(--font-size-sm)',
+              fontWeight: 600,
               display: 'inline-flex',
               alignItems: 'center',
               gap: 6,
-              background: '#0f172a',
+              background: 'var(--color-primary-button)',
               color: '#ffffff',
               border: 'none',
               cursor: isScanning ? 'not-allowed' : 'pointer',
               opacity: isScanning ? 0.7 : 1,
+              transition: 'all 0.15s ease',
             }}
           >
             {isScanning ? (
-              <Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} />
+              <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} />
             ) : (
               <SearchCheck size={14} />
             )}

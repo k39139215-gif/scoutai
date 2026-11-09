@@ -44,9 +44,9 @@ export const AnalyticsView: React.FC = () => {
         <div>
           <h1
             style={{
-              fontSize: 20,
+              fontSize: 'var(--font-size-2xl)',
               fontWeight: 600,
-              color: '#0f172a',
+              color: 'var(--color-text-primary)',
               letterSpacing: '-0.02em',
               lineHeight: 1.25,
             }}

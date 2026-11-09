@@ -75,15 +75,15 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <h1
               style={{
-                fontSize: 20,
+                fontSize: 'var(--font-size-2xl)',
                 fontWeight: 600,
-                color: '#0f172a',
+                color: 'var(--color-text-primary)',
                 letterSpacing: '-0.02em',
                 lineHeight: 1.25,
                 margin: 0,
               }}
             >
-              Audit Trail & Governance
+              Audit Trail
             </h1>
             <span
               style={{

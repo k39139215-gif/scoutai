@@ -16,6 +16,7 @@ import { Input, Textarea } from '../components/common/Input';
 import { CustomSelect } from '../components/common/CustomDropdown';
 import { isDevMode } from '../utils/devMode';
 import { formatDate, formatTime, getRelativeDateLabel } from '../utils/formatters';
+import { getNearestUpcomingInterview } from '../data/recruitmentData';
 
 export const InterviewsView: React.FC = () => {
   const {
@@ -65,6 +66,8 @@ export const InterviewsView: React.FC = () => {
     return i.status === statusFilter;
   });
 
+  const nextInterview = getNearestUpcomingInterview(interviews);
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       {/* Header */}
@@ -81,14 +84,14 @@ export const InterviewsView: React.FC = () => {
         <div>
           <h1
             style={{
-              fontSize: 22,
+              fontSize: 'var(--font-size-2xl)',
               fontWeight: 600,
-              color: '#18181b',
+              color: 'var(--color-text-primary)',
               letterSpacing: '-0.02em',
               lineHeight: 1.2,
             }}
           >
-            Interviews Schedule
+            Interviews
           </h1>
           <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
             Manage upcoming technical rounds, panel assessments, and candidate interview schedules.
@@ -144,6 +147,75 @@ export const InterviewsView: React.FC = () => {
         </div>
       </div>
 
+      {/* Nearest Upcoming Interview Hero Card */}
+      {nextInterview && (
+        <div
+          style={{
+            padding: '14px 18px',
+            background: '#ffffff',
+            border: '1px solid #c7d2fe',
+            borderRadius: 8,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 12,
+            boxShadow: '0 1px 3px rgba(67, 56, 202, 0.05)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: 8,
+                background: '#eef2ff',
+                color: '#4338ca',
+                display: 'grid',
+                placeItems: 'center',
+                flexShrink: 0,
+              }}
+            >
+              <Calendar size={18} />
+            </div>
+            <div>
+              <div style={{ fontSize: 11.5, fontWeight: 600, color: '#4338ca', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                Next Scheduled Session ({nextInterview.relativeDateLabel})
+              </div>
+              <div style={{ fontSize: 14, fontWeight: 600, color: '#0f172a', marginTop: 1 }}>
+                {nextInterview.interview.candidateName} • {nextInterview.interview.jobTitle}
+              </div>
+              <div style={{ fontSize: 12, color: '#64748b' }}>
+                {nextInterview.dateFormatted} • {nextInterview.timeFormatted} ({nextInterview.interview.durationMinutes} min) with {nextInterview.interview.interviewer}
+              </div>
+            </div>
+          </div>
+
+          <a
+            href={nextInterview.interview.locationOrLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              height: 32,
+              padding: '0 12px',
+              borderRadius: 6,
+              fontSize: 12.5,
+              fontWeight: 500,
+              background: '#0f172a',
+              color: '#ffffff',
+              textDecoration: 'none',
+              boxShadow: '0 1px 2px rgba(15, 23, 42, 0.12)',
+            }}
+          >
+            <Video size={13} />
+            <span>Join Video Room</span>
+          </a>
+        </div>
+      )}
+
       {/* Filter Row */}
       <div
         style={{
@@ -171,11 +243,11 @@ export const InterviewsView: React.FC = () => {
                   borderRadius: 6,
                   fontSize: 12.5,
                   fontWeight: isSelected ? 600 : 500,
-                  border: 'none',
+                  border: isSelected ? '1px solid #c7d2fe' : '1px solid transparent',
                   background: isSelected ? '#ffffff' : 'transparent',
-                  color: isSelected ? '#18181b' : '#71717a',
+                  color: isSelected ? '#4338ca' : '#64748b',
                   cursor: 'pointer',
-                  boxShadow: isSelected ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                  boxShadow: isSelected ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
                   transition: 'all 0.12s ease',
                   display: 'flex',
                   alignItems: 'center',
@@ -188,8 +260,9 @@ export const InterviewsView: React.FC = () => {
                     fontSize: 11,
                     padding: '0 5px',
                     borderRadius: 9999,
-                    background: isSelected ? '#f4f4f5' : 'transparent',
-                    color: isSelected ? '#18181b' : '#a1a1aa',
+                    background: isSelected ? '#e0e7ff' : '#e2e8f0',
+                    color: isSelected ? '#3730a3' : '#64748b',
+                    fontVariantNumeric: 'tabular-nums',
                   }}
                 >
                   {count}

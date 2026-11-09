@@ -30,15 +30,15 @@ export const DashboardView: React.FC = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <h1
               style={{
-                fontSize: 22,
-                fontWeight: 700,
-                color: '#0f172a',
+                fontSize: 'var(--font-size-2xl)',
+                fontWeight: 600,
+                color: 'var(--color-text-primary)',
                 letterSpacing: '-0.025em',
                 lineHeight: 1.2,
                 margin: 0,
               }}
             >
-              Hiring Operations
+              Dashboard
             </h1>
             <AgentThinking label="AI Match Engine Active" size="sm" />
           </div>
@@ -77,17 +77,17 @@ export const DashboardView: React.FC = () => {
           <button
             onClick={() => navigate('sourcing')}
             style={{
-              height: 32,
-              padding: '0 12px',
-              borderRadius: 6,
-              fontSize: 12.5,
+              height: 'var(--control-height)',
+              padding: '0 14px',
+              borderRadius: 'var(--radius-md)',
+              fontSize: 'var(--font-size-sm)',
               fontWeight: 500,
               display: 'inline-flex',
               alignItems: 'center',
               gap: 6,
               background: '#ffffff',
-              border: '1px solid #cbd5e1',
-              color: '#334155',
+              border: '1px solid var(--color-border)',
+              color: 'var(--color-text-secondary)',
               cursor: 'pointer',
               transition: 'all 0.12s ease',
             }}
@@ -97,33 +97,33 @@ export const DashboardView: React.FC = () => {
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = '#ffffff';
-              e.currentTarget.style.borderColor = '#cbd5e1';
+              e.currentTarget.style.borderColor = 'var(--color-border)';
             }}
           >
-            <SearchCheck size={14} style={{ color: '#64748b' }} />
+            <SearchCheck size={14} style={{ color: 'var(--color-text-muted)' }} />
             <span>Match Candidates</span>
           </button>
 
           <button
             onClick={() => navigate('create-job')}
             style={{
-              height: 32,
-              padding: '0 14px',
-              borderRadius: 6,
-              fontSize: 12.5,
+              height: 'var(--control-height)',
+              padding: '0 16px',
+              borderRadius: 'var(--radius-md)',
+              fontSize: 'var(--font-size-sm)',
               fontWeight: 600,
               display: 'inline-flex',
               alignItems: 'center',
               gap: 6,
-              background: '#0f172a',
+              background: 'var(--color-primary-button)',
               color: '#ffffff',
               border: 'none',
               cursor: 'pointer',
               boxShadow: '0 1px 2px rgba(15, 23, 42, 0.15)',
               transition: 'all 0.12s ease',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = '#1e293b')}
-            onMouseLeave={(e) => (e.currentTarget.style.background = '#0f172a')}
+            onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-primary-hover)')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--color-primary-button)')}
           >
             <Plus size={14} />
             <span>Post Requisition</span>

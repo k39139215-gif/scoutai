@@ -28,9 +28,9 @@ export const ClientsView: React.FC = () => {
         <div>
           <h1
             style={{
-              fontSize: 22,
+              fontSize: 'var(--font-size-2xl)',
               fontWeight: 600,
-              color: '#18181b',
+              color: 'var(--color-text-primary)',
               letterSpacing: '-0.02em',
               lineHeight: 1.2,
             }}
@@ -166,22 +166,22 @@ export const ClientsView: React.FC = () => {
                   gap: 12,
                   padding: '12px 14px',
                   background: '#f8fafc',
-                  borderRadius: 6,
+                  borderRadius: 'var(--radius-md)',
                   border: '1px solid #f1f5f9',
                 }}
               >
                 <div>
-                  <div style={{ fontSize: 16, fontWeight: 700, color: '#18181b' }}>{client.openJobsCount}</div>
-                  <div style={{ fontSize: 11.5, color: '#71717a' }}>Open Requisitions</div>
+                  <div style={{ fontSize: 'var(--font-size-base)', fontWeight: 700, color: '#18181b', fontFeatureSettings: '"tnum"' }}>{client.openJobsCount}</div>
+                  <div style={{ fontSize: 'var(--font-size-xs)', color: '#71717a' }}>Open Requisitions</div>
                 </div>
                 <div>
-                  <div style={{ fontSize: 16, fontWeight: 700, color: '#18181b' }}>{client.activeCandidatesCount}</div>
-                  <div style={{ fontSize: 11.5, color: '#71717a' }}>Candidates in Pipeline</div>
+                  <div style={{ fontSize: 'var(--font-size-base)', fontWeight: 700, color: '#18181b', fontFeatureSettings: '"tnum"' }}>{client.activeCandidatesCount}</div>
+                  <div style={{ fontSize: 'var(--font-size-xs)', color: '#71717a' }}>Candidates in Pipeline</div>
                 </div>
               </div>
 
               {/* Contact Info */}
-              <div style={{ marginTop: 14, fontSize: 12.5, color: '#52525b', display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <div style={{ marginTop: 14, fontSize: 'var(--font-size-sm)', color: '#52525b', display: 'flex', flexDirection: 'column', gap: 4 }}>
                 <div><strong>Talent Lead:</strong> {client.keyContact}</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 5, color: '#71717a' }}>
                   <Mail size={12} />
@@ -203,7 +203,7 @@ export const ClientsView: React.FC = () => {
             >
               <span
                 style={{
-                  fontSize: 12,
+                  fontSize: 'var(--font-size-xs)',
                   color: '#71717a',
                   flex: 1,
                   overflow: 'hidden',
@@ -220,15 +220,15 @@ export const ClientsView: React.FC = () => {
                 className="btn-dark"
                 onClick={() => navigate('jobs')}
                 style={{
-                  height: 32,
+                  height: 'var(--control-height)',
                   padding: '0 14px',
-                  borderRadius: 6,
-                  fontSize: 12.5,
+                  borderRadius: 'var(--radius-md)',
+                  fontSize: 'var(--font-size-sm)',
                   fontWeight: 500,
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 6,
-                  background: '#18181b',
+                  background: 'var(--color-primary-button)',
                   color: '#ffffff',
                   border: 'none',
                   cursor: 'pointer',

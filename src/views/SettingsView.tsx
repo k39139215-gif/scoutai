@@ -53,6 +53,26 @@ export const SettingsView: React.FC = () => {
   const [dataRetention, setDataRetention] = useState(settings.privacy.candidateDataRetentionMonths);
   const [requireConsent, setRequireConsent] = useState(settings.privacy.requireConsentForSourcing);
 
+  const isDirty =
+    profileName !== settings.profile.name ||
+    profileEmail !== settings.profile.email ||
+    profileRole !== settings.profile.role ||
+    profileDept !== settings.profile.department ||
+    orgName !== settings.workspace.organizationName ||
+    region !== settings.workspace.region ||
+    timezone !== settings.workspace.timezone ||
+    emailAlerts !== settings.notifications.emailAlerts ||
+    shortlistAlerts !== settings.notifications.candidateShortlistAlerts ||
+    interviewReminders !== settings.notifications.interviewReminders ||
+    dailyDigest !== settings.notifications.dailyActivityDigest ||
+    advisoryDetail !== settings.aiPreferences.advisoryDetailLevel ||
+    autoHighlightGaps !== settings.aiPreferences.autoHighlightGaps ||
+    smartTemplates !== settings.aiPreferences.enableSmartOutreachTemplates ||
+    sessionTimeout !== settings.security.sessionTimeoutMinutes ||
+    auditRetention !== settings.security.auditLogRetentionDays ||
+    dataRetention !== settings.privacy.candidateDataRetentionMonths ||
+    requireConsent !== settings.privacy.requireConsentForSourcing;
+
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     updateSettings({
@@ -101,7 +121,7 @@ export const SettingsView: React.FC = () => {
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 900, margin: '0 auto' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       {/* 1. Header */}
       <div
         style={{
@@ -114,19 +134,39 @@ export const SettingsView: React.FC = () => {
         }}
       >
         <div>
-          <h1
-            style={{
-              fontSize: 22,
-              fontWeight: 600,
-              color: '#0f172a',
-              letterSpacing: '-0.02em',
-              lineHeight: 1.2,
-            }}
-          >
-            Organization Settings
-          </h1>
-          <p style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>
-            Manage recruiter profiles, AI matching parameters, session rules, and retention schedules.
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <h1
+              style={{
+                fontSize: 'var(--font-size-2xl)',
+                fontWeight: 600,
+                color: 'var(--color-text-primary)',
+                letterSpacing: '-0.02em',
+                lineHeight: 1.2,
+                margin: 0,
+              }}
+            >
+              Settings
+            </h1>
+            {isDirty && (
+              <span
+                style={{
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: 'var(--color-warning)',
+                  background: 'var(--color-warning-subtle)',
+                  padding: '3px 8px',
+                  borderRadius: 12,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 4,
+                }}
+              >
+                ● Unsaved changes
+              </span>
+            )}
+          </div>
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', marginTop: 4, marginBottom: 0 }}>
+            Manage workspace profile, AI matching parameters, and retention schedules.
           </p>
         </div>
 
@@ -139,14 +179,14 @@ export const SettingsView: React.FC = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 6,
-                height: 36,
+                height: 'var(--control-height)',
                 padding: '0 13px',
-                fontSize: 12.5,
+                fontSize: 'var(--font-size-xs)',
                 fontWeight: 600,
                 color: '#3b82f6',
                 background: '#eff6ff',
                 border: '1px solid #bfdbfe',
-                borderRadius: 6,
+                borderRadius: 'var(--radius-md)',
                 cursor: 'pointer',
                 transition: 'all 0.15s ease',
               }}
@@ -157,26 +197,26 @@ export const SettingsView: React.FC = () => {
           )}
           <button
             onClick={handleSave}
-          style={{
-            height: 36,
-            padding: '0 16px',
-            borderRadius: 6,
-            fontSize: 13,
-            fontWeight: 600,
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 7,
-            background: '#0f172a',
-            color: '#ffffff',
-            border: 'none',
-            cursor: 'pointer',
-            boxShadow: '0 1px 2px rgba(15, 23, 42, 0.12)',
-            transition: 'background-color 0.15s ease',
-          }}
-        >
-          <Save size={14} />
-          <span>Save Changes</span>
-        </button>
+            style={{
+              height: 'var(--control-height)',
+              padding: '0 16px',
+              borderRadius: 'var(--radius-md)',
+              fontSize: 'var(--font-size-sm)',
+              fontWeight: 600,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 7,
+              background: 'var(--color-primary-button)',
+              color: '#ffffff',
+              border: 'none',
+              cursor: 'pointer',
+              boxShadow: '0 1px 2px rgba(15, 23, 42, 0.12)',
+              transition: 'background-color 0.15s ease',
+            }}
+          >
+            <Save size={14} />
+            <span>Save Changes</span>
+          </button>
         </div>
       </div>
 
@@ -196,15 +236,15 @@ export const SettingsView: React.FC = () => {
                 borderRadius: 6,
                 fontSize: 12.5,
                 fontWeight: isSelected ? 600 : 500,
-                border: 'none',
-                background: isSelected ? '#ffffff' : 'transparent',
-                color: isSelected ? '#0f172a' : '#64748b',
+                border: isSelected ? '1px solid #c7d2fe' : '1px solid transparent',
+                background: isSelected ? '#eef2ff' : 'transparent',
+                color: isSelected ? '#4338ca' : '#64748b',
                 cursor: 'pointer',
-                boxShadow: isSelected ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                boxShadow: isSelected ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
                 transition: 'all 0.12s ease',
               }}
             >
-              <span style={{ color: isSelected ? '#0f172a' : '#94a3b8' }}>{tab.icon}</span>
+              <span style={{ color: isSelected ? '#4338ca' : '#94a3b8' }}>{tab.icon}</span>
               <span>{tab.label}</span>
             </button>
           );
@@ -542,32 +582,39 @@ export const SettingsView: React.FC = () => {
         <div
           style={{
             display: 'flex',
-            justifyContent: 'flex-end',
+            alignItems: 'center',
+            justifyContent: 'space-between',
             paddingTop: 18,
             marginTop: 18,
-            borderTop: '1px solid #e2e8f0',
+            borderTop: '1px solid var(--color-border)',
+            flexWrap: 'wrap',
+            gap: 12,
           }}
         >
+          <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
+            {isDirty ? '● Unsaved changes in form' : 'All settings up to date with workspace defaults.'}
+          </span>
           <button
             type="submit"
             style={{
-              height: 36,
+              height: 'var(--control-height)',
               padding: '0 16px',
-              borderRadius: 6,
-              fontSize: 13,
+              borderRadius: 'var(--radius-md)',
+              fontSize: 'var(--font-size-sm)',
               fontWeight: 600,
               display: 'inline-flex',
               alignItems: 'center',
               gap: 7,
-              background: '#0f172a',
-              color: '#ffffff',
-              border: 'none',
+              background: isDirty ? 'var(--color-primary-button)' : '#ffffff',
+              color: isDirty ? '#ffffff' : 'var(--color-text-secondary)',
+              border: isDirty ? 'none' : '1px solid var(--color-border)',
               cursor: 'pointer',
-              boxShadow: '0 1px 2px rgba(15, 23, 42, 0.12)',
+              boxShadow: isDirty ? '0 1px 2px rgba(15, 23, 42, 0.12)' : 'none',
+              transition: 'all 0.15s ease',
             }}
           >
             <Save size={14} />
-            <span>Save All Settings</span>
+            <span>Save Settings</span>
           </button>
         </div>
       </form>

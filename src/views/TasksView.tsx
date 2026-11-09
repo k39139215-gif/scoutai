@@ -64,14 +64,14 @@ export const TasksView: React.FC = () => {
         <div>
           <h1
             style={{
-              fontSize: 22,
+              fontSize: 'var(--font-size-2xl)',
               fontWeight: 600,
-              color: '#0f172a',
+              color: 'var(--color-text-primary)',
               letterSpacing: '-0.02em',
               lineHeight: 1.2,
             }}
           >
-            Recruiter Tasks
+            Tasks
           </h1>
           <p style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>
             Manage candidate evaluations, outreach reviews, and hiring manager follow-ups.
@@ -106,24 +106,58 @@ export const TasksView: React.FC = () => {
           <button
             className="btn-dark"
             onClick={() => setModalOpen(true)}
-          style={{
-            height: 36,
-            padding: '0 16px',
-            borderRadius: 8,
-            fontSize: 13,
-            fontWeight: 500,
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 7,
-            background: '#0f172a',
-            color: '#ffffff',
-            border: 'none',
-            cursor: 'pointer',
-          }}
-        >
-          <Plus size={15} />
-          <span>Add Task</span>
-        </button>
+            style={{
+              height: 36,
+              padding: '0 16px',
+              borderRadius: 8,
+              fontSize: 13,
+              fontWeight: 500,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 7,
+              background: '#0f172a',
+              color: '#ffffff',
+              border: 'none',
+              cursor: 'pointer',
+              boxShadow: '0 1px 2px rgba(15, 23, 42, 0.15)',
+            }}
+          >
+            <Plus size={15} />
+            <span>Add Task</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Summary Rail */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+          gap: 12,
+        }}
+      >
+        <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8, padding: '12px 16px' }}>
+          <div style={{ fontSize: 12, color: '#64748b' }}>Pending Actions</div>
+          <div className="metric-val" style={{ fontSize: 20, fontWeight: 700, color: '#0f172a', margin: '2px 0' }}>
+            {tasks.filter((t) => t.status !== 'Completed').length}
+          </div>
+          <div style={{ fontSize: 11, color: '#64748b' }}>Awaiting recruiter determination</div>
+        </div>
+
+        <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8, padding: '12px 16px' }}>
+          <div style={{ fontSize: 12, color: '#64748b' }}>High Priority</div>
+          <div className="metric-val" style={{ fontSize: 20, fontWeight: 700, color: '#991b1b', margin: '2px 0' }}>
+            {tasks.filter((t) => t.priority === 'High' && t.status !== 'Completed').length}
+          </div>
+          <div style={{ fontSize: 11, color: '#991b1b' }}>Requires urgent turnaround</div>
+        </div>
+
+        <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8, padding: '12px 16px' }}>
+          <div style={{ fontSize: 12, color: '#64748b' }}>Completed Tasks</div>
+          <div className="metric-val" style={{ fontSize: 20, fontWeight: 700, color: '#166534', margin: '2px 0' }}>
+            {tasks.filter((t) => t.status === 'Completed').length}
+          </div>
+          <div style={{ fontSize: 11, color: '#166534' }}>Verified and archived</div>
         </div>
       </div>
 
@@ -154,11 +188,11 @@ export const TasksView: React.FC = () => {
                   borderRadius: 6,
                   fontSize: 12.5,
                   fontWeight: isSelected ? 600 : 500,
-                  border: 'none',
+                  border: isSelected ? '1px solid #c7d2fe' : '1px solid transparent',
                   background: isSelected ? '#ffffff' : 'transparent',
-                  color: isSelected ? '#0f172a' : '#64748b',
+                  color: isSelected ? '#4338ca' : '#64748b',
                   cursor: 'pointer',
-                  boxShadow: isSelected ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                  boxShadow: isSelected ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
                   transition: 'all 0.12s ease',
                   display: 'flex',
                   alignItems: 'center',
@@ -171,8 +205,8 @@ export const TasksView: React.FC = () => {
                     fontSize: 11,
                     padding: '0 5px',
                     borderRadius: 9999,
-                    background: isSelected ? '#f1f5f9' : 'transparent',
-                    color: isSelected ? '#0f172a' : '#94a3b8',
+                    background: isSelected ? '#e0e7ff' : 'transparent',
+                    color: isSelected ? '#3730a3' : '#94a3b8',
                     fontVariantNumeric: 'tabular-nums',
                   }}
                 >

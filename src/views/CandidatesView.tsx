@@ -181,14 +181,14 @@ export const CandidatesView: React.FC = () => {
         <div>
           <h1
             style={{
-              fontSize: 22,
+              fontSize: 'var(--font-size-2xl)',
               fontWeight: 600,
-              color: '#18181b',
+              color: 'var(--color-text-primary)',
               letterSpacing: '-0.02em',
               lineHeight: 1.2,
             }}
           >
-            Find Candidates
+            Candidates
           </h1>
           <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
             Review candidate profiles, evaluate AI fit recommendations, and build targeted pipelines.

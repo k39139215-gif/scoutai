@@ -102,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
     sourcing: 'Candidate Matching',
     outreach: 'Outreach',
     interviews: 'Interviews',
-    tasks: 'Recruiter Tasks',
+    tasks: 'Tasks',
     'ai-activity': 'Audit Trail',
     analytics: 'Pipeline Analytics',
     clients: 'Client Accounts',
@@ -163,7 +163,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
               borderRadius: 6,
               marginLeft: 8,
               border: '1px solid #e2e8f0',
-              fontSize: 11,
+              fontSize: 'var(--font-size-xs)',
               fontWeight: 500,
             }}
           >
@@ -214,7 +214,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
               borderRadius: 12,
               background: '#f1f5f9',
               color: '#475569',
-              fontSize: 11,
+              fontSize: 'var(--font-size-xs)',
               fontWeight: 500,
               marginLeft: 8,
               border: '1px solid #e2e8f0',

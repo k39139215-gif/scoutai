@@ -127,14 +127,14 @@ Lead Talent Advisor, ScoutAI`;
         <div>
           <h1
             style={{
-              fontSize: 22,
+              fontSize: 'var(--font-size-2xl)',
               fontWeight: 600,
-              color: '#18181b',
+              color: 'var(--color-text-primary)',
               letterSpacing: '-0.02em',
               lineHeight: 1.2,
             }}
           >
-            Candidate Outreach
+            Outreach
           </h1>
           <p style={{ fontSize: 13, color: '#71717a', marginTop: 4 }}>
             Draft tailored candidate messaging, review copy inline, and approve outreach dispatches.
@@ -324,18 +324,19 @@ Lead Talent Advisor, ScoutAI`;
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 6,
-                  height: 34,
+                  height: 36,
                   padding: '0 16px',
                   borderRadius: 6,
-                  fontSize: 12.5,
-                  fontWeight: 500,
-                  background: '#18181b',
+                  fontSize: 13,
+                  fontWeight: 600,
+                  background: '#0f172a',
                   color: '#ffffff',
                   border: 'none',
                   cursor: 'pointer',
+                  boxShadow: '0 1px 2px rgba(15, 23, 42, 0.15)',
                 }}
               >
-                <FileText size={13} />
+                <FileText size={14} />
                 <span>Save as Draft</span>
               </button>
             </div>
@@ -369,17 +370,17 @@ Lead Talent Advisor, ScoutAI`;
                     style={{
                       padding: '4px 9px',
                       borderRadius: 4,
-                      fontSize: 11.5,
-                      fontWeight: 500,
-                      border: 'none',
+                      fontSize: 12,
+                      fontWeight: statusFilter === st ? 600 : 500,
+                      border: statusFilter === st ? '1px solid #c7d2fe' : '1px solid transparent',
                       background: statusFilter === st ? '#ffffff' : 'transparent',
-                      color: statusFilter === st ? '#18181b' : '#71717a',
-                      boxShadow: statusFilter === st ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                      color: statusFilter === st ? '#4338ca' : '#64748b',
+                      boxShadow: statusFilter === st ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
                       cursor: 'pointer',
                       transition: 'all 0.1s ease',
                     }}
                   >
-                    {st}
+                    {st === 'Sent — Demo' ? 'Sent' : st}
                   </button>
                 ))}
               </div>
@@ -480,14 +481,15 @@ Lead Talent Advisor, ScoutAI`;
                               borderRadius: 5,
                               fontSize: 12,
                               fontWeight: 500,
-                              background: '#18181b',
-                              color: '#ffffff',
-                              border: 'none',
+                              background: '#ffffff',
+                              color: '#0f172a',
+                              border: '1px solid #cbd5e1',
                               cursor: 'pointer',
+                              transition: 'all 0.12s ease',
                             }}
                           >
-                            <Send size={12} />
-                            <span>Send (Demo)</span>
+                            <Send size={12} style={{ color: '#64748b' }} />
+                            <span>Send (Simulation)</span>
                           </button>
                         )}
 

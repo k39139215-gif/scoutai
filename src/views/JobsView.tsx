@@ -54,14 +54,14 @@ export const JobsView: React.FC = () => {
         <div>
           <h1
             style={{
-              fontSize: 22,
+              fontSize: 'var(--font-size-2xl)',
               fontWeight: 600,
-              color: '#0f172a',
+              color: 'var(--color-text-primary)',
               letterSpacing: '-0.02em',
               lineHeight: 1.2,
             }}
           >
-            Job Requisitions
+            Requisitions
           </h1>
           <p style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>
             Manage open roles, assign hiring teams, track candidate stages, and monitor pipeline progress.
