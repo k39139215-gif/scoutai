@@ -89,7 +89,7 @@ export const SourcingView: React.FC = () => {
             onChange={setTargetJobId}
             options={jobs.map((j) => ({
               value: j.id,
-              label: `Role: ${j.title}`,
+              label: j.title,
             }))}
             size="md"
             menuWidth={280}

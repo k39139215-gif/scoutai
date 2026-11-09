@@ -96,7 +96,7 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
                 color: '#475569',
               }}
             >
-              Access Controls (Demo)
+              Access & Operations Log
             </span>
           </div>
           <p style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 4, marginBottom: 0 }}>
@@ -169,28 +169,24 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
       {/* 3. TAB CONTENT: Operations Activity */}
       {activeTab === 'operations' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {/* Filter and Search Bar */}
+          {/* Filter and Search Bar - Clean Minimal Toolbar (No Nested Box-in-Box) */}
           <div
             style={{
-              padding: '12px 16px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               flexWrap: 'wrap',
               gap: 12,
-              background: '#ffffff',
-              border: '1px solid var(--border-subtle)',
-              borderRadius: 12,
             }}
           >
             <SegmentedControl
-              size="sm"
+              size="md"
               value={actorFilter}
               onChange={(val) => setActorFilter(val as 'All' | 'System' | 'Recruiter')}
               options={[
                 { value: 'All', label: 'All events', count: aiActivity.length },
-                { value: 'System', label: 'System', icon: <Activity size={12} /> },
-                { value: 'Recruiter', label: 'Recruiter', icon: <User size={12} /> },
+                { value: 'System', label: 'System', icon: <Activity size={14} /> },
+                { value: 'Recruiter', label: 'Recruiter', icon: <User size={14} /> },
               ]}
             />
 
@@ -213,8 +209,8 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
                   paddingRight: 28,
                   fontSize: 13,
                   borderRadius: 8,
-                  border: '1px solid var(--border-subtle)',
-                  background: 'var(--bg-canvas)',
+                  border: '1px solid #cbd5e1',
+                  background: '#ffffff',
                   color: '#0f172a',
                   outline: 'none',
                 }}

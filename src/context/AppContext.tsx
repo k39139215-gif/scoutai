@@ -420,7 +420,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         true
       );
       logSecurityEvent('Candidate Shortlisted', `Candidate #${candidateId} (${candidateName})`);
-      showToast(`${candidateName} added to Shortlist!`, 'success');
+      showToast(`${candidateName} added to Shortlist!`, 'success', {
+        label: 'Undo',
+        onClick: () => shortlistCandidate(candidateId),
+      });
     } else {
       if (targetJobId) {
         setJobs((prev) =>
@@ -622,7 +625,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         return t;
       })
     );
-    showToast(`Task status updated`, 'info');
+    showToast(`Task status updated`, 'info', {
+      label: 'Undo',
+      onClick: () => toggleTaskStatus(taskId),
+    });
   };
 
   const createTask = (taskData: Omit<RecruiterTask, 'id'>): string => {
