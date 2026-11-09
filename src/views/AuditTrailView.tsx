@@ -172,7 +172,7 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
           {/* Filter and Search Bar */}
           <div
             style={{
-              padding: '10px 14px',
+              padding: '12px 16px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -180,69 +180,19 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
               gap: 12,
               background: '#ffffff',
               border: '1px solid var(--border-subtle)',
-              borderRadius: 8,
+              borderRadius: 12,
             }}
           >
-            <div style={{ display: 'flex', gap: 4, background: 'var(--bg-subtle)', padding: 3, borderRadius: 6 }}>
-              <button
-                onClick={() => setActorFilter('All')}
-                style={{
-                  padding: '4px 10px',
-                  borderRadius: 4,
-                  fontSize: 12,
-                  fontWeight: actorFilter === 'All' ? 600 : 500,
-                  border: 'none',
-                  background: actorFilter === 'All' ? '#ffffff' : 'transparent',
-                  color: actorFilter === 'All' ? '#0f172a' : 'var(--text-secondary)',
-                  cursor: 'pointer',
-                  boxShadow: actorFilter === 'All' ? '0 1px 2px rgba(0,0,0,0.05)' : 'none',
-                }}
-              >
-                All events ({aiActivity.length})
-              </button>
-
-              <button
-                onClick={() => setActorFilter('System')}
-                style={{
-                  padding: '4px 10px',
-                  borderRadius: 4,
-                  fontSize: 12,
-                  fontWeight: actorFilter === 'System' ? 600 : 500,
-                  border: 'none',
-                  background: actorFilter === 'System' ? '#ffffff' : 'transparent',
-                  color: actorFilter === 'System' ? '#0f172a' : 'var(--text-secondary)',
-                  cursor: 'pointer',
-                  boxShadow: actorFilter === 'System' ? '0 1px 2px rgba(0,0,0,0.05)' : 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 5,
-                }}
-              >
-                <Activity size={12} style={{ color: 'var(--text-muted)' }} />
-                <span>System</span>
-              </button>
-
-              <button
-                onClick={() => setActorFilter('Recruiter')}
-                style={{
-                  padding: '4px 10px',
-                  borderRadius: 4,
-                  fontSize: 12,
-                  fontWeight: actorFilter === 'Recruiter' ? 600 : 500,
-                  border: 'none',
-                  background: actorFilter === 'Recruiter' ? '#ffffff' : 'transparent',
-                  color: actorFilter === 'Recruiter' ? '#0f172a' : 'var(--text-secondary)',
-                  cursor: 'pointer',
-                  boxShadow: actorFilter === 'Recruiter' ? '0 1px 2px rgba(0,0,0,0.05)' : 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 5,
-                }}
-              >
-                <User size={12} style={{ color: 'var(--text-muted)' }} />
-                <span>Recruiter</span>
-              </button>
-            </div>
+            <SegmentedControl
+              size="sm"
+              value={actorFilter}
+              onChange={(val) => setActorFilter(val as 'All' | 'System' | 'Recruiter')}
+              options={[
+                { value: 'All', label: 'All events', count: aiActivity.length },
+                { value: 'System', label: 'System', icon: <Activity size={12} /> },
+                { value: 'Recruiter', label: 'Recruiter', icon: <User size={12} /> },
+              ]}
+            />
 
             {/* Search */}
             <div style={{ position: 'relative', width: 260 }}>
@@ -291,7 +241,7 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
             style={{
               background: '#ffffff',
               border: '1px solid var(--border-subtle)',
-              borderRadius: 8,
+              borderRadius: 12,
               overflow: 'hidden',
             }}
           >
@@ -469,7 +419,7 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
             style={{
               background: '#ffffff',
               border: '1px solid #e4e4e7',
-              borderRadius: 8,
+              borderRadius: 12,
               overflow: 'hidden',
               boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
             }}

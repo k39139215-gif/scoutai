@@ -235,9 +235,6 @@ export const JobWorkspaceView: React.FC = () => {
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: '#4338ca', backgroundColor: '#e0e7ff', padding: '2px 6px', borderRadius: 4 }}>
-              REF 04
-            </span>
             <span style={{ fontSize: 12.5, fontWeight: 600, color: '#18181b' }}>
               Requisition Pipeline Velocity Distribution
             </span>

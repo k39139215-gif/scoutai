@@ -107,24 +107,11 @@ export const CandidateComparisonModal: React.FC<CandidateComparisonModalProps> =
         >
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span
-                style={{
-                  fontSize: 12,
-                  fontWeight: 700,
-                  color: '#4338ca',
-                  backgroundColor: '#e0e7ff',
-                  padding: '2px 7px',
-                  borderRadius: 4,
-                  letterSpacing: '0.04em',
-                }}
-              >
-                REFERENCE 12 IMPLEMENTATION
-              </span>
               <span style={{ fontSize: 12, color: '#64748b' }}>
                 Comparing {ranked.length} Candidate Profiles
               </span>
             </div>
-            <h2 style={{ fontSize: 18, fontWeight: 700, color: '#0f172a', marginTop: 4 }}>
+            <h2 style={{ fontSize: 18, fontWeight: 700, color: '#0f172a', margin: '4px 0 0' }}>
               Candidate Differential Matrix
             </h2>
           </div>

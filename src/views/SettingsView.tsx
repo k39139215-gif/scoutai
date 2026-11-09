@@ -17,6 +17,7 @@ import { CustomSelect } from '../components/common/CustomDropdown';
 import { ToggleSwitch } from '../components/common/ToggleSwitch';
 import { Modal } from '../components/common/Modal';
 import { Button } from '../components/common/Button';
+import { SegmentedControl } from '../components/boardui';
 import { isDevMode } from '../utils/devMode';
 
 export const SettingsView: React.FC = () => {
@@ -110,14 +111,14 @@ export const SettingsView: React.FC = () => {
     showToast('Settings successfully updated!', 'success');
   };
 
-  const tabs: { id: typeof activeTab; label: string; icon: React.ReactNode }[] = [
-    { id: 'profile', label: 'Profile', icon: <User size={14} /> },
-    { id: 'workspace', label: 'Workspace', icon: <Building size={14} /> },
-    { id: 'notifications', label: 'Notifications', icon: <Bell size={14} /> },
-    { id: 'ai', label: 'Evaluation Model', icon: <SlidersHorizontal size={14} /> },
-    { id: 'security', label: 'Security & Access', icon: <Lock size={14} /> },
-    { id: 'privacy', label: 'Privacy & Retention', icon: <Shield size={14} /> },
-    { id: 'demo-data', label: 'Demo Data', icon: <RotateCcw size={14} /> },
+  const tabs = [
+    { value: 'profile', label: 'Profile', icon: <User size={14} /> },
+    { value: 'workspace', label: 'Workspace', icon: <Building size={14} /> },
+    { value: 'notifications', label: 'Notifications', icon: <Bell size={14} /> },
+    { value: 'ai', label: 'Evaluation Model', icon: <SlidersHorizontal size={14} /> },
+    { value: 'security', label: 'Security & Access', icon: <Lock size={14} /> },
+    { value: 'privacy', label: 'Privacy & Retention', icon: <Shield size={14} /> },
+    { value: 'demo-data', label: 'Demo Data', icon: <RotateCcw size={14} /> },
   ];
 
   return (
@@ -220,36 +221,13 @@ export const SettingsView: React.FC = () => {
         </div>
       </div>
 
-      {/* 2. Tabs Navigation */}
-      <div style={{ display: 'flex', gap: 4, background: '#f1f5f9', padding: 4, borderRadius: 8, flexWrap: 'wrap', border: '1px solid #e2e8f0' }}>
-        {tabs.map((tab) => {
-          const isSelected = activeTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-                padding: '6px 14px',
-                borderRadius: 6,
-                fontSize: 12.5,
-                fontWeight: isSelected ? 600 : 500,
-                border: isSelected ? '1px solid #c7d2fe' : '1px solid transparent',
-                background: isSelected ? '#eef2ff' : 'transparent',
-                color: isSelected ? '#4338ca' : '#475569',
-                cursor: 'pointer',
-                boxShadow: isSelected ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
-                transition: 'all 0.12s ease',
-              }}
-            >
-              <span style={{ color: isSelected ? '#4338ca' : '#94a3b8' }}>{tab.icon}</span>
-              <span>{tab.label}</span>
-            </button>
-          );
-        })}
-      </div>
+      {/* 2. BoardUI Segmented Tabs Navigation with Spring Thumb & Perfect Vertical Icon Alignment */}
+      <SegmentedControl
+        value={activeTab}
+        onChange={(val) => setActiveTab(val as typeof activeTab)}
+        options={tabs}
+        size="md"
+      />
 
       {/* Settings Form Container */}
       <form onSubmit={handleSave} className="snow-card" style={{ padding: '24px 28px', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8 }}>

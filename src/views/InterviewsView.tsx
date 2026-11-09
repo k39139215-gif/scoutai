@@ -14,6 +14,7 @@ import { StatusBadge } from '../components/common/Badge';
 import { Modal } from '../components/common/Modal';
 import { Input, Textarea } from '../components/common/Input';
 import { CustomSelect } from '../components/common/CustomDropdown';
+import { DatePicker } from '../components/boardui';
 import { isDevMode } from '../utils/devMode';
 import { formatDate, formatTime, getRelativeDateLabel } from '../utils/formatters';
 import { getNearestUpcomingInterview } from '../data/recruitmentData';
@@ -499,13 +500,16 @@ export const InterviewsView: React.FC = () => {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            <Input
-              label="Date"
-              type="date"
-              required
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <label style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>Date</label>
+              <DatePicker
+                value={date}
+                onChange={setDate}
+                placeholder="Select date..."
+                size="md"
+                style={{ width: '100%' }}
+              />
+            </div>
             <Input
               label="Time (IST)"
               required

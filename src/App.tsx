@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ToastProvider } from './context/ToastContext';
 import { AppProvider, useApp } from './context/AppContext';
 import { Layout } from './components/layout/Layout';
+import { CommandPalette } from './components/boardui';
 
 // Primary Views
 import { DashboardView } from './views/DashboardView';
@@ -69,10 +70,24 @@ const MainViewRouter: React.FC = () => {
 };
 
 export function App() {
+  const [cmdOpen, setCmdOpen] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setCmdOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
     <ToastProvider>
       <AppProvider>
         <MainViewRouter />
+        <CommandPalette isOpen={cmdOpen} onClose={() => setCmdOpen(false)} />
       </AppProvider>
     </ToastProvider>
   );

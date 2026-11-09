@@ -1054,7 +1054,7 @@ export const TalentStudioView: React.FC = () => {
                   }}
                 >
                   <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>
-                    Structured Rule Builder (Ref 01)
+                    Structured Rule Builder
                   </span>
                   <button
                     onClick={() => setFilterRules([])}
@@ -1338,7 +1338,7 @@ export const TalentStudioView: React.FC = () => {
                     justifyContent: 'space-between',
                   }}
                 >
-                  <span>Table Columns (Ref 16)</span>
+                  <span>Table Columns</span>
                 </div>
 
                 {/* Column Layout Presets */}
@@ -3025,7 +3025,7 @@ export const TalentStudioView: React.FC = () => {
                           letterSpacing: '0.04em',
                         }}
                       >
-                        Rubric Calibration (Ref 02)
+                        Rubric Calibration
                       </span>
                       <button
                         onClick={() =>
@@ -3307,10 +3307,7 @@ export const TalentStudioView: React.FC = () => {
                 >
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
                     <div>
-                      <span style={{ fontSize: 12, fontWeight: 700, color: '#4338ca', letterSpacing: '0.04em' }}>
-                        REFERENCE 20 IMPLEMENTATION
-                      </span>
-                      <h4 style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', margin: '2px 0 0' }}>
+                      <h4 style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', margin: 0 }}>
                         Multidimensional Evaluation Radar
                       </h4>
                     </div>
@@ -4084,9 +4081,6 @@ export const TalentStudioView: React.FC = () => {
                   <div style={{ fontSize: 12, fontWeight: 700, color: '#0f172a' }}>
                     Neural Engine Telemetry
                   </div>
-                  <span style={{ fontSize: 12, color: '#2563eb', fontWeight: 600, backgroundColor: '#eff6ff', padding: '1px 6px', borderRadius: 4, border: '1px solid #bfdbfe' }}>
-                    REF 03 ACTIVE
-                  </span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   {/* Metric 1: Hourly Ingestion Rate with SVG Sparkline */}

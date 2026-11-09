@@ -34,12 +34,22 @@ export const Button: React.FC<ButtonProps> = ({
       {...props}
     >
       {loading ? (
-        <Loader2 size={size === 'sm' ? 13 : 15} style={{ animation: 'spin 1s linear infinite' }} />
+        <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, lineHeight: 1 }}>
+          <Loader2 size={size === 'sm' ? 13 : 15} style={{ animation: 'spin 1s linear infinite' }} />
+        </span>
       ) : (
-        icon
+        icon && (
+          <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, lineHeight: 1 }}>
+            {icon}
+          </span>
+        )
       )}
-      {children && <span>{children}</span>}
-      {!loading && iconRight}
+      {children && <span style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1.2 }}>{children}</span>}
+      {!loading && iconRight && (
+        <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, lineHeight: 1 }}>
+          {iconRight}
+        </span>
+      )}
     </button>
   );
 };

@@ -16,7 +16,7 @@ export const UpcomingInterviews: React.FC = () => {
       style={{
         background: '#ffffff',
         border: '1px solid var(--border-subtle)',
-        borderRadius: 8,
+        borderRadius: 12,
         padding: '20px 22px',
         display: 'flex',
         flexDirection: 'column',
@@ -76,8 +76,8 @@ export const UpcomingInterviews: React.FC = () => {
                 key={item.id}
                 onClick={() => navigate('candidate-detail', { candidateId: item.candidateId })}
                 style={{
-                  padding: '10px 12px',
-                  borderRadius: 6,
+                  padding: '12px 14px',
+                  borderRadius: 8,
                   border: '1px solid',
                   borderColor: isNextUp ? 'var(--border-default)' : 'var(--border-subtle)',
                   background: isNextUp ? '#ffffff' : 'var(--bg-canvas)',

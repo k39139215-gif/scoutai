@@ -15,7 +15,6 @@ import {
   Send,
   Calendar,
   X,
-  ChevronLeft,
   Check,
   Copy,
 } from 'lucide-react';
@@ -26,7 +25,7 @@ import { Drawer } from '../components/common/Drawer';
 import { isDevMode } from '../utils/devMode';
 import { CustomCheckbox } from '../components/common/CustomCheckbox';
 import { CustomSelect, CustomMenu } from '../components/common/CustomDropdown';
-import { SegmentedControl } from '../components/boardui';
+import { SegmentedControl, Pagination, Chip } from '../components/boardui';
 import { Tooltip } from '../components/common/Tooltip';
 
 export const CandidatesView: React.FC = () => {
@@ -319,7 +318,7 @@ export const CandidatesView: React.FC = () => {
           padding: '12px 16px',
           background: '#ffffff',
           border: '1px solid #e4e4e7',
-          borderRadius: 8,
+          borderRadius: 12,
           flexWrap: 'wrap',
         }}
       >
@@ -770,14 +769,15 @@ export const CandidatesView: React.FC = () => {
             minWidth: 0,
             background: '#ffffff',
             border: '1px solid #e4e4e7',
-            borderRadius: 8,
+            borderRadius: 12,
+            overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
           }}
         >
           {/* Table Header & Rows */}
-          <div className="table-card-container" style={{ flex: 1 }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+          <div className="table-card-container" style={{ flex: 1, overflow: 'hidden' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', borderTopLeftRadius: 12, borderTopRightRadius: 12 }}>
               <thead>
                 <tr style={{ background: '#fafafa', borderBottom: '1px solid #e4e4e7' }}>
                   <th className="col-sticky-first" style={{ width: 44, padding: '12px 14px', textAlign: 'center' }}>
@@ -1146,99 +1146,15 @@ export const CandidatesView: React.FC = () => {
             </table>
           </div>
 
-          {/* 4. Table Pagination Bar (Custom Dropdowns & Clean Spacing) */}
-          <div
-            style={{
-              height: 52,
-              padding: '0 20px',
-              borderTop: '1px solid #e4e4e7',
-              background: '#ffffff',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              fontSize: 13,
-              color: '#71717a',
-            }}
-          >
-            <div>
-              Showing <span style={{ fontWeight: 600, color: '#18181b' }}>{sortedCandidates.length}</span> of{' '}
-              <span style={{ fontWeight: 600, color: '#18181b' }}>{candidates.length}</span> candidate profiles
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-              {/* Custom Rows Per Page Dropdown */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontSize: 12.5 }}>Rows per page:</span>
-                <CustomSelect
-                  value={rowsPerPage}
-                  onChange={setRowsPerPage}
-                  direction="up"
-                  align="right"
-                  options={[
-                    { value: '10', label: '10' },
-                    { value: '25', label: '25' },
-                    { value: '50', label: '50' },
-                  ]}
-                  size="sm"
-                  menuWidth={80}
-                />
-              </div>
-
-              {/* Prev / Next Pagination Controls */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <button
-                  type="button"
-                  disabled
-                  style={{
-                    height: 30,
-                    padding: '0 8px',
-                    borderRadius: 6,
-                    border: '1px solid #e4e4e7',
-                    background: '#ffffff',
-                    color: '#a1a1aa',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 4,
-                    cursor: 'not-allowed',
-                    fontSize: 12.5,
-                  }}
-                >
-                  <ChevronLeft size={14} />
-                  <span>Prev</span>
-                </button>
-                <span
-                  style={{
-                    padding: '0 10px',
-                    fontSize: 12.5,
-                    fontWeight: 600,
-                    color: '#18181b',
-                  }}
-                >
-                  1
-                </span>
-                <button
-                  type="button"
-                  disabled
-                  style={{
-                    height: 30,
-                    padding: '0 8px',
-                    borderRadius: 6,
-                    border: '1px solid #e4e4e7',
-                    background: '#ffffff',
-                    color: '#a1a1aa',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 4,
-                    cursor: 'not-allowed',
-                    fontSize: 12.5,
-                  }}
-                >
-                  <span>Next</span>
-                  <ChevronRight size={14} />
-                </button>
-              </div>
-            </div>
-          </div>
+          {/* 4. Official BoardUI Table Pagination Bar */}
+          <Pagination
+            currentPage={1}
+            totalPages={1}
+            totalItems={sortedCandidates.length}
+            pageSize={Number(rowsPerPage)}
+            onPageChange={() => {}}
+            onPageSizeChange={(sz) => setRowsPerPage(String(sz))}
+          />
         </div>
       </div>
 
@@ -1417,20 +1333,9 @@ export const CandidatesView: React.FC = () => {
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                 {activeCandidate.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    style={{
-                      background: '#ffffff',
-                      border: '1px solid #e2e8f0',
-                      borderRadius: 6,
-                      padding: '4px 10px',
-                      fontSize: 12,
-                      fontWeight: 500,
-                      color: '#334155',
-                    }}
-                  >
+                  <Chip key={skill} variant="neutral">
                     {skill}
-                  </span>
+                  </Chip>
                 ))}
               </div>
             </div>

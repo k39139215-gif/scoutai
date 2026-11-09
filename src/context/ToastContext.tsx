@@ -93,23 +93,23 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
                 background: '#ffffff',
                 color: '#0f172a',
                 border: '1px solid #e2e8f0',
-                borderRadius: 9999,
-                padding: '8px 14px 8px 12px',
+                borderRadius: 12,
+                padding: '10px 14px 10px 12px',
                 boxShadow:
-                  '0 10px 25px -4px rgba(15, 23, 42, 0.1), 0 4px 10px -2px rgba(15, 23, 42, 0.04), 0 0 0 1px rgba(15, 23, 42, 0.02)',
+                  '0 12px 32px -4px rgba(15, 23, 42, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.04), 0 0 0 1px rgba(15, 23, 42, 0.02)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 10,
                 maxWidth: 460,
                 userSelect: 'none',
-                animation: 'scaleIn 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                animation: 'boarduiToastEnter 240ms cubic-bezier(0.34, 1.25, 0.64, 1) forwards',
               }}
             >
               <div
                 style={{
-                  width: 22,
-                  height: 22,
-                  borderRadius: '50%',
+                  width: 26,
+                  height: 26,
+                  borderRadius: 7,
                   background: iconBg,
                   border: `1px solid ${iconBorder}`,
                   color: iconColor,
@@ -119,10 +119,10 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
                   flexShrink: 0,
                 }}
               >
-                {isSuccess && <CheckCircle2 size={13} strokeWidth={2.5} />}
-                {isDanger && <AlertCircle size={13} strokeWidth={2.5} />}
-                {isWarning && <AlertCircle size={13} strokeWidth={2.5} />}
-                {!isSuccess && !isDanger && !isWarning && <Info size={13} strokeWidth={2.5} />}
+                {isSuccess && <CheckCircle2 size={14} strokeWidth={2.2} />}
+                {isDanger && <AlertCircle size={14} strokeWidth={2.2} />}
+                {isWarning && <AlertCircle size={14} strokeWidth={2.2} />}
+                {!isSuccess && !isDanger && !isWarning && <Info size={14} strokeWidth={2.2} />}
               </div>
 
               <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 6 }}>

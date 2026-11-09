@@ -11,18 +11,18 @@ import {
 import { useApp } from '../../context/AppContext';
 import type { AppView } from '../../types';
 import { isDevMode } from '../../utils/devMode';
+import { Notifications } from '../boardui';
 
 interface HeaderProps {
   onOpenMobileMenu: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
-  const { currentView, candidates, jobs, aiActivity, navigate, settings, interviews } = useApp();
+  const { currentView, candidates, jobs, navigate, settings } = useApp();
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [localQuery, setLocalQuery] = useState('');
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const [notifTab, setNotifTab] = useState<'activity' | 'events' | 'jobs'>('activity');
 
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -80,8 +80,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
           j.location.toLowerCase().includes(localQuery.toLowerCase())
       ).slice(0, 4)
     : [];
-
-  const unreadAlerts = aiActivity.slice(0, 5);
 
   const initials = settings.profile.name
     ? settings.profile.name
@@ -484,247 +482,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
             />
           </button>
 
-          {notificationsOpen && (
-            <div
-              style={{
-                position: 'absolute',
-                top: 'calc(100% + 6px)',
-                right: 0,
-                width: 360,
-                background: '#ffffff',
-                border: '1px solid #e2e8f0',
-                borderRadius: 10,
-                boxShadow: '0 20px 40px -8px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(15, 23, 42, 0.06)',
-                zIndex: 9999,
-                overflow: 'hidden',
-              }}
-            >
-              {/* Header with Segmented Tabs (Ref 2 & 3: 1a8c1231b71a0d272ee2e6b76af46b31.png) */}
-              <div
-                style={{
-                  padding: '12px 14px 8px',
-                  borderBottom: '1px solid #f1f5f9',
-                  backgroundColor: '#ffffff',
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: '#0f172a' }}>Operational Inbox</span>
-                  <span
-                    style={{
-                      color: '#64748b',
-                      fontSize: 12,
-                      fontWeight: 500,
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => {
-                      navigate('ai-activity');
-                      setNotificationsOpen(false);
-                    }}
-                  >
-                    View audit trail ›
-                  </span>
-                </div>
-
-                <div
-                  style={{
-                    display: 'flex',
-                    backgroundColor: '#f1f5f9',
-                    padding: 2,
-                    borderRadius: 6,
-                    gap: 2,
-                  }}
-                >
-                  <button
-                    onClick={() => setNotifTab('activity')}
-                    style={{
-                      flex: 1,
-                      padding: '4px 6px',
-                      borderRadius: 4,
-                      fontSize: 12,
-                      fontWeight: notifTab === 'activity' ? 700 : 500,
-                      border: 'none',
-                      backgroundColor: notifTab === 'activity' ? '#ffffff' : 'transparent',
-                      color: notifTab === 'activity' ? '#0f172a' : '#64748b',
-                      boxShadow: notifTab === 'activity' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Activity ({unreadAlerts.length})
-                  </button>
-                  <button
-                    onClick={() => setNotifTab('events')}
-                    style={{
-                      flex: 1,
-                      padding: '4px 6px',
-                      borderRadius: 4,
-                      fontSize: 12,
-                      fontWeight: notifTab === 'events' ? 700 : 500,
-                      border: 'none',
-                      backgroundColor: notifTab === 'events' ? '#ffffff' : 'transparent',
-                      color: notifTab === 'events' ? '#0f172a' : '#64748b',
-                      boxShadow: notifTab === 'events' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Interviews ({interviews.length})
-                  </button>
-                  <button
-                    onClick={() => setNotifTab('jobs')}
-                    style={{
-                      flex: 1,
-                      padding: '4px 6px',
-                      borderRadius: 4,
-                      fontSize: 12,
-                      fontWeight: notifTab === 'jobs' ? 700 : 500,
-                      border: 'none',
-                      backgroundColor: notifTab === 'jobs' ? '#ffffff' : 'transparent',
-                      color: notifTab === 'jobs' ? '#0f172a' : '#64748b',
-                      boxShadow: notifTab === 'jobs' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Requisitions ({jobs.length})
-                  </button>
-                </div>
-              </div>
-
-              {/* Tab 1: Activity Notifications with Colored Accent Strips (Ref 2) */}
-              {notifTab === 'activity' && (
-                <div style={{ maxHeight: 300, overflowY: 'auto' }}>
-                  {unreadAlerts.map((a, i) => {
-                    const stripColor = i % 3 === 0 ? '#10b981' : i % 3 === 1 ? '#6366f1' : '#f59e0b';
-                    return (
-                      <div
-                        key={a.id}
-                        style={{
-                          padding: '10px 14px',
-                          borderBottom: '1px solid #f8fafc',
-                          fontSize: 12,
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'flex-start',
-                          gap: 10,
-                          position: 'relative',
-                        }}
-                        onClick={() => {
-                          navigate('ai-activity');
-                          setNotificationsOpen(false);
-                        }}
-                        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f8fafc')}
-                        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#ffffff')}
-                      >
-                        <span
-                          style={{
-                            width: 3,
-                            height: '100%',
-                            position: 'absolute',
-                            left: 0,
-                            top: 0,
-                            backgroundColor: stripColor,
-                          }}
-                        />
-                        <div style={{ flex: 1, paddingLeft: 4 }}>
-                          <div style={{ fontWeight: 600, color: '#0f172a', display: 'flex', justifyContent: 'space-between' }}>
-                            <span>{a.type}</span>
-                            <span style={{ fontSize: 12, color: '#94a3b8', fontWeight: 400 }}>{a.timestamp}</span>
-                          </div>
-                          <div style={{ color: '#475569', fontSize: 12, marginTop: 2, lineHeight: 1.4 }}>{a.details}</div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-
-              {/* Tab 2: Today's Scheduled Interviews (Ref 2) */}
-              {notifTab === 'events' && (
-                <div style={{ maxHeight: 300, overflowY: 'auto' }}>
-                  {interviews.slice(0, 4).map((inv) => (
-                    <div
-                      key={inv.id}
-                      style={{
-                        padding: '10px 14px',
-                        borderBottom: '1px solid #f8fafc',
-                        fontSize: 12,
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                        gap: 10,
-                        position: 'relative',
-                      }}
-                      onClick={() => {
-                        navigate('interviews');
-                        setNotificationsOpen(false);
-                      }}
-                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f8fafc')}
-                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#ffffff')}
-                    >
-                      <span
-                        style={{
-                          width: 3,
-                          height: '100%',
-                          position: 'absolute',
-                          left: 0,
-                          top: 0,
-                          backgroundColor: '#3b82f6',
-                        }}
-                      />
-                      <div style={{ flex: 1, paddingLeft: 4 }}>
-                        <div style={{ fontWeight: 600, color: '#0f172a', display: 'flex', justifyContent: 'space-between' }}>
-                          <span>{inv.candidateName}</span>
-                          <span style={{ fontSize: 12, color: '#3b82f6', fontWeight: 600 }}>{inv.time}</span>
-                        </div>
-                        <div style={{ color: '#64748b', fontSize: 12, marginTop: 2 }}>
-                          {inv.type} • {inv.jobTitle}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Tab 3: Open Requisitions */}
-              {notifTab === 'jobs' && (
-                <div style={{ maxHeight: 300, overflowY: 'auto' }}>
-                  {jobs.slice(0, 4).map((j) => (
-                    <div
-                      key={j.id}
-                      style={{
-                        padding: '10px 14px',
-                        borderBottom: '1px solid #f8fafc',
-                        fontSize: 12,
-                        cursor: 'pointer',
-                        position: 'relative',
-                      }}
-                      onClick={() => {
-                        navigate('job-workspace', { jobId: j.id });
-                        setNotificationsOpen(false);
-                      }}
-                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f8fafc')}
-                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#ffffff')}
-                    >
-                      <span
-                        style={{
-                          width: 3,
-                          height: '100%',
-                          position: 'absolute',
-                          left: 0,
-                          top: 0,
-                          backgroundColor: '#8b5cf6',
-                        }}
-                      />
-                      <div style={{ paddingLeft: 4 }}>
-                        <div style={{ fontWeight: 600, color: '#0f172a' }}>{j.title}</div>
-                        <div style={{ color: '#64748b', fontSize: 12, marginTop: 2 }}>
-                          {j.client} • {j.applicantsCount} applicants
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+          <Notifications
+            isOpen={notificationsOpen}
+            onClose={() => setNotificationsOpen(false)}
+          />
         </div>
 
         {/* User Avatar */}

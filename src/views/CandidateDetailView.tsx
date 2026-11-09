@@ -358,7 +358,7 @@ Lead Technical Recruiter, ScoutAI`);
           }}
         >
           <Sparkles size={12} style={{ color: activeTab === 'radar' ? '#4338ca' : '#94a3b8' }} />
-          <span>Competency Radar (Ref 20)</span>
+          <span>Competency Radar</span>
         </button>
 
         <button
@@ -610,10 +610,7 @@ Lead Technical Recruiter, ScoutAI`);
         <div className="snow-card" style={{ padding: '24px 32px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, marginBottom: 20 }}>
             <div>
-              <span style={{ fontSize: 12, fontWeight: 700, color: '#4338ca', backgroundColor: '#eef2ff', padding: '2px 8px', borderRadius: 4 }}>
-                REFERENCE 20 IMPLEMENTATION
-              </span>
-              <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--color-text-primary)', marginTop: 4 }}>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--color-text-primary)', margin: 0 }}>
                 Multidimensional Competency Radar
               </h3>
               <p style={{ fontSize: 12.5, color: 'var(--color-text-secondary)', marginTop: 2 }}>

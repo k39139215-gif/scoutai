@@ -161,16 +161,19 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
             {opt.icon && (
               <span
                 style={{
-                  display: 'flex',
+                  display: 'inline-flex',
                   alignItems: 'center',
+                  justifyContent: 'center',
                   color: isActive ? '#4338ca' : '#64748b',
                   transition: 'color 160ms ease',
+                  flexShrink: 0,
+                  lineHeight: 1,
                 }}
               >
                 {opt.icon}
               </span>
             )}
-            <span>{opt.label}</span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1 }}>{opt.label}</span>
             {opt.count !== undefined && (
               <span
                 style={{

@@ -52,7 +52,7 @@ export const AttentionRequired: React.FC = () => {
       style={{
         background: '#ffffff',
         border: '1px solid var(--border-subtle)',
-        borderRadius: 8,
+        borderRadius: 12,
         padding: '20px 22px',
         display: 'flex',
         flexDirection: 'column',

@@ -237,10 +237,25 @@ input[type="radio"]:focus-visible {
   box-shadow: none !important;
 }
 
-/* Tactile, non-jarring button feedback */
-button:active:not(:disabled) {
-  transform: scale(0.985);
-  transition: transform 0.08s cubic-bezier(0.22, 1, 0.36, 1);
+/* Universal button & badge icon-text vertical centering */
+button, .snow-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+button svg, .snow-btn svg {
+  flex-shrink: 0;
+  vertical-align: middle;
+  display: inline-block;
+  margin: auto 0;
+}
+
+button span, .snow-btn span {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.2;
 }
 
 /* ==========================================================================
@@ -614,8 +629,8 @@ tr.sel td, .snow-table tbody tr.selected td {
 .table-card-container {
   background: #ffffff;
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  overflow-x: auto;
+  border-radius: 12px;
+  overflow: hidden;
   position: relative;
   max-width: 100%;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
@@ -630,6 +645,23 @@ tr.sel td, .snow-table tbody tr.selected td {
   background-color: white;
   background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
   background-attachment: local, local, scroll, scroll;
+}
+
+/* Eliminate corner bug on both sides: clip sticky header corners to match container */
+.table-card-container table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border-radius: 11px;
+}
+
+.table-card-container thead tr:first-child th:first-child,
+.table-card-container th.col-sticky-first {
+  border-top-left-radius: 11px;
+}
+
+.table-card-container thead tr:first-child th:last-child,
+.table-card-container th.col-sticky-action {
+  border-top-right-radius: 11px;
 }
 
 /* Sticky First Column */
@@ -850,5 +882,37 @@ tr.sel td, .snow-table tbody tr.selected td {
     opacity: 1;
     transform: scale(1) translateY(0);
     filter: blur(0px);
+  }
+}
+
+/* BoardUI Notification Toast Animations (Spring Slide + Scale + Blur) */
+@keyframes boarduiToastEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.95);
+    filter: blur(4px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.01);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+@keyframes boarduiToastExit {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    max-height: 80px;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.94);
+    max-height: 0;
   }
 }

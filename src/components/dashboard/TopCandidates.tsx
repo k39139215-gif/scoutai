@@ -15,7 +15,7 @@ export const TopCandidates: React.FC = () => {
       style={{
         background: '#ffffff',
         border: '1px solid var(--border-subtle)',
-        borderRadius: 8,
+        borderRadius: 12,
         padding: '20px 22px',
         display: 'flex',
         flexDirection: 'column',
@@ -72,8 +72,8 @@ export const TopCandidates: React.FC = () => {
               key={cand.id}
               onClick={() => navigate('candidate-detail', { candidateId: cand.id })}
               style={{
-                padding: '10px 12px',
-                borderRadius: 6,
+                padding: '12px 14px',
+                borderRadius: 8,
                 border: '1px solid var(--border-subtle)',
                 background: 'var(--bg-canvas)',
                 display: 'flex',
@@ -154,9 +154,9 @@ export const TopCandidates: React.FC = () => {
                   className="tabular-nums"
                   style={{
                     fontSize: 12,
-                    fontWeight: 500,
-                    padding: '2px 7px',
-                    borderRadius: 4,
+                    fontWeight: 600,
+                    padding: '2px 8px',
+                    borderRadius: 6,
                     background: '#f0fdf4',
                     color: '#166534',
                     border: '1px solid #bbf7d0',
@@ -174,10 +174,10 @@ export const TopCandidates: React.FC = () => {
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: 4,
-                    height: 26,
-                    padding: '0 8px',
-                    borderRadius: 4,
+                    gap: 5,
+                    height: 28,
+                    padding: '0 10px',
+                    borderRadius: 6,
                     fontSize: 12,
                     fontWeight: 500,
                     background: cand.status === 'Shortlisted' ? '#f0fdf4' : '#ffffff',

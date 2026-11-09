@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { isDevMode } from '../../utils/devMode';
 import {
   Search,
   LayoutGrid,
@@ -60,7 +61,7 @@ export const StudioCommandPalette: React.FC<StudioCommandPaletteProps> = ({
     {
       id: 'view-table',
       title: 'Dense Engineering Table',
-      subtitle: 'Monospace figures, delta indicators, and collapsible audit rows (Ref 14)',
+      subtitle: 'Monospace figures, delta indicators, and collapsible audit rows',
       category: 'Views',
       icon: <LayoutGrid size={15} style={{ color: '#3b82f6' }} />,
       shortcut: '1',
@@ -69,7 +70,7 @@ export const StudioCommandPalette: React.FC<StudioCommandPaletteProps> = ({
     {
       id: 'view-kanban',
       title: 'Pipeline Kanban Board',
-      subtitle: 'Velocity cards organized by recruitment stage (Refs 11, 18)',
+      subtitle: 'Velocity cards organized by recruitment stage',
       category: 'Views',
       icon: <Columns3 size={15} style={{ color: '#a855f7' }} />,
       shortcut: '2',
@@ -78,7 +79,7 @@ export const StudioCommandPalette: React.FC<StudioCommandPaletteProps> = ({
     {
       id: 'view-dossier',
       title: 'Executive Split Dossier & Radar',
-      subtitle: 'Printable executive brief with official verified seal and 5-axis radar (Refs 19, 20)',
+      subtitle: 'Printable executive brief with official verified seal and 5-axis radar',
       category: 'Views',
       icon: <FileText size={15} style={{ color: '#10b981' }} />,
       shortcut: '3',
@@ -87,7 +88,7 @@ export const StudioCommandPalette: React.FC<StudioCommandPaletteProps> = ({
     {
       id: 'view-pipeline',
       title: 'AI Logic Nodes Canvas',
-      subtitle: 'Visual neural match graph and trace runner (Refs 13, 15)',
+      subtitle: 'Visual neural match graph and trace runner',
       category: 'Views',
       icon: <Workflow size={15} style={{ color: '#f59e0b' }} />,
       shortcut: '4',
@@ -156,16 +157,20 @@ export const StudioCommandPalette: React.FC<StudioCommandPaletteProps> = ({
       run: () => onQuickFilter('All'),
     },
 
-    // References
-    {
-      id: 'ref-lightbox',
-      title: 'Open 20 Reference Designs Showcase',
-      subtitle: 'Full-resolution gallery mapping all 20 reference designs from Downloads',
-      category: 'References',
-      icon: <Image size={15} style={{ color: '#ec4899' }} />,
-      shortcut: 'Refs',
-      run: onOpenReferences,
-    },
+    // References (dev mode only)
+    ...(isDevMode()
+      ? [
+          {
+            id: 'ref-lightbox',
+            title: 'Open 20 Reference Designs Showcase',
+            subtitle: 'Full-resolution gallery mapping all 20 reference designs from Downloads',
+            category: 'References' as const,
+            icon: <Image size={15} style={{ color: '#ec4899' }} />,
+            shortcut: 'Refs',
+            run: onOpenReferences,
+          },
+        ]
+      : []),
   ];
 
   const filteredCommands = commands.filter((cmd) => {
