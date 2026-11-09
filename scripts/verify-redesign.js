@@ -138,8 +138,21 @@ async function main() {
       await desktopPage.goto(`http://localhost:4173/?view=${v.id}`, { waitUntil: 'networkidle' });
       await wait(500);
 
+      // Ensure all lazy elements and content are loaded by scrolling down and back
+      await desktopPage.evaluate(async () => {
+        window.scrollTo(0, document.body.scrollHeight);
+        await new Promise((r) => setTimeout(r, 200));
+        window.scrollTo(0, 0);
+        await new Promise((r) => setTimeout(r, 150));
+      });
+
       const screenshotPath = path.join(afterDesktopDir, `${v.name}.png`);
       await desktopPage.screenshot({ path: screenshotPath, fullPage: true });
+
+      // Mirror to baseline/desktop so both folders have the fresh full-page captures
+      const oldDesktopDir = path.join(baselineDir, 'desktop');
+      fs.mkdirSync(oldDesktopDir, { recursive: true });
+      fs.copyFileSync(screenshotPath, path.join(oldDesktopDir, `${v.name}.png`));
 
       // Check horizontal overflow
       const overflow = await desktopPage.evaluate(() => {
@@ -230,6 +243,50 @@ async function main() {
         primaryButtons,
         axeReport,
       };
+
+      // If candidates view, also capture the Candidate Profile Drawer open
+      if (v.id === 'candidates') {
+        const viewBtn = await desktopPage.$('button:has-text("View Profile")');
+        if (viewBtn) {
+          await viewBtn.click();
+          await wait(450);
+          const drawerScreenshot = path.join(afterDesktopDir, '03-candidates-directory-drawer.png');
+          await desktopPage.screenshot({ path: drawerScreenshot, fullPage: true });
+          fs.copyFileSync(drawerScreenshot, path.join(oldDesktopDir, '03-candidates-directory-drawer.png'));
+          const closeBtn = await desktopPage.$('button[aria-label="Close drawer"]');
+          if (closeBtn) await closeBtn.click();
+          else await desktopPage.keyboard.press('Escape');
+          await wait(300);
+        }
+      }
+
+      // If interviews view, also capture the Candidate Profile Drawer open from Interviews
+      if (v.id === 'interviews') {
+        const viewBtn = await desktopPage.$('button:has-text("View Profile")');
+        if (viewBtn) {
+          await viewBtn.click();
+          await wait(450);
+          const drawerScreenshot = path.join(afterDesktopDir, '07-interviews-schedule-drawer.png');
+          await desktopPage.screenshot({ path: drawerScreenshot, fullPage: true });
+          fs.copyFileSync(drawerScreenshot, path.join(oldDesktopDir, '07-interviews-schedule-drawer.png'));
+          const closeBtn = await desktopPage.$('button[aria-label="Close drawer"]');
+          if (closeBtn) await closeBtn.click();
+          else await desktopPage.keyboard.press('Escape');
+          await wait(300);
+        }
+      }
+
+      // If settings view, capture single toast appearing
+      if (v.id === 'settings') {
+        const saveBtn = await desktopPage.$('button:has-text("Save Configuration")');
+        if (saveBtn) {
+          await saveBtn.click();
+          await wait(350);
+          const toastScreenshot = path.join(afterDesktopDir, '14-system-settings-single-toast.png');
+          await desktopPage.screenshot({ path: toastScreenshot, fullPage: true });
+          fs.copyFileSync(toastScreenshot, path.join(oldDesktopDir, '14-system-settings-single-toast.png'));
+        }
+      }
     }
     await desktopContext.close();
 
@@ -248,8 +305,21 @@ async function main() {
       await mobilePage.goto(`http://localhost:4173/?view=${v.id}`, { waitUntil: 'networkidle' });
       await wait(500);
 
+      // Ensure all lazy elements and content are loaded by scrolling down and back
+      await mobilePage.evaluate(async () => {
+        window.scrollTo(0, document.body.scrollHeight);
+        await new Promise((r) => setTimeout(r, 200));
+        window.scrollTo(0, 0);
+        await new Promise((r) => setTimeout(r, 150));
+      });
+
       const screenshotPath = path.join(afterMobileDir, `${v.name}.png`);
       await mobilePage.screenshot({ path: screenshotPath, fullPage: true });
+
+      // Mirror to baseline/mobile
+      const oldMobileDir = path.join(baselineDir, 'mobile');
+      fs.mkdirSync(oldMobileDir, { recursive: true });
+      fs.copyFileSync(screenshotPath, path.join(oldMobileDir, `${v.name}.png`));
 
       const overflow = await mobilePage.evaluate(() => {
         const docWidth = document.documentElement.scrollWidth;

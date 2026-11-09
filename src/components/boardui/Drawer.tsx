@@ -10,6 +10,7 @@ export interface DrawerProps {
   children: React.ReactNode;
   footer?: React.ReactNode;
   width?: number | string;
+  maxWidth?: number | string;
   position?: 'right' | 'left';
 }
 
@@ -26,7 +27,8 @@ export const Drawer: React.FC<DrawerProps> = ({
   subtitle,
   children,
   footer,
-  width = 460,
+  width = 520,
+  maxWidth,
   position = 'right',
 }) => {
   useEffect(() => {
@@ -47,6 +49,8 @@ export const Drawer: React.FC<DrawerProps> = ({
 
   if (!isOpen) return null;
 
+  const effectiveWidth = maxWidth || width || 520;
+
   return createPortal(
     <div
       style={{
@@ -57,15 +61,16 @@ export const Drawer: React.FC<DrawerProps> = ({
         justifyContent: position === 'right' ? 'flex-end' : 'flex-start',
       }}
     >
-      {/* Blurred Backdrop */}
+      {/* Blurred Backdrop with Fade-In */}
       <div
         onClick={onClose}
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'rgba(15, 23, 42, 0.35)',
-          backdropFilter: 'blur(3px)',
-          transition: 'opacity 0.2s ease',
+          background: 'rgba(15, 23, 42, 0.38)',
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(4px)',
+          animation: 'boarduiBackdropFadeIn 200ms ease forwards',
         }}
       />
 
@@ -75,15 +80,15 @@ export const Drawer: React.FC<DrawerProps> = ({
         aria-modal="true"
         style={{
           position: 'relative',
-          width,
-          maxWidth: '90vw',
+          width: typeof effectiveWidth === 'number' ? `${effectiveWidth}px` : effectiveWidth,
+          maxWidth: '92vw',
           height: '100%',
           background: '#ffffff',
-          boxShadow: '-8px 0 28px rgba(15, 23, 42, 0.16)',
+          boxShadow: '-12px 0 36px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(15, 23, 42, 0.04)',
           display: 'flex',
           flexDirection: 'column',
           zIndex: 1,
-          animation: 'boarduiDrawerSlide 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
+          animation: `${position === 'left' ? 'boarduiDrawerSlideLeft' : 'boarduiDrawerSlide'} 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards`,
         }}
       >
         {/* Header */}

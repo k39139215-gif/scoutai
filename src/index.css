@@ -862,9 +862,27 @@ tr.sel td, .snow-table tbody tr.selected td {
 }
 
 /* BoardUI Slide-Over Drawer Motion (Smooth Snap) */
+@keyframes boarduiBackdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes boarduiDrawerSlide {
   from {
     transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes boarduiDrawerSlideLeft {
+  from {
+    transform: translateX(-100%);
   }
   to {
     transform: translateX(0);

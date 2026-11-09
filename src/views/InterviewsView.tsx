@@ -17,6 +17,7 @@ import { Modal } from '../components/common/Modal';
 import { Input, Textarea } from '../components/common/Input';
 import { CustomSelect } from '../components/common/CustomDropdown';
 import { DatePicker, SegmentedControl } from '../components/boardui';
+import { CandidateProfileDrawer } from '../components/candidates/CandidateProfileDrawer';
 import { isDevMode } from '../utils/devMode';
 import { formatDate, formatTime, getRelativeDateLabel } from '../utils/formatters';
 import { getNearestUpcomingInterview } from '../data/recruitmentData';
@@ -37,6 +38,7 @@ export const InterviewsView: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [cancelModalId, setCancelModalId] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [selectedProfileCandId, setSelectedProfileCandId] = useState<string | null>(null);
 
   // New interview form state
   const [candidateId, setCandidateId] = useState(candidates[0]?.id || 'cand-1');
@@ -68,7 +70,6 @@ export const InterviewsView: React.FC = () => {
       notes,
     });
     setModalOpen(false);
-    showToast('Interview session scheduled successfully', 'success');
   };
 
   const handleCopyLink = (interviewId: string, url: string) => {
@@ -86,7 +87,6 @@ export const InterviewsView: React.FC = () => {
     if (!cancelModalId) return;
     cancelInterview(cancelModalId);
     setCancelModalId(null);
-    showToast('Interview cancelled successfully', 'info');
   };
 
   const filteredInterviews = interviews.filter((i) => {
@@ -614,7 +614,7 @@ export const InterviewsView: React.FC = () => {
                 >
                   <button
                     type="button"
-                    onClick={() => navigate('candidate-detail', { candidateId: item.candidateId })}
+                    onClick={() => setSelectedProfileCandId(item.candidateId)}
                     style={{
                       height: 32,
                       padding: '0 12px',
@@ -654,7 +654,7 @@ export const InterviewsView: React.FC = () => {
                             fontWeight: 500,
                             background: 'transparent',
                             border: '1px solid transparent',
-                            color: '#94a3b8',
+                            color: '#64748b',
                             cursor: 'pointer',
                             whiteSpace: 'nowrap',
                             transition: 'color 0.12s ease, background 0.12s ease',
@@ -857,6 +857,13 @@ export const InterviewsView: React.FC = () => {
           The candidate and interviewer ({interviewToCancel?.interviewer}) can be rescheduled at any time.
         </p>
       </Modal>
+
+      {/* 7. Official BoardUI Candidate Profile Drawer */}
+      <CandidateProfileDrawer
+        candidate={selectedProfileCandId ? candidates.find((c) => c.id === selectedProfileCandId) || null : null}
+        isOpen={!!selectedProfileCandId}
+        onClose={() => setSelectedProfileCandId(null)}
+      />
     </div>
   );
 };

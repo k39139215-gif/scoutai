@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useRef } from 'react';
 import type { ReactNode } from 'react';
 import { CheckCircle2, AlertCircle, Info, X } from 'lucide-react';
 
@@ -29,6 +29,7 @@ const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
 export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
+  const lastToastRef = useRef<{ message: string; timestamp: number } | null>(null);
 
   const removeToast = useCallback((id: string) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
@@ -41,6 +42,16 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       actionOrTitle?: ToastAction | string,
       title?: string
     ) => {
+      // Deduplicate & debounce rapid consecutive calls (ensure 1 toast per user action)
+      const now = Date.now();
+      if (lastToastRef.current) {
+        const timeDiff = now - lastToastRef.current.timestamp;
+        if (timeDiff < 350 || (timeDiff < 2500 && lastToastRef.current.message === message)) {
+          return;
+        }
+      }
+      lastToastRef.current = { message, timestamp: now };
+
       let action: ToastAction | undefined;
       let finalTitle = title;
 
@@ -52,7 +63,8 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
       const id = Math.random().toString(36).substring(2, 9);
       const newToast: ToastItem = { id, type, message, title: finalTitle, action };
-      setToasts((prev) => [...prev.slice(-3), newToast]);
+      // Show only the latest toast (or at most 1 active) per action as requested
+      setToasts([newToast]);
 
       // Give 5.5s if an undo action is attached, otherwise 3.6s
       const timeoutMs = action ? 5500 : 3600;

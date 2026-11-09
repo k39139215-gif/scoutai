@@ -11,7 +11,6 @@ import {
   RotateCcw,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { useToast } from '../context/ToastContext';
 import { Input } from '../components/common/Input';
 import { CustomSelect } from '../components/common/CustomDropdown';
 import { ToggleSwitch } from '../components/common/ToggleSwitch';
@@ -22,7 +21,6 @@ import { isDevMode } from '../utils/devMode';
 
 export const SettingsView: React.FC = () => {
   const { settings, updateSettings, navigate, resetToDemoDefaults } = useApp();
-  const { showToast } = useToast();
 
   const [activeTab, setActiveTab] = useState<
     'profile' | 'workspace' | 'notifications' | 'ai' | 'security' | 'privacy' | 'demo-data'
@@ -108,7 +106,6 @@ export const SettingsView: React.FC = () => {
         requireConsentForSourcing: requireConsent,
       },
     });
-    showToast('Settings successfully updated!', 'success');
   };
 
   const tabs = [
@@ -650,7 +647,6 @@ export const SettingsView: React.FC = () => {
               onClick={() => {
                 resetToDemoDefaults();
                 setConfirmResetModalOpen(false);
-                showToast('Demo workspace reset to baseline defaults.', 'success');
               }}
             >
               Reset to Defaults
