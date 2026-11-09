@@ -8,20 +8,25 @@ import {
   Shield,
   Save,
   Sparkles,
+  RotateCcw,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { useToast } from '../context/ToastContext';
 import { Input } from '../components/common/Input';
 import { CustomSelect } from '../components/common/CustomDropdown';
 import { ToggleSwitch } from '../components/common/ToggleSwitch';
+import { Modal } from '../components/common/Modal';
+import { Button } from '../components/common/Button';
+import { isDevMode } from '../utils/devMode';
 
 export const SettingsView: React.FC = () => {
-  const { settings, updateSettings, navigate } = useApp();
+  const { settings, updateSettings, navigate, resetToDemoDefaults } = useApp();
   const { showToast } = useToast();
 
   const [activeTab, setActiveTab] = useState<
-    'profile' | 'workspace' | 'notifications' | 'ai' | 'security' | 'privacy'
+    'profile' | 'workspace' | 'notifications' | 'ai' | 'security' | 'privacy' | 'demo-data'
   >('profile');
+  const [confirmResetModalOpen, setConfirmResetModalOpen] = useState(false);
 
   // Form local state initialized with settings
   const [profileName, setProfileName] = useState(settings.profile.name);
@@ -92,6 +97,7 @@ export const SettingsView: React.FC = () => {
     { id: 'ai', label: 'Evaluation Model', icon: <SlidersHorizontal size={14} /> },
     { id: 'security', label: 'Security & Access', icon: <Lock size={14} /> },
     { id: 'privacy', label: 'Privacy & Retention', icon: <Shield size={14} /> },
+    { id: 'demo-data', label: 'Demo Data', icon: <RotateCcw size={14} /> },
   ];
 
   return (
@@ -125,28 +131,30 @@ export const SettingsView: React.FC = () => {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <button
-            type="button"
-            onClick={() => navigate('talent-studio')}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              height: 36,
-              padding: '0 13px',
-              fontSize: 12.5,
-              fontWeight: 600,
-              color: '#3b82f6',
-              background: '#eff6ff',
-              border: '1px solid #bfdbfe',
-              borderRadius: 6,
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            <Sparkles size={14} />
-            Studio Desk (Refs)
-          </button>
+          {isDevMode() && (
+            <button
+              type="button"
+              onClick={() => navigate('talent-studio')}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                height: 36,
+                padding: '0 13px',
+                fontSize: 12.5,
+                fontWeight: 600,
+                color: '#3b82f6',
+                background: '#eff6ff',
+                border: '1px solid #bfdbfe',
+                borderRadius: 6,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <Sparkles size={14} />
+              Studio Desk (Refs)
+            </button>
+          )}
           <button
             onClick={handleSave}
           style={{
@@ -470,6 +478,66 @@ export const SettingsView: React.FC = () => {
           </div>
         )}
 
+        {/* Tab 7: Demo Data */}
+        {activeTab === 'demo-data' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <div>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#0f172a', borderBottom: '1px solid #e2e8f0', paddingBottom: 10 }}>
+                Demo Data Management
+              </h3>
+              <p style={{ fontSize: 13, color: '#64748b', marginTop: 8, lineHeight: 1.5 }}>
+                ScoutAI operates in a simulated demo mode. All requisitions, applicant pools, outreach sequences, and audit trails run on realistic local sample datasets.
+              </p>
+            </div>
+
+            <div
+              style={{
+                background: '#f8fafc',
+                border: '1px solid #e2e8f0',
+                borderRadius: 8,
+                padding: '18px 20px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: 16,
+              }}
+            >
+              <div>
+                <div style={{ fontSize: 13.5, fontWeight: 600, color: '#0f172a' }}>
+                  Reset Workspace State
+                </div>
+                <div style={{ fontSize: 12, color: '#64748b', marginTop: 3 }}>
+                  Restore all candidates, jobs, interviews, tasks, and settings back to original demo seeds.
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setConfirmResetModalOpen(true)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  height: 36,
+                  padding: '0 14px',
+                  borderRadius: 6,
+                  fontSize: 12.5,
+                  fontWeight: 600,
+                  color: '#b91c1c',
+                  background: '#fef2f2',
+                  border: '1px solid #fecaca',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.1s ease',
+                }}
+              >
+                <RotateCcw size={13} />
+                <span>Reset Demo State...</span>
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Footer save */}
         <div
           style={{
@@ -503,6 +571,44 @@ export const SettingsView: React.FC = () => {
           </button>
         </div>
       </form>
+
+      {/* Confirmation Modal for Reset Demo State */}
+      <Modal
+        isOpen={confirmResetModalOpen}
+        onClose={() => setConfirmResetModalOpen(false)}
+        title="Reset Demo State"
+        description="Revert all local modifications back to pristine demo data defaults."
+        maxWidth={480}
+        footer={
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
+            <Button variant="secondary" onClick={() => setConfirmResetModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => {
+                resetToDemoDefaults();
+                setConfirmResetModalOpen(false);
+                showToast('Demo workspace reset to baseline defaults.', 'success');
+              }}
+            >
+              Reset to Defaults
+            </Button>
+          </div>
+        }
+      >
+        <div style={{ fontSize: 13, color: '#475569', lineHeight: 1.5 }}>
+          <p style={{ marginBottom: 10 }}>
+            Are you sure you want to reset the recruitment operations workspace?
+          </p>
+          <ul style={{ paddingLeft: 18, margin: 0, fontSize: 12.5, color: '#64748b' }}>
+            <li>Restores all 6 candidate evaluation records and notes</li>
+            <li>Resets job requisition statuses and applicant pipeline counts</li>
+            <li>Re-initializes interview schedules and recruiter tasks</li>
+            <li>Reverts organizational and privacy settings to demo seeds</li>
+          </ul>
+        </div>
+      </Modal>
     </div>
   );
 };

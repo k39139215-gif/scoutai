@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import type { AppView } from '../../types';
 import { useApp } from '../../context/AppContext';
+import { isDevMode } from '../../utils/devMode';
 
 interface SidebarProps {
   isOpenOnMobile: boolean;
@@ -44,7 +45,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
         { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={15} /> },
         { id: 'jobs', label: 'Requisitions', icon: <Briefcase size={15} /> },
         { id: 'candidates', label: 'Candidates', icon: <Users size={15} /> },
-        { id: 'talent-studio', label: 'Talent Studio', icon: <Sparkles size={15} />, badge: 'REF' },
+        { id: 'talent-studio', label: 'Talent Studio', icon: <Sparkles size={15} />, badge: isDevMode() ? 'REF' : undefined },
         { id: 'sourcing', label: 'Candidate Matching', icon: <SearchCheck size={15} /> },
         { id: 'outreach', label: 'Outreach', icon: <Send size={15} /> },
         { id: 'interviews', label: 'Interviews', icon: <Calendar size={15} /> },
@@ -332,27 +333,29 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
             </div>
           </div>
 
-          <button
-            onClick={resetToDemoDefaults}
-            title="Reset workspace state to demo defaults"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-              width: '100%',
-              padding: '5px 8px',
-              borderRadius: 5,
-              fontSize: 11.5,
-              color: 'var(--text-muted)',
-              cursor: 'pointer',
-              transition: 'color 0.1s ease',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#0f172a')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
-          >
-            <RotateCcw size={12} />
-            <span>Reset Demo State</span>
-          </button>
+          {isDevMode() && (
+            <button
+              onClick={resetToDemoDefaults}
+              title="Reset workspace state to demo defaults"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+                width: '100%',
+                padding: '5px 8px',
+                borderRadius: 5,
+                fontSize: 11.5,
+                color: 'var(--text-muted)',
+                cursor: 'pointer',
+                transition: 'color 0.1s ease',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#0f172a')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
+            >
+              <RotateCcw size={12} />
+              <span>Reset Demo State</span>
+            </button>
+          )}
         </div>
       </aside>
     </>

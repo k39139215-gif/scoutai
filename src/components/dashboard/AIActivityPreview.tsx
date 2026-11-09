@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Activity, User, ArrowRight } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 

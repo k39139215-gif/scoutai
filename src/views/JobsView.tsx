@@ -11,6 +11,8 @@ import {
 import { useApp } from '../context/AppContext';
 import type { JobStatus } from '../types';
 import { CustomSelect } from '../components/common/CustomDropdown';
+import { SegmentedControl, StatusSelect } from '../components/boardui';
+import { isDevMode } from '../utils/devMode';
 
 export const JobsView: React.FC = () => {
   const { jobs, updateJobStatus, navigate } = useApp();
@@ -66,27 +68,29 @@ export const JobsView: React.FC = () => {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <button
-            onClick={() => navigate('talent-studio')}
-            style={{
-              height: 36,
-              padding: '0 14px',
-              borderRadius: 8,
-              fontSize: 13,
-              fontWeight: 600,
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              background: '#eef2ff',
-              border: '1px solid #c7d2fe',
-              color: '#4338ca',
-              cursor: 'pointer',
-              transition: 'all 0.12s ease',
-            }}
-          >
-            <Sparkles size={14} />
-            <span>Studio Desk (Refs)</span>
-          </button>
+          {isDevMode() && (
+            <button
+              onClick={() => navigate('talent-studio')}
+              style={{
+                height: 36,
+                padding: '0 14px',
+                borderRadius: 8,
+                fontSize: 13,
+                fontWeight: 600,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                background: '#eef2ff',
+                border: '1px solid #c7d2fe',
+                color: '#4338ca',
+                cursor: 'pointer',
+                transition: 'all 0.12s ease',
+              }}
+            >
+              <Sparkles size={14} />
+              <span>Studio Desk (Refs)</span>
+            </button>
+          )}
 
           <button
             className="btn-dark"
@@ -125,57 +129,17 @@ export const JobsView: React.FC = () => {
           flexWrap: 'wrap',
         }}
       >
-        {/* Status Segmented Controls */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            background: '#f1f5f9',
-            padding: 3,
-            borderRadius: 7,
-            gap: 2,
-          }}
-        >
-          {statuses.map((st) => {
-            const isSelected = selectedStatus === st;
-            const count = st === 'All' ? jobs.length : jobs.filter((j) => j.status === st).length;
-            return (
-              <button
-                key={st}
-                onClick={() => setSelectedStatus(st)}
-                style={{
-                  padding: '5px 12px',
-                  borderRadius: 6,
-                  fontSize: 12.5,
-                  fontWeight: isSelected ? 600 : 500,
-                  background: isSelected ? '#ffffff' : 'transparent',
-                  color: isSelected ? '#0f172a' : '#64748b',
-                  border: 'none',
-                  cursor: 'pointer',
-                  boxShadow: isSelected ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                  transition: 'all 0.12s ease',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 6,
-                }}
-              >
-                <span>{st}</span>
-                <span
-                  style={{
-                    fontSize: 11,
-                    padding: '0 5px',
-                    borderRadius: 9999,
-                    background: isSelected ? '#f1f5f9' : 'transparent',
-                    color: isSelected ? '#0f172a' : '#94a3b8',
-                    fontVariantNumeric: 'tabular-nums',
-                  }}
-                >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+        {/* Status Segmented Controls (BoardUI SegmentedControl) */}
+        <SegmentedControl
+          size="sm"
+          value={selectedStatus}
+          onChange={setSelectedStatus}
+          options={statuses.map((st) => ({
+            value: st,
+            label: st,
+            count: st === 'All' ? jobs.length : jobs.filter((j) => j.status === st).length,
+          }))}
+        />
 
         {/* Custom Department Selector */}
         <CustomSelect
@@ -267,6 +231,7 @@ export const JobsView: React.FC = () => {
                     fontWeight: 600,
                     color: '#64748b',
                     letterSpacing: '0.01em',
+                    minWidth: 240,
                   }}
                 >
                   Role & client requisition
@@ -384,8 +349,10 @@ export const JobsView: React.FC = () => {
                         >
                           {job.title}
                         </span>
-                        <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>
-                          {job.client} • {job.salaryRange}
+                        <div style={{ fontSize: 12, color: '#64748b', marginTop: 3, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                          <span>{job.client}</span>
+                          <span style={{ color: '#cbd5e1' }}>•</span>
+                          <span style={{ color: '#475569', fontWeight: 500 }}>{job.salaryRange}</span>
                         </div>
                       </div>
                     </td>
@@ -423,7 +390,7 @@ export const JobsView: React.FC = () => {
                     </td>
 
                     <td style={{ padding: '12px 16px' }}>
-                      <CustomSelect
+                      <StatusSelect
                         value={job.status}
                         onChange={(val) => updateJobStatus(job.id, val as JobStatus)}
                         options={[
@@ -433,13 +400,13 @@ export const JobsView: React.FC = () => {
                           { value: 'Closed', label: 'Closed' },
                         ]}
                         size="sm"
-                        menuWidth={110}
                       />
                     </td>
 
                     <td style={{ padding: '12px 16px', textAlign: 'right' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 8 }}>
                         <button
+                          type="button"
                           className="pill"
                           style={{
                             height: 28,
@@ -462,20 +429,31 @@ export const JobsView: React.FC = () => {
                         </button>
 
                         <button
-                          className="btn-dark"
+                          type="button"
                           style={{
                             height: 30,
                             padding: '0 12px',
                             fontSize: 12,
                             borderRadius: 6,
-                            background: '#0f172a',
-                            color: '#ffffff',
-                            border: 'none',
+                            background: '#f8fafc',
+                            color: '#0f172a',
+                            border: '1px solid #cbd5e1',
                             cursor: 'pointer',
                             display: 'inline-flex',
                             alignItems: 'center',
-                            gap: 5,
-                            fontWeight: 500,
+                            gap: 6,
+                            fontWeight: 600,
+                            transition: 'all 0.12s ease',
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background = '#0f172a';
+                            e.currentTarget.style.color = '#ffffff';
+                            e.currentTarget.style.borderColor = '#0f172a';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = '#f8fafc';
+                            e.currentTarget.style.color = '#0f172a';
+                            e.currentTarget.style.borderColor = '#cbd5e1';
                           }}
                           onClick={() => navigate('job-workspace', { jobId: job.id })}
                         >

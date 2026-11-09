@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { StatusBadge } from '../components/common/Badge';
-import { CustomSelect } from '../components/common/CustomDropdown';
+import { StatusSelect, SegmentedControl } from '../components/boardui';
 import type { JobStatus } from '../types';
 
 export const JobWorkspaceView: React.FC = () => {
@@ -79,17 +79,16 @@ export const JobWorkspaceView: React.FC = () => {
         </button>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <CustomSelect
+          <StatusSelect
             value={currentJob.status}
             onChange={(val) => updateJobStatus(currentJob.id, val as JobStatus)}
             options={[
-              { value: 'Open', label: 'Status: Open' },
-              { value: 'Paused', label: 'Status: Paused' },
-              { value: 'Draft', label: 'Status: Draft' },
-              { value: 'Closed', label: 'Status: Closed' },
+              { value: 'Open', label: 'Open' },
+              { value: 'Paused', label: 'Paused' },
+              { value: 'Draft', label: 'Draft' },
+              { value: 'Closed', label: 'Closed' },
             ]}
             size="sm"
-            menuWidth={140}
           />
 
           <button
@@ -278,37 +277,21 @@ export const JobWorkspaceView: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. Workspace Navigation Tabs */}
-      <div style={{ display: 'flex', gap: 3, background: '#f4f4f5', padding: 3, borderRadius: 8, width: 'max-content' }}>
-        {[
-          { id: 'pipeline', label: `Pipeline (${jobCandidates.length})` },
-          { id: 'sourcing', label: 'Sourcing Insights' },
-          { id: 'outreach', label: `Outreach & Interviews (${jobOutreach.length + jobInterviews.length})` },
-          { id: 'spec', label: 'Role Specifications' },
-        ].map((tab) => {
-          const isSelected = activeTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              style={{
-                padding: '6px 14px',
-                borderRadius: 6,
-                fontSize: 13,
-                fontWeight: isSelected ? 600 : 500,
-                border: 'none',
-                background: isSelected ? '#ffffff' : 'transparent',
-                color: isSelected ? '#18181b' : '#71717a',
-                cursor: 'pointer',
-                boxShadow: isSelected ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                transition: 'all 0.12s ease',
-              }}
-            >
-              {tab.label}
-            </button>
-          );
-        })}
-      </div>
+      {/* 3. Workspace Navigation Tabs (BoardUI SegmentedControl) */}
+      <SegmentedControl
+        value={activeTab}
+        onChange={(val) => setActiveTab(val as any)}
+        options={[
+          { value: 'pipeline', label: 'Pipeline', count: jobCandidates.length },
+          { value: 'sourcing', label: 'Sourcing Insights' },
+          {
+            value: 'outreach',
+            label: 'Outreach & Interviews',
+            count: jobOutreach.length + jobInterviews.length,
+          },
+          { value: 'spec', label: 'Role Specifications' },
+        ]}
+      />
 
       {/* 4. Tab Content */}
       {activeTab === 'pipeline' && (

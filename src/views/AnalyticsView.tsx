@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sparkles } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { StatCard, FunnelBarList } from '../components/boardui';
 
 export const AnalyticsView: React.FC = () => {
   const { jobs, candidates, navigate } = useApp();
@@ -8,13 +9,13 @@ export const AnalyticsView: React.FC = () => {
   const totalShortlisted = candidates.filter((c) => c.status === 'Shortlisted').length;
   const totalInterviewing = candidates.filter((c) => c.status === 'Interviewing').length;
 
-  // Funnel stages with disciplined neutral graphite ramp
+  // BoardUI Funnel stages with velocity and drop-off metrics
   const funnelStages = [
-    { label: 'Talent pool evaluated', count: 247, percentage: 100, color: '#0f172a' },
-    { label: 'Qualified on core skills', count: 42, percentage: 70, color: '#1e293b' },
-    { label: 'Recruiter shortlisted', count: totalShortlisted > 0 ? totalShortlisted + 10 : 14, percentage: 48, color: '#334155' },
-    { label: 'Technical screens', count: totalInterviewing > 0 ? totalInterviewing + 4 : 6, percentage: 28, color: '#475569' },
-    { label: 'Final offer stage', count: 2, percentage: 14, color: '#64748b' },
+    { name: 'Talent Pool Evaluated', count: 247, avgDays: 1, color: '#0f172a' },
+    { name: 'Qualified on Core Stack', count: 42, avgDays: 2, color: '#1e293b' },
+    { name: 'Recruiter Shortlisted', count: totalShortlisted > 0 ? totalShortlisted + 10 : 14, avgDays: 4, color: '#2563eb' },
+    { name: 'Technical Screening', count: totalInterviewing > 0 ? totalInterviewing + 4 : 6, avgDays: 7, color: '#7c3aed' },
+    { name: 'Final Offer Stage', count: 2, avgDays: 12, color: '#16a34a' },
   ];
 
   // Top skill distribution in demo pool
@@ -86,7 +87,7 @@ export const AnalyticsView: React.FC = () => {
         </button>
       </div>
 
-      {/* 2. Top-Level Metric Summary Cards */}
+      {/* 2. Top-Level Metric Summary Cards (BoardUI StatCard) */}
       <div
         style={{
           display: 'grid',
@@ -94,81 +95,41 @@ export const AnalyticsView: React.FC = () => {
           gap: 12,
         }}
       >
-        <div
-          style={{
-            background: '#ffffff',
-            border: '1px solid var(--border-subtle)',
-            borderRadius: 8,
-            padding: '16px 18px',
-          }}
-        >
-          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
-            Criteria match accuracy
-          </span>
-          <div className="metric-val" style={{ fontSize: 26, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
-            94.8%
-          </div>
-          <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
-            Based on 247 evaluations
-          </div>
-        </div>
+        <StatCard
+          title="Criteria match accuracy"
+          value="94.8%"
+          delta="+2.4%"
+          deltaType="positive"
+          subtitle="Based on 247 evaluations"
+          sparklineData={[88, 89, 91, 92, 93, 94.8]}
+        />
 
-        <div
-          style={{
-            background: '#ffffff',
-            border: '1px solid var(--border-subtle)',
-            borderRadius: 8,
-            padding: '16px 18px',
-          }}
-        >
-          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
-            Average evaluation latency
-          </span>
-          <div className="metric-val" style={{ fontSize: 26, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
-            1.8s
-          </div>
-          <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
-            Per candidate profile
-          </div>
-        </div>
+        <StatCard
+          title="Average evaluation latency"
+          value="1.8s"
+          delta="-0.4s"
+          deltaType="positive"
+          subtitle="Per candidate profile"
+          sparklineData={[2.4, 2.2, 2.1, 1.9, 1.8]}
+        />
 
-        <div
-          style={{
-            background: '#ffffff',
-            border: '1px solid var(--border-subtle)',
-            borderRadius: 8,
-            padding: '16px 18px',
-          }}
-        >
-          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
-            Hours saved per requisition
-          </span>
-          <div className="metric-val" style={{ fontSize: 26, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
-            14.2h
-          </div>
-          <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
-            Automated ranking vs manual
-          </div>
-        </div>
+        <StatCard
+          title="Hours saved per requisition"
+          value="14.2h"
+          delta="+3.1h"
+          deltaType="positive"
+          subtitle="Automated ranking vs manual"
+          sparklineData={[9.5, 11.0, 12.4, 13.5, 14.2]}
+        />
 
-        <div
-          style={{
-            background: '#ffffff',
-            border: '1px solid var(--border-subtle)',
-            borderRadius: 8,
-            padding: '16px 18px',
-          }}
-        >
-          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
-            Outreach draft acceptance
-          </span>
-          <div className="metric-val" style={{ fontSize: 26, fontWeight: 600, margin: '6px 0 2px', color: '#0f172a' }}>
-            92.5%
-          </div>
-          <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>
-            Recruiter draft approval rate
-          </div>
-        </div>
+        <StatCard
+          title="Outreach draft acceptance"
+          value="92.5%"
+          delta="+5.1%"
+          deltaType="positive"
+          subtitle="Recruiter draft approval rate"
+          sparklineData={[82, 85, 88, 90, 92.5]}
+        />
       </div>
 
       {/* 3. Main Visuals Grid: Funnel + Skills Breakdown */}
@@ -179,7 +140,7 @@ export const AnalyticsView: React.FC = () => {
           gap: 16,
         }}
       >
-        {/* Recruitment Pipeline Funnel */}
+        {/* Recruitment Pipeline Funnel (BoardUI FunnelBarList) */}
         <div
           style={{
             background: '#ffffff',
@@ -193,44 +154,11 @@ export const AnalyticsView: React.FC = () => {
               Recruitment Conversion Funnel
             </h3>
             <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
-              Progression from initial talent scan to final hire
+              Progression from initial talent scan to final hire with stage velocity
             </p>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            {funnelStages.map((stg, i) => (
-              <div key={stg.label}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, marginBottom: 5 }}>
-                  <span style={{ color: 'var(--text-secondary)' }}>
-                    {i + 1}. {stg.label}
-                  </span>
-                  <span className="tabular-nums" style={{ fontWeight: 500, color: '#0f172a' }}>
-                    {stg.count} candidates ({stg.percentage}%)
-                  </span>
-                </div>
-                {/* Progress Bar */}
-                <div
-                  style={{
-                    height: 6,
-                    width: '100%',
-                    background: 'var(--bg-subtle)',
-                    borderRadius: 3,
-                    overflow: 'hidden',
-                  }}
-                >
-                  <div
-                    style={{
-                      height: '100%',
-                      width: `${stg.percentage}%`,
-                      background: stg.color,
-                      borderRadius: 3,
-                      transition: 'width 0.3s ease',
-                    }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
+          <FunnelBarList stages={funnelStages} />
         </div>
 
         {/* Skills Distribution & Department Breakdown */}

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import type { Candidate } from '../../types';
 
 export interface CompetencyDimension {

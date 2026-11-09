@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { X, Sparkles, UserPlus } from 'lucide-react';
 import { playTickSound, playSuccessSound } from '../../utils/soundEffects';
 import type { CandidateStatus } from '../../types';

@@ -23,8 +23,10 @@ import { useApp } from '../context/AppContext';
 import { useToast } from '../context/ToastContext';
 import { StatusBadge } from '../components/common/Badge';
 import { Drawer } from '../components/common/Drawer';
+import { isDevMode } from '../utils/devMode';
 import { CustomCheckbox } from '../components/common/CustomCheckbox';
 import { CustomSelect, CustomMenu } from '../components/common/CustomDropdown';
+import { SegmentedControl } from '../components/boardui';
 
 export const CandidatesView: React.FC = () => {
   const { candidates, shortlistCandidate, navigate } = useApp();
@@ -195,28 +197,30 @@ export const CandidatesView: React.FC = () => {
         {/* Action Controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
           {/* Reference Studio View Switcher Button */}
-          <button
-            type="button"
-            onClick={() => navigate('talent-studio')}
-            style={{
-              height: 32,
-              padding: '0 12px',
-              borderRadius: 6,
-              fontSize: 12.5,
-              fontWeight: 600,
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              background: '#0f172a',
-              border: 'none',
-              color: '#ffffff',
-              cursor: 'pointer',
-              boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
-            }}
-          >
-            <span style={{ color: '#818cf8' }}>✨</span>
-            <span>Studio Desk (Refs)</span>
-          </button>
+          {isDevMode() && (
+            <button
+              type="button"
+              onClick={() => navigate('talent-studio')}
+              style={{
+                height: 32,
+                padding: '0 12px',
+                borderRadius: 6,
+                fontSize: 12.5,
+                fontWeight: 600,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                background: '#0f172a',
+                border: 'none',
+                color: '#ffffff',
+                cursor: 'pointer',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
+              }}
+            >
+              <span style={{ color: '#818cf8' }}>✨</span>
+              <span>Studio Desk (Refs)</span>
+            </button>
+          )}
           {/* Custom AI Action Menu */}
           <CustomMenu
             align="right"
@@ -420,52 +424,20 @@ export const CandidatesView: React.FC = () => {
           )}
         </div>
 
-        {/* View Tabs: All vs Shortlisted */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            background: '#f4f4f5',
-            padding: 3,
-            borderRadius: 7,
-            gap: 2,
-          }}
-        >
-          <button
-            onClick={() => setActiveTab('all')}
-            style={{
-              padding: '5px 12px',
-              borderRadius: 6,
-              fontSize: 12.5,
-              fontWeight: activeTab === 'all' ? 600 : 500,
-              background: activeTab === 'all' ? '#ffffff' : 'transparent',
-              color: activeTab === 'all' ? '#18181b' : '#71717a',
-              border: 'none',
-              cursor: 'pointer',
-              boxShadow: activeTab === 'all' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-              transition: 'all 0.12s ease',
-            }}
-          >
-            All Candidates ({candidates.length})
-          </button>
-          <button
-            onClick={() => setActiveTab('saved')}
-            style={{
-              padding: '5px 12px',
-              borderRadius: 6,
-              fontSize: 12.5,
-              fontWeight: activeTab === 'saved' ? 600 : 500,
-              background: activeTab === 'saved' ? '#ffffff' : 'transparent',
-              color: activeTab === 'saved' ? '#18181b' : '#71717a',
-              border: 'none',
-              cursor: 'pointer',
-              boxShadow: activeTab === 'saved' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-              transition: 'all 0.12s ease',
-            }}
-          >
-            Shortlisted ({candidates.filter((c) => c.status === 'Shortlisted').length})
-          </button>
-        </div>
+        {/* View Tabs: All vs Shortlisted (BoardUI Segmented Control) */}
+        <SegmentedControl
+          size="sm"
+          value={activeTab}
+          onChange={(val) => setActiveTab(val as 'all' | 'saved')}
+          options={[
+            { value: 'all', label: 'All Candidates', count: candidates.length },
+            {
+              value: 'saved',
+              label: 'Shortlisted',
+              count: candidates.filter((c) => c.status === 'Shortlisted').length,
+            },
+          ]}
+        />
 
         <div style={{ flex: 1 }} />
 
@@ -820,7 +792,7 @@ export const CandidatesView: React.FC = () => {
                   </th>
                   <th
                     style={{
-                      padding: '10px 14px',
+                      padding: '10px 16px',
                       fontSize: 11.5,
                       fontWeight: 500,
                       color: 'var(--text-secondary)',
@@ -830,13 +802,13 @@ export const CandidatesView: React.FC = () => {
                   </th>
                   <th
                     style={{
-                      padding: '10px 14px',
+                      padding: '10px 16px',
                       fontSize: 11.5,
                       fontWeight: 500,
                       color: 'var(--text-secondary)',
                     }}
                   >
-                    Target role
+                    Target Role
                   </th>
                   <th
                     style={{
@@ -844,6 +816,7 @@ export const CandidatesView: React.FC = () => {
                       fontSize: 11.5,
                       fontWeight: 500,
                       color: 'var(--text-secondary)',
+                      width: 95,
                     }}
                   >
                     Experience
@@ -854,37 +827,41 @@ export const CandidatesView: React.FC = () => {
                       fontSize: 11.5,
                       fontWeight: 500,
                       color: 'var(--text-secondary)',
+                      width: 130,
                     }}
                   >
                     Location
                   </th>
                   <th
                     style={{
-                      padding: '10px 14px',
+                      padding: '10px 16px',
                       fontSize: 11.5,
                       fontWeight: 500,
                       color: 'var(--text-secondary)',
+                      width: 135,
                     }}
                   >
-                    Match fit
+                    Match Fit
                   </th>
                   <th
                     style={{
-                      padding: '10px 14px',
+                      padding: '10px 16px',
                       fontSize: 11.5,
                       fontWeight: 500,
                       color: 'var(--text-secondary)',
+                      width: 115,
                     }}
                   >
                     Status
                   </th>
                   <th
                     style={{
-                      padding: '10px 14px',
+                      padding: '10px 18px',
                       fontSize: 11.5,
                       fontWeight: 500,
                       color: 'var(--text-secondary)',
                       textAlign: 'right',
+                      width: 175,
                     }}
                   >
                     Action
@@ -1075,6 +1052,7 @@ export const CandidatesView: React.FC = () => {
                         <td style={{ padding: '0 18px', textAlign: 'right', whiteSpace: 'nowrap' }}>
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 6 }}>
                             <button
+                              type="button"
                               onClick={() => shortlistCandidate(c.id)}
                               style={{
                                 height: 30,
@@ -1082,48 +1060,66 @@ export const CandidatesView: React.FC = () => {
                                 borderRadius: 6,
                                 fontSize: 12,
                                 fontWeight: 500,
-                                background: c.status === 'Shortlisted' ? '#dcfce7' : '#ffffff',
-                                border: c.status === 'Shortlisted' ? '1px solid #bbf7d0' : '1px solid #e4e4e7',
-                                color: c.status === 'Shortlisted' ? '#15803d' : '#18181b',
+                                background: c.status === 'Shortlisted' ? '#ecfdf5' : '#ffffff',
+                                border: c.status === 'Shortlisted' ? '1px solid #a7f3d0' : '1px solid #e2e8f0',
+                                color: c.status === 'Shortlisted' ? '#047857' : '#475569',
                                 cursor: 'pointer',
                                 display: 'inline-flex',
                                 alignItems: 'center',
                                 gap: 4,
-                                transition: 'all 0.1s ease',
+                                transition: 'all 0.12s ease',
                               }}
                               onMouseEnter={(e) => {
-                                if (c.status !== 'Shortlisted') e.currentTarget.style.background = '#f4f4f5';
+                                if (c.status !== 'Shortlisted') {
+                                  e.currentTarget.style.background = '#f8fafc';
+                                  e.currentTarget.style.borderColor = '#cbd5e1';
+                                  e.currentTarget.style.color = '#0f172a';
+                                }
                               }}
                               onMouseLeave={(e) => {
-                                if (c.status !== 'Shortlisted') e.currentTarget.style.background = '#ffffff';
+                                if (c.status !== 'Shortlisted') {
+                                  e.currentTarget.style.background = '#ffffff';
+                                  e.currentTarget.style.borderColor = '#e2e8f0';
+                                  e.currentTarget.style.color = '#475569';
+                                }
                               }}
                             >
-                              <CheckCircle2 size={12} />
+                              <CheckCircle2 size={12} style={{ color: c.status === 'Shortlisted' ? '#10b981' : '#94a3b8' }} />
                               <span>{c.status === 'Shortlisted' ? 'Saved' : 'Shortlist'}</span>
                             </button>
 
                             <button
+                              type="button"
                               onClick={() => setActiveCandidateId(c.id)}
                               style={{
                                 height: 30,
-                                padding: '0 10px',
+                                padding: '0 11px',
                                 borderRadius: 6,
                                 fontSize: 12,
-                                fontWeight: 500,
-                                background: '#ffffff',
-                                border: '1px solid #e4e4e7',
-                                color: '#18181b',
+                                fontWeight: 600,
+                                background: '#f8fafc',
+                                border: '1px solid #cbd5e1',
+                                color: '#0f172a',
                                 cursor: 'pointer',
                                 display: 'inline-flex',
                                 alignItems: 'center',
-                                gap: 4,
-                                transition: 'background 0.1s ease',
+                                gap: 5,
+                                transition: 'all 0.12s ease',
                               }}
-                              onMouseEnter={(e) => (e.currentTarget.style.background = '#f4f4f5')}
-                              onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.background = '#0f172a';
+                                e.currentTarget.style.color = '#ffffff';
+                                e.currentTarget.style.borderColor = '#0f172a';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.background = '#f8fafc';
+                                e.currentTarget.style.color = '#0f172a';
+                                e.currentTarget.style.borderColor = '#cbd5e1';
+                              }}
                             >
-                              <Eye size={12} style={{ color: '#71717a' }} />
-                              <span>View</span>
+                              <Eye size={12} />
+                              <span>View Profile</span>
+                              <ChevronRight size={11} style={{ opacity: 0.6 }} />
                             </button>
                           </div>
                         </td>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import {
   Send,
   RefreshCw,
@@ -8,8 +8,9 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { StatusBadge } from '../components/common/Badge';
-import { Input, Textarea } from '../components/common/Input';
+import { Input } from '../components/common/Input';
 import { CustomSelect } from '../components/common/CustomDropdown';
+import { SegmentedControl, Composer } from '../components/boardui';
 import type { OutreachTone } from '../types';
 
 export const OutreachView: React.FC = () => {
@@ -27,17 +28,20 @@ export const OutreachView: React.FC = () => {
   const [subject, setSubject] = useState('');
   const [body, setBody] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('All');
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const selectedCandidate = candidates.find((c) => c.id === selectedCandidateId) || candidates[0];
 
   // Auto-fill template when candidate or tone changes
   const handleGenerateTemplate = (candidateObj = selectedCandidate, toneVal = tone) => {
-    let subj = '';
-    let msgBody = '';
+    setIsGenerating(true);
+    setTimeout(() => {
+      let subj = '';
+      let msgBody = '';
 
-    if (toneVal === 'Professional') {
-      subj = `Opportunity: ${candidateObj.appliedJobTitle} at ScoutAI Partner`;
-      msgBody = `Hi ${candidateObj.name.split(' ')[0]},
+      if (toneVal === 'Professional') {
+        subj = `Opportunity: ${candidateObj.appliedJobTitle} at ScoutAI Partner`;
+        msgBody = `Hi ${candidateObj.name.split(' ')[0]},
 
 I reviewed your experience in ${candidateObj.skills.slice(0, 3).join(', ')} and was impressed by your work at ${candidateObj.experienceList[0]?.company || 'your previous roles'}.
 
@@ -48,9 +52,9 @@ Would you be open for a brief 15-minute introductory call this week to learn mor
 Best regards,
 Aarav Mehta
 Lead Technical Recruiter, ScoutAI`;
-    } else if (toneVal === 'Engaging') {
-      subj = `Hey ${candidateObj.name.split(' ')[0]} — Impressive work on ${candidateObj.skills[0]}!`;
-      msgBody = `Hey ${candidateObj.name.split(' ')[0]},
+      } else if (toneVal === 'Engaging') {
+        subj = `Hey ${candidateObj.name.split(' ')[0]} — Impressive work on ${candidateObj.skills[0]}!`;
+        msgBody = `Hey ${candidateObj.name.split(' ')[0]},
 
 Your background in ${candidateObj.skills.slice(0, 2).join(' and ')} caught our eye!
 
@@ -60,9 +64,9 @@ Would love to grab 10 minutes over a quick virtual coffee to share more about ou
 
 Cheers,
 Aarav Mehta`;
-    } else {
-      subj = `Executive Invitation: ${candidateObj.appliedJobTitle} Technical Leadership`;
-      msgBody = `Dear ${candidateObj.name},
+      } else {
+        subj = `Executive Invitation: ${candidateObj.appliedJobTitle} Technical Leadership`;
+        msgBody = `Dear ${candidateObj.name},
 
 I am writing regarding a strategic engineering appointment for a ${candidateObj.appliedJobTitle}.
 
@@ -73,10 +77,12 @@ I would welcome the opportunity to discuss this initiative in confidence. Please
 Sincerely,
 Aarav Mehta
 Lead Talent Advisor, ScoutAI`;
-    }
+      }
 
-    setSubject(subj);
-    setBody(msgBody);
+      setSubject(subj);
+      setBody(msgBody);
+      setIsGenerating(false);
+    }, 280);
   };
 
   React.useEffect(() => {
@@ -222,41 +228,6 @@ Lead Talent Advisor, ScoutAI`;
               />
             </div>
 
-            {/* Tone Selector */}
-            <div className="form-group">
-              <label className="form-label" style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>
-                Tone Preset
-              </label>
-              <div style={{ display: 'flex', gap: 8 }}>
-                {(['Professional', 'Engaging', 'Executive'] as OutreachTone[]).map((t) => (
-                  <button
-                    key={t}
-                    type="button"
-                    onClick={() => {
-                      setTone(t);
-                      handleGenerateTemplate(selectedCandidate, t);
-                    }}
-                    style={{
-                      flex: 1,
-                      height: 32,
-                      padding: '0 8px',
-                      borderRadius: 6,
-                      border: '1px solid',
-                      borderColor: tone === t ? '#18181b' : '#e4e4e7',
-                      background: tone === t ? '#18181b' : '#ffffff',
-                      color: tone === t ? '#ffffff' : '#52525b',
-                      fontSize: 12.5,
-                      fontWeight: 500,
-                      cursor: 'pointer',
-                      transition: 'all 0.15s ease',
-                    }}
-                  >
-                    {t}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             {/* Subject */}
             <Input
               label="Subject Line"
@@ -265,15 +236,36 @@ Lead Talent Advisor, ScoutAI`;
               onChange={(e) => setSubject(e.target.value)}
             />
 
-            {/* Body */}
-            <Textarea
-              label="Message Body (Editable)"
-              required
-              rows={8}
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              helperText="Human recruiter review is required before approving and dispatching."
-            />
+            {/* BoardUI AI Composer with Variable Tokens and Tone Controls */}
+            <div className="form-group">
+              <label className="form-label" style={{ fontSize: 13, fontWeight: 500, color: '#18181b', marginBottom: 6 }}>
+                Message Body (BoardUI AI Composer)
+              </label>
+              <Composer
+                value={body}
+                onChange={setBody}
+                isGenerating={isGenerating}
+                onRegenerate={() => handleGenerateTemplate(selectedCandidate, tone)}
+                availableTokens={['{{first_name}}', '{{role}}', '{{client}}', '{{top_skill}}']}
+                primaryActionLabel="Save & Queue Draft"
+                toneControl={
+                  <SegmentedControl
+                    size="sm"
+                    value={tone}
+                    onChange={(val) => {
+                      const t = val as OutreachTone;
+                      setTone(t);
+                      handleGenerateTemplate(selectedCandidate, t);
+                    }}
+                    options={[
+                      { value: 'Professional', label: 'Professional' },
+                      { value: 'Engaging', label: 'Engaging' },
+                      { value: 'Executive', label: 'Executive' },
+                    ]}
+                  />
+                }
+              />
+            </div>
 
             {/* Actions */}
             <div
@@ -288,6 +280,7 @@ Lead Talent Advisor, ScoutAI`;
               <button
                 type="button"
                 onClick={() => handleGenerateTemplate(selectedCandidate, tone)}
+                disabled={isGenerating}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -300,20 +293,25 @@ Lead Talent Advisor, ScoutAI`;
                   background: '#ffffff',
                   border: '1px solid #e4e4e7',
                   color: '#18181b',
-                  cursor: 'pointer',
+                  cursor: isGenerating ? 'not-allowed' : 'pointer',
+                  opacity: isGenerating ? 0.6 : 1,
                   transition: 'all 0.15s ease',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#f4f4f5';
-                  e.currentTarget.style.borderColor = '#d4d4d8';
+                  if (!isGenerating) {
+                    e.currentTarget.style.background = '#f4f4f5';
+                    e.currentTarget.style.borderColor = '#d4d4d8';
+                  }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '#ffffff';
-                  e.currentTarget.style.borderColor = '#e4e4e7';
+                  if (!isGenerating) {
+                    e.currentTarget.style.background = '#ffffff';
+                    e.currentTarget.style.borderColor = '#e4e4e7';
+                  }
                 }}
               >
-                <RefreshCw size={13} style={{ color: 'var(--text-muted)' }} />
-                <span>Rewrite Draft</span>
+                <RefreshCw size={13} className={isGenerating ? 'spin' : ''} style={{ color: 'var(--text-muted)' }} />
+                <span>{isGenerating ? 'Synthesizing...' : 'Regenerate Draft'}</span>
               </button>
 
               <button

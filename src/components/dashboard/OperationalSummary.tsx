@@ -1,6 +1,7 @@
-import React from 'react';
+﻿import React from 'react';
 import { Briefcase, Users, CheckCircle2, Calendar } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { StatCard } from '../boardui/StatCard';
 
 export const OperationalSummary: React.FC = () => {
   const { jobs, candidates, interviews, navigate } = useApp();
@@ -11,133 +12,61 @@ export const OperationalSummary: React.FC = () => {
   const upcomingInterviews = interviews.filter((i) => i.status === 'Scheduled');
   const upcomingInterviewsCount = upcomingInterviews.length;
 
-  const nextInterview = upcomingInterviews[0];
-
   return (
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-        background: '#ffffff',
-        border: '1px solid var(--border-subtle)',
-        borderRadius: 8,
-        overflow: 'hidden',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
+        gap: 14,
       }}
     >
-      {/* Metric 1: Open Roles */}
-      <div
+      {/* 1. Open Roles */}
+      <StatCard
+        title="Open Requisitions"
+        value={openJobsCount}
+        subtitle={`Across ${jobs.length} active requisitions`}
+        delta="+2 this month"
+        deltaType="positive"
+        icon={<Briefcase size={15} />}
+        sparklineData={[2, 3, 3, 4, 3, 4]}
         onClick={() => navigate('jobs')}
-        style={{
-          padding: '16px 20px',
-          borderRight: '1px solid var(--border-subtle)',
-          cursor: 'pointer',
-          transition: 'background 0.12s ease',
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
-        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
-        role="button"
-        tabIndex={0}
-        aria-label="View open jobs"
-      >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
-            Open roles
-          </span>
-          <Briefcase size={14} style={{ color: 'var(--text-muted)' }} />
-        </div>
-        <div className="metric-val" style={{ fontSize: 26, fontWeight: 600, color: '#0f172a' }}>
-          {openJobsCount}
-        </div>
-        <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
-          Across {jobs.length} requisitions
-        </div>
-      </div>
+      />
 
-      {/* Metric 2: Active Candidates */}
-      <div
+      {/* 2. Active Candidates */}
+      <StatCard
+        title="Active Pipeline"
+        value={activeCandidatesCount}
+        subtitle="247 total talent pool"
+        delta="+14.2%"
+        deltaType="positive"
+        icon={<Users size={15} />}
+        sparklineData={[4, 5, 5, 7, 6, 6]}
         onClick={() => navigate('candidates')}
-        style={{
-          padding: '16px 20px',
-          borderRight: '1px solid var(--border-subtle)',
-          cursor: 'pointer',
-          transition: 'background 0.12s ease',
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
-        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
-        role="button"
-        tabIndex={0}
-        aria-label="View active candidates"
-      >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
-            Active candidates
-          </span>
-          <Users size={14} style={{ color: 'var(--text-muted)' }} />
-        </div>
-        <div className="metric-val" style={{ fontSize: 26, fontWeight: 600, color: '#0f172a' }}>
-          {activeCandidatesCount}
-        </div>
-        <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
-          247 in talent pool
-        </div>
-      </div>
+      />
 
-      {/* Metric 3: Shortlisted */}
-      <div
+      {/* 3. Shortlisted */}
+      <StatCard
+        title="Shortlisted Candidates"
+        value={shortlistedCandidatesCount}
+        subtitle="Ready for client interview review"
+        delta="33% pass rate"
+        deltaType="positive"
+        icon={<CheckCircle2 size={15} />}
+        sparklineData={[1, 1, 2, 2, 2, 2]}
         onClick={() => navigate('candidates')}
-        style={{
-          padding: '16px 20px',
-          borderRight: '1px solid var(--border-subtle)',
-          cursor: 'pointer',
-          transition: 'background 0.12s ease',
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
-        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
-        role="button"
-        tabIndex={0}
-        aria-label="View shortlisted candidates"
-      >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
-            Shortlisted
-          </span>
-          <CheckCircle2 size={14} style={{ color: 'var(--text-muted)' }} />
-        </div>
-        <div className="metric-val" style={{ fontSize: 26, fontWeight: 600, color: '#0f172a' }}>
-          {shortlistedCandidatesCount}
-        </div>
-        <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
-          Advancing to rounds
-        </div>
-      </div>
+      />
 
-      {/* Metric 4: Upcoming Interviews */}
-      <div
+      {/* 4. Upcoming Interviews */}
+      <StatCard
+        title="Scheduled Interviews"
+        value={upcomingInterviewsCount}
+        subtitle={upcomingInterviewsCount > 0 ? "Next: 14:30 IST today" : "No pending rounds"}
+        delta="On track"
+        deltaType="neutral"
+        icon={<Calendar size={15} />}
+        sparklineData={[1, 2, 1, 3, 2, 2]}
         onClick={() => navigate('interviews')}
-        style={{
-          padding: '16px 20px',
-          cursor: 'pointer',
-          transition: 'background 0.12s ease',
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-subtle)')}
-        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
-        role="button"
-        tabIndex={0}
-        aria-label="View scheduled interviews"
-      >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted)' }}>
-            Scheduled screens
-          </span>
-          <Calendar size={14} style={{ color: 'var(--text-muted)' }} />
-        </div>
-        <div className="metric-val" style={{ fontSize: 26, fontWeight: 600, color: '#0f172a' }}>
-          {upcomingInterviewsCount}
-        </div>
-        <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
-          {nextInterview ? `Next: ${nextInterview.time}` : 'None pending'}
-        </div>
-      </div>
+      />
     </div>
   );
 };

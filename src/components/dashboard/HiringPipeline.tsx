@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { ArrowRight, Plus } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { StatusBadge } from '../common/Badge';
