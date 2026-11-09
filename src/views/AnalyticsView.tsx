@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Target, Zap, Clock, Send } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { StatCard, FunnelBarList } from '../components/boardui';
 import { isDevMode } from '../utils/devMode';
@@ -95,6 +95,8 @@ export const AnalyticsView: React.FC = () => {
           value="94.8%"
           delta="+2.4%"
           deltaType="positive"
+          tone="indigo"
+          icon={<Target size={16} />}
           subtitle="Sample metric • 247 evaluations"
           sparklineData={[88, 89, 91, 92, 93, 94.8]}
         />
@@ -104,6 +106,8 @@ export const AnalyticsView: React.FC = () => {
           value="1.8s"
           delta="-0.4s"
           deltaType="positive"
+          tone="sky"
+          icon={<Zap size={16} />}
           subtitle="Sample metric • Per profile"
           sparklineData={[2.4, 2.2, 2.1, 1.9, 1.8]}
         />
@@ -113,6 +117,8 @@ export const AnalyticsView: React.FC = () => {
           value="14.2h"
           delta="+3.1h"
           deltaType="positive"
+          tone="emerald"
+          icon={<Clock size={16} />}
           subtitle="Sample metric • Estimated saving"
           sparklineData={[9.5, 11.0, 12.4, 13.5, 14.2]}
         />
@@ -122,6 +128,8 @@ export const AnalyticsView: React.FC = () => {
           value="92.5%"
           delta="+4.1%"
           deltaType="positive"
+          tone="purple"
+          icon={<Send size={16} />}
           subtitle="Sample metric • Recruiter approved"
           sparklineData={[82, 85, 87, 90, 92.5]}
         />

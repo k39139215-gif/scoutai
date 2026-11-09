@@ -1,12 +1,15 @@
 import React from 'react';
 import { ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
 
+export type StatTone = 'indigo' | 'emerald' | 'purple' | 'blue' | 'sky';
+
 export interface StatCardProps {
   title: string;
   value: string | number;
   subtitle?: string;
   delta?: string;
   deltaType?: 'positive' | 'negative' | 'neutral';
+  tone?: StatTone;
   icon?: React.ReactNode;
   sparklineData?: number[];
   onClick?: () => void;
@@ -14,9 +17,19 @@ export interface StatCardProps {
   style?: React.CSSProperties;
 }
 
+const TONE_GRADIENTS: Record<StatTone, string> = {
+  indigo: 'linear-gradient(180deg, #4f46e5 0%, #4338ca 100%)',
+  emerald: 'linear-gradient(180deg, #10b981 0%, #059669 100%)',
+  purple: 'linear-gradient(180deg, #8b5cf6 0%, #7c3aed 100%)',
+  blue: 'linear-gradient(180deg, #3b82f6 0%, #2563eb 100%)',
+  sky: 'linear-gradient(180deg, #0ea5e9 0%, #0284c7 100%)',
+};
+
 /**
- * BoardUI Stat Card Component (Free / MIT)
- * Enterprise metric card with tabular-nums typography, trend badge, and responsive SVG sparkline.
+ * Official BoardUI Metric Card Component
+ * Figma source: Board UI -> Dashboard 1 -> Stat Cards (node 3731:3160)
+ * Features a gradient icon tile, prominent tabular metric, graceful sparkline,
+ * and BoardUI's signature footer band with delta pill.
  */
 export const StatCard: React.FC<StatCardProps> = ({
   title,
@@ -24,18 +37,21 @@ export const StatCard: React.FC<StatCardProps> = ({
   subtitle,
   delta,
   deltaType = 'positive',
+  tone = 'indigo',
   icon,
   sparklineData,
   onClick,
   className = '',
   style = {},
 }) => {
-  // Generate SVG path for sparkline if data provided
+  const isClickable = !!onClick;
+
+  // BoardUI Sparkline SVG renderer
   const renderSparkline = () => {
     if (!sparklineData || sparklineData.length < 2) return null;
 
-    const width = 80;
-    const height = 28;
+    const width = 72;
+    const height = 24;
     const min = Math.min(...sparklineData);
     const max = Math.max(...sparklineData);
     const range = max - min || 1;
@@ -48,46 +64,48 @@ export const StatCard: React.FC<StatCardProps> = ({
 
     const pathD = `M ${points.join(' L ')}`;
     const strokeColor = deltaType === 'positive' ? '#10b981' : deltaType === 'negative' ? '#ef4444' : '#6366f1';
-    const gradientId = `stat-grad-${title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+    const gradientId = `boardui-spark-${title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
 
     return (
       <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>
         <defs>
           <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={strokeColor} stopOpacity="0.25" />
+            <stop offset="0%" stopColor={strokeColor} stopOpacity="0.28" />
             <stop offset="100%" stopColor={strokeColor} stopOpacity="0.0" />
           </linearGradient>
         </defs>
-        {/* Fill area */}
         <path
-          d={`${pathD} L ${width},${height} L 0 revolutionary,${height} Z`.replace('revolutionary,', '0,')}
+          d={`${pathD} L ${width},${height} L 0,${height} Z`}
           fill={`url(#${gradientId})`}
         />
-        {/* Stroke line */}
-        <path d={pathD} fill="none" stroke={strokeColor} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d={pathD}
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     );
   };
 
-  const isClickable = !!onClick;
-
   return (
-    <div
+    <section
       onClick={onClick}
       role={isClickable ? 'button' : undefined}
       tabIndex={isClickable ? 0 : undefined}
       className={`boardui-stat-card ${isClickable ? 'boardui-card-clickable' : ''} ${className}`}
       style={{
-        padding: '18px 20px',
         background: '#ffffff',
-        border: '1px solid #e2e8f0',
-        borderRadius: 10,
-        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.02)',
+        border: '1px solid var(--border-subtle, #e2e8f0)',
+        borderRadius: 14,
+        padding: '16px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        position: 'relative',
-        transition: 'all 0.15s cubic-bezier(0.16, 1, 0.3, 1)',
+        boxShadow: '0 1px 3px rgba(15, 23, 42, 0.04), 0 1px 2px rgba(15, 23, 42, 0.02)',
+        transition: 'transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease',
         cursor: isClickable ? 'pointer' : 'default',
         minWidth: 0,
         ...style,
@@ -101,105 +119,134 @@ export const StatCard: React.FC<StatCardProps> = ({
       }}
       onMouseLeave={(e) => {
         if (isClickable) {
-          e.currentTarget.style.borderColor = '#e2e8f0';
+          e.currentTarget.style.borderColor = 'var(--border-subtle, #e2e8f0)';
           e.currentTarget.style.transform = 'none';
-          e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.02)';
+          e.currentTarget.style.boxShadow = '0 1px 3px rgba(15, 23, 42, 0.04), 0 1px 2px rgba(15, 23, 42, 0.02)';
         }
       }}
     >
-      {/* Top Header: Title + Icon */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-        <span style={{ fontSize: 12.5, fontWeight: 500, color: '#64748b', letterSpacing: '-0.01em' }}>
-          {title}
-        </span>
+      {/* Top Row: BoardUI Gradient Icon Tile + Sparkline (Single clean horizontal row) */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
         {icon && (
           <span
             style={{
-              display: 'flex',
+              display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: 28,
-              height: 28,
-              borderRadius: 6,
-              background: '#f8fafc',
-              border: '1px solid #f1f5f9',
-              color: '#64748b',
+              width: 36,
+              height: 36,
+              borderRadius: 10,
+              background: TONE_GRADIENTS[tone] || TONE_GRADIENTS.indigo,
+              color: '#ffffff',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.08)',
+              flexShrink: 0,
             }}
           >
             {icon}
           </span>
         )}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {renderSparkline()}
+        </div>
       </div>
 
-      {/* Main Metric Value + Sparkline */}
-      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12 }}>
-        <div>
-          <div
+      {/* Middle Body: Metric Label + Tabular Headline Value */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 2, marginBottom: 12 }}>
+        <p
+          style={{
+            fontSize: 12.5,
+            fontWeight: 500,
+            color: 'var(--text-secondary, #475569)',
+            letterSpacing: '-0.01em',
+            margin: 0,
+          }}
+        >
+          {title}
+        </p>
+        <p
+          style={{
+            fontSize: 26,
+            fontWeight: 700,
+            color: 'var(--text-primary, #0f172a)',
+            letterSpacing: '-0.03em',
+            lineHeight: 1.15,
+            margin: 0,
+            fontVariantNumeric: 'tabular-nums',
+          }}
+        >
+          {value}
+        </p>
+      </div>
+
+      {/* BoardUI Footer Band: Caption + Delta Pill */}
+      {(subtitle || delta) && (
+        <div
+          style={{
+            marginTop: 'auto',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 8,
+            background: 'var(--bg-subtle, #f8fafc)',
+            border: '1px solid var(--border-subtle, #f1f5f9)',
+            borderRadius: 8,
+            padding: '6px 10px',
+          }}
+        >
+          <span
             style={{
-              fontSize: 28,
-              fontWeight: 700,
-              color: '#0f172a',
-              letterSpacing: '-0.03em',
-              lineHeight: 1.1,
-              fontFamily: 'inherit',
-              fontVariantNumeric: 'tabular-nums',
+              fontSize: 12,
+              fontWeight: 500,
+              color: 'var(--text-secondary, #475569)',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
             }}
           >
-            {value}
-          </div>
-
-          {/* Subtitle / Context */}
-          {subtitle && (
-            <div style={{ fontSize: 12, color: '#64748b', marginTop: 4, letterSpacing: '-0.01em' }}>
-              {subtitle}
-            </div>
-          )}
-        </div>
-
-        {/* Right side: Sparkline or Delta Badge */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
-          {renderSparkline()}
+            {subtitle}
+          </span>
 
           {delta && (
             <span
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 2,
+                gap: 3,
                 fontSize: 12,
                 fontWeight: 600,
-                padding: '1.5px 6px',
-                borderRadius: 4,
+                padding: '2px 7px',
+                borderRadius: 9999,
                 fontVariantNumeric: 'tabular-nums',
+                flexShrink: 0,
                 background:
                   deltaType === 'positive'
                     ? '#dcfce7'
                     : deltaType === 'negative'
                     ? '#fee2e2'
-                    : '#f1f5f9',
+                    : '#e2e8f0',
                 color:
                   deltaType === 'positive'
                     ? '#166534'
                     : deltaType === 'negative'
                     ? '#991b1b'
-                    : '#475569',
+                    : '#334155',
                 border: `1px solid ${
                   deltaType === 'positive'
                     ? '#bbf7d0'
                     : deltaType === 'negative'
                     ? '#fecaca'
-                    : '#e2e8f0'
+                    : '#cbd5e1'
                 }`,
               }}
             >
               {deltaType === 'positive' && <ArrowUpRight size={11} />}
               {deltaType === 'negative' && <ArrowDownRight size={11} />}
-              {deltaType === 'neutral' && <Minus size={11} />}
+              {deltaType === 'neutral' && <Minus size={10} />}
               <span>{delta}</span>
             </span>
           )}
         </div>
-      </div>
-    </div>
+      )}
+    </section>
   );
 };

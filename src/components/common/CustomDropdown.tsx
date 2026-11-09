@@ -230,13 +230,14 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
               maxWidth: menuWidth === '100%' ? coords.width : Math.min(Math.max(coords.width, 420), window.innerWidth - 32),
               background: '#ffffff',
               border: '1px solid var(--border-default)',
-              borderRadius: 8,
+              borderRadius: 12,
               boxShadow:
-                '0 12px 32px -4px rgba(0, 0, 0, 0.15), 0 4px 10px -2px rgba(0, 0, 0, 0.06)',
-              padding: 4,
+                '0 12px 32px -4px rgba(15, 23, 42, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.05)',
+              padding: 6,
               zIndex: 99999,
               maxHeight: 280,
               overflowY: 'auto',
+              animation: 'boarduiDropdownEnter 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
             }}
           >
             {options.map((option) => {
@@ -423,12 +424,13 @@ export const CustomMenu: React.FC<CustomMenuProps> = ({
               maxWidth: 'calc(100vw - 24px)',
               background: '#ffffff',
               border: '1px solid var(--border-default)',
-              borderRadius: 8,
+              borderRadius: 12,
               boxShadow:
-                '0 12px 32px -4px rgba(0, 0, 0, 0.15), 0 4px 10px -2px rgba(0, 0, 0, 0.06)',
-              padding: 5,
+                '0 12px 32px -4px rgba(15, 23, 42, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.05)',
+              padding: 6,
               zIndex: 99999,
               boxSizing: 'border-box',
+              animation: 'boarduiDropdownEnter 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
             }}
           >
             {items.map((item) => (

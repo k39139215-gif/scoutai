@@ -427,7 +427,7 @@ export const CandidatesView: React.FC = () => {
 
         {/* View Tabs: All vs Shortlisted (BoardUI Segmented Control) */}
         <SegmentedControl
-          size="sm"
+          size="md"
           value={activeTab}
           onChange={(val) => setActiveTab(val as 'all' | 'saved')}
           options={[

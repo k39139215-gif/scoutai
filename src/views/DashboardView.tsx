@@ -135,13 +135,13 @@ export const DashboardView: React.FC = () => {
       <OperationalSummary />
 
       {/* 3. Priority 1: Active Pipelines + Recruiter Attention Items */}
-      <div className="dashboard-priority-1-grid">
+      <div className="dashboard-priority-1-grid" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
         <HiringPipeline />
         <AttentionRequired />
       </div>
 
       {/* 4. Priority 2: Top Matched Candidates + Upcoming Interviews */}
-      <div className="dashboard-priority-2-grid">
+      <div className="dashboard-priority-2-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 24 }}>
         <TopCandidates />
         <UpcomingInterviews />
       </div>

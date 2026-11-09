@@ -132,7 +132,7 @@ export const JobsView: React.FC = () => {
       >
         {/* Status Segmented Controls (BoardUI SegmentedControl) */}
         <SegmentedControl
-          size="sm"
+          size="md"
           value={selectedStatus}
           onChange={setSelectedStatus}
           options={statuses.map((st) => ({

@@ -35,12 +35,15 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
         {/* Dynamic Screen View */}
         <main
+          tabIndex={0}
+          aria-label="Main content workspace"
           style={{
             flex: 1,
             overflowY: 'auto',
             display: 'flex',
             flexDirection: 'column',
             minHeight: 0,
+            outline: 'none',
           }}
           className="main-workspace-scroll"
         >

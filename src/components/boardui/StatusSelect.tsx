@@ -4,7 +4,7 @@ import { ChevronDown, Check } from 'lucide-react';
 export interface StatusSelectOption {
   value: string;
   label: string;
-  dotColor?: string; // Hex or CSS color
+  dotColor?: string;
 }
 
 export interface StatusSelectProps {
@@ -30,8 +30,10 @@ const DEFAULT_STATUS_COLORS: Record<string, string> = {
 };
 
 /**
- * BoardUI Status Select Component (Free / MIT)
- * Replaces unstyled native HTML <select> with accessible popover dropdown and colored status dots.
+ * Official BoardUI Status Select Component
+ * Figma source: Board UI -> Dashboard 1 -> Table status dropdown (node 3731:3264)
+ * Features tactile trigger button with status dot, rotating chevron glyph,
+ * and 150ms scale/fade/blur entry motion popover.
  */
 export const StatusSelect: React.FC<StatusSelectProps> = ({
   value,
@@ -68,34 +70,40 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({
       className={`boardui-status-select-wrapper ${className}`}
       style={{ position: 'relative', display: 'inline-block', ...style }}
     >
-      {/* Trigger Button */}
+      {/* Trigger Button matching BoardUI Figma specs */}
       <button
         type="button"
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
         onClick={() => setIsOpen(!isOpen)}
         style={{
           display: 'inline-flex',
           alignItems: 'center',
-          gap: 6,
+          gap: 7,
           height: isSmall ? 28 : 34,
-          padding: isSmall ? '0 8px 0 10px' : '0 10px 0 12px',
+          padding: isSmall ? '0 10px' : '0 12px',
           background: '#ffffff',
-          border: `1px solid ${isOpen ? '#0f172a' : '#e2e8f0'}`,
-          borderRadius: 6,
+          border: `1px solid ${isOpen ? '#4338ca' : 'var(--border-subtle, #e2e8f0)'}`,
+          borderRadius: 8,
           fontSize: isSmall ? 12 : 13,
           fontWeight: 500,
-          color: '#1e293b',
+          color: 'var(--text-primary, #0f172a)',
           cursor: 'pointer',
-          boxShadow: '0 1px 2px rgba(0, 0, 0, 0.04)',
-          transition: 'all 0.12s ease',
+          boxShadow: isOpen
+            ? '0 0 0 2px rgba(67, 56, 202, 0.15)'
+            : '0 1px 2px rgba(15, 23, 42, 0.04)',
+          transition: 'all 0.15s cubic-bezier(0.16, 1, 0.3, 1)',
           outline: 'none',
           whiteSpace: 'nowrap',
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#cbd5e1')}
+        onMouseEnter={(e) => {
+          if (!isOpen) e.currentTarget.style.borderColor = '#cbd5e1';
+        }}
         onMouseLeave={(e) => {
-          if (!isOpen) e.currentTarget.style.borderColor = '#e2e8f0';
+          if (!isOpen) e.currentTarget.style.borderColor = 'var(--border-subtle, #e2e8f0)';
         }}
       >
-        {/* Status Dot */}
+        {/* BoardUI Colored Status Dot */}
         <span
           style={{
             width: 7,
@@ -103,37 +111,39 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({
             borderRadius: '50%',
             background: dotColor,
             flexShrink: 0,
-            boxShadow: `0 0 0 2px ${dotColor}25`,
+            boxShadow: `0 0 0 2px ${dotColor}33`,
           }}
         />
 
         <span>{selectedOption?.label || value}</span>
 
+        {/* BoardUI 180deg Rotating Chevron */}
         <ChevronDown
           size={13}
           style={{
-            color: '#94a3b8',
-            transform: isOpen ? 'rotate(180deg)' : 'none',
-            transition: 'transform 0.15s ease',
+            color: '#64748b',
+            transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+            transition: 'transform 180ms cubic-bezier(0.34, 1.25, 0.64, 1)',
           }}
         />
       </button>
 
-      {/* Popover Menu */}
+      {/* BoardUI Animated Popover Menu with Blur/Scale Motion */}
       {isOpen && (
         <div
+          role="listbox"
           style={{
             position: 'absolute',
-            top: 'calc(100% + 4px)',
+            top: 'calc(100% + 5px)',
             left: 0,
-            zIndex: 100,
-            minWidth: 150,
+            zIndex: 110,
+            minWidth: 160,
             background: '#ffffff',
-            border: '1px solid #e2e8f0',
-            borderRadius: 8,
-            boxShadow: '0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05)',
-            padding: 4,
-            animation: 'boarduiMenuFade 0.12s ease-out',
+            border: '1px solid var(--border-subtle, #e2e8f0)',
+            borderRadius: 12,
+            boxShadow: '0 12px 32px -4px rgba(15, 23, 42, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.06)',
+            padding: 5,
+            animation: 'boarduiSelectEnter 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
           }}
         >
           {options.map((opt) => {
@@ -144,6 +154,8 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({
               <button
                 key={opt.value}
                 type="button"
+                role="option"
+                aria-selected={isSelected}
                 onClick={() => {
                   onChange(opt.value);
                   setIsOpen(false);
@@ -153,16 +165,17 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   width: '100%',
-                  padding: '6px 8px',
-                  borderRadius: 5,
-                  fontSize: 12,
+                  padding: '7px 10px',
+                  borderRadius: 7,
+                  fontSize: 12.5,
                   fontWeight: isSelected ? 600 : 500,
                   color: isSelected ? '#0f172a' : '#475569',
                   background: isSelected ? '#f8fafc' : 'transparent',
                   border: 'none',
                   cursor: 'pointer',
                   textAlign: 'left',
-                  transition: 'background 0.1s ease',
+                  transition: 'background-color 0.12s ease',
+                  outline: 'none',
                 }}
                 onMouseEnter={(e) => {
                   if (!isSelected) e.currentTarget.style.background = '#f1f5f9';
@@ -171,11 +184,11 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({
                   if (!isSelected) e.currentTarget.style.background = 'transparent';
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span
                     style={{
-                      width: 6,
-                      height: 6,
+                      width: 6.5,
+                      height: 6.5,
                       borderRadius: '50%',
                       background: optColor,
                     }}
@@ -183,7 +196,7 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({
                   <span>{opt.label}</span>
                 </div>
 
-                {isSelected && <Check size={12} style={{ color: '#0f172a' }} />}
+                {isSelected && <Check size={13} style={{ color: '#4338ca' }} />}
               </button>
             );
           })}
@@ -191,14 +204,16 @@ export const StatusSelect: React.FC<StatusSelectProps> = ({
       )}
 
       <style>{`
-        @keyframes boarduiMenuFade {
+        @keyframes boarduiSelectEnter {
           from {
             opacity: 0;
-            transform: translateY(-4px) scale(0.98);
+            transform: scale(0.96) translateY(-4px);
+            filter: blur(2px);
           }
           to {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: scale(1) translateY(0);
+            filter: blur(0px);
           }
         }
       `}</style>

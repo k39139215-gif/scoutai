@@ -30,7 +30,8 @@ export const OperationalSummary: React.FC = () => {
         subtitle={`Across ${jobs.length} active requisitions`}
         delta="+2 this month"
         deltaType="positive"
-        icon={<Briefcase size={15} />}
+        tone="indigo"
+        icon={<Briefcase size={16} />}
         sparklineData={[2, 3, 3, 4, 3, 4]}
         onClick={() => navigate('jobs')}
       />
@@ -42,7 +43,8 @@ export const OperationalSummary: React.FC = () => {
         subtitle={`${TALENT_POOL_TOTAL} profiles in passive pool`}
         delta="6 dossiers in review"
         deltaType="positive"
-        icon={<Users size={15} />}
+        tone="blue"
+        icon={<Users size={16} />}
         sparklineData={[4, 5, 5, 7, 6, 6]}
         onClick={() => navigate('candidates')}
       />
@@ -54,7 +56,8 @@ export const OperationalSummary: React.FC = () => {
         subtitle="Ready for client interview review"
         delta="33% pass rate"
         deltaType="positive"
-        icon={<CheckCircle2 size={15} />}
+        tone="emerald"
+        icon={<CheckCircle2 size={16} />}
         sparklineData={[1, 1, 2, 2, 2, 2]}
         onClick={() => navigate('candidates')}
       />
@@ -66,7 +69,8 @@ export const OperationalSummary: React.FC = () => {
         subtitle={interviewSubtitle}
         delta="On track"
         deltaType="neutral"
-        icon={<Calendar size={15} />}
+        tone="purple"
+        icon={<Calendar size={16} />}
         sparklineData={[1, 2, 1, 3, 2, 2]}
         onClick={() => navigate('interviews')}
       />

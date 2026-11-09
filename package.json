@@ -11,9 +11,24 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^4.0.47",
+    "@ai-sdk/google": "^4.0.61",
+    "@ai-sdk/openai": "^4.0.53",
+    "@ai-sdk/react": "^4.0.90",
+    "@internationalized/date": "^3.12.1",
+    "@remixicon/react": "^4.9.0",
+    "@tailwindcss/postcss": "^4.3.5",
+    "@tanstack/react-table": "^8.21.3",
+    "ai": "^7.0.87",
     "lucide-react": "^1.31.0",
+    "motion": "^12.42.2",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-aria-components": "^1.17.0",
+    "react-dom": "^19.2.8",
+    "recharts": "^3.9.2",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.3.5",
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "@playwright/test": "^1.65.0",

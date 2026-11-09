@@ -818,3 +818,37 @@ tr.sel td, .snow-table tbody tr.selected td {
     padding: 0 !important;
   }
 }
+
+/* Dashboard Priority Grids Layout Spacing */
+.dashboard-priority-1-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dashboard-priority-2-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-priority-2-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* BoardUI Dropdown & Select Entrance Animation (150ms Scale/Fade/Blur) */
+@keyframes boarduiDropdownEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+  }
+}

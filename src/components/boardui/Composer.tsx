@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Sparkles, Send, Tag } from 'lucide-react';
+import { Sparkles, ArrowUp, Tag, Check, Copy } from 'lucide-react';
 import { AgentThinking } from './AgentThinking';
 
 export interface ComposerProps {
@@ -17,8 +17,10 @@ export interface ComposerProps {
 }
 
 /**
- * BoardUI Composer Component (Free / MIT)
- * AI-native rich message composer with variable token insertion and generation triggers.
+ * Official BoardUI Composer Component
+ * Figma source: Board UI -> Agent Chat -> Composer (node 4030:5993)
+ * Features pill form architecture, iridescent glowing loader state,
+ * circular tactile actions, variable tokens ribbon, and model status line.
  */
 export const Composer: React.FC<ComposerProps> = ({
   value,
@@ -34,6 +36,7 @@ export const Composer: React.FC<ComposerProps> = ({
   style = {},
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [copied, setCopied] = React.useState(false);
 
   const insertToken = (token: string) => {
     if (!textareaRef.current) {
@@ -60,22 +63,36 @@ export const Composer: React.FC<ComposerProps> = ({
     }
   };
 
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(value);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
+
+  const wordCount = value.trim() ? value.trim().split(/\s+/).length : 0;
+  const charCount = value.length;
+
   return (
     <div
       className={`boardui-composer-card ${className}`}
       style={{
+        position: 'relative',
         background: '#ffffff',
-        border: '1px solid #e2e8f0',
-        borderRadius: 10,
-        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
+        border: isGenerating
+          ? '1px solid #818cf8'
+          : '1px solid var(--border-subtle, #e2e8f0)',
+        borderRadius: 14,
+        boxShadow: isGenerating
+          ? '0 0 0 3px rgba(99, 102, 241, 0.15), 0 4px 12px rgba(99, 102, 241, 0.08)'
+          : '0 1px 3px rgba(15, 23, 42, 0.04)',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
-        transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
+        transition: 'all 0.2s ease',
         ...style,
       }}
     >
-      {/* Top Bar: Tone Controls & AI Status */}
+      {/* Top Header: Tone Selector & AI Sparkle Controls */}
       <div
         style={{
           display: 'flex',
@@ -84,45 +101,73 @@ export const Composer: React.FC<ComposerProps> = ({
           flexWrap: 'wrap',
           gap: 10,
           padding: '10px 14px',
-          background: '#f8fafc',
-          borderBottom: '1px solid #f1f5f9',
+          background: 'var(--bg-subtle, #f8fafc)',
+          borderBottom: '1px solid var(--border-subtle, #f1f5f9)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           {toneControl}
         </div>
 
-        {isGenerating ? (
-          <AgentThinking label="AI Generating pitch..." size="sm" />
-        ) : onRegenerate ? (
-          <button
-            type="button"
-            onClick={onRegenerate}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 5,
-              fontSize: 12,
-              fontWeight: 500,
-              color: '#4f46e5',
-              background: '#eef2ff',
-              border: '1px solid #c7d2fe',
-              padding: '3px 9px',
-              borderRadius: 6,
-              cursor: 'pointer',
-              transition: 'all 0.12s ease',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = '#e0e7ff')}
-            onMouseLeave={(e) => (e.currentTarget.style.background = '#eef2ff')}
-          >
-            <Sparkles size={12} />
-            <span>Regenerate with AI</span>
-          </button>
-        ) : null}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          {isGenerating ? (
+            <AgentThinking label="AI synthesizing outreach pitch..." size="sm" />
+          ) : (
+            <>
+              {onRegenerate && (
+                <button
+                  type="button"
+                  onClick={onRegenerate}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: '#4338ca',
+                    background: '#eef2ff',
+                    border: '1px solid #c7d2fe',
+                    padding: '4px 10px',
+                    borderRadius: 9999,
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = '#e0e7ff')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = '#eef2ff')}
+                >
+                  <Sparkles size={12} />
+                  <span>Regenerate Pitch</span>
+                </button>
+              )}
+
+              <button
+                type="button"
+                onClick={copyToClipboard}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 5,
+                  fontSize: 12,
+                  fontWeight: 500,
+                  color: '#475569',
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  padding: '4px 9px',
+                  borderRadius: 6,
+                  cursor: 'pointer',
+                  transition: 'all 0.12s ease',
+                }}
+              >
+                {copied ? <Check size={12} style={{ color: '#16a34a' }} /> : <Copy size={12} />}
+                <span>{copied ? 'Copied' : 'Copy'}</span>
+              </button>
+            </>
+          )}
+        </div>
       </div>
 
-      {/* Main Textarea */}
-      <div style={{ padding: '12px 14px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+      {/* Main Textarea Area */}
+      <div style={{ padding: '14px 16px', flex: 1, display: 'flex', flexDirection: 'column' }}>
         <textarea
           ref={textareaRef}
           value={value}
@@ -136,77 +181,120 @@ export const Composer: React.FC<ComposerProps> = ({
             border: 'none',
             outline: 'none',
             resize: 'vertical',
-            fontSize: 13,
+            fontSize: 13.5,
             lineHeight: 1.6,
-            color: '#1e293b',
+            color: 'var(--text-primary, #0f172a)',
             background: 'transparent',
             fontFamily: 'inherit',
           }}
         />
       </div>
 
-      {/* Bottom Token Bar & Actions */}
+      {/* Variable Tokens Ribbon */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 6,
+          padding: '6px 14px',
+          background: '#ffffff',
+          borderTop: '1px dashed var(--border-subtle, #f1f5f9)',
+          flexWrap: 'wrap',
+        }}
+      >
+        <span
+          style={{
+            fontSize: 12,
+            fontWeight: 600,
+            color: '#475569',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 4,
+            marginRight: 2,
+          }}
+        >
+          <Tag size={11} />
+          <span>Insert Token:</span>
+        </span>
+
+        {availableTokens.map((tok) => (
+          <button
+            key={tok}
+            type="button"
+            onClick={() => insertToken(tok)}
+            style={{
+              fontSize: 12,
+              fontWeight: 500,
+              fontFamily: 'monospace',
+              background: '#f8fafc',
+              border: '1px solid #e2e8f0',
+              padding: '2px 8px',
+              borderRadius: 6,
+              color: '#334155',
+              cursor: 'pointer',
+              transition: 'all 0.12s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = '#c7d2fe';
+              e.currentTarget.style.background = '#eef2ff';
+              e.currentTarget.style.color = '#4338ca';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = '#e2e8f0';
+              e.currentTarget.style.background = '#f8fafc';
+              e.currentTarget.style.color = '#334155';
+            }}
+          >
+            {tok}
+          </button>
+        ))}
+      </div>
+
+      {/* BoardUI Footer Status Bar & Submit Action */}
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          gap: 10,
-          padding: '8px 14px',
-          background: '#fafafa',
-          borderTop: '1px solid #f1f5f9',
+          gap: 12,
+          padding: '10px 14px',
+          background: 'var(--bg-subtle, #f8fafc)',
+          borderTop: '1px solid var(--border-subtle, #f1f5f9)',
         }}
       >
-        {/* Token Chips */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-          <span style={{ fontSize: 12, color: '#475569', display: 'flex', alignItems: 'center', gap: 3 }}>
-            <Tag size={10} />
-            <span>Tokens:</span>
+        {/* Left Status: Stats + Simulation Notice */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <span style={{ fontSize: 12, color: '#334155', fontVariantNumeric: 'tabular-nums' }}>
+            {wordCount} words • {charCount} chars
           </span>
-          {availableTokens.map((tok) => (
-            <button
-              key={tok}
-              type="button"
-              onClick={() => insertToken(tok)}
-              style={{
-                fontSize: 12,
-                fontFamily: 'monospace',
-                background: '#ffffff',
-                border: '1px solid #e2e8f0',
-                padding: '1.5px 6px',
-                borderRadius: 4,
-                color: '#475569',
-                cursor: 'pointer',
-                transition: 'all 0.1s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#94a3b8';
-                e.currentTarget.style.color = '#0f172a';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = '#e2e8f0';
-                e.currentTarget.style.color = '#475569';
-              }}
-            >
-              {tok}
-            </button>
-          ))}
+          <span
+            style={{
+              fontSize: 12,
+              fontWeight: 500,
+              color: '#334155',
+              background: '#f1f5f9',
+              padding: '2px 8px',
+              borderRadius: 9999,
+            }}
+          >
+            Simulation mode
+          </span>
         </div>
 
-        {/* Action Button & Shortcut Info */}
+        {/* Right Action: Circular / Tactile Send Button */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span
             style={{
               fontSize: 12,
-              color: '#94a3b8',
+              color: '#475569',
               display: 'inline-flex',
               alignItems: 'center',
-              gap: 2,
+              gap: 3,
             }}
           >
-            <kbd style={{ fontSize: 12, background: '#f1f5f9', padding: '1px 4px', borderRadius: 3, border: '1px solid #e2e8f0' }}>⌘</kbd>
-            <kbd style={{ fontSize: 12, background: '#f1f5f9', padding: '1px 4px', borderRadius: 3, border: '1px solid #e2e8f0' }}>↵</kbd>
+            <kbd style={{ fontSize: 12, background: '#ffffff', padding: '1px 5px', borderRadius: 4, border: '1px solid #cbd5e1' }}>⌘</kbd>
+            <kbd style={{ fontSize: 12, background: '#ffffff', padding: '1px 5px', borderRadius: 4, border: '1px solid #cbd5e1' }}>↵</kbd>
           </span>
 
           {onSend && (
@@ -218,27 +306,30 @@ export const Composer: React.FC<ComposerProps> = ({
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 6,
-                padding: '6px 14px',
-                borderRadius: 6,
+                padding: '7px 16px',
+                borderRadius: 9999,
                 fontSize: 12.5,
                 fontWeight: 600,
-                background: '#0f172a',
+                background: isGenerating || !value.trim() ? '#94a3b8' : 'var(--color-primary-button, #0f172a)',
                 color: '#ffffff',
                 border: 'none',
                 cursor: isGenerating || !value.trim() ? 'not-allowed' : 'pointer',
-                opacity: isGenerating || !value.trim() ? 0.6 : 1,
-                boxShadow: '0 1px 2px rgba(15, 23, 42, 0.15)',
-                transition: 'all 0.12s ease',
+                boxShadow: '0 2px 4px rgba(15, 23, 42, 0.12)',
+                transition: 'all 0.15s ease',
               }}
               onMouseEnter={(e) => {
-                if (!isGenerating && value.trim()) e.currentTarget.style.background = '#1e293b';
+                if (!isGenerating && value.trim()) {
+                  e.currentTarget.style.background = '#1e293b';
+                }
               }}
               onMouseLeave={(e) => {
-                if (!isGenerating && value.trim()) e.currentTarget.style.background = '#0f172a';
+                if (!isGenerating && value.trim()) {
+                  e.currentTarget.style.background = 'var(--color-primary-button, #0f172a)';
+                }
               }}
             >
-              <Send size={12} />
               <span>{primaryActionLabel}</span>
+              <ArrowUp size={13} />
             </button>
           )}
         </div>

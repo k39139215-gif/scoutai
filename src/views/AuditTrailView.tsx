@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { CustomSelect } from '../components/common/CustomDropdown';
+import { SegmentedControl } from '../components/boardui';
 import { isDevMode } from '../utils/devMode';
 import { formatDateTime } from '../utils/formatters';
 
@@ -145,89 +146,25 @@ export const AuditTrailView: React.FC<AuditTrailViewProps> = ({ initialTab = 'op
       </div>
 
       {/* 2. Top-Level Segmented Tabs (Operations vs Security) */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 6,
-          background: '#f1f5f9',
-          padding: 4,
-          borderRadius: 8,
-          width: 'fit-content',
-        }}
-      >
-        <button
-          type="button"
-          onClick={() => setActiveTab('operations')}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 7,
-            height: 32,
-            padding: '0 14px',
-            borderRadius: 6,
-            fontSize: 13,
-            fontWeight: activeTab === 'operations' ? 600 : 500,
-            border: activeTab === 'operations' ? '1px solid #c7d2fe' : '1px solid transparent',
-            background: activeTab === 'operations' ? '#eef2ff' : 'transparent',
-            color: activeTab === 'operations' ? '#4338ca' : '#475569',
-            cursor: 'pointer',
-            boxShadow: activeTab === 'operations' ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
-            transition: 'all 0.15s ease',
-          }}
-        >
-          <Activity size={14} style={{ color: activeTab === 'operations' ? '#4338ca' : '#64748b' }} />
-          <span>Operations Activity</span>
-          <span
-            style={{
-              fontSize: 12,
-              fontVariantNumeric: 'tabular-nums',
-              padding: '1px 6px',
-              borderRadius: 4,
-              background: activeTab === 'operations' ? '#e0e7ff' : '#e2e8f0',
-              color: activeTab === 'operations' ? '#3730a3' : '#475569',
-            }}
-          >
-            {aiActivity.length}
-          </span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveTab('security')}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 7,
-            height: 32,
-            padding: '0 14px',
-            borderRadius: 6,
-            fontSize: 13,
-            fontWeight: activeTab === 'security' ? 600 : 500,
-            border: activeTab === 'security' ? '1px solid #c7d2fe' : '1px solid transparent',
-            background: activeTab === 'security' ? '#eef2ff' : 'transparent',
-            color: activeTab === 'security' ? '#4338ca' : '#475569',
-            cursor: 'pointer',
-            boxShadow: activeTab === 'security' ? '0 1px 2px rgba(67, 56, 202, 0.08)' : 'none',
-            transition: 'all 0.15s ease',
-          }}
-        >
-          <Lock size={14} style={{ color: activeTab === 'security' ? '#4338ca' : '#64748b' }} />
-          <span>Security & Access</span>
-          <span
-            style={{
-              fontSize: 12,
-              fontVariantNumeric: 'tabular-nums',
-              padding: '1px 6px',
-              borderRadius: 4,
-              background: activeTab === 'security' ? '#e0e7ff' : '#e2e8f0',
-              color: activeTab === 'security' ? '#3730a3' : '#475569',
-            }}
-          >
-            {securityAudit.length}
-          </span>
-        </button>
-      </div>
+      <SegmentedControl
+        value={activeTab}
+        onChange={(val) => setActiveTab(val as 'operations' | 'security')}
+        size="md"
+        options={[
+          {
+            value: 'operations',
+            label: 'Operations Activity',
+            icon: <Activity size={14} />,
+            count: aiActivity.length,
+          },
+          {
+            value: 'security',
+            label: 'Security & Access',
+            icon: <Lock size={14} />,
+            count: securityAudit.length,
+          },
+        ]}
+      />
 
       {/* 3. TAB CONTENT: Operations Activity */}
       {activeTab === 'operations' && (
