@@ -208,4 +208,5 @@ export type AppView =
   | 'clients'
   | 'privacy'
   | 'security'
-  | 'settings';
+  | 'settings'
+  | 'nextgen';

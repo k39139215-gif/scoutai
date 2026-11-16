@@ -94,6 +94,7 @@ const VALID_VIEWS: AppView[] = [
   'privacy',
   'security',
   'settings',
+  'nextgen',
 ];
 
 function getInitialView(): AppView {

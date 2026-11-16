@@ -41,6 +41,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
     {
       section: 'Recruitment',
       items: [
+        { id: 'nextgen', label: 'Next-Gen V2 Studio', icon: <Sparkles size={15} style={{ color: '#4f46e5' }} />, badge: 'NEW' },
         { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={15} /> },
         { id: 'jobs', label: 'Requisitions', icon: <Briefcase size={15} /> },
         { id: 'candidates', label: 'Candidates', icon: <Users size={15} /> },

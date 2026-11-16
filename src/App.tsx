@@ -21,6 +21,7 @@ import { ClientsView } from './views/ClientsView';
 import { PrivacyComplianceView } from './views/PrivacyComplianceView';
 import { SettingsView } from './views/SettingsView';
 import { TalentStudioView } from './views/TalentStudioView';
+import { ScoutNextGenView } from './views/ScoutNextGenView';
 
 const MainViewRouter: React.FC = () => {
   const { currentView } = useApp();
@@ -61,6 +62,8 @@ const MainViewRouter: React.FC = () => {
         return <AuditTrailView initialTab="security" />;
       case 'settings':
         return <SettingsView />;
+      case 'nextgen':
+        return <ScoutNextGenView />;
       default:
         return <DashboardView />;
     }

@@ -7,6 +7,7 @@ import {
   Briefcase,
   Users,
   ChevronRight,
+  Sparkles,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import type { AppView } from '../../types';
@@ -101,6 +102,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
     privacy: 'Data Compliance',
     security: 'Security & Access',
     settings: 'Settings',
+    nextgen: 'Next-Gen Command Center',
   };
 
   return (
@@ -434,6 +436,58 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
 
       {/* Right Controls: Notifications + Recruiter Badge */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+        {/* Next-Gen V2 Toggle Pill */}
+        {currentView !== 'nextgen' ? (
+          <button
+            type="button"
+            onClick={() => navigate('nextgen')}
+            style={{
+              height: 32,
+              padding: '0 12px',
+              borderRadius: 8,
+              background: '#0f172a',
+              color: '#ffffff',
+              border: 'none',
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              boxShadow: '0 1px 3px rgba(15, 23, 42, 0.2)',
+              transition: 'all 0.15s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = '#1e293b')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = '#0f172a')}
+          >
+            <Sparkles size={13} style={{ color: '#a5b4fc' }} />
+            <span>Next-Gen V2</span>
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => navigate('dashboard')}
+            style={{
+              height: 32,
+              padding: '0 12px',
+              borderRadius: 8,
+              background: '#f1f5f9',
+              color: '#0f172a',
+              border: '1px solid #cbd5e1',
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              transition: 'all 0.15s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = '#e2e8f0')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = '#f1f5f9')}
+          >
+            <span>← Classic Dashboard</span>
+          </button>
+        )}
         {/* Notifications Button */}
         <div ref={notifContainerRef} style={{ position: 'relative' }}>
           <button
