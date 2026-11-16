@@ -45,7 +45,7 @@ async function main() {
     throw new Error('Preview server did not start in time');
   }
 
-  console.log('Launching browser to capture Next-Gen views...');
+  console.log('Launching browser to capture Untitled UI & Gr8r Studio adapted views...');
   const browser = await chromium.launch({ headless: true });
 
   try {
@@ -55,63 +55,39 @@ async function main() {
     });
     const page = await desktopContext.newPage();
 
-    // 1. Kanban Board (Default)
+    // 1. Table View (Untitled UI Exact Layout from Image 3 & 4)
     await page.goto('http://localhost:4173/?view=nextgen', { waitUntil: 'networkidle' });
     await wait(800);
     await page.screenshot({ path: path.join(desktopDir, '15-next-gen-command-center.png'), fullPage: true });
+    await page.screenshot({ path: path.join(desktopDir, '15-untitled-ui-all-candidates.png'), fullPage: true });
 
-    // 1b. Waterfall Analytics View (Halo Reference HWyDSHebIAAJF8n)
-    const waterfallBtn = await page.$('button:has-text("Waterfall Analytics")');
-    if (waterfallBtn) {
-      await waterfallBtn.click();
-      await wait(500);
-      await page.screenshot({ path: path.join(desktopDir, '15-next-gen-waterfall-view.png'), fullPage: true });
-    }
-
-    // 2. Table Grid
-    const tableBtn = await page.$('button:has-text("Table Grid")');
-    if (tableBtn) {
-      await tableBtn.click();
-      await wait(500);
-      await page.screenshot({ path: path.join(desktopDir, '15-next-gen-table-view.png'), fullPage: true });
-    }
-
-    // 3. Radar Matrix
-    const radarBtn = await page.$('button:has-text("Radar Matrix")');
-    if (radarBtn) {
-      await radarBtn.click();
-      await wait(500);
-      await page.screenshot({ path: path.join(desktopDir, '15-next-gen-radar-view.png'), fullPage: true });
-    }
-
-    // Return to board view
-    const boardBtn = await page.$('button:has-text("Board")');
-    if (boardBtn) {
-      await boardBtn.click();
+    // 2. Open Action Dropdown Menu (Image 5 exact menu)
+    const menuBtn = await page.$('table tbody tr:first-child button');
+    if (menuBtn) {
+      await menuBtn.click();
       await wait(400);
+      await page.screenshot({ path: path.join(desktopDir, '15-untitled-ui-dropdown-menu.png'), fullPage: true });
+
+      // Click "Shortlist for Client" to trigger the exact toast from Image 5
+      const shortlistBtn = await page.$('button:has-text("Shortlist for Client")');
+      if (shortlistBtn) {
+        await shortlistBtn.click();
+        await wait(400);
+        await page.screenshot({ path: path.join(desktopDir, '15-untitled-ui-toast.png'), fullPage: true });
+      }
     }
 
-    // 4. Connectors Popover Open
-    const connBtn = await page.$('button:has-text("Connectors")');
-    if (connBtn) {
-      await connBtn.click();
-      await wait(400);
-      await page.screenshot({ path: path.join(desktopDir, '15-next-gen-connectors-popover.png'), fullPage: true });
-      await connBtn.click(); // close it
-      await wait(200);
-    }
-
-    // 5. AI Copilot Drawer Open
-    const copilotBtn = await page.$('button:has-text("AI Copilot")');
-    if (copilotBtn) {
-      await copilotBtn.click();
-      await wait(400);
-      await page.screenshot({ path: path.join(desktopDir, '15-next-gen-with-copilot.png'), fullPage: true });
+    // 3. Switch to Kanban Board View
+    const kanbanBtn = await page.$('button:has-text("Kanban Board")');
+    if (kanbanBtn) {
+      await kanbanBtn.click();
+      await wait(500);
+      await page.screenshot({ path: path.join(desktopDir, '15-untitled-ui-kanban.png'), fullPage: true });
     }
 
     await desktopContext.close();
 
-    // 6. Mobile capture
+    // 4. Mobile Capture
     const mobileContext = await browser.newContext({
       viewport: { width: 390, height: 844 },
       deviceScaleFactor: 2,
@@ -122,7 +98,7 @@ async function main() {
     await mobilePage.screenshot({ path: path.join(mobileDir, '15-next-gen-command-center.png'), fullPage: true });
     await mobileContext.close();
 
-    console.log('All 6 Next-Gen screenshots captured successfully.');
+    console.log('All Untitled UI views captured successfully.');
   } finally {
     await browser.close();
     previewProc.kill();
