@@ -60,6 +60,14 @@ async function main() {
     await wait(800);
     await page.screenshot({ path: path.join(desktopDir, '15-next-gen-command-center.png'), fullPage: true });
 
+    // 1b. Waterfall Analytics View (Halo Reference HWyDSHebIAAJF8n)
+    const waterfallBtn = await page.$('button:has-text("Waterfall Analytics")');
+    if (waterfallBtn) {
+      await waterfallBtn.click();
+      await wait(500);
+      await page.screenshot({ path: path.join(desktopDir, '15-next-gen-waterfall-view.png'), fullPage: true });
+    }
+
     // 2. Table Grid
     const tableBtn = await page.$('button:has-text("Table Grid")');
     if (tableBtn) {
