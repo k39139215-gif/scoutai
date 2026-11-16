@@ -51,7 +51,7 @@ interface AppContextType {
   createJob: (jobData: Omit<Job, 'id' | 'createdAt' | 'applicantsCount' | 'shortlistedCount'>) => string;
   updateJobStatus: (jobId: string, status: JobStatus) => void;
   shortlistCandidate: (candidateId: string) => void;
-  updateCandidateStatus: (candidateId: string, status: CandidateStatus) => void;
+  updateCandidateStatus: (candidateId: string, status: CandidateStatus, silent?: boolean) => void;
   createCandidate: (candidateData: Partial<Candidate> & { name: string; title: string }) => string;
   createOutreachMessage: (
     msg: Omit<OutreachMessage, 'id' | 'createdAt' | 'status'>
@@ -95,6 +95,7 @@ const VALID_VIEWS: AppView[] = [
   'security',
   'settings',
   'nextgen',
+  'untitled-studio',
 ];
 
 function getInitialView(): AppView {
@@ -445,14 +446,16 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   };
 
-  const updateCandidateStatus = (candidateId: string, status: CandidateStatus) => {
+  const updateCandidateStatus = (candidateId: string, status: CandidateStatus, silent?: boolean) => {
     setCandidates((prev) =>
       prev.map((c) => (c.id === candidateId ? { ...c, status } : c))
     );
     const candidate = candidates.find((c) => c.id === candidateId);
     const name = candidate ? candidate.name : candidateId;
     logAIActivity('Status Changed', name, `Status changed to ${status}.`, true);
-    showToast(`${name} marked as ${status}`, 'info');
+    if (!silent) {
+      showToast(`${name} marked as ${status}`, 'info');
+    }
   };
 
   const createCandidate = (candidateData: Partial<Candidate> & { name: string; title: string }) => {

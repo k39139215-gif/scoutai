@@ -22,6 +22,7 @@ import { PrivacyComplianceView } from './views/PrivacyComplianceView';
 import { SettingsView } from './views/SettingsView';
 import { TalentStudioView } from './views/TalentStudioView';
 import { ScoutNextGenView } from './views/ScoutNextGenView';
+import { ScoutUntitledStudioView } from './views/ScoutUntitledStudioView';
 
 const MainViewRouter: React.FC = () => {
   const { currentView } = useApp();
@@ -64,6 +65,8 @@ const MainViewRouter: React.FC = () => {
         return <SettingsView />;
       case 'nextgen':
         return <ScoutNextGenView />;
+      case 'untitled-studio':
+        return <ScoutUntitledStudioView />;
       default:
         return <DashboardView />;
     }

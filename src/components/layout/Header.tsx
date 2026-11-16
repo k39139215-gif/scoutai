@@ -103,6 +103,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
     security: 'Security & Access',
     settings: 'Settings',
     nextgen: 'Next-Gen Command Center',
+    'untitled-studio': 'Untitled Studio',
   };
 
   return (
@@ -436,6 +437,37 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
 
       {/* Right Controls: Notifications + Recruiter Badge */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+        {/* Untitled Studio Pill */}
+        <button
+          type="button"
+          onClick={() => navigate(currentView === 'untitled-studio' ? 'dashboard' : 'untitled-studio')}
+          style={{
+            height: 32,
+            padding: '0 12px',
+            borderRadius: 8,
+            background: currentView === 'untitled-studio' ? '#ecfdf3' : '#101828',
+            color: currentView === 'untitled-studio' ? '#027a48' : '#ffffff',
+            border: currentView === 'untitled-studio' ? '1px solid #a6f4c5' : 'none',
+            fontSize: 12,
+            fontWeight: 600,
+            cursor: 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+            boxShadow: '0 1px 2px rgba(16, 24, 40, 0.05)',
+            transition: 'all 0.15s ease',
+          }}
+          onMouseEnter={(e) => {
+            if (currentView !== 'untitled-studio') e.currentTarget.style.background = '#1d2939';
+          }}
+          onMouseLeave={(e) => {
+            if (currentView !== 'untitled-studio') e.currentTarget.style.background = '#101828';
+          }}
+        >
+          <Sparkles size={13} style={{ color: currentView === 'untitled-studio' ? '#027a48' : '#34d399' }} />
+          <span>{currentView === 'untitled-studio' ? '✨ Untitled Active' : '✨ Untitled Studio'}</span>
+        </button>
+
         {/* Next-Gen V2 Toggle Pill */}
         {currentView !== 'nextgen' ? (
           <button
@@ -445,22 +477,21 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
               height: 32,
               padding: '0 12px',
               borderRadius: 8,
-              background: '#0f172a',
-              color: '#ffffff',
-              border: 'none',
+              background: '#f1f5f9',
+              color: '#0f172a',
+              border: '1px solid #cbd5e1',
               fontSize: 12,
               fontWeight: 600,
               cursor: 'pointer',
               display: 'inline-flex',
               alignItems: 'center',
               gap: 6,
-              boxShadow: '0 1px 3px rgba(15, 23, 42, 0.2)',
               transition: 'all 0.15s ease',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = '#1e293b')}
-            onMouseLeave={(e) => (e.currentTarget.style.background = '#0f172a')}
+            onMouseEnter={(e) => (e.currentTarget.style.background = '#e2e8f0')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = '#f1f5f9')}
           >
-            <Sparkles size={13} style={{ color: '#a5b4fc' }} />
+            <Sparkles size={13} style={{ color: '#6366f1' }} />
             <span>Next-Gen V2</span>
           </button>
         ) : (

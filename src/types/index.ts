@@ -209,4 +209,5 @@ export type AppView =
   | 'privacy'
   | 'security'
   | 'settings'
-  | 'nextgen';
+  | 'nextgen'
+  | 'untitled-studio';
