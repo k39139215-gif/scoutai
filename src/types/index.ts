@@ -210,4 +210,5 @@ export type AppView =
   | 'security'
   | 'settings'
   | 'nextgen'
-  | 'untitled-studio';
+  | 'untitled-studio'
+  | 'design-tokens';

@@ -96,6 +96,7 @@ const VALID_VIEWS: AppView[] = [
   'settings',
   'nextgen',
   'untitled-studio',
+  'design-tokens',
 ];
 
 function getInitialView(): AppView {

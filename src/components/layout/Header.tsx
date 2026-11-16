@@ -104,6 +104,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileMenu }) => {
     settings: 'Settings',
     nextgen: 'Next-Gen Command Center',
     'untitled-studio': 'Untitled Studio',
+    'design-tokens': 'Design Tokens System',
   };
 
   return (

@@ -26,44 +26,40 @@ import {
 import { useApp } from '../context/AppContext';
 import { useToast } from '../context/ToastContext';
 import type { Candidate, CandidateStatus } from '../types';
+import { tokens } from '../tokens';
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   EXACT DESIGN SYSTEM TOKENS (Sampled from Untitled UI media_1794853242242_4e5b84f6
-   and media_1794853227719_bfbed3a8 & media_1794853260141_34b54a61)
+   EXACT DESIGN SYSTEM TOKENS (Imported from centralized src/tokens)
 ───────────────────────────────────────────────────────────────────────────── */
 const DS = {
-  // Surfaces & Backgrounds
-  surfaceWhite: '#ffffff',
-  surfaceCard: '#fafafa',
-  surfaceSubtle: '#f9fafb',
-  surfaceActive: '#f2f4f7',
+  surfaceWhite: tokens.semanticColors.surfaceWhite,
+  surfaceCard: tokens.colors.gray[50].hex,
+  surfaceSubtle: tokens.colors.gray[50].hex,
+  surfaceActive: tokens.colors.gray[100].hex,
   
-  // Borders
-  borderLight: '#f2f4f7',
-  borderDefault: '#eaecf0',
-  borderDark: '#d0d5dd',
+  borderLight: tokens.colors.gray[100].hex,
+  borderDefault: tokens.colors.gray[200].hex,
+  borderDark: tokens.colors.gray[300].hex,
 
-  // Typography (HSL: 220deg, 40%, 11%)
-  textPrimary: '#101828',    // Deep Rich Ink
-  textSecondary: '#344054',  // Slate Charcoal
-  textMuted: '#475467',      // Balanced Neutral Gray
-  textLight: '#667085',      // Column Header / Caption
-  textDisabled: '#98a2b3',   // Muted Icons / Placeholders
+  textPrimary: tokens.colors.gray[900].hex,
+  textSecondary: tokens.colors.gray[700].hex,
+  textMuted: tokens.colors.gray[600].hex,
+  textLight: tokens.colors.gray[500].hex,
+  textDisabled: tokens.colors.gray[400].hex,
 
-  // Semantic Pill Tints (Image 1 & 5 exact match)
-  successText: '#027a48',
-  successBg: '#ecfdf3',
-  successBorder: '#a6f4c5',
+  successText: tokens.colors.success[700].hex,
+  successBg: tokens.colors.success[50].hex,
+  successBorder: tokens.colors.success[200].hex,
 
-  warningText: '#b54708',
-  warningBg: '#fffaeb',
-  warningBorder: '#fedf89',
+  warningText: tokens.colors.warning[700].hex,
+  warningBg: tokens.colors.warning[50].hex,
+  warningBorder: tokens.colors.warning[200].hex,
 
-  errorText: '#b42318',
-  errorBg: '#fef3f2',
-  errorBorder: '#fecdca',
+  errorText: tokens.colors.error[700].hex,
+  errorBg: tokens.colors.error[50].hex,
+  errorBorder: tokens.colors.error[200].hex,
 
-  brandDark: '#101828',
+  brandDark: tokens.colors.brand.ink.hex,
 };
 
 export const ScoutUntitledStudioView: React.FC = () => {

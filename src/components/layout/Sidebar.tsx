@@ -14,6 +14,7 @@ import {
   Settings,
   RotateCcw,
   Sparkles,
+  SlidersHorizontal,
 } from 'lucide-react';
 import type { AppView } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -69,6 +70,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenOnMobile, onCloseMobile 
     {
       section: 'Governance & Settings',
       items: [
+        { id: 'design-tokens', label: 'Design Tokens', icon: <SlidersHorizontal size={15} style={{ color: '#027a48' }} />, badge: 'SPEC' },
         { id: 'privacy', label: 'Data Compliance', icon: <ShieldCheck size={15} /> },
         { id: 'settings', label: 'Settings', icon: <Settings size={15} /> },
       ],

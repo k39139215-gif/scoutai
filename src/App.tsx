@@ -23,6 +23,7 @@ import { SettingsView } from './views/SettingsView';
 import { TalentStudioView } from './views/TalentStudioView';
 import { ScoutNextGenView } from './views/ScoutNextGenView';
 import { ScoutUntitledStudioView } from './views/ScoutUntitledStudioView';
+import { DesignTokensView } from './views/DesignTokensView';
 
 const MainViewRouter: React.FC = () => {
   const { currentView } = useApp();
@@ -67,6 +68,8 @@ const MainViewRouter: React.FC = () => {
         return <ScoutNextGenView />;
       case 'untitled-studio':
         return <ScoutUntitledStudioView />;
+      case 'design-tokens':
+        return <DesignTokensView />;
       default:
         return <DashboardView />;
     }

@@ -82,6 +82,15 @@ async function main() {
     });
     console.log('Saved 16-untitled-studio-mobile.png');
 
+    // 6. Capture Design Tokens System Gallery
+    await page.goto('http://localhost:4173/?view=design-tokens', { waitUntil: 'networkidle' });
+    await wait(1000);
+    await page.screenshot({
+      path: path.join(artifactDir, '17-design-tokens-spec.png'),
+      fullPage: true,
+    });
+    console.log('Saved 17-design-tokens-spec.png');
+
     await mobileContext.close();
     await context.close();
   } finally {
