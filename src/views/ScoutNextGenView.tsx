@@ -15,11 +15,64 @@ import {
   Bot,
   ArrowUp,
   BarChart3,
+  MessageSquare,
+  Building,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { useToast } from '../context/ToastContext';
 import type { Candidate, CandidateStatus } from '../types';
 import { CompetencyRadarChart } from '../components/studio/CompetencyRadarChart';
+
+// Exact Palette Sampled from Reference Images (Halo HWyDSHebIAAJF8n, Gr8r HW5e_yKbQAAnb-T, Fintrack HW5zq3sasAArKrQ, VERIQ HXG0UOSb0AAdrEk)
+const COLORS = {
+  canvasBg: '#f6f7f9',
+  cardBg: '#ffffff',
+  subtleBg: '#f8f9fa',
+  border: '#e5e7eb',
+  borderDark: '#d1d5db',
+  borderLight: '#f0f2f5',
+
+  // Ink Typography
+  ink: '#111827',
+  textSecondary: '#4b5563',
+  textMuted: '#6b7280',
+  textLight: '#9ca3af',
+
+  // Halo AI & Copilot Accents
+  indigo: '#6366f1',
+  indigoBg: '#eef2ff',
+  indigoBorder: '#c7d2fe',
+
+  // Gr8r & Halo Growth Emerald
+  emerald: '#10b981',
+  emeraldBg: '#ecfdf5',
+  emeraldBorder: '#a7f3d0',
+  emeraldText: '#047857',
+
+  // Gr8r High Priority Rose / Halo Churn Loss
+  rose: '#e11d48',
+  roseBg: '#fff1f2',
+  roseBorder: '#fecdd3',
+  roseText: '#be123c',
+
+  // Amber Warning / Medium Priority / Schedule
+  amber: '#d97706',
+  amberBg: '#fffbeb',
+  amberBorder: '#fde68a',
+  amberText: '#b45309',
+
+  // BRICK Royal Blue & Cobalt
+  cobalt: '#2563eb',
+  cobaltBg: '#eff6ff',
+  cobaltBorder: '#bfdbfe',
+  cobaltText: '#1d4ed8',
+
+  // Review & Architecture Purple
+  purple: '#8b5cf6',
+  purpleBg: '#f5f3ff',
+  purpleBorder: '#ddd6fe',
+  purpleText: '#6d28d9',
+};
 
 export const ScoutNextGenView: React.FC = () => {
   const { candidates, jobs, interviews, shortlistCandidate, updateCandidateStatus, navigate } = useApp();
@@ -28,11 +81,11 @@ export const ScoutNextGenView: React.FC = () => {
   // Primary navigation & view modes: board (Gr8r), waterfall (Halo), table, radar
   const [viewMode, setViewMode] = useState<'board' | 'waterfall' | 'table' | 'radar'>('board');
   const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(candidates[0]?.id || null);
-  
+
   // Docked right panel states: whether open, and whether showing Candidate Dossier or AI Copilot
   const [inspectorOpen, setInspectorOpen] = useState(true);
   const [rightPanelTab, setRightPanelTab] = useState<'dossier' | 'copilot'>('dossier');
-  
+
   // ATS Connectors popover state (Lucas Dan reference)
   const [connectorsOpen, setConnectorsOpen] = useState(false);
 
@@ -40,7 +93,7 @@ export const ScoutNextGenView: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [departmentFilter, setDepartmentFilter] = useState('All');
 
-  // AI Copilot interactive chat state (Halo reference)
+  // AI Copilot interactive chat state (Halo reference HWyDSHebIAAJF8n)
   const [copilotThoughtOpen, setCopilotThoughtOpen] = useState(true);
   const [copilotInput, setCopilotInput] = useState('');
   const [copilotMessages, setCopilotMessages] = useState<Array<{ sender: 'ai' | 'user'; text: string; time: string }>>([
@@ -82,7 +135,7 @@ export const ScoutNextGenView: React.FC = () => {
   // Handle stage change
   const handleStageChange = (candId: string, newStage: CandidateStatus) => {
     updateCandidateStatus(candId, newStage);
-    showToast(`Updated stage for ${candidates.find(c => c.id === candId)?.name || 'candidate'} to "${newStage}"`, 'success');
+    showToast(`Updated stage for ${candidates.find((c) => c.id === candId)?.name || 'candidate'} to "${newStage}"`, 'success');
   };
 
   // Handle shortlisting
@@ -115,11 +168,11 @@ export const ScoutNextGenView: React.FC = () => {
 
   // Kanban pipeline columns (Gr8r Studio reference)
   const kanbanColumns: Array<{ id: CandidateStatus; label: string; dotColor: string; bgTint: string }> = [
-    { id: 'Qualified', label: 'Screened & Qualified', dotColor: '#3b82f6', bgTint: '#eff6ff' },
-    { id: 'Shortlisted', label: 'Shortlisted for Review', dotColor: '#10b981', bgTint: '#ecfdf5' },
-    { id: 'Interviewing', label: 'Technical Assessment', dotColor: '#f59e0b', bgTint: '#fffbeb' },
-    { id: 'Review', label: 'Hiring Manager Review', dotColor: '#8b5cf6', bgTint: '#f5f3ff' },
-    { id: 'Archived', label: 'Talent Pool Archive', dotColor: '#64748b', bgTint: '#f8fafc' },
+    { id: 'Qualified', label: 'Screened & Qualified', dotColor: COLORS.cobalt, bgTint: COLORS.cobaltBg },
+    { id: 'Shortlisted', label: 'Shortlisted for Review', dotColor: COLORS.emerald, bgTint: COLORS.emeraldBg },
+    { id: 'Interviewing', label: 'Technical Assessment', dotColor: COLORS.amber, bgTint: COLORS.amberBg },
+    { id: 'Review', label: 'Hiring Manager Review', dotColor: COLORS.purple, bgTint: COLORS.purpleBg },
+    { id: 'Archived', label: 'Talent Pool Archive', dotColor: COLORS.textMuted, bgTint: COLORS.subtleBg },
   ];
 
   return (
@@ -129,7 +182,7 @@ export const ScoutNextGenView: React.FC = () => {
         flexDirection: 'column',
         gap: 20,
         fontFamily: 'var(--font-family-base, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif)',
-        color: '#0f172a',
+        color: COLORS.ink,
         maxWidth: 1680,
         margin: '0 auto',
         paddingBottom: 40,
@@ -146,10 +199,10 @@ export const ScoutNextGenView: React.FC = () => {
           flexWrap: 'wrap',
           gap: 16,
           padding: '16px 20px',
-          background: '#ffffff',
+          background: COLORS.cardBg,
           borderRadius: 16,
-          border: '1px solid #e2e8f0',
-          boxShadow: '0 1px 3px rgba(15, 23, 42, 0.04)',
+          border: `1px solid ${COLORS.border}`,
+          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.03)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -158,11 +211,11 @@ export const ScoutNextGenView: React.FC = () => {
               width: 40,
               height: 40,
               borderRadius: 10,
-              background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+              background: `linear-gradient(135deg, ${COLORS.ink} 0%, #1e293b 100%)`,
               display: 'grid',
               placeItems: 'center',
               color: '#ffffff',
-              boxShadow: '0 2px 6px rgba(15, 23, 42, 0.2)',
+              boxShadow: '0 2px 6px rgba(17, 24, 39, 0.2)',
             }}
           >
             <Sparkles size={19} />
@@ -173,7 +226,7 @@ export const ScoutNextGenView: React.FC = () => {
                 style={{
                   fontSize: 19,
                   fontWeight: 700,
-                  color: '#0f172a',
+                  color: COLORS.ink,
                   letterSpacing: '-0.025em',
                   margin: 0,
                 }}
@@ -184,9 +237,9 @@ export const ScoutNextGenView: React.FC = () => {
                 style={{
                   fontSize: 11.5,
                   fontWeight: 600,
-                  color: '#047857',
-                  background: '#ecfdf5',
-                  border: '1px solid #a7f3d0',
+                  color: COLORS.emeraldText,
+                  background: COLORS.emeraldBg,
+                  border: `1px solid ${COLORS.emeraldBorder}`,
                   padding: '2px 8px',
                   borderRadius: 9999,
                   display: 'inline-flex',
@@ -199,20 +252,20 @@ export const ScoutNextGenView: React.FC = () => {
                     width: 6,
                     height: 6,
                     borderRadius: '50%',
-                    background: '#10b981',
-                    boxShadow: '0 0 6px rgba(16, 185, 129, 0.8)',
+                    background: COLORS.emerald,
+                    boxShadow: `0 0 6px ${COLORS.emerald}`,
                   }}
                 />
                 Autonomous Engine Active
               </span>
             </div>
-            <p style={{ fontSize: 12.5, color: '#64748b', margin: '2px 0 0 0' }}>
+            <p style={{ fontSize: 12.5, color: COLORS.textMuted, margin: '2px 0 0 0' }}>
               Autonomous pipeline orchestration across {jobs.length} active requisitions, automated talent indexing, and split-screen dossier intelligence.
             </p>
           </div>
         </div>
 
-        {/* Action Controls & Connectors (Lucas Dan Popover) */}
+        {/* Action Controls & Connectors (Lucas Dan Popover HW1HwNUXMAEd2Dv) */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, position: 'relative' }}>
           {/* Connectors Trigger */}
           <button
@@ -221,10 +274,10 @@ export const ScoutNextGenView: React.FC = () => {
             style={{
               height: 36,
               padding: '0 13px',
-              borderRadius: 9,
-              border: '1px solid #e2e8f0',
-              background: connectorsOpen ? '#f1f5f9' : '#ffffff',
-              color: '#334155',
+              borderRadius: 8,
+              border: `1px solid ${COLORS.border}`,
+              background: connectorsOpen ? COLORS.subtleBg : COLORS.cardBg,
+              color: COLORS.ink,
               fontSize: 12.5,
               fontWeight: 500,
               cursor: 'pointer',
@@ -234,9 +287,9 @@ export const ScoutNextGenView: React.FC = () => {
               transition: 'all 0.15s ease',
             }}
           >
-            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#10b981' }} />
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: COLORS.emerald }} />
             <span>Connectors (5 Active)</span>
-            <ChevronDown size={13} style={{ color: '#94a3b8' }} />
+            <ChevronDown size={13} style={{ color: COLORS.textLight }} />
           </button>
 
           {/* Connectors Popover Dropdown (Exact Lucas Dan reference HW1HwNUXMAEd2Dv) */}
@@ -247,10 +300,10 @@ export const ScoutNextGenView: React.FC = () => {
                 top: 'calc(100% + 8px)',
                 right: 140,
                 width: 300,
-                background: '#ffffff',
-                border: '1px solid #e2e8f0',
+                background: COLORS.cardBg,
+                border: `1px solid ${COLORS.border}`,
                 borderRadius: 16,
-                boxShadow: '0 16px 40px -8px rgba(15, 23, 42, 0.14), 0 0 1px 1px rgba(15, 23, 42, 0.04)',
+                boxShadow: '0 16px 40px -8px rgba(0, 0, 0, 0.12), 0 0 1px 1px rgba(0, 0, 0, 0.04)',
                 padding: '14px',
                 zIndex: 100,
               }}
@@ -259,7 +312,7 @@ export const ScoutNextGenView: React.FC = () => {
                 style={{
                   fontSize: 13,
                   fontWeight: 700,
-                  color: '#0f172a',
+                  color: COLORS.ink,
                   marginBottom: 10,
                   display: 'flex',
                   alignItems: 'center',
@@ -267,18 +320,18 @@ export const ScoutNextGenView: React.FC = () => {
                 }}
               >
                 <span>ATS & System Connectors</span>
-                <span style={{ fontSize: 11, fontWeight: 500, color: '#10b981', background: '#ecfdf5', padding: '1px 6px', borderRadius: 4 }}>
+                <span style={{ fontSize: 11, fontWeight: 500, color: COLORS.emeraldText, background: COLORS.emeraldBg, padding: '1px 6px', borderRadius: 4 }}>
                   Real-time Sync
                 </span>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {[
-                  { name: 'Google Workspace', status: 'Connected', icon: '🌐', color: '#10b981' },
-                  { name: 'GitHub Repositories', status: 'Connected', icon: '🐙', color: '#10b981' },
-                  { name: 'Greenhouse ATS', status: 'Connected', icon: '🌿', color: '#10b981' },
-                  { name: 'Ashby Recruitment', status: 'Connect', icon: '⚡', color: '#64748b' },
-                  { name: 'Lever Recruiter', status: 'Connect', icon: '📑', color: '#64748b' },
-                  { name: 'Claude 3.7 Intelligence', status: 'Connected', icon: '✦', color: '#10b981' },
+                  { name: 'Google Workspace', status: 'Connected', icon: '🌐' },
+                  { name: 'GitHub Repositories', status: 'Connected', icon: '🐙' },
+                  { name: 'Greenhouse ATS', status: 'Connected', icon: '🌿' },
+                  { name: 'Ashby Recruitment', status: 'Connect', icon: '⚡' },
+                  { name: 'Lever Recruiter', status: 'Connect', icon: '📑' },
+                  { name: 'Claude 3.7 Intelligence', status: 'Connected', icon: '✦' },
                 ].map((conn) => (
                   <div
                     key={conn.name}
@@ -288,16 +341,16 @@ export const ScoutNextGenView: React.FC = () => {
                       justifyContent: 'space-between',
                       padding: '7px 9px',
                       borderRadius: 8,
-                      background: '#f8fafc',
+                      background: COLORS.subtleBg,
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <span style={{ fontSize: 15 }}>{conn.icon}</span>
-                      <span style={{ fontSize: 12.5, fontWeight: 500, color: '#1e293b' }}>{conn.name}</span>
+                      <span style={{ fontSize: 12.5, fontWeight: 500, color: COLORS.ink }}>{conn.name}</span>
                     </div>
                     {conn.status === 'Connected' ? (
-                      <span style={{ fontSize: 11, fontWeight: 600, color: '#059669', display: 'flex', alignItems: 'center', gap: 4 }}>
-                        <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#10b981' }} />
+                      <span style={{ fontSize: 11, fontWeight: 600, color: COLORS.emeraldText, display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <span style={{ width: 5, height: 5, borderRadius: '50%', background: COLORS.emerald }} />
                         Connected
                       </span>
                     ) : (
@@ -308,9 +361,9 @@ export const ScoutNextGenView: React.FC = () => {
                           height: 22,
                           padding: '0 8px',
                           borderRadius: 5,
-                          border: '1px solid #cbd5e1',
-                          background: '#ffffff',
-                          color: '#334155',
+                          border: `1px solid ${COLORS.border}`,
+                          background: COLORS.cardBg,
+                          color: COLORS.ink,
                           fontSize: 11,
                           fontWeight: 500,
                           cursor: 'pointer',
@@ -334,8 +387,8 @@ export const ScoutNextGenView: React.FC = () => {
                   height: 32,
                   borderRadius: 8,
                   border: 'none',
-                  background: '#f1f5f9',
-                  color: '#475569',
+                  background: COLORS.subtleBg,
+                  color: COLORS.textSecondary,
                   fontSize: 12,
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -356,10 +409,10 @@ export const ScoutNextGenView: React.FC = () => {
             style={{
               height: 36,
               padding: '0 13px',
-              borderRadius: 9,
-              border: rightPanelTab === 'copilot' && inspectorOpen ? '1px solid #6366f1' : '1px solid #e2e8f0',
-              background: rightPanelTab === 'copilot' && inspectorOpen ? '#e0e7ff' : '#ffffff',
-              color: rightPanelTab === 'copilot' && inspectorOpen ? '#4338ca' : '#334155',
+              borderRadius: 8,
+              border: rightPanelTab === 'copilot' && inspectorOpen ? `1px solid ${COLORS.indigo}` : `1px solid ${COLORS.border}`,
+              background: rightPanelTab === 'copilot' && inspectorOpen ? COLORS.indigoBg : COLORS.cardBg,
+              color: rightPanelTab === 'copilot' && inspectorOpen ? COLORS.indigo : COLORS.ink,
               fontSize: 12.5,
               fontWeight: 600,
               cursor: 'pointer',
@@ -368,20 +421,20 @@ export const ScoutNextGenView: React.FC = () => {
               gap: 6,
             }}
           >
-            <Bot size={14} style={{ color: '#6366f1' }} />
+            <Bot size={14} style={{ color: COLORS.indigo }} />
             <span>AI Copilot</span>
           </button>
 
-          {/* Primary Action Button */}
+          {/* Primary Action Button (Gr8r Solid Black #111827) */}
           <button
             type="button"
             onClick={() => navigate('create-job')}
             style={{
               height: 36,
               padding: '0 16px',
-              borderRadius: 9,
+              borderRadius: 8,
               border: 'none',
-              background: '#0f172a',
+              background: COLORS.ink,
               color: '#ffffff',
               fontSize: 12.5,
               fontWeight: 600,
@@ -389,7 +442,7 @@ export const ScoutNextGenView: React.FC = () => {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 6,
-              boxShadow: '0 1px 2px rgba(15, 23, 42, 0.15)',
+              boxShadow: '0 1px 2px rgba(0, 0, 0, 0.12)',
               transition: 'all 0.12s ease',
             }}
           >
@@ -399,7 +452,7 @@ export const ScoutNextGenView: React.FC = () => {
       </div>
 
       {/* ───────────────────────────────────────────────────────────
-          2. EXECUTIVE HERO KPI TILES (Fintrack & Halo Reference Craft)
+          2. EXECUTIVE HERO KPI TILES (Fintrack HW5zq3sasAArKrQ & Halo)
       ─────────────────────────────────────────────────────────── */}
       <div
         style={{
@@ -411,27 +464,27 @@ export const ScoutNextGenView: React.FC = () => {
         {/* Metric 1: Active Talent Pool with Dot-Matrix Sparkline (Fintrack HW5zq3sasAArKrQ) */}
         <div
           style={{
-            background: '#ffffff',
+            background: COLORS.cardBg,
             borderRadius: 16,
-            border: '1px solid #e2e8f0',
+            border: `1px solid ${COLORS.border}`,
             padding: '18px 20px',
-            boxShadow: '0 1px 3px rgba(15, 23, 42, 0.03)',
+            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 11.5, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Active Talent Pool
+            <span style={{ fontSize: 11.5, fontWeight: 700, color: COLORS.textMuted, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              • Active Talent Pool
             </span>
             <span
               style={{
                 fontSize: 11.5,
                 fontWeight: 600,
-                color: '#059669',
-                background: '#ecfdf5',
-                border: '1px solid #bbf7d0',
+                color: COLORS.emeraldText,
+                background: COLORS.emeraldBg,
+                border: `1px solid ${COLORS.emeraldBorder}`,
                 padding: '2px 7px',
                 borderRadius: 9999,
                 display: 'inline-flex',
@@ -444,10 +497,10 @@ export const ScoutNextGenView: React.FC = () => {
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginTop: 10, marginBottom: 12 }}>
-            <span style={{ fontSize: 32, fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em', fontVariantNumeric: 'tabular-nums' }}>
+            <span style={{ fontSize: 34, fontWeight: 800, color: COLORS.ink, letterSpacing: '-0.03em', fontVariantNumeric: 'tabular-nums' }}>
               48
             </span>
-            <span style={{ fontSize: 13, color: '#64748b' }}>evaluated profiles</span>
+            <span style={{ fontSize: 13, color: COLORS.textMuted }}>evaluated profiles</span>
           </div>
           {/* Dot-matrix style SVG Sparkline (Fintrack aesthetic: 4 rows x 12 cols) */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 4, height: 26, alignItems: 'center' }}>
@@ -473,7 +526,7 @@ export const ScoutNextGenView: React.FC = () => {
                       width: 5,
                       height: 5,
                       borderRadius: '50%',
-                      background: dot ? (colIdx >= 8 ? '#f59e0b' : '#0f172a') : '#e2e8f0',
+                      background: dot ? (colIdx >= 8 ? COLORS.amber : COLORS.ink) : '#e2e8f0',
                     }}
                   />
                 ))}
@@ -485,27 +538,27 @@ export const ScoutNextGenView: React.FC = () => {
         {/* Metric 2: Quality Fit Benchmark */}
         <div
           style={{
-            background: '#ffffff',
+            background: COLORS.cardBg,
             borderRadius: 16,
-            border: '1px solid #e2e8f0',
+            border: `1px solid ${COLORS.border}`,
             padding: '18px 20px',
-            boxShadow: '0 1px 3px rgba(15, 23, 42, 0.03)',
+            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 11.5, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Quality Fit Benchmark
+            <span style={{ fontSize: 11.5, fontWeight: 700, color: COLORS.textMuted, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              • Quality Fit Benchmark
             </span>
             <span
               style={{
                 fontSize: 11.5,
                 fontWeight: 600,
-                color: '#059669',
-                background: '#ecfdf5',
-                border: '1px solid #bbf7d0',
+                color: COLORS.emeraldText,
+                background: COLORS.emeraldBg,
+                border: `1px solid ${COLORS.emeraldBorder}`,
                 padding: '2px 7px',
                 borderRadius: 9999,
                 display: 'inline-flex',
@@ -518,13 +571,13 @@ export const ScoutNextGenView: React.FC = () => {
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginTop: 10, marginBottom: 12 }}>
-            <span style={{ fontSize: 32, fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em', fontVariantNumeric: 'tabular-nums' }}>
+            <span style={{ fontSize: 34, fontWeight: 800, color: COLORS.ink, letterSpacing: '-0.03em', fontVariantNumeric: 'tabular-nums' }}>
               91.4%
             </span>
-            <span style={{ fontSize: 13, color: '#64748b' }}>top tier accuracy</span>
+            <span style={{ fontSize: 13, color: COLORS.textMuted }}>top tier accuracy</span>
           </div>
-          <div style={{ height: 6, background: '#e2e8f0', borderRadius: 9999, overflow: 'hidden', display: 'flex' }}>
-            <div style={{ width: '78%', background: '#10b981' }} />
+          <div style={{ height: 6, background: '#f1f5f9', borderRadius: 9999, overflow: 'hidden', display: 'flex' }}>
+            <div style={{ width: '78%', background: COLORS.emerald }} />
             <div style={{ width: '13.4%', background: '#06b6d4' }} />
           </div>
         </div>
@@ -532,27 +585,27 @@ export const ScoutNextGenView: React.FC = () => {
         {/* Metric 3: Velocity (Time to Hire) */}
         <div
           style={{
-            background: '#ffffff',
+            background: COLORS.cardBg,
             borderRadius: 16,
-            border: '1px solid #e2e8f0',
+            border: `1px solid ${COLORS.border}`,
             padding: '18px 20px',
-            boxShadow: '0 1px 3px rgba(15, 23, 42, 0.03)',
+            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 11.5, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Velocity (Offer Cycle)
+            <span style={{ fontSize: 11.5, fontWeight: 700, color: COLORS.textMuted, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              • Velocity (Offer Cycle)
             </span>
             <span
               style={{
                 fontSize: 11.5,
                 fontWeight: 600,
-                color: '#059669',
-                background: '#ecfdf5',
-                border: '1px solid #bbf7d0',
+                color: COLORS.emeraldText,
+                background: COLORS.emeraldBg,
+                border: `1px solid ${COLORS.emeraldBorder}`,
                 padding: '2px 7px',
                 borderRadius: 9999,
                 display: 'inline-flex',
@@ -565,41 +618,41 @@ export const ScoutNextGenView: React.FC = () => {
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginTop: 10, marginBottom: 12 }}>
-            <span style={{ fontSize: 32, fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em', fontVariantNumeric: 'tabular-nums' }}>
+            <span style={{ fontSize: 34, fontWeight: 800, color: COLORS.ink, letterSpacing: '-0.03em', fontVariantNumeric: 'tabular-nums' }}>
               16.2 Days
             </span>
-            <span style={{ fontSize: 13, color: '#64748b' }}>time to hire</span>
+            <span style={{ fontSize: 13, color: COLORS.textMuted }}>time to hire</span>
           </div>
-          <div style={{ fontSize: 12, color: '#64748b', display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div style={{ fontSize: 12, color: COLORS.textMuted, display: 'flex', alignItems: 'center', gap: 6 }}>
             <span>Industry baseline:</span>
-            <strong style={{ color: '#0f172a', fontWeight: 600 }}>32.0 Days</strong>
+            <strong style={{ color: COLORS.ink, fontWeight: 600 }}>32.0 Days (-49.4%)</strong>
           </div>
         </div>
 
         {/* Metric 4: Scheduled Sessions */}
         <div
           style={{
-            background: '#ffffff',
+            background: COLORS.cardBg,
             borderRadius: 16,
-            border: '1px solid #e2e8f0',
+            border: `1px solid ${COLORS.border}`,
             padding: '18px 20px',
-            boxShadow: '0 1px 3px rgba(15, 23, 42, 0.03)',
+            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 11.5, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Scheduled Sessions
+            <span style={{ fontSize: 11.5, fontWeight: 700, color: COLORS.textMuted, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              • Scheduled Sessions
             </span>
             <span
               style={{
                 fontSize: 11.5,
                 fontWeight: 600,
-                color: '#b45309',
-                background: '#fef3c7',
-                border: '1px solid #fde68a',
+                color: COLORS.amberText,
+                background: COLORS.amberBg,
+                border: `1px solid ${COLORS.amberBorder}`,
                 padding: '2px 7px',
                 borderRadius: 9999,
                 display: 'inline-flex',
@@ -612,13 +665,13 @@ export const ScoutNextGenView: React.FC = () => {
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginTop: 10, marginBottom: 12 }}>
-            <span style={{ fontSize: 32, fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em', fontVariantNumeric: 'tabular-nums' }}>
+            <span style={{ fontSize: 34, fontWeight: 800, color: COLORS.ink, letterSpacing: '-0.03em', fontVariantNumeric: 'tabular-nums' }}>
               {interviews.filter((i) => i.status === 'Scheduled').length}
             </span>
-            <span style={{ fontSize: 13, color: '#64748b' }}>active rounds</span>
+            <span style={{ fontSize: 13, color: COLORS.textMuted }}>active rounds</span>
           </div>
-          <div style={{ fontSize: 12, color: '#64748b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            Next: <strong style={{ color: '#0f172a' }}>Ananya Sharma (Tomorrow 2:30 PM)</strong>
+          <div style={{ fontSize: 12, color: COLORS.textMuted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            Next: <strong style={{ color: COLORS.ink }}>Ananya Sharma (Tomorrow 2:30 PM)</strong>
           </div>
         </div>
       </div>
@@ -634,13 +687,13 @@ export const ScoutNextGenView: React.FC = () => {
           flexWrap: 'wrap',
           gap: 12,
           padding: '12px 16px',
-          background: '#ffffff',
+          background: COLORS.cardBg,
           borderRadius: 14,
-          border: '1px solid #e2e8f0',
+          border: `1px solid ${COLORS.border}`,
         }}
       >
         {/* Left: View Switcher (Board | Waterfall Analytics | Table Grid | Radar Matrix) */}
-        <div style={{ display: 'inline-flex', background: '#f1f5f9', padding: 3, borderRadius: 9, gap: 2 }}>
+        <div style={{ display: 'inline-flex', background: '#f3f4f6', padding: 3, borderRadius: 8, gap: 2 }}>
           {[
             { id: 'board', label: 'Kanban Board', icon: Kanban },
             { id: 'waterfall', label: 'Waterfall Analytics', icon: BarChart3 },
@@ -657,21 +710,21 @@ export const ScoutNextGenView: React.FC = () => {
                 style={{
                   height: 30,
                   padding: '0 12px',
-                  borderRadius: 7,
+                  borderRadius: 6,
                   border: 'none',
                   background: active ? '#ffffff' : 'transparent',
-                  color: active ? '#0f172a' : '#64748b',
+                  color: active ? COLORS.ink : COLORS.textMuted,
                   fontSize: 12.5,
                   fontWeight: active ? 600 : 500,
                   cursor: 'pointer',
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 6,
-                  boxShadow: active ? '0 1px 3px rgba(15, 23, 42, 0.08)' : 'none',
+                  boxShadow: active ? '0 1px 3px rgba(0, 0, 0, 0.08)' : 'none',
                   transition: 'all 0.12s ease',
                 }}
               >
-                <Icon size={14} style={{ color: active ? '#0f172a' : '#94a3b8' }} />
+                <Icon size={14} style={{ color: active ? COLORS.ink : COLORS.textLight }} />
                 <span>{tab.label}</span>
               </button>
             );
@@ -680,36 +733,36 @@ export const ScoutNextGenView: React.FC = () => {
 
         {/* Middle: Live Search Bar */}
         <div style={{ position: 'relative', minWidth: 260, flex: 1, maxWidth: 380 }}>
-          <Search size={14} style={{ position: 'absolute', left: 10, top: 9, color: '#94a3b8' }} />
+          <Search size={14} style={{ position: 'absolute', left: 10, top: 9, color: COLORS.textLight }} />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Filter candidates by name, skill, role..."
+            placeholder="Filter candidates by name, skill, role... (⌘K)"
             style={{
               width: '100%',
               height: 32,
               paddingLeft: 32,
               paddingRight: 28,
               borderRadius: 8,
-              border: '1px solid #e2e8f0',
-              background: '#f8fafc',
+              border: `1px solid ${COLORS.border}`,
+              background: COLORS.subtleBg,
               fontSize: 12.5,
               outline: 'none',
-              color: '#0f172a',
+              color: COLORS.ink,
             }}
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              style={{ position: 'absolute', right: 8, top: 8, background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer' }}
+              style={{ position: 'absolute', right: 8, top: 8, background: 'none', border: 'none', color: COLORS.textLight, cursor: 'pointer' }}
             >
               <X size={13} />
             </button>
           )}
         </div>
 
-        {/* Right: Department & Priority Filter Pills */}
+        {/* Right: Department Filter Pills */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
           {['All', 'Engineering', 'Product', 'Design'].map((dept) => (
             <button
@@ -722,9 +775,9 @@ export const ScoutNextGenView: React.FC = () => {
                 borderRadius: 6,
                 fontSize: 12,
                 fontWeight: departmentFilter === dept ? 600 : 500,
-                border: departmentFilter === dept ? '1px solid #0f172a' : '1px solid #e2e8f0',
-                background: departmentFilter === dept ? '#0f172a' : '#ffffff',
-                color: departmentFilter === dept ? '#ffffff' : '#475569',
+                border: departmentFilter === dept ? `1px solid ${COLORS.ink}` : `1px solid ${COLORS.border}`,
+                background: departmentFilter === dept ? COLORS.ink : '#ffffff',
+                color: departmentFilter === dept ? '#ffffff' : COLORS.textSecondary,
                 cursor: 'pointer',
                 transition: 'all 0.1s ease',
               }}
@@ -732,7 +785,7 @@ export const ScoutNextGenView: React.FC = () => {
               {dept}
             </button>
           ))}
-          <div style={{ width: 1, height: 18, background: '#e2e8f0', margin: '0 4px' }} />
+          <div style={{ width: 1, height: 18, background: COLORS.border, margin: '0 4px' }} />
           <button
             type="button"
             onClick={() => setInspectorOpen(!inspectorOpen)}
@@ -742,9 +795,9 @@ export const ScoutNextGenView: React.FC = () => {
               borderRadius: 6,
               fontSize: 12,
               fontWeight: 500,
-              border: '1px solid #e2e8f0',
+              border: `1px solid ${COLORS.border}`,
               background: inspectorOpen ? '#f1f5f9' : '#ffffff',
-              color: '#334155',
+              color: COLORS.textSecondary,
               cursor: 'pointer',
               display: 'inline-flex',
               alignItems: 'center',
@@ -781,9 +834,9 @@ export const ScoutNextGenView: React.FC = () => {
                   <div
                     key={col.id}
                     style={{
-                      background: '#f8fafc',
+                      background: COLORS.subtleBg,
                       borderRadius: 14,
-                      border: '1px solid #e2e8f0',
+                      border: `1px solid ${COLORS.border}`,
                       padding: '12px 10px',
                       display: 'flex',
                       flexDirection: 'column',
@@ -794,15 +847,15 @@ export const ScoutNextGenView: React.FC = () => {
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 4px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                         <span style={{ width: 8, height: 8, borderRadius: '50%', background: col.dotColor }} />
-                        <span style={{ fontSize: 13, fontWeight: 700, color: '#1e293b' }}>{col.label}</span>
+                        <span style={{ fontSize: 13, fontWeight: 700, color: COLORS.ink }}>{col.label}</span>
                       </div>
                       <span
                         style={{
                           fontSize: 11,
-                          fontWeight: 600,
-                          color: '#64748b',
+                          fontWeight: 700,
+                          color: COLORS.textSecondary,
                           background: '#ffffff',
-                          border: '1px solid #e2e8f0',
+                          border: `1px solid ${COLORS.border}`,
                           padding: '1px 6px',
                           borderRadius: 9999,
                         }}
@@ -818,9 +871,9 @@ export const ScoutNextGenView: React.FC = () => {
                       style={{
                         height: 28,
                         borderRadius: 8,
-                        border: '1px dashed #cbd5e1',
+                        border: `1px dashed ${COLORS.borderDark}`,
                         background: '#ffffff',
-                        color: '#64748b',
+                        color: COLORS.textMuted,
                         fontSize: 11.5,
                         fontWeight: 500,
                         cursor: 'pointer',
@@ -830,8 +883,8 @@ export const ScoutNextGenView: React.FC = () => {
                         gap: 4,
                         transition: 'all 0.15s ease',
                       }}
-                      onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#94a3b8')}
-                      onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#cbd5e1')}
+                      onMouseEnter={(e) => (e.currentTarget.style.borderColor = COLORS.textMuted)}
+                      onMouseLeave={(e) => (e.currentTarget.style.borderColor = COLORS.borderDark)}
                     >
                       <span>+ Add Candidate</span>
                     </button>
@@ -844,8 +897,8 @@ export const ScoutNextGenView: React.FC = () => {
                             padding: '24px 12px',
                             textAlign: 'center',
                             fontSize: 12,
-                            color: '#94a3b8',
-                            border: '1px dashed #e2e8f0',
+                            color: COLORS.textLight,
+                            border: `1px dashed ${COLORS.border}`,
                             borderRadius: 10,
                             background: '#ffffff',
                           }}
@@ -863,48 +916,54 @@ export const ScoutNextGenView: React.FC = () => {
                                 setInspectorOpen(true);
                               }}
                               style={{
-                                background: '#ffffff',
+                                background: COLORS.cardBg,
                                 borderRadius: 12,
-                                border: isSelected ? '1.5px solid #0f172a' : '1px solid #e2e8f0',
-                                padding: '12px 14px',
+                                border: isSelected ? `1.5px solid ${COLORS.ink}` : `1px solid ${COLORS.border}`,
+                                padding: '14px',
                                 boxShadow: isSelected
-                                  ? '0 4px 14px -2px rgba(15, 23, 42, 0.12)'
-                                  : '0 1px 3px rgba(15, 23, 42, 0.04)',
+                                  ? '0 4px 14px -2px rgba(17, 24, 39, 0.1)'
+                                  : '0 1px 3px rgba(0, 0, 0, 0.03)',
                                 cursor: 'pointer',
                                 display: 'flex',
                                 flexDirection: 'column',
-                                gap: 8,
+                                gap: 9,
                                 transition: 'all 0.15s cubic-bezier(0.16, 1, 0.3, 1)',
                               }}
                               onMouseEnter={(e) => {
-                                if (!isSelected) e.currentTarget.style.borderColor = '#cbd5e1';
+                                if (!isSelected) e.currentTarget.style.borderColor = COLORS.borderDark;
                               }}
                               onMouseLeave={(e) => {
-                                if (!isSelected) e.currentTarget.style.borderColor = '#e2e8f0';
+                                if (!isSelected) e.currentTarget.style.borderColor = COLORS.border;
                               }}
                             >
-                              {/* Top row: Priority Tag + Match Badge */}
+                              {/* Top row: Priority Tag + Match Badge (Gr8r Exact Colors) */}
                               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <span
-                                  style={{
-                                    fontSize: 10.5,
-                                    fontWeight: 700,
-                                    color: cand.matchScore >= 90 ? '#e11d48' : '#d97706',
-                                    background: cand.matchScore >= 90 ? '#ffe4e6' : '#fef3c7',
-                                    padding: '2px 6px',
-                                    borderRadius: 4,
-                                    letterSpacing: '0.02em',
-                                  }}
-                                >
-                                  {cand.matchScore >= 90 ? 'High Priority' : 'Qualified'}
-                                </span>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                  <span
+                                    style={{
+                                      fontSize: 10.5,
+                                      fontWeight: 700,
+                                      color: cand.matchScore >= 90 ? COLORS.roseText : COLORS.amberText,
+                                      background: cand.matchScore >= 90 ? COLORS.roseBg : COLORS.amberBg,
+                                      border: `1px solid ${cand.matchScore >= 90 ? COLORS.roseBorder : COLORS.amberBorder}`,
+                                      padding: '2px 6px',
+                                      borderRadius: 4,
+                                      letterSpacing: '0.02em',
+                                    }}
+                                  >
+                                    {cand.matchScore >= 90 ? 'High Priority' : 'Qualified'}
+                                  </span>
+                                  <span style={{ fontSize: 11, color: COLORS.textMuted }}>
+                                    {cand.title.includes('Frontend') ? 'UI Design' : cand.title.includes('AI') ? 'Cognitive ML' : 'Distributed'}
+                                  </span>
+                                </div>
                                 <span
                                   style={{
                                     fontSize: 11.5,
                                     fontWeight: 700,
-                                    color: '#059669',
-                                    background: '#ecfdf5',
-                                    border: '1px solid #a7f3d0',
+                                    color: COLORS.emeraldText,
+                                    background: COLORS.emeraldBg,
+                                    border: `1px solid ${COLORS.emeraldBorder}`,
                                     padding: '1px 6px',
                                     borderRadius: 6,
                                   }}
@@ -913,13 +972,19 @@ export const ScoutNextGenView: React.FC = () => {
                                 </span>
                               </div>
 
+                              {/* Requisition line */}
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, color: COLORS.textMuted }}>
+                                <Building size={11} />
+                                <span>{cand.title.includes('Frontend') ? 'HyperScale Fintech' : 'FinFlow Global'} · {cand.title}</span>
+                              </div>
+
                               {/* Candidate Name & Title */}
                               <div>
-                                <h4 style={{ fontSize: 13.5, fontWeight: 700, color: '#0f172a', margin: 0 }}>
+                                <h4 style={{ fontSize: 13.5, fontWeight: 700, color: COLORS.ink, margin: 0 }}>
                                   {cand.name}
                                 </h4>
-                                <p style={{ fontSize: 12, color: '#64748b', margin: '2px 0 0 0' }}>
-                                  {cand.title}
+                                <p style={{ fontSize: 12, color: COLORS.textSecondary, margin: '2px 0 0 0', lineHeight: 1.4 }}>
+                                  Specialized in low-latency event-driven architecture, state hydration, and micro-frontends.
                                 </p>
                               </div>
 
@@ -930,7 +995,7 @@ export const ScoutNextGenView: React.FC = () => {
                                     key={s}
                                     style={{
                                       fontSize: 10.5,
-                                      color: '#475569',
+                                      color: COLORS.textSecondary,
                                       background: '#f1f5f9',
                                       padding: '2px 6px',
                                       borderRadius: 4,
@@ -940,7 +1005,7 @@ export const ScoutNextGenView: React.FC = () => {
                                   </span>
                                 ))}
                                 {cand.skills.length > 3 && (
-                                  <span style={{ fontSize: 10.5, color: '#94a3b8', padding: '2px 4px' }}>
+                                  <span style={{ fontSize: 10.5, color: COLORS.textLight, padding: '2px 4px' }}>
                                     +{cand.skills.length - 3}
                                   </span>
                                 )}
@@ -952,19 +1017,24 @@ export const ScoutNextGenView: React.FC = () => {
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'space-between',
-                                  borderTop: '1px solid #f1f5f9',
+                                  borderTop: `1px solid ${COLORS.borderLight}`,
                                   paddingTop: 8,
                                   fontSize: 11,
-                                  color: '#64748b',
+                                  color: COLORS.textMuted,
                                 }}
                               >
                                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3 }}>
                                   <MapPin size={11} />
                                   {cand.location.split(',')[0]}
                                 </span>
-                                <span style={{ fontWeight: 600, color: '#334155' }}>
-                                  {cand.experienceYears}y exp
-                                </span>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3 }}>
+                                    <MessageSquare size={11} /> 2
+                                  </span>
+                                  <span style={{ fontWeight: 600, color: COLORS.ink }}>
+                                    {cand.experienceYears}y exp
+                                  </span>
+                                </div>
                               </div>
                             </div>
                           );
@@ -984,40 +1054,40 @@ export const ScoutNextGenView: React.FC = () => {
                 {/* Left Card: Pipeline Velocity Waterfall Chart */}
                 <div
                   style={{
-                    background: '#ffffff',
+                    background: COLORS.cardBg,
                     borderRadius: 16,
-                    border: '1px solid #e2e8f0',
+                    border: `1px solid ${COLORS.border}`,
                     padding: '20px',
-                    boxShadow: '0 1px 3px rgba(15, 23, 42, 0.03)',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)',
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
                     <div>
-                      <h3 style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', margin: 0 }}>
+                      <h3 style={{ fontSize: 15, fontWeight: 700, color: COLORS.ink, margin: 0 }}>
                         Pipeline Movement Waterfall
                       </h3>
-                      <p style={{ fontSize: 12, color: '#64748b', margin: '2px 0 0 0' }}>
+                      <p style={{ fontSize: 12, color: COLORS.textMuted, margin: '2px 0 0 0' }}>
                         Aug 1 → Aug 16 · Total Talent Flow Progression
                       </p>
                     </div>
                     <div style={{ display: 'flex', gap: 10, fontSize: 11.5 }}>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#10b981' }}>
-                        <span style={{ width: 8, height: 8, borderRadius: 2, background: '#10b981' }} /> Inflow
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 4, color: COLORS.emeraldText }}>
+                        <span style={{ width: 8, height: 8, borderRadius: 2, background: COLORS.emerald }} /> Inflow
                       </span>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#f43f5e' }}>
-                        <span style={{ width: 8, height: 8, borderRadius: 2, background: '#f43f5e' }} /> Drop-off
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 4, color: COLORS.roseText }}>
+                        <span style={{ width: 8, height: 8, borderRadius: 2, background: COLORS.rose }} /> Drop-off
                       </span>
                     </div>
                   </div>
 
                   {/* Waterfall Bar Graph */}
-                  <div style={{ height: 210, display: 'flex', alignItems: 'flex-end', gap: 16, padding: '20px 10px 0 10px', borderBottom: '1px solid #f1f5f9' }}>
+                  <div style={{ height: 210, display: 'flex', alignItems: 'flex-end', gap: 16, padding: '20px 10px 0 10px', borderBottom: `1px solid ${COLORS.borderLight}` }}>
                     {[
-                      { label: 'Initial Sourced', val: '+142', height: 160, color: '#60a5fa', isFinal: false },
-                      { label: 'Screen Passed', val: '+38', height: 85, color: '#34d399', isFinal: false },
-                      { label: 'Comp Mismatch', val: '-19', height: 45, color: '#fb7185', isFinal: false },
-                      { label: 'Culture Drop', val: '-8', height: 28, color: '#f43f5e', isFinal: false },
-                      { label: 'Active Pipeline', val: '48 Pool', height: 130, color: '#0f172a', isFinal: true },
+                      { label: 'Initial Sourced', val: '+142', height: 160, color: '#60a5fa' },
+                      { label: 'Screen Passed', val: '+38', height: 85, color: '#34d399' },
+                      { label: 'Comp Mismatch', val: '-19', height: 45, color: '#fb7185' },
+                      { label: 'Culture Drop', val: '-8', height: 28, color: '#f43f5e' },
+                      { label: 'Active Pipeline', val: '48 Pool', height: 130, color: COLORS.ink },
                     ].map((bar, i) => (
                       <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', justifyContent: 'flex-end' }}>
                         <span style={{ fontSize: 11.5, fontWeight: 700, color: bar.color, marginBottom: 6 }}>
@@ -1032,7 +1102,7 @@ export const ScoutNextGenView: React.FC = () => {
                             transition: 'height 0.3s ease',
                           }}
                         />
-                        <span style={{ fontSize: 11, color: '#64748b', marginTop: 8, textAlign: 'center', whiteSpace: 'nowrap' }}>
+                        <span style={{ fontSize: 11, color: COLORS.textMuted, marginTop: 8, textAlign: 'center', whiteSpace: 'nowrap' }}>
                           {bar.label}
                         </span>
                       </div>
@@ -1043,51 +1113,51 @@ export const ScoutNextGenView: React.FC = () => {
                 {/* Right Card: Domain Distribution Donut (Halo style) */}
                 <div
                   style={{
-                    background: '#ffffff',
+                    background: COLORS.cardBg,
                     borderRadius: 16,
-                    border: '1px solid #e2e8f0',
+                    border: `1px solid ${COLORS.border}`,
                     padding: '20px',
-                    boxShadow: '0 1px 3px rgba(15, 23, 42, 0.03)',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
                   }}
                 >
-                  <h3 style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', margin: 0 }}>
+                  <h3 style={{ fontSize: 15, fontWeight: 700, color: COLORS.ink, margin: 0 }}>
                     Talent Mix by Department
                   </h3>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '16px 0' }}>
-                    {/* SVG Donut */}
+                    {/* SVG Donut with center text */}
                     <svg width="140" height="140" viewBox="0 0 100 100">
                       <circle cx="50" cy="50" r="38" fill="none" stroke="#e2e8f0" strokeWidth="12" />
-                      <circle cx="50" cy="50" r="38" fill="none" stroke="#0f172a" strokeWidth="12" strokeDasharray="120 240" strokeDashoffset="0" />
-                      <circle cx="50" cy="50" r="38" fill="none" stroke="#10b981" strokeWidth="12" strokeDasharray="60 240" strokeDashoffset="-120" />
-                      <circle cx="50" cy="50" r="38" fill="none" stroke="#f59e0b" strokeWidth="12" strokeDasharray="40 240" strokeDashoffset="-180" />
-                      <text x="50" y="48" textAnchor="middle" fontSize="13" fontWeight="800" fill="#0f172a">48</text>
-                      <text x="50" y="60" textAnchor="middle" fontSize="8" fill="#64748b">CANDIDATES</text>
+                      <circle cx="50" cy="50" r="38" fill="none" stroke={COLORS.ink} strokeWidth="12" strokeDasharray="120 240" strokeDashoffset="0" />
+                      <circle cx="50" cy="50" r="38" fill="none" stroke={COLORS.emerald} strokeWidth="12" strokeDasharray="60 240" strokeDashoffset="-120" />
+                      <circle cx="50" cy="50" r="38" fill="none" stroke={COLORS.amber} strokeWidth="12" strokeDasharray="40 240" strokeDashoffset="-180" />
+                      <text x="50" y="48" textAnchor="middle" fontSize="13" fontWeight="800" fill={COLORS.ink}>48</text>
+                      <text x="50" y="60" textAnchor="middle" fontSize="8" fill={COLORS.textMuted}>CANDIDATES</text>
                     </svg>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 12 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                       <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#0f172a' }} />
+                        <span style={{ width: 8, height: 8, borderRadius: '50%', background: COLORS.ink }} />
                         Engineering & Tech
                       </span>
-                      <strong style={{ color: '#0f172a' }}>24 (50%)</strong>
+                      <strong style={{ color: COLORS.ink }}>24 (50%)</strong>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                       <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#10b981' }} />
+                        <span style={{ width: 8, height: 8, borderRadius: '50%', background: COLORS.emerald }} />
                         Cognitive AI & ML
                       </span>
-                      <strong style={{ color: '#0f172a' }}>14 (29%)</strong>
+                      <strong style={{ color: COLORS.ink }}>14 (29%)</strong>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                       <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#f59e0b' }} />
+                        <span style={{ width: 8, height: 8, borderRadius: '50%', background: COLORS.amber }} />
                         Design Systems & PM
                       </span>
-                      <strong style={{ color: '#0f172a' }}>10 (21%)</strong>
+                      <strong style={{ color: COLORS.ink }}>10 (21%)</strong>
                     </div>
                   </div>
                 </div>
@@ -1096,30 +1166,30 @@ export const ScoutNextGenView: React.FC = () => {
               {/* Recruitment Conversion Table (Halo Recent Invoices standard) */}
               <div
                 style={{
-                  background: '#ffffff',
+                  background: COLORS.cardBg,
                   borderRadius: 16,
-                  border: '1px solid #e2e8f0',
+                  border: `1px solid ${COLORS.border}`,
                   padding: '20px',
-                  boxShadow: '0 1px 3px rgba(15, 23, 42, 0.03)',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)',
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-                  <h3 style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', margin: 0 }}>
+                  <h3 style={{ fontSize: 15, fontWeight: 700, color: COLORS.ink, margin: 0 }}>
                     Active Conversion Stages
                   </h3>
-                  <span style={{ fontSize: 12, color: '#64748b' }}>Benchmark pass rate: 33.4%</span>
+                  <span style={{ fontSize: 12, color: COLORS.textMuted }}>Benchmark pass rate: 33.4%</span>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 12 }}>
                   {[
-                    { stage: '1. Sourced Ingestion', count: 142, rate: '100%', color: '#3b82f6' },
-                    { stage: '2. Screened & Qualified', count: 48, rate: '33.8%', color: '#10b981' },
-                    { stage: '3. Shortlisted for Client', count: 24, rate: '16.9%', color: '#6366f1' },
-                    { stage: '4. Technical Assessment', count: 12, rate: '8.4%', color: '#f59e0b' },
-                    { stage: '5. Offer Negotiation', count: 4, rate: '2.8%', color: '#8b5cf6' },
+                    { stage: '1. Sourced Ingestion', count: 142, rate: '100%', color: COLORS.cobalt },
+                    { stage: '2. Screened & Qualified', count: 48, rate: '33.8%', color: COLORS.emerald },
+                    { stage: '3. Shortlisted for Client', count: 24, rate: '16.9%', color: COLORS.indigo },
+                    { stage: '4. Technical Assessment', count: 12, rate: '8.4%', color: COLORS.amber },
+                    { stage: '5. Offer Negotiation', count: 4, rate: '2.8%', color: COLORS.purple },
                   ].map((s) => (
-                    <div key={s.stage} style={{ padding: '12px', background: '#f8fafc', borderRadius: 10, border: '1px solid #e2e8f0' }}>
-                      <span style={{ fontSize: 11, fontWeight: 600, color: '#64748b' }}>{s.stage}</span>
-                      <div style={{ fontSize: 20, fontWeight: 800, color: '#0f172a', margin: '4px 0' }}>{s.count}</div>
+                    <div key={s.stage} style={{ padding: '12px', background: COLORS.subtleBg, borderRadius: 10, border: `1px solid ${COLORS.border}` }}>
+                      <span style={{ fontSize: 11, fontWeight: 600, color: COLORS.textMuted }}>{s.stage}</span>
+                      <div style={{ fontSize: 20, fontWeight: 800, color: COLORS.ink, margin: '4px 0' }}>{s.count}</div>
                       <span style={{ fontSize: 11, fontWeight: 700, color: s.color }}>{s.rate} yield</span>
                     </div>
                   ))}
@@ -1132,22 +1202,22 @@ export const ScoutNextGenView: React.FC = () => {
           {viewMode === 'table' && (
             <div
               style={{
-                background: '#ffffff',
+                background: COLORS.cardBg,
                 borderRadius: 16,
-                border: '1px solid #e2e8f0',
-                boxShadow: '0 1px 3px rgba(15, 23, 42, 0.03)',
+                border: `1px solid ${COLORS.border}`,
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)',
                 overflow: 'hidden',
               }}
             >
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: 13 }}>
                 <thead>
-                  <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
-                    <th style={{ padding: '12px 16px', fontWeight: 700, color: '#475569', fontSize: 11.5, textTransform: 'uppercase' }}>Candidate</th>
-                    <th style={{ padding: '12px 16px', fontWeight: 700, color: '#475569', fontSize: 11.5, textTransform: 'uppercase' }}>Target Requisition</th>
-                    <th style={{ padding: '12px 16px', fontWeight: 700, color: '#475569', fontSize: 11.5, textTransform: 'uppercase' }}>Experience</th>
-                    <th style={{ padding: '12px 16px', fontWeight: 700, color: '#475569', fontSize: 11.5, textTransform: 'uppercase' }}>Key Skills</th>
-                    <th style={{ padding: '12px 16px', fontWeight: 700, color: '#475569', fontSize: 11.5, textTransform: 'uppercase' }}>Match</th>
-                    <th style={{ padding: '12px 16px', fontWeight: 700, color: '#475569', fontSize: 11.5, textTransform: 'uppercase' }}>Stage</th>
+                  <tr style={{ background: COLORS.subtleBg, borderBottom: `1px solid ${COLORS.border}` }}>
+                    <th style={{ padding: '12px 16px', fontWeight: 700, color: COLORS.textSecondary, fontSize: 11.5, textTransform: 'uppercase' }}>Candidate</th>
+                    <th style={{ padding: '12px 16px', fontWeight: 700, color: COLORS.textSecondary, fontSize: 11.5, textTransform: 'uppercase' }}>Target Requisition</th>
+                    <th style={{ padding: '12px 16px', fontWeight: 700, color: COLORS.textSecondary, fontSize: 11.5, textTransform: 'uppercase' }}>Experience</th>
+                    <th style={{ padding: '12px 16px', fontWeight: 700, color: COLORS.textSecondary, fontSize: 11.5, textTransform: 'uppercase' }}>Key Skills</th>
+                    <th style={{ padding: '12px 16px', fontWeight: 700, color: COLORS.textSecondary, fontSize: 11.5, textTransform: 'uppercase' }}>Match</th>
+                    <th style={{ padding: '12px 16px', fontWeight: 700, color: COLORS.textSecondary, fontSize: 11.5, textTransform: 'uppercase' }}>Stage</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1159,45 +1229,45 @@ export const ScoutNextGenView: React.FC = () => {
                         setInspectorOpen(true);
                       }}
                       style={{
-                        borderBottom: '1px solid #f1f5f9',
+                        borderBottom: `1px solid ${COLORS.borderLight}`,
                         cursor: 'pointer',
-                        background: selectedCandidateId === c.id ? '#f8fafc' : 'transparent',
+                        background: selectedCandidateId === c.id ? COLORS.subtleBg : 'transparent',
                         transition: 'background 0.1s ease',
                       }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = '#f8fafc')}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = COLORS.subtleBg)}
                       onMouseLeave={(e) => {
                         if (selectedCandidateId !== c.id) e.currentTarget.style.background = 'transparent';
                       }}
                     >
                       <td style={{ padding: '12px 16px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                          <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#0f172a', color: '#fff', display: 'grid', placeItems: 'center', fontSize: 11, fontWeight: 700 }}>
+                          <div style={{ width: 32, height: 32, borderRadius: '50%', background: COLORS.ink, color: '#fff', display: 'grid', placeItems: 'center', fontSize: 11, fontWeight: 700 }}>
                             {c.name.split(' ').map((n) => n[0]).join('')}
                           </div>
                           <div>
-                            <div style={{ fontWeight: 700, color: '#0f172a' }}>{c.name}</div>
-                            <div style={{ fontSize: 11.5, color: '#64748b' }}>{c.email}</div>
+                            <div style={{ fontWeight: 700, color: COLORS.ink }}>{c.name}</div>
+                            <div style={{ fontSize: 11.5, color: COLORS.textMuted }}>{c.email}</div>
                           </div>
                         </div>
                       </td>
-                      <td style={{ padding: '12px 16px', color: '#334155', fontWeight: 500 }}>{c.title}</td>
-                      <td style={{ padding: '12px 16px', color: '#64748b' }}>{c.experienceYears} Years</td>
+                      <td style={{ padding: '12px 16px', color: COLORS.textSecondary, fontWeight: 500 }}>{c.title}</td>
+                      <td style={{ padding: '12px 16px', color: COLORS.textMuted }}>{c.experienceYears} Years</td>
                       <td style={{ padding: '12px 16px' }}>
                         <div style={{ display: 'flex', gap: 4 }}>
                           {c.skills.slice(0, 2).map((s) => (
-                            <span key={s} style={{ fontSize: 11, background: '#f1f5f9', color: '#475569', padding: '2px 6px', borderRadius: 4 }}>
+                            <span key={s} style={{ fontSize: 11, background: '#f1f5f9', color: COLORS.textSecondary, padding: '2px 6px', borderRadius: 4 }}>
                               {s}
                             </span>
                           ))}
                         </div>
                       </td>
                       <td style={{ padding: '12px 16px' }}>
-                        <span style={{ fontSize: 12, fontWeight: 700, color: '#059669', background: '#ecfdf5', padding: '2px 7px', borderRadius: 6 }}>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: COLORS.emeraldText, background: COLORS.emeraldBg, padding: '2px 7px', borderRadius: 6 }}>
                           {c.matchScore}%
                         </span>
                       </td>
                       <td style={{ padding: '12px 16px' }}>
-                        <span style={{ fontSize: 11.5, fontWeight: 600, color: '#334155' }}>{c.status}</span>
+                        <span style={{ fontSize: 11.5, fontWeight: 600, color: COLORS.ink }}>{c.status}</span>
                       </td>
                     </tr>
                   ))}
@@ -1210,18 +1280,18 @@ export const ScoutNextGenView: React.FC = () => {
           {viewMode === 'radar' && (
             <div
               style={{
-                background: '#ffffff',
+                background: COLORS.cardBg,
                 borderRadius: 16,
-                border: '1px solid #e2e8f0',
+                border: `1px solid ${COLORS.border}`,
                 padding: '24px',
-                boxShadow: '0 1px 3px rgba(15, 23, 42, 0.03)',
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)',
               }}
             >
               <div style={{ marginBottom: 20 }}>
-                <h3 style={{ fontSize: 16, fontWeight: 700, color: '#0f172a', margin: 0 }}>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, margin: 0 }}>
                   Multi-Dimensional Competency Polygon: {activeCandidate.name}
                 </h3>
-                <p style={{ fontSize: 12.5, color: '#64748b', margin: '4px 0 0 0' }}>
+                <p style={{ fontSize: 12.5, color: COLORS.textMuted, margin: '4px 0 0 0' }}>
                   Evaluated across 5 core technical axes against {activeCandidate.title} requirements.
                 </p>
               </div>
@@ -1231,7 +1301,7 @@ export const ScoutNextGenView: React.FC = () => {
                   <CompetencyRadarChart candidate={activeCandidate} size={280} />
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                  <h4 style={{ fontSize: 13, fontWeight: 700, color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.04em', margin: 0 }}>
+                  <h4 style={{ fontSize: 13, fontWeight: 700, color: COLORS.ink, textTransform: 'uppercase', letterSpacing: '0.04em', margin: 0 }}>
                     Evaluation Rubric Breakdown
                   </h4>
                   {[
@@ -1243,11 +1313,11 @@ export const ScoutNextGenView: React.FC = () => {
                   ].map((r) => (
                     <div key={r.label}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 4 }}>
-                        <span style={{ color: '#334155', fontWeight: 500 }}>{r.label}</span>
-                        <strong style={{ color: '#0f172a', fontWeight: 700 }}>{r.score}%</strong>
+                        <span style={{ color: COLORS.textSecondary, fontWeight: 500 }}>{r.label}</span>
+                        <strong style={{ color: COLORS.ink, fontWeight: 700 }}>{r.score}%</strong>
                       </div>
                       <div style={{ height: 6, background: '#f1f5f9', borderRadius: 9999, overflow: 'hidden' }}>
-                        <div style={{ width: `${r.score}%`, height: '100%', background: '#0f172a', borderRadius: 9999 }} />
+                        <div style={{ width: `${r.score}%`, height: '100%', background: COLORS.ink, borderRadius: 9999 }} />
                       </div>
                     </div>
                   ))}
@@ -1264,11 +1334,11 @@ export const ScoutNextGenView: React.FC = () => {
         {inspectorOpen && (
           <div
             style={{
-              background: '#ffffff',
+              background: COLORS.cardBg,
               borderRadius: 16,
-              border: '1px solid #e2e8f0',
+              border: `1px solid ${COLORS.border}`,
               padding: '18px 20px',
-              boxShadow: '0 4px 20px -4px rgba(15, 23, 42, 0.08)',
+              boxShadow: '0 4px 20px -4px rgba(0, 0, 0, 0.08)',
               display: 'flex',
               flexDirection: 'column',
               gap: 16,
@@ -1278,7 +1348,7 @@ export const ScoutNextGenView: React.FC = () => {
             }}
           >
             {/* Right Panel Header with Segmented Tabs: [Candidate Dossier] | [Scout Copilot] */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #f1f5f9', paddingBottom: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: `1px solid ${COLORS.borderLight}`, paddingBottom: 12 }}>
               <div style={{ display: 'inline-flex', background: '#f1f5f9', padding: 2, borderRadius: 8 }}>
                 <button
                   type="button"
@@ -1289,11 +1359,11 @@ export const ScoutNextGenView: React.FC = () => {
                     borderRadius: 6,
                     border: 'none',
                     background: rightPanelTab === 'dossier' ? '#ffffff' : 'transparent',
-                    color: rightPanelTab === 'dossier' ? '#0f172a' : '#64748b',
+                    color: rightPanelTab === 'dossier' ? COLORS.ink : COLORS.textMuted,
                     fontSize: 12,
                     fontWeight: rightPanelTab === 'dossier' ? 700 : 500,
                     cursor: 'pointer',
-                    boxShadow: rightPanelTab === 'dossier' ? '0 1px 2px rgba(15, 23, 42, 0.08)' : 'none',
+                    boxShadow: rightPanelTab === 'dossier' ? '0 1px 2px rgba(0, 0, 0, 0.08)' : 'none',
                   }}
                 >
                   Candidate Dossier
@@ -1307,11 +1377,11 @@ export const ScoutNextGenView: React.FC = () => {
                     borderRadius: 6,
                     border: 'none',
                     background: rightPanelTab === 'copilot' ? '#ffffff' : 'transparent',
-                    color: rightPanelTab === 'copilot' ? '#4338ca' : '#64748b',
+                    color: rightPanelTab === 'copilot' ? COLORS.indigo : COLORS.textMuted,
                     fontSize: 12,
                     fontWeight: rightPanelTab === 'copilot' ? 700 : 500,
                     cursor: 'pointer',
-                    boxShadow: rightPanelTab === 'copilot' ? '0 1px 2px rgba(15, 23, 42, 0.08)' : 'none',
+                    boxShadow: rightPanelTab === 'copilot' ? '0 1px 2px rgba(0, 0, 0, 0.08)' : 'none',
                   }}
                 >
                   ✦ Scout Copilot
@@ -1321,7 +1391,7 @@ export const ScoutNextGenView: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setInspectorOpen(false)}
-                style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: 4 }}
+                style={{ background: 'none', border: 'none', color: COLORS.textLight, cursor: 'pointer', padding: 4 }}
               >
                 <X size={16} />
               </button>
@@ -1338,7 +1408,7 @@ export const ScoutNextGenView: React.FC = () => {
                         width: 44,
                         height: 44,
                         borderRadius: 12,
-                        background: '#0f172a',
+                        background: COLORS.ink,
                         color: '#ffffff',
                         display: 'grid',
                         placeItems: 'center',
@@ -1349,10 +1419,10 @@ export const ScoutNextGenView: React.FC = () => {
                       {activeCandidate?.name ? activeCandidate.name.split(' ').map((n) => n[0]).join('') : 'C'}
                     </div>
                     <div>
-                      <h3 style={{ fontSize: 16, fontWeight: 700, color: '#0f172a', margin: 0 }}>
+                      <h3 style={{ fontSize: 16, fontWeight: 700, color: COLORS.ink, margin: 0 }}>
                         {activeCandidate.name}
                       </h3>
-                      <p style={{ fontSize: 12.5, color: '#64748b', margin: '2px 0 0 0' }}>
+                      <p style={{ fontSize: 12.5, color: COLORS.textMuted, margin: '2px 0 0 0' }}>
                         {activeCandidate.title}
                       </p>
                     </div>
@@ -1361,9 +1431,9 @@ export const ScoutNextGenView: React.FC = () => {
                     style={{
                       fontSize: 12.5,
                       fontWeight: 700,
-                      color: '#059669',
-                      background: '#ecfdf5',
-                      border: '1px solid #a7f3d0',
+                      color: COLORS.emeraldText,
+                      background: COLORS.emeraldBg,
+                      border: `1px solid ${COLORS.emeraldBorder}`,
                       padding: '3px 8px',
                       borderRadius: 8,
                     }}
@@ -1379,24 +1449,24 @@ export const ScoutNextGenView: React.FC = () => {
                     gridTemplateColumns: '1fr 1fr',
                     gap: 10,
                     padding: '12px',
-                    background: '#f8fafc',
+                    background: COLORS.subtleBg,
                     borderRadius: 12,
-                    border: '1px solid #e2e8f0',
+                    border: `1px solid ${COLORS.border}`,
                   }}
                 >
                   <div>
-                    <span style={{ fontSize: 11, color: '#64748b' }}>Location:</span>
-                    <div style={{ fontSize: 12.5, fontWeight: 600, color: '#0f172a' }}>{activeCandidate.location}</div>
+                    <span style={{ fontSize: 11, color: COLORS.textMuted }}>Location:</span>
+                    <div style={{ fontSize: 12.5, fontWeight: 600, color: COLORS.ink }}>{activeCandidate.location}</div>
                   </div>
                   <div>
-                    <span style={{ fontSize: 11, color: '#64748b' }}>Experience:</span>
-                    <div style={{ fontSize: 12.5, fontWeight: 600, color: '#0f172a' }}>{activeCandidate.experienceYears} Years Production</div>
+                    <span style={{ fontSize: 11, color: COLORS.textMuted }}>Experience:</span>
+                    <div style={{ fontSize: 12.5, fontWeight: 600, color: COLORS.ink }}>{activeCandidate.experienceYears} Years Production</div>
                   </div>
                 </div>
 
                 {/* Quick Pipeline Stage Action Pills */}
                 <div>
-                  <span style={{ fontSize: 11.5, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  <span style={{ fontSize: 11.5, fontWeight: 700, color: COLORS.textMuted, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                     Update Pipeline Stage
                   </span>
                   <div style={{ display: 'flex', gap: 6, marginTop: 8, flexWrap: 'wrap' }}>
@@ -1413,9 +1483,9 @@ export const ScoutNextGenView: React.FC = () => {
                             borderRadius: 6,
                             fontSize: 12,
                             fontWeight: isActive ? 600 : 500,
-                            border: isActive ? '1px solid #0f172a' : '1px solid #e2e8f0',
-                            background: isActive ? '#0f172a' : '#ffffff',
-                            color: isActive ? '#ffffff' : '#475569',
+                            border: isActive ? `1px solid ${COLORS.ink}` : `1px solid ${COLORS.border}`,
+                            background: isActive ? COLORS.ink : '#ffffff',
+                            color: isActive ? '#ffffff' : COLORS.textSecondary,
                             cursor: 'pointer',
                             transition: 'all 0.1s ease',
                           }}
@@ -1428,12 +1498,12 @@ export const ScoutNextGenView: React.FC = () => {
                 </div>
 
                 {/* VERIQ-Style Vetting Playbook Checklist (HXG0UOSb0AAdrEk) */}
-                <div style={{ background: '#f8fafc', borderRadius: 12, border: '1px solid #e2e8f0', padding: '12px' }}>
+                <div style={{ background: COLORS.subtleBg, borderRadius: 12, border: `1px solid ${COLORS.border}`, padding: '12px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                    <span style={{ fontSize: 12, fontWeight: 700, color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: COLORS.ink, textTransform: 'uppercase', letterSpacing: '0.03em' }}>
                       Vetting Playbook (3 of 5 Done)
                     </span>
-                    <span style={{ fontSize: 11, color: '#10b981', fontWeight: 600 }}>60% Completed</span>
+                    <span style={{ fontSize: 11, color: COLORS.emeraldText, fontWeight: 600 }}>60% Completed</span>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 12 }}>
                     {[
@@ -1443,26 +1513,26 @@ export const ScoutNextGenView: React.FC = () => {
                       { title: 'Live Technical Pairing Round', done: false, time: 'Tomorrow 2:30 PM' },
                       { title: 'Executive Offer Calibration', done: false, time: 'Pending' },
                     ].map((step, idx) => (
-                      <div key={idx} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: step.done ? '#1e293b' : '#64748b' }}>
+                      <div key={idx} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: step.done ? COLORS.ink : COLORS.textMuted }}>
                         <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                          <span style={{ color: step.done ? '#10b981' : '#cbd5e1' }}>{step.done ? '☑' : '☐'}</span>
-                          <span style={{ textDecoration: step.done ? 'none' : 'none' }}>{step.title}</span>
+                          <span style={{ color: step.done ? COLORS.emerald : COLORS.textLight }}>{step.done ? '☑' : '☐'}</span>
+                          <span>{step.title}</span>
                         </span>
-                        <span style={{ fontSize: 11, color: '#94a3b8' }}>{step.time}</span>
+                        <span style={{ fontSize: 11, color: COLORS.textLight }}>{step.time}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 {/* Executive Profile Synthesis */}
-                <div style={{ background: '#f8fafc', borderRadius: 12, border: '1px solid #e2e8f0', padding: '12px' }}>
+                <div style={{ background: COLORS.subtleBg, borderRadius: 12, border: `1px solid ${COLORS.border}`, padding: '12px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
-                    <Sparkles size={13} style={{ color: '#6366f1' }} />
-                    <span style={{ fontSize: 12, fontWeight: 700, color: '#1e293b', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+                    <Sparkles size={13} style={{ color: COLORS.indigo }} />
+                    <span style={{ fontSize: 12, fontWeight: 700, color: COLORS.ink, textTransform: 'uppercase', letterSpacing: '0.03em' }}>
                       Candidate Profile Synthesis
                     </span>
                   </div>
-                  <p style={{ fontSize: 12.5, color: '#475569', lineHeight: 1.5, margin: 0 }}>
+                  <p style={{ fontSize: 12.5, color: COLORS.textSecondary, lineHeight: 1.5, margin: 0 }}>
                     {activeCandidate.name} presents an exceptional match ({activeCandidate.matchScore}%) for the {activeCandidate.title} requisition. Verified background in {activeCandidate.skills.join(', ')} directly aligns with our scalability milestones.
                   </p>
                 </div>
@@ -1477,7 +1547,7 @@ export const ScoutNextGenView: React.FC = () => {
                       height: 36,
                       borderRadius: 8,
                       border: 'none',
-                      background: '#0f172a',
+                      background: COLORS.ink,
                       color: '#ffffff',
                       fontSize: 12.5,
                       fontWeight: 600,
@@ -1496,9 +1566,9 @@ export const ScoutNextGenView: React.FC = () => {
                       height: 36,
                       padding: '0 12px',
                       borderRadius: 8,
-                      border: '1px solid #e2e8f0',
+                      border: `1px solid ${COLORS.border}`,
                       background: '#ffffff',
-                      color: '#475569',
+                      color: COLORS.textSecondary,
                       fontSize: 12,
                       fontWeight: 500,
                       cursor: 'pointer',
@@ -1518,23 +1588,23 @@ export const ScoutNextGenView: React.FC = () => {
             {rightPanelTab === 'copilot' && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                 {/* Copilot Header */}
-                <div style={{ background: '#f8fafc', borderRadius: 12, border: '1px solid #e2e8f0', padding: '12px' }}>
+                <div style={{ background: COLORS.subtleBg, borderRadius: 12, border: `1px solid ${COLORS.border}`, padding: '12px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                      <span style={{ fontSize: 13, color: '#6366f1' }}>✦</span>
-                      <strong style={{ fontSize: 13, color: '#0f172a' }}>Scout Copilot</strong>
+                      <span style={{ fontSize: 13, color: COLORS.indigo }}>✦</span>
+                      <strong style={{ fontSize: 13, color: COLORS.ink }}>Scout Copilot</strong>
                     </div>
-                    <span style={{ fontSize: 11, color: '#059669', background: '#ecfdf5', padding: '1px 6px', borderRadius: 4, fontWeight: 600 }}>
+                    <span style={{ fontSize: 11, color: COLORS.emeraldText, background: COLORS.emeraldBg, padding: '1px 6px', borderRadius: 4, fontWeight: 600 }}>
                       Reasoning Engine v2.4
                     </span>
                   </div>
-                  <p style={{ fontSize: 12, color: '#64748b', margin: '4px 0 0 0' }}>
+                  <p style={{ fontSize: 12, color: COLORS.textMuted, margin: '4px 0 0 0' }}>
                     Autonomous candidate scoring, compensation benchmarking, and interview synthesis.
                   </p>
                 </div>
 
                 {/* Collapsible Thinking Trace (Halo style) */}
-                <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 10, padding: '10px' }}>
+                <div style={{ background: '#ffffff', border: `1px solid ${COLORS.border}`, borderRadius: 10, padding: '10px' }}>
                   <button
                     type="button"
                     onClick={() => setCopilotThoughtOpen(!copilotThoughtOpen)}
@@ -1544,7 +1614,7 @@ export const ScoutNextGenView: React.FC = () => {
                       padding: 0,
                       fontSize: 11.5,
                       fontWeight: 600,
-                      color: '#64748b',
+                      color: COLORS.textMuted,
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
@@ -1554,10 +1624,10 @@ export const ScoutNextGenView: React.FC = () => {
                     }}
                   >
                     <span>▾ Thought for 3.4 seconds</span>
-                    <span style={{ fontSize: 10.5, color: '#94a3b8' }}>{copilotThoughtOpen ? 'Collapse' : 'Expand'}</span>
+                    <span style={{ fontSize: 10.5, color: COLORS.textLight }}>{copilotThoughtOpen ? 'Collapse' : 'Expand'}</span>
                   </button>
                   {copilotThoughtOpen && (
-                    <div style={{ fontSize: 11.5, color: '#64748b', marginTop: 6, lineHeight: 1.45, borderLeft: '2px solid #e2e8f0', paddingLeft: 8 }}>
+                    <div style={{ fontSize: 11.5, color: COLORS.textMuted, marginTop: 6, lineHeight: 1.45, borderLeft: `2px solid ${COLORS.indigo}`, paddingLeft: 8 }}>
                       Cross-referenced candidate portfolio against Requisition requirements. Verified 8 yrs React/Go concurrency experience. Zero bias signals detected across demographic axes.
                     </div>
                   )}
@@ -1572,11 +1642,11 @@ export const ScoutNextGenView: React.FC = () => {
                         alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
                         maxWidth: '92%',
                         background: msg.sender === 'user' ? '#f1f5f9' : '#ffffff',
-                        border: '1px solid #e2e8f0',
+                        border: `1px solid ${COLORS.border}`,
                         borderRadius: 12,
                         padding: '10px 12px',
                         fontSize: 12.5,
-                        color: '#0f172a',
+                        color: COLORS.ink,
                         lineHeight: 1.45,
                       }}
                     >
@@ -1608,10 +1678,10 @@ export const ScoutNextGenView: React.FC = () => {
                         height: 24,
                         padding: '0 8px',
                         borderRadius: 6,
-                        border: '1px solid #e2e8f0',
+                        border: `1px solid ${COLORS.border}`,
                         background: '#ffffff',
                         fontSize: 11,
-                        color: '#475569',
+                        color: COLORS.textSecondary,
                         cursor: 'pointer',
                       }}
                     >
@@ -1633,11 +1703,11 @@ export const ScoutNextGenView: React.FC = () => {
                       paddingLeft: 12,
                       paddingRight: 40,
                       borderRadius: 10,
-                      border: '1px solid #cbd5e1',
+                      border: `1px solid ${COLORS.borderDark}`,
                       background: '#ffffff',
                       fontSize: 12.5,
                       outline: 'none',
-                      color: '#0f172a',
+                      color: COLORS.ink,
                     }}
                   />
                   <button
@@ -1649,7 +1719,7 @@ export const ScoutNextGenView: React.FC = () => {
                       width: 26,
                       height: 26,
                       borderRadius: '50%',
-                      background: '#0f172a',
+                      background: COLORS.ink,
                       color: '#ffffff',
                       border: 'none',
                       display: 'grid',
